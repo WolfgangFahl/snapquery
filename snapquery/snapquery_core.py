@@ -4,15 +4,16 @@ Created on 2024-05-03
 @author: wf
 """
 import os
+import json
 from dataclasses import field
 from pathlib import Path
 from typing import Optional
 
-from lodstorage.query import EndpointManager
+from lodstorage.query import EndpointManager, Query, Format
 from lodstorage.sparql import SPARQL
 from lodstorage.sql import SQLDB, EntityInfo
 from lodstorage.yamlable import lod_storable
-
+from lodstorage.csv import CSV
 
 @lod_storable
 class NamedQuery:
@@ -162,6 +163,29 @@ ORDER BY ?horse
             ),
         }
         return samples
+    
+    def get_sparql(self,name: str,
+        namespace: str = "wikidata-examples",
+        endpoint_name: str = "wikidata")->str:
+        sql_query = f"""SELECT 
+    sparql 
+FROM 
+    NamedQuery 
+WHERE 
+    name = ? AND namespace = ?"""
+        query_records = self.sql_db.query(sql_query, (name, namespace))
+
+        if not query_records:
+            msg = f"NamedQuery not found for the specified name '{name}' and namespace '{namespace}'."
+            raise ValueError(msg)
+
+        query_count = len(query_records)
+        if query_count != 1:
+            msg = f"multiple entries ({query_count}) for name '{name}' and namespace '{namespace}'"
+            raise ValueError(msg)
+
+        sparql_query = query_records[0]["sparql"]
+        return sparql_query
 
     def query(
         self,
@@ -184,30 +208,29 @@ ORDER BY ?horse
             ValueError: If no named query matches the given name and namespace.
             Exception: If the SPARQL query execution fails or the endpoint returns an error.
         """
-        sql_query = f"""SELECT 
-    sparql 
-FROM 
-    NamedQuery 
-WHERE 
-    name = ? AND namespace = ?"""
-        query_records = self.sql_db.query(sql_query, (name, namespace))
-
-        if not query_records:
-            msg = f"NamedQuery not found for the specified name '{name}' and namespace '{namespace}'."
-            raise ValueError(msg)
-
-        query_count = len(query_records)
-        if query_count != 1:
-            msg = f"multiple entries ({query_count}) for name '{name}' and namespace '{namespace}'"
-            raise ValueError(msg)
-
-        sparql_query = query_records[0]["sparql"]
+        sparql_query=self.get_sparql(name, namespace, endpoint_name)
 
         if not endpoint_name in self.endpoints:
             msg = f"Invalid endpoint {endpoint_name}"
             ValueError(msg)
-
+  
         endpoint = self.endpoints.get(endpoint_name)
         sparql = SPARQL(endpoint.endpoint)
         lod = sparql.queryAsListOfDicts(sparql_query)
         return lod
+    
+    def format_result(self,qlod,query:Query,r_format:Format):
+        """
+        """
+        if r_format is Format.csv:
+                csv = CSV.toCSV(qlod)
+                print(csv)
+        elif r_format in [Format.latex, Format.github, Format.mediawiki]:
+                doc = query.documentQueryResult(
+                    qlod, tablefmt=str(r_format), floatfmt=".0f"
+                )
+                docstr = doc.asText()
+                print(docstr)
+        elif r_format in [Format.json] or format is None:  # set as default
+                # https://stackoverflow.com/a/36142844/1497139
+                print(json.dumps(qlod, indent=2, sort_keys=True, default=str))

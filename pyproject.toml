@@ -1,0 +1,63 @@
+# see https://flit.pypa.io/en/latest/pyproject_toml.html
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "snapquery"
+description = "snapquery: Introduce Named Queries and Named Query Middleware to wikidata"
+keywords = [ "nicegui", "wikidata","SPARQL","query","middleware","qlever","blazegraph"]
+home-page = "https://github.com/WolfgangFahl/snapquery"
+authors = [
+  {name = "Wolfgang Fahl", email = "wf@WolfgangFahl.com"}
+]
+maintainers = [
+  { name = "Wolfgang Fahl", email = "wf@WolfgangFahl.com" },
+]
+readme = "README.md"
+license = {text = "Apache-2.0"}
+dependencies = [
+	# https://github.com/WolfgangFahl/nicegui_widgets
+	"ngwidgets>=0.14.2",
+  # https://pypi.org/project/pyLodStorage/
+  "pyLodStorage>=0.10.3"
+]
+
+requires-python = ">=3.9"
+classifiers=[
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: User Interfaces",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License"
+    ]
+dynamic = ["version"]
+[tool.hatch.version]
+path = "snapquery/__init__.py"
+
+[project.urls]
+Home = "https://github.com/WolfgangFahl/snapquery"
+Documentation = "https://wiki.bitplan.com/index.php/snapquery"
+Source = "https://github.com/WolfgangFahl/snapquery"
+
+[project.optional-dependencies]
+test = [
+  "green",
+]
+
+[tool.hatch.build.targets.wheel]
+only-include = ["snapquery"]
+
+[tool.hatch.build.targets.wheel.sources]
+"snapquery" = "snapquery"
+
+[project.scripts]
+snapquery = "snapquery.snapquery_cmd:main"

@@ -213,15 +213,18 @@ WHERE
         if not endpoint_name in self.endpoints:
             msg = f"Invalid endpoint {endpoint_name}"
             ValueError(msg)
-  
         endpoint = self.endpoints.get(endpoint_name)
         sparql = SPARQL(endpoint.endpoint)
         lod = sparql.queryAsListOfDicts(sparql_query)
         return lod
     
-    def format_result(self,qlod,query:Query,r_format:Format):
+    def format_result(self,qlod,query:Query,r_format:Format,endpoint_name: str = "wikidata"):
         """
         """
+        endpointConf = self.endpoints.get(endpoint_name)
+        query.tryItUrl = endpointConf.website
+        query.database = endpointConf.database
+    
         if r_format is Format.csv:
                 csv = CSV.toCSV(qlod)
                 print(csv)

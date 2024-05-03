@@ -66,7 +66,7 @@ class SnapQueryCmd(WebserverCmd):
             sparql_query=nqm.get_sparql(name=name, endpoint_name=endpoint_name)
             qlod=nqm.query(endpoint_name=endpoint_name,name=name)
             query = Query(name=name, query=sparql_query, lang="sparql")
-            nqm.format_result(qlod, query, r_format)
+            nqm.format_result(qlod, query, r_format,endpoint_name=endpoint_name)
         return handled
 
 

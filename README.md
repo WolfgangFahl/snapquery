@@ -1,5 +1,9 @@
 # snapQuery
-Tool that helps users preview, explore queries, and enlist expert help in Wikidata queries seamlessly. Trust query stability with past performance insights and community feedback. Annotate, rate, and collaborate easily. Developers and data consumers can get access to the data via APIs.
+Tool that helps users preview, annotate, rate, comment, run and explore Wikidata queries on different sparql backends seamlessly. 
+It enhances the user experience by storing the results and comparing the results from different backends and comparing over time. 
+
+The purpose of the tool is to help users curate and collaborate on queries together and make sure they work as expected over time. 
+Developers and data consumers can get access to the data via APIs.
 
 ## Features
 ### Planned

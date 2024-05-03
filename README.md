@@ -27,3 +27,36 @@ These are the planned features
   * author -> id of author in the system
   * forked from x
 * has REST API for data consumers e.g. LLM developers who want to present user-verified queries and data to users to increase reliability
+
+## User stories
+* as a user I want to know in advance if the query is returning what I expect
+* as a user I want to find all the bands in Wikidata without having to know how it is modeled
+* as a user I want pay someone to help me get the information from Wikidata that I need
+* as a user I want to know how a query performed in the past so I can trust that the underlying model is stable and I get the expected results
+* as a user I want to comment on a query
+* as a user I want to read comments from others on a query so I get and idea how reliable it is
+* as a user I want to rate a query with 1-5 stars
+* as a user I want to get information from multiple sparql engines at the same time
+* as a user I don’t want to wait for a fresh query to finish and just get the information from the latest time a query succeeded.
+* as a user I want a list of queries in the middleware
+* as a user I want to sort the list based on the rate of queries
+* as a user I want to annotate a query with a name
+* as a user I want to annotate a query with a wikidata item as main subject
+* as a user I want to see a list of queries that is tagged with a certain topic (wikidata item)
+* as a user I want an API to get information from the middleware about queries
+* as a developer I want to expose the data in API endpoints
+* as a user I want an api endpoint /list that gives me all queries with the main subject=Qxxxx
+* as a LLM developer I want to consume the queries and use them to improve my LLM so it can suggest KNOWN GOOD queries to users
+* as a user I want the system to warn me and annotate a query that no longer returns the data the user expects, ie. if a query suddenly start returning no results or fewer results
+* as a user I want to see a state on a query
+* as a wikidata contributor I want to be able to override the “bad query” state
+* as a wikidata user I want to be able to log in using my wmf credentials to avoid the hassle of creating another account
+* as a wikidata user I want to link my current account to my wmf account so others can find me by username
+* as a user I want to log in using github to avoid the hassle of creating another account
+* as a user I want to log in using gitlab to avoid the hassle of creating another account
+* as a user I want to log in using facebook to avoid the hassle of creating another account
+* as a user I want to know how many backends a query is working on, so I get an overview
+* as a user I want to get query results immediately if possible so I don’t have to wait
+* as a user I want to import a query by copy pasting a url from WDQS
+* as a user I want to run a query on multiple backends with one click
+* as a user I want to fork a query and build on it

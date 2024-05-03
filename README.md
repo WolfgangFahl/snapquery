@@ -5,8 +5,22 @@ It enhances the user experience by storing the results and comparing the results
 The purpose of the tool is to help users curate and collaborate on queries together and make sure they work as expected over time. 
 Developers and data consumers can get access to the data via APIs.
 
-## Features
-### Planned
+[![Join the discussion at https://github.com/WolfgangFahl/snapquery/discussions](https://img.shields.io/github/discussions/WolfgangFahl/snapquery)](https://github.com/WolfgangFahl/snapquery/discussions)
+[![pypi](https://img.shields.io/pypi/pyversions/dynamic_competence_map)](https://pypi.org/project/dynamic-competence-map/)
+[![Github Actions Build](https://github.com/WolfgangFahl/snapquery/actions/workflows/build.yml/badge.svg)](https://github.com/WolfgangFahl/snapquery/actions/workflows/build.yml)
+[![PyPI Status](https://img.shields.io/pypi/v/dynamic_competence_map.svg)](https://pypi.python.org/pypi/dynamic-competence-map/)
+[![GitHub issues](https://img.shields.io/github/issues/WolfgangFahl/snapquery.svg)](https://github.com/WolfgangFahl/snapquery/issues)
+[![GitHub issues](https://img.shields.io/github/issues-closed/WolfgangFahl/snapquery.svg)](https://github.com/WolfgangFahl/snapquery/issues/?q=is%3Aissue+is%3Aclosed)
+[![GitHub](https://img.shields.io/github/license/WolfgangFahl/snapquery)](https://www.apache.org/licenses/LICENSE-2.0)
+
+## Demos
+* [BITPlan](https://snapquery.bitplan.com)
+* [RWTH Aachen i5](https://snapquery.wikidata.dbis.rwth-aachen.de/)
+
+
+
+# Features
+## Planned
 These are the planned features
 * query multiple backends simultaneously and repeatedly
 * stores queries and adaptations needed for different backends

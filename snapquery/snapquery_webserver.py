@@ -1,10 +1,12 @@
-'''
+"""
 Created on 2024-05-03
 @author: wf
-'''
-from nicegui.client import Client
+"""
 from ngwidgets.input_webserver import InputWebserver, InputWebSolution, WebserverConfig
+from nicegui.client import Client
+
 from snapquery.version import Version
+
 
 class SnapQueryWebServer(InputWebserver):
     """
@@ -29,10 +31,9 @@ class SnapQueryWebServer(InputWebserver):
 
     def __init__(self):
         """Constructs all the necessary attributes for the WebServer object."""
-        InputWebserver.__init__(
-            self, config=SnapQueryWebServer.get_config()
-        )
-        
+        InputWebserver.__init__(self, config=SnapQueryWebServer.get_config())
+
+
 class SnapQuerySolution(InputWebSolution):
     """
     the Snap Query solution

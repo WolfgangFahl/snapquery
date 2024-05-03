@@ -2,15 +2,18 @@
 Created on 2024-05-03
 @author: wf
 """
-from fastapi import Request, Header,HTTPException
+import asyncio
+from fastapi import HTTPException
 from fastapi.responses import HTMLResponse
 from lodstorage.query import Query
 from ngwidgets.input_webserver import InputWebserver, InputWebSolution, WebserverConfig
 from nicegui import app
 from nicegui.client import Client
 
+
 from snapquery.snapquery_core import NamedQueryManager
 from snapquery.version import Version
+from snapquery.snapquery_view import NamedQuerySearch
 
 
 class SnapQueryWebServer(InputWebserver):
@@ -62,6 +65,8 @@ class SnapQueryWebServer(InputWebserver):
             return HTMLResponse(content)
         
     def query(self,namespace:str,name:str):
+        """
+        """
         endpoint_name = "wikidata"
         # content negotiation
         # Determine response format by extension in the name or Accept header
@@ -104,3 +109,27 @@ class SnapQuerySolution(InputWebSolution):
             client (Client): The client instance this context is associated with.
         """
         super().__init__(webserver, client)  # Call to the superclass constructor
+        self.nqm=self.webserver.nqm
+        self.endpoint_name="wikidata"
+  
+    def configure_settings(self):
+        """
+        add additional settings
+        """
+        self.add_select("default Endpoint", list(self.nqm.endpoints.keys())).bind_value(
+                self, "endpoint_name"
+        )
+        
+    def setup_ui(self):
+        """
+        setup my user interface
+        """
+        self.search=NamedQuerySearch(self)
+        
+    async def home(
+        self,
+    ):
+        """Generates the home page with a selection of examples and
+        svg display
+        """
+        await self.setup_content_div(self.setup_ui)

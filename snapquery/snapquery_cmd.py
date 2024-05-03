@@ -5,14 +5,17 @@ Created on 2024-05-03
 """
 import sys
 from argparse import ArgumentParser
-from ngwidgets.cmd import WebserverCmd
-from snapquery.snapquery_webserver import SnapQueryWebServer
+
 from lodstorage.query import EndpointManager
+from ngwidgets.cmd import WebserverCmd
+
+from snapquery.snapquery_webserver import SnapQueryWebServer
+
 
 class SnapQueryCmd(WebserverCmd):
     """
     Command line for diagrams server
-    """       
+    """
 
     def getArgParser(self, description: str, version_msg) -> ArgumentParser:
         """
@@ -24,7 +27,7 @@ class SnapQueryCmd(WebserverCmd):
             "-ep",
             "--endpointPath",
             default=None,
-            help="path to yaml file to configure endpoints to use for queries",         
+            help="path to yaml file to configure endpoints to use for queries",
         )
         parser.add_argument(
             "-en",
@@ -40,22 +43,22 @@ class SnapQueryCmd(WebserverCmd):
         )
         return parser
 
-
     def handle_args(self) -> bool:
         """
         handle the command line args
         """
         # Call the superclass handle_args to maintain base class behavior
         handled = super().handle_args()
-        endpoints = EndpointManager.getEndpoints(self.args.endpointPath,lang='sparql')
+        endpoints = EndpointManager.getEndpoints(self.args.endpointPath, lang="sparql")
         # Check if listing of endpoints is requested
         if self.args.listEndpoints:
             # List endpoints
             for endpoint in endpoints.values():
                 print(endpoint)
-            handled=True  # Operation handled
+            handled = True  # Operation handled
         return handled
-    
+
+
 def main(argv: list = None):
     """
     main call

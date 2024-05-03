@@ -4,6 +4,7 @@ Created on 2024-05-03
 @author: wf
 """
 import json
+
 from ngwidgets.basetest import Basetest
 
 from snapquery.snapquery_core import NamedQueryManager
@@ -28,7 +29,7 @@ class TestNamedQueryManager(Basetest):
                 lod = nqm.query(name)
                 if self.debug:
                     print(f"{name}:")
-                    print(json.dumps(lod,default=str,indent=2))
+                    print(json.dumps(lod, default=str, indent=2))
                 self.assertEqual(ex_count, len(lod))
             except Exception as ex:
                 if self.debug:

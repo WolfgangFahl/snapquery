@@ -5,6 +5,7 @@
 	<projects>
 		<project>nicegui</project>
 		<project>nicegui_widgets</project>
+		<project>pyLoDStorage</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

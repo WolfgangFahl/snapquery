@@ -9,8 +9,9 @@ from argparse import ArgumentParser
 from lodstorage.query import EndpointManager, Format, Query
 from ngwidgets.cmd import WebserverCmd
 
-from snapquery.snapquery_webserver import SnapQueryWebServer
 from snapquery.snapquery_core import NamedQueryManager
+from snapquery.snapquery_webserver import SnapQueryWebServer
+
 
 class SnapQueryCmd(WebserverCmd):
     """
@@ -59,14 +60,14 @@ class SnapQueryCmd(WebserverCmd):
                 print(endpoint)
             handled = True  # Operation handled
         elif self.args.queryName is not None:
-            nqm=NamedQueryManager()
-            name=self.args.queryName
-            endpoint_name=self.args.endpointName
-            r_format=self.args.format
-            sparql_query=nqm.get_sparql(name=name, endpoint_name=endpoint_name)
-            qlod=nqm.query(endpoint_name=endpoint_name,name=name)
+            nqm = NamedQueryManager()
+            name = self.args.queryName
+            endpoint_name = self.args.endpointName
+            r_format = self.args.format
+            sparql_query = nqm.get_sparql(name=name, endpoint_name=endpoint_name)
+            qlod = nqm.query(endpoint_name=endpoint_name, name=name)
             query = Query(name=name, query=sparql_query, lang="sparql")
-            nqm.format_result(qlod, query, r_format,endpoint_name=endpoint_name)
+            nqm.format_result(qlod, query, r_format, endpoint_name=endpoint_name)
         return handled
 
 

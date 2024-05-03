@@ -3,17 +3,18 @@ Created on 2024-05-03
 
 @author: wf
 """
-import os
 import json
+import os
 from dataclasses import field
 from pathlib import Path
-from typing import Optional
+from typing import Any, Dict, List, Optional
 
-from lodstorage.query import EndpointManager, Query, Format
+from lodstorage.csv import CSV
+from lodstorage.query import Endpoint, EndpointManager, Format, Query
 from lodstorage.sparql import SPARQL
 from lodstorage.sql import SQLDB, EntityInfo
 from lodstorage.yamlable import lod_storable
-from lodstorage.csv import CSV
+
 
 @lod_storable
 class NamedQuery:
@@ -71,7 +72,7 @@ class NamedQueryManager:
         if db_path is None:
             db_path = NamedQueryManager.get_cache_path()
         self.debug = debug
-        self.sql_db = SQLDB(dbname=db_path, debug=debug)
+        self.sql_db = SQLDB(dbname=db_path,check_same_thread=False, debug=debug)
         self.endpoints = EndpointManager.getEndpoints(lang="sparql")
 
     @classmethod
@@ -163,10 +164,13 @@ ORDER BY ?horse
             ),
         }
         return samples
-    
-    def get_sparql(self,name: str,
+
+    def get_sparql(
+        self,
+        name: str,
         namespace: str = "wikidata-examples",
-        endpoint_name: str = "wikidata")->str:
+        endpoint_name: str = "wikidata",
+    ) -> str:
         sql_query = f"""SELECT 
     sparql 
 FROM 
@@ -208,7 +212,7 @@ WHERE
             ValueError: If no named query matches the given name and namespace.
             Exception: If the SPARQL query execution fails or the endpoint returns an error.
         """
-        sparql_query=self.get_sparql(name, namespace, endpoint_name)
+        sparql_query = self.get_sparql(name, namespace, endpoint_name)
 
         if not endpoint_name in self.endpoints:
             msg = f"Invalid endpoint {endpoint_name}"
@@ -217,23 +221,63 @@ WHERE
         sparql = SPARQL(endpoint.endpoint)
         lod = sparql.queryAsListOfDicts(sparql_query)
         return lod
-    
-    def format_result(self,qlod,query:Query,r_format:Format,endpoint_name: str = "wikidata"):
+
+    def format_result(
+        self,
+        qlod: List[Dict[str, Any]],
+        query: Query,
+        r_format_str: str,
+        endpoint_name: str = "wikidata",
+    ) -> Optional[str]:
         """
+        Formats the query results based on the specified format and prints them.
+
+        Args:
+            qlod (List[Dict[str, Any]]): The list of dictionaries that represent the query results.
+            query (Query): The query object which contains details like the endpoint and the database.
+            r_format_str: The format in which to print the results.
+            endpoint_name (str): The name of the endpoint to be used, defaults to "wikidata".
+
+        Returns:
+            Optional[str]: The formatted string representation of the query results, or None if printed directly.
         """
-        endpointConf = self.endpoints.get(endpoint_name)
+        # Retrieve endpoint configuration using the provided endpoint name
+        endpointConf = self.endpoints.get(endpoint_name, Endpoint.getDefault())
         query.tryItUrl = endpointConf.website
         query.database = endpointConf.database
-    
-        if r_format is Format.csv:
-                csv = CSV.toCSV(qlod)
-                print(csv)
-        elif r_format in [Format.latex, Format.github, Format.mediawiki]:
-                doc = query.documentQueryResult(
-                    qlod, tablefmt=str(r_format), floatfmt=".0f"
-                )
-                docstr = doc.asText()
-                print(docstr)
-        elif r_format in [Format.json] or format is None:  # set as default
-                # https://stackoverflow.com/a/36142844/1497139
-                print(json.dumps(qlod, indent=2, sort_keys=True, default=str))
+        r_format = Format[r_format_str] 
+
+        if r_format == Format.csv:
+            csv_output = CSV.toCSV(qlod)
+            return csv_output
+        elif r_format in [Format.latex, Format.github, Format.mediawiki, Format.html]:
+            doc = query.documentQueryResult(
+                qlod, tablefmt=str(r_format), floatfmt=".0f"
+            )
+            return doc.asText()
+        elif r_format == Format.json:
+            return json.dumps(qlod, indent=2, sort_keys=True, default=str)
+        return None  # In case no format is matched or needed
+
+    def print_result(
+        self,
+        qlod: List[Dict[str, Any]],
+        query: Query,
+        r_format_str: str,
+        endpoint_name: str = "wikidata",
+    ) -> None:
+        """
+        Prints the formatted results of a query.
+
+        Args:
+            qlod (List[Dict[str, Any]]): The list of dictionaries that represent the query results.
+            query (Query): The query object which contains details such as the endpoint and the database.
+            r_format_str: The format in which to print the results.
+            endpoint_name (str): The name of the endpoint to be used, defaults to "wikidata".
+
+        Returns:
+            None
+        """
+        result_str = self.format_result(qlod, query, r_format_str, endpoint_name)
+        if result_str is not None:
+            print(result_str)

@@ -17,18 +17,29 @@ Developers and data consumers can get access to the data via APIs.
 * [BITPlan](https://snapquery.bitplan.com)
 * [RWTH Aachen i5](https://snapquery.wikidata.dbis.rwth-aachen.de/)
 
+# Links
+* [Phabricator Task: Introduce Named Queries and Named Query Middleware to wikidata](https://phabricator.wikimedia.org/T363894)
+* [Named Queries prototype by Tim Holzheim](https://github.com/tholzheim/named-queries/tree/master)
 
+## API
+* [API documentation](https://snapquery.bitplan.com/docs)
+
+### Model
+![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/WolfgangFahl/snapquery/main/snapquery.puml?fmt=svg&version=1)
+
+## Authors
+* [Wolfgang Fahl](http://www.bitplan.com/Wolfgang_Fahl)
 
 # Features
 ## Planned
 These are the planned features
+* support for naming queries #9 #6
+* support for sharing queries (unique identifier) #2
 * query multiple backends simultaneously and repeatedly
 * stores queries and adaptations needed for different backends
 * support user login
 * support for spam protection
-* support for naming queries
 * support for rating queries
-* support for sharing queries (unique identifier)
 * support for commenting on queries
 * support for detecting when a query returns different results between different backends
 * support for query states: reliable, needs investigation, need verification

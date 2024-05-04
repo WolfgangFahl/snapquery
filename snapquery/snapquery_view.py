@@ -117,11 +117,10 @@ class NamedQuerySearch:
                 .bind_value(self, "namespace")
                 .props("size=40")
             )
-        with ui.row() as self.search_result_row:
-            self.search_result_grid = ListOfDictsGrid()
+        self.search_result_row=ui.row()
         ui.timer(0.0,self.on_search_change,once=True)
 
-    async def on_search_change(self, _args):
+    async def on_search_change(self, _args=None):
         """
         react on changes in the search input
         """
@@ -158,14 +157,14 @@ WHERE name LIKE ? and namespace LIKE? """
         """
         show the given list of dicts
         """
+        self.search_result_row.clear()
         view_lod = []
         for record in self.q_lod:
             nq = NamedQuery.from_record(record)
             vr = nq.as_viewrecord()
             view_lod.append(vr)
-        if self.search_result_row:
-            with self.search_result_row:
-                ui.notify(f"found {len(q_lod)} queries")
-                self.search_result_grid.load_lod(view_lod)
-                # self.search_result_grid.set_checkbox_selection("#")
-                self.search_result_grid.update()
+        with self.search_result_row:
+            self.search_result_grid = ListOfDictsGrid()
+            ui.notify(f"found {len(q_lod)} queries")
+            self.search_result_grid.load_lod(view_lod)
+        self.search_result_row.update()

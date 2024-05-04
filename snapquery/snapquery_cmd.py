@@ -69,7 +69,7 @@ class SnapQueryCmd(WebserverCmd):
                 print(endpoint)
             handled = True  # Operation handled
         elif self.args.queryName is not None:
-            nqm = NamedQueryManager()
+            nqm = NamedQueryManager.from_samples()
             namespace = self.args.namespace
             name = self.args.queryName
             endpoint_name = self.args.endpointName

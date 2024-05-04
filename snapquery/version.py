@@ -3,6 +3,7 @@ Created on 2024-05-01
 
 @author: wf
 """
+
 from dataclasses import dataclass
 
 import snapquery
@@ -26,7 +27,7 @@ class Version:
     chat_url = "https://github.com/WolfgangFahl/snapquery/discussions"
     cm_url = "https://github.com/WolfgangFahl/snapquery"
 
-    license = f"""Copyright 2024 contributors. All rights reserved.
+    license = """Copyright 2024 contributors. All rights reserved.
 
   Licensed under the Apache License 2.0
   http://www.apache.org/licenses/LICENSE-2.0

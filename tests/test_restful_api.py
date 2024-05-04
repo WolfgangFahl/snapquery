@@ -3,6 +3,7 @@ Created on 2024-05-03
 
 @author: wf
 """
+
 from ngwidgets.webserver_test import WebserverTest
 
 from snapquery.snapquery_cmd import SnapQueryCmd

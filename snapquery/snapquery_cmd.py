@@ -3,10 +3,11 @@ Created on 2024-05-03
 
 @author: wf
 """
+
 import sys
 from argparse import ArgumentParser
 
-from lodstorage.query import EndpointManager, Format, Query
+from lodstorage.query import EndpointManager, Format
 from ngwidgets.cmd import WebserverCmd
 
 from snapquery.snapquery_core import NamedQueryManager
@@ -34,7 +35,7 @@ class SnapQueryCmd(WebserverCmd):
             "-en",
             "--endpointName",
             default="wikidata",
-            help=f"Name of the endpoint to use for queries - use --listEndpoints to list available endpoints",
+            help="Name of the endpoint to use for queries - use --listEndpoints to list available endpoints",
         )
         parser.add_argument(
             "-le",

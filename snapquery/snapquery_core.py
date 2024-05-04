@@ -111,13 +111,13 @@ class QueryBundle:
         self.endpoint = endpoint
         self.sparql = SPARQL(endpoint.endpoint)
         
-    def raw_query(self,resultFormat, mimeType, timeout:float=10.0):
+    def raw_query(self,resultFormat, mime_type:str=None, timeout:float=10.0):
         """
         returns raw result of the endpoint
 
         Args:
             resultFormat(str): format of the result
-            mimeType(str): mimeType
+            mime_type(str): mime_type to use (if any)
             timeout(float): timeout in seconds
 
         Returns:
@@ -125,8 +125,8 @@ class QueryBundle:
         """
         params = {"query": self.query.query, "format": resultFormat}
         payload = {}
-        if mimeType:
-            headers = {"Accept": mimeType}
+        if mime_type:
+            headers = {"Accept": mime_type}
         else:
             headers = {}
         endpoint_url = self.endpoint.endpoint
@@ -179,6 +179,12 @@ class QueryBundle:
         return None  # In case no format is matched or needed
 
     def set_limit(self, limit: int = None):
+        """
+        set the limit of my query
+        
+        Args:
+            limit(int): the limit to set - default: None
+        """
         if limit:
             sparql_query = self.query.query
             # @TODO - this is too naive for cases where

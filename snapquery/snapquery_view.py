@@ -8,9 +8,39 @@ from typing import List
 
 from ngwidgets.input_webserver import InputWebSolution
 from ngwidgets.lod_grid import ListOfDictsGrid
+from ngwidgets.widgets import Link
 from nicegui import ui
 
-from snapquery.snapquery_core import NamedQuery
+from snapquery.snapquery_core import NamedQuery, QueryBundle
+
+
+class NamedQueryView:
+    """
+    display a named Query
+    """
+
+    def __init__(self, 
+        solution: InputWebSolution, 
+        query_bundle: QueryBundle,
+        r_format_str: str='html'):
+        self.solution = solution
+        self.nqm = self.solution.nqm
+        self.query_bundle = query_bundle
+        self.r_format_str=r_format_str
+        self.setup_ui()
+        
+    def setup_ui(self):
+        """
+        setup my user interface
+        """
+        nq=self.query_bundle.named_query
+        url=self.query_bundle.query.tryItUrl
+        text=nq.title
+        tooltip="try it!"
+        link=Link.create(url, text, tooltip, target="_blank")
+        with self.solution.container:
+            self.try_it_link=ui.html(link)
+        pass
 
 
 class NamedQuerySearch:

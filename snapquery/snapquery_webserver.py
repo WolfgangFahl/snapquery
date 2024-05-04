@@ -10,7 +10,7 @@ from nicegui import app, ui
 from nicegui.client import Client
 
 from snapquery.snapquery_core import NamedQueryManager
-from snapquery.snapquery_view import NamedQuerySearch
+from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.version import Version
 
 
@@ -41,11 +41,26 @@ class SnapQueryWebServer(InputWebserver):
         self.nqm = NamedQueryManager.from_samples()
 
         @ui.page("/query/{namespace}/{name}")
-        def query_page(namespace: str, name: str):
+        async def query_page(
+            client: Client,
+            namespace: str,
+            name: str,
+            endpoint_name: str='wikidata',
+            limit: int = None,
+            format:str='html',
+        ):
             """
             show the query page for the given namespace and name
             """
-            raise Exception("not done yet")
+            return await self.page(
+                client,
+                SnapQuerySolution.query_page,
+                namespace=namespace,
+                name=name,
+                endpoint_name=endpoint_name,
+                limit=limit,
+                r_format_str=format,
+            )
 
         @app.get("/api/sparql/{namespace}/{name}")
         def sparql(
@@ -180,3 +195,16 @@ class SnapQuerySolution(InputWebSolution):
         svg display
         """
         await self.setup_content_div(self.setup_ui)
+
+    async def query_page(
+        self,
+        namespace: str,
+        name: str,
+        endpoint_name: str = "wikidata",
+        limit: int = None,
+        r_format_str: str='html'
+    ):
+        def show():
+            query_bundle = self.nqm.get_query(name, namespace, endpoint_name, limit)
+            self.named_query_view=NamedQueryView(self,query_bundle=query_bundle,r_format_str=r_format_str)
+        await self.setup_content_div(show)

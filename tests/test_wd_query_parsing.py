@@ -5,20 +5,25 @@ Created on 2024-05-04
 """
 
 import pprint
-import unittest
 import re
 import requests
 import wikitextparser as wtp
 from wikitextparser import Section, Template
+from ngwidgets.basetest import Basetest
+from snapquery.snapquery_core import NamedQuery, NamedQueryManager
 
-from snapquery.snapquery_core import NamedQuery
-
-
-class TestWdQueryParsing(unittest.TestCase):
+class TestWdQueryParsing(Basetest):
+    """
+    test wikidata query parsing
+    """
+    
+    def setUp(self, debug=True, profile=True):
+        Basetest.setUp(self, debug=debug, profile=profile)
+        self.base_url = "https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples"
+        
     def _get_examples_wikitext(self) -> str:
         """Get wiki text with SPARQL query examples"""
-        url = "https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples?action=raw"
-        res = requests.get(url)
+        res = requests.get(f"{self.base_url}?action=raw")
         return res.text
 
     def _extract_query_from_section(self, section: Section) -> NamedQuery:
@@ -35,6 +40,7 @@ class TestWdQueryParsing(unittest.TestCase):
                 name=title,
                 title=title,
                 description=desc,
+                url=self.base_url,
                 sparql=query.arguments[0].value,
             )
         return named_query
@@ -71,13 +77,14 @@ class TestWdQueryParsing(unittest.TestCase):
         """
         wikitext = self._get_examples_wikitext()
         parsed = wtp.parse(wikitext)
-        queries = []
+        lod = []
         for section in parsed.sections:
             nq = self._extract_query_from_section(section)
             if nq:
-                queries.append(nq)
-                pprint.pprint(nq)
-
-
-if __name__ == "__main__":
-    unittest.main()
+                lod.append(nq.as_record())
+                if self.debug:
+                    pprint.pprint(nq)
+        if self.debug:
+            print(f"found {len(lod)} queries")
+        nqm = NamedQueryManager.from_samples()
+        nqm.store(lod)

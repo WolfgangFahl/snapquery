@@ -43,11 +43,11 @@ class NamedQuery:
     # sparql query (to be hidden later)
     sparql: str
     # the url of the source code of the query 
-    url: Optional[str]
+    url: Optional[str]=None
     # one line title
-    title: Optional[str]
+    title: Optional[str]=None
     # multiline description
-    description: Optional[str]
+    description: Optional[str]=None
   
     def __post_init__(self):
         """

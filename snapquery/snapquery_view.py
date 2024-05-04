@@ -7,6 +7,7 @@ Created on 2024-05-03
 import asyncio
 from typing import List
 
+from lodstorage.query import QuerySyntaxHighlight
 from ngwidgets.input_webserver import InputWebSolution
 from ngwidgets.lod_grid import ListOfDictsGrid
 from ngwidgets.widgets import Link
@@ -52,6 +53,16 @@ class NamedQueryView:
                 self.try_it_link = ui.html(link)
                 ui.label(nq.description)
                 ui.button(icon="play_arrow", on_click=self.run_query)
+            with ui.row():
+                with ui.expansion("Show Query", icon="manage_search").classes("w-full"):
+                    query_syntax_highlight = QuerySyntaxHighlight(
+                        self.query_bundle.query
+                    )
+                    syntax_highlight_css = (
+                        query_syntax_highlight.formatter.get_style_defs()
+                    )
+                    ui.add_css(syntax_highlight_css)
+                    ui.html(query_syntax_highlight.highlight())
             self.grid_row = ui.row()
             pass
 

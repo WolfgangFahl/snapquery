@@ -7,8 +7,11 @@ from fastapi import HTTPException
 from fastapi.responses import HTMLResponse, PlainTextResponse
 from lodstorage.query import Format
 from ngwidgets.input_webserver import InputWebserver, InputWebSolution, WebserverConfig
+from ngwidgets.login import Login
+from ngwidgets.users import Users
 from nicegui import app, ui
 from nicegui.client import Client
+from starlette.responses import RedirectResponse
 
 from snapquery.snapquery_core import NamedQueryManager
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
@@ -39,7 +42,24 @@ class SnapQueryWebServer(InputWebserver):
     def __init__(self):
         """Constructs all the necessary attributes for the WebServer object."""
         InputWebserver.__init__(self, config=SnapQueryWebServer.get_config())
+        users = Users("~/.solutions/snapquery/storage/")
+        self.login = Login(self, users)
         self.nqm = NamedQueryManager.from_samples()
+
+        @ui.page("/admin")
+        async def admin(client: Client):
+            if not self.login.authenticated():
+                return RedirectResponse("/login")
+            return await self.page(client, SnapQuerySolution.admin_ui)
+
+        @ui.page("/login")
+        async def login(client: Client):
+            return await self.page(client, SnapQuerySolution.login_ui)
+
+        @ui.page("/logout")
+        async def logout(client: Client) -> RedirectResponse:
+            await self.login.logout()
+            return RedirectResponse("/")
 
         @ui.page("/query/{namespace}/{name}")
         async def query_page(
@@ -182,6 +202,27 @@ class SnapQuerySolution(InputWebSolution):
         self.add_select("default Endpoint", list(self.nqm.endpoints.keys())).bind_value(
             self, "endpoint_name"
         )
+
+    def setup_menu(self, detailed: bool = None):
+        super().setup_menu(detailed=detailed)
+        with self.header:
+            if self.webserver.login.authenticated():
+                self.link_button("logout", "/logout", "logout", new_tab=False)
+                self.link_button("admin", "/admin", "supervisor_account", new_tab=False)
+            else:
+                self.link_button("login", "/login", "login", new_tab=False)
+
+    async def admin_ui(self):
+        """
+        admin ui
+        """
+        pass
+
+    async def login_ui(self):
+        """
+        login ui
+        """
+        await self.webserver.login.login(self)
 
     def setup_ui(self):
         """

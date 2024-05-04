@@ -40,13 +40,15 @@ class NamedQuery:
     namespace: str
     # name/id
     name: str
-    # one line title
-    title: str
-    # multiline description
-    description: str
     # sparql query (to be hidden later)
     sparql: str
-
+    # the url of the source code of the query 
+    url: Optional[str]
+    # one line title
+    title: Optional[str]
+    # multiline description
+    description: Optional[str]
+  
     def __post_init__(self):
         """
         Post-initialization processing to construct a unique identifier for the query
@@ -55,7 +57,10 @@ class NamedQuery:
         self.query_id = f"{self.namespace}.{self.name}"
 
     def as_link(self) -> str:
-        url = f"/query/{self.namespace}/{self.name}"
+        """
+        get me as a link
+        """
+        url = self.url
         text = self.name
         tooltip = "query details"
         link = Link.create(url, text, tooltip)
@@ -70,9 +75,21 @@ class NamedQuery:
             namespace=record["namespace"],
             name=record["name"],
             title=record["title"],
+            url=record["url"],
             description=record["description"],
             sparql=record["sparql"],
         )
+        
+    def as_record(self)->Dict:
+        record = {
+            "namespace": self.namespace,
+            "name": self.name,
+            "url": self.url,
+            "title": self.title,
+            "description": self.description,
+            "sparql": self.sparql,
+        }
+        return record
 
     def as_viewrecord(self) -> Dict:
         """
@@ -251,23 +268,33 @@ class NamedQueryManager:
         nqm = NamedQueryManager(debug=debug)
         path_obj = Path(db_path)
         if not path_obj.exists() or path_obj.stat().st_size == 0:
-            sample_queries = cls.get_samples()
-            list_of_records = []
-            for _query_name, named_query in sample_queries.items():
-                record = {
-                    "namespace": named_query.namespace,
-                    "name": named_query.name,
-                    "title": named_query.title,
-                    "description": named_query.description,
-                    "sparql": named_query.sparql,
-                }
-                list_of_records.append(record)
+            sample_records=cls.get_sample_records()
             entityInfo = EntityInfo(
-                list_of_records, name="NamedQuery", primaryKey="query_id"
+                sample_records, name="NamedQuery", primaryKey="query_id"
             )
-            nqm.sql_db.createTable(list_of_records, "NamedQuery", withDrop=True)
-            nqm.sql_db.store(list_of_records, entityInfo)
+            nqm.sql_db.createTable(sample_records, "NamedQuery", withDrop=True)
+            nqm.sql_db.store(sample_records, entityInfo)
         return nqm
+    
+    def store(self,lod):
+        """
+        store the given list of dicts
+        """
+        sample_records=NamedQueryManager.get_sample_records()
+        entityInfo = EntityInfo(
+            sample_records, name="NamedQuery", primaryKey="query_id"
+        )
+        self.sql_db.store(lod, entityInfo,fixNone=True,replace=True)
+        
+    @classmethod
+    def get_sample_records(cls):
+        sample_queries = cls.get_samples()
+        list_of_records = []
+        for _query_name, named_query in sample_queries.items():
+            record=named_query.as_record()
+            list_of_records.append(record)
+        return list_of_records
+
 
     @classmethod
     def get_samples(cls) -> dict[str, NamedQuery]:
@@ -278,6 +305,7 @@ class NamedQueryManager:
             "wikidata-examples.cats": NamedQuery(
                 namespace="wikidata-examples",
                 name="cats",
+                url="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples#Cats",
                 title="Cats on Wikidata",
                 description="This query retrieves all items classified under 'house cat' (Q146) on Wikidata.",
                 sparql="""
@@ -291,6 +319,7 @@ WHERE {
             "wikidata-examples.horses": NamedQuery(
                 namespace="wikidata-examples",
                 name="horses",
+                url="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples#Horses_(showing_some_info_about_them)",
                 title="Horses on Wikidata",
                 description="This query retrieves information about horses, including parents, gender, and approximate birth and death years.",
                 sparql="""

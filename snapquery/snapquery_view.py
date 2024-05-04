@@ -99,7 +99,7 @@ class NamedQuerySearch:
         self.search_debounce_task = None
         self.keystroke_time = 0.65  # minimum time in seconds to wait between keystrokes before starting searching
         self.setup_ui()
-        self.namespace = "wikidata-examples"
+        self.namespace = ""
         self.name = ""
 
     def setup_ui(self):

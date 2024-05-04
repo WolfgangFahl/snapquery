@@ -82,6 +82,17 @@ These are the planned features
 * as a user I want to import a query by copy pasting a url from WDQS
 * as a user I want to run a query on multiple backends with one click
 * as a user I want to fork a query and build on it
+* as a user I want an email if a query I'm watching needs investigation 
+* as a user I want settings to control whether I get email notifications or not for all queries I'm watching 
+* as a user I want to watch a query 
+* as a user I want to see the history of actions of other users
+* as a user I want to know who created a query 
+* as a user I want a setting to get email about new comments on queries I'm watching 
+* as a user I want a setting to get emails about new queries every day, week, month
+* as a user I want to star a query 
+* as a user I want to browse queries and sort by number of stars
+* as a user I want to see who starred a query 
+* as a user I want to see a list of my notifications 
 * as a wikidata contributor I want to be able to override the “bad query” state
 * as a wikidata user I want to be able to log in using my wmf credentials to avoid the hassle of creating another account
 * as a wikidata user I want to link my current account to my wmf account so others can find me by username

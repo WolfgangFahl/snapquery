@@ -31,7 +31,6 @@ class NamedQuery:
         sparql (str): The SPARQL query string. This might be hidden in future to encapsulate query details.
         query_id (str): A unique identifier for the query, generated from namespace and name, used as a primary key.
     """
-
     query_id: str = field(init=False)
 
     # namespace
@@ -151,7 +150,20 @@ class QueryBundle:
             return json.dumps(qlod, indent=2, sort_keys=True, default=str)
         return None  # In case no format is matched or needed
 
-
+    def set_limit(self,limit:int=None):
+        if limit:
+            sparql_query=self.query.query
+            # @TODO - this is too naive for cases where 
+            # there are SPARQL elements hat have a "limit" in the name e.g. "height_limit"
+            # or if there is a LIMIT in a subquery
+            if "limit" in sparql_query or "LIMIT" in sparql_query:
+                sparql_query = re.sub(
+                    r"(limit|LIMIT)\s+(\d+)", f"LIMIT {limit}", sparql_query
+                )
+            else:
+                sparql_query += f"\nLIMIT {limit}"
+            self.query.query = sparql_query
+            
 class NamedQueryManager:
     """
     Manages the storage, retrieval, and execution of named SPARQL queries.
@@ -334,17 +346,8 @@ WHERE
         endpointConf = self.endpoints.get(endpoint_name, Endpoint.getDefault())
         query.tryItUrl = endpointConf.website
         query.database = endpointConf.database
-        if limit:
-            # @TODO - this is to naive for cases where there are
-            # SPARQL elements hat have a "limit" in the name e.g. "height_limit"
-            if "limit" in sparql_query or "LIMIT" in sparql_query:
-                sparql_query = re.sub(
-                    r"(limit|LIMIT)\s+(\d+)", f"LIMIT {limit}", sparql_query
-                )
-            else:
-                sparql_query += f"\nLIMIT {limit}"
-            query.query = sparql_query
         query_bundle = QueryBundle(
             named_query=named_query, query=query, endpoint=endpoint
         )
+        query_bundle.set_limit(limit)
         return query_bundle

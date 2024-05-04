@@ -9,9 +9,10 @@ from typing import List
 from ngwidgets.input_webserver import InputWebSolution
 from ngwidgets.lod_grid import ListOfDictsGrid
 from ngwidgets.widgets import Link
-from nicegui import ui
+from nicegui import ui, run, background_tasks
 
 from snapquery.snapquery_core import NamedQuery, QueryBundle
+from google.protobuf.internal.well_known_types import WKTBASES
 
 
 class NamedQueryView:
@@ -27,6 +28,9 @@ class NamedQueryView:
         self.nqm = self.solution.nqm
         self.query_bundle = query_bundle
         self.r_format_str=r_format_str
+        self.load_task=None
+        self.limit=200
+        self.timeout=20.0
         self.setup_ui()
         
     def setup_ui(self):
@@ -39,9 +43,44 @@ class NamedQueryView:
         tooltip="try it!"
         link=Link.create(url, text, tooltip, target="_blank")
         with self.solution.container:
-            self.try_it_link=ui.html(link)
-        pass
-
+            with ui.row() as self.query_parms_row:
+                ui.number(label="limit").bind_value(self, "limit")
+                ui.number(label="time out").bind_value(self, "timeout")            
+            with ui.row() as self.query_row:
+                self.try_it_link=ui.html(link)
+                ui.label(nq.description)
+                ui.button(icon='play_arrow',on_click=self.run_query)
+            self.grid_row=ui.row()
+            pass
+        
+    async def load_query_results(self):
+        """
+        (re) load the query results
+        """
+        self.query_bundle.set_limit(self.limit)
+        lod=await run.io_bound(self.query_bundle.get_lod)
+        self.grid_row.clear()
+        with self.grid_row:
+            self.lod_grid=ListOfDictsGrid()
+            self.lod_grid.load_lod(lod)
+        self.grid_row.update()
+    
+    async def run_query(self,_args):
+        """
+        run the current query
+        """
+        def cancel_running():
+            if self.load_task:
+                self.load_task.cancel()
+        with self.grid_row:
+            ui.spinner()
+        self.grid_row.update()
+        # cancel task still running
+        cancel_running()
+        # cancel task if it takes too long
+        ui.timer(self.timeout,lambda:cancel_running(),once=True)
+        # run task in background
+        self.load_task=background_tasks.create(self.load_query_results())
 
 class NamedQuerySearch:
     """

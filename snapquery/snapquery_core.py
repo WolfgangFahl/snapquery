@@ -4,8 +4,8 @@ Created on 2024-05-03
 @author: wf
 """
 import json
-import re
 import os
+import re
 from dataclasses import field
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -82,6 +82,74 @@ class NamedQuery:
             "title": self.title,
             "description": self.description,
         }
+
+
+class QueryBundle:
+    """
+    Bundles a named query, a query, and an endpoint into a single manageable object, facilitating the execution of SPARQL queries.
+
+    Attributes:
+        named_query (NamedQuery): The named query object, which includes metadata about the query.
+        query (Query): The actual query object that contains the SPARQL query string.
+        endpoint (Endpoint): The endpoint object where the SPARQL query should be executed.
+        sparql (SPARQL): A SPARQL service object initialized with the endpoint URL.
+    """
+
+    def __init__(self, named_query: NamedQuery, query: Query, endpoint: Endpoint):
+        """
+        Initializes a new instance of the QueryBundle class.
+
+        Args:
+            named_query (NamedQuery): An instance of NamedQuery that provides a named reference to the query.
+            query (Query): An instance of Query containing the SPARQL query string.
+            endpoint (Endpoint): An instance of Endpoint representing the SPARQL endpoint URL.
+        """
+        self.named_query = named_query
+        self.query = query
+        self.endpoint = endpoint
+        self.sparql = SPARQL(endpoint.endpoint)
+
+    def get_lod(self) -> List[dict]:
+        """
+        Executes the stored query using the SPARQL service and returns the results as a list of dictionaries.
+
+        Returns:
+            List[dict]: A list where each dictionary represents a row of results from the SPARQL query.
+        """
+        lod = self.sparql.queryAsListOfDicts(self.query.query)
+        return lod
+
+    def format_result(
+        self,
+        qlod: List[Dict[str, Any]] = None,
+        r_format: Format = Format.json,
+    ) -> Optional[str]:
+        """
+        Formats the query results based on the specified format and prints them.
+
+        Args:
+            qlod (List[Dict[str, Any]]): The list of dictionaries that represent the query results.
+            query (Query): The query object which contains details like the endpoint and the database.
+            r_format(Format): The format in which to print the results.
+
+        Returns:
+            Optional[str]: The formatted string representation of the query results, or None if printed directly.
+        """
+        if qlod is None:
+            qlod = self.get_lod()
+        if r_format is None:
+            r_format = Format.json
+        if r_format == Format.csv:
+            csv_output = CSV.toCSV(qlod)
+            return csv_output
+        elif r_format in [Format.latex, Format.github, Format.mediawiki, Format.html]:
+            doc = self.query.documentQueryResult(
+                qlod, tablefmt=str(r_format), floatfmt=".0f"
+            )
+            return doc.asText()
+        elif r_format == Format.json:
+            return json.dumps(qlod, indent=2, sort_keys=True, default=str)
+        return None  # In case no format is matched or needed
 
 
 class NamedQueryManager:
@@ -198,14 +266,20 @@ ORDER BY ?horse
         }
         return samples
 
-    def get_sparql(
-        self,
-        name: str,
-        namespace: str = "wikidata-examples",
-        endpoint_name: str = "wikidata",
-    ) -> str:
+    def lookup(self, name: str, namespace: str) -> NamedQuery:
+        """
+        lookup the named query for the given name and namespace
+
+
+        Args:
+            name (str): The name of the named query to execute.
+            namespace (str): The namespace of the named query, default is 'wikidata-examples'.
+
+        Returns:
+            NamedQuery: the named query
+        """
         sql_query = f"""SELECT 
-    sparql 
+    *
 FROM 
     NamedQuery 
 WHERE 
@@ -221,18 +295,19 @@ WHERE
             msg = f"multiple entries ({query_count}) for name '{name}' and namespace '{namespace}'"
             raise ValueError(msg)
 
-        sparql_query = query_records[0]["sparql"]
-        return sparql_query
+        record = query_records[0]
+        named_query = NamedQuery.from_record(record)
+        return named_query
 
-    def query(
+    def get_query(
         self,
         name: str,
         namespace: str = "wikidata-examples",
         endpoint_name: str = "wikidata",
-        limit:int=None
-    ):
+        limit: int = None,
+    ) -> QueryBundle:
         """
-        Execute a named SPARQL query using a specified endpoint and return the results.
+        get the query for the given parameters
 
         Args:
             name (str): The name of the named query to execute.
@@ -241,23 +316,26 @@ WHERE
             limit(int): the query limit (if any)
 
         Returns:
-            Dict[str, Any]: The results of the SPARQL query in JSON format.
-
-        Raises:
-            ValueError: If no named query matches the given name and namespace.
-            Exception: If the SPARQL query execution fails or the endpoint returns an error.
+            QueryBundle: named_query, query and endpoint
         """
-        sparql_query = self.get_sparql(name, namespace, endpoint_name)
-
+        named_query = self.lookup(name, namespace)
         if not endpoint_name in self.endpoints:
             msg = f"Invalid endpoint {endpoint_name}"
             ValueError(msg)
         endpoint = self.endpoints.get(endpoint_name)
-        self.query = Query(name=name, query=sparql_query, lang="sparql",limit=limit)
- 
-        sparql = SPARQL(endpoint.endpoint)
-        if limit: 
-            # @TODO - this is to naive for cases where there are 
+        sparql_query = named_query.sparql
+        query = Query(
+            name=name,
+            query=sparql_query,
+            lang="sparql",
+            endpoint=endpoint.endpoint,
+            limit=limit,
+        )
+        endpointConf = self.endpoints.get(endpoint_name, Endpoint.getDefault())
+        query.tryItUrl = endpointConf.website
+        query.database = endpointConf.database
+        if limit:
+            # @TODO - this is to naive for cases where there are
             # SPARQL elements hat have a "limit" in the name e.g. "height_limit"
             if "limit" in sparql_query or "LIMIT" in sparql_query:
                 sparql_query = re.sub(
@@ -265,90 +343,8 @@ WHERE
                 )
             else:
                 sparql_query += f"\nLIMIT {limit}"
-        lod = sparql.queryAsListOfDicts(sparql_query)
-        return lod
-    
-    def formatted_query(self,
-        name: str,
-        namespace: str = "wikidata-examples",
-        endpoint_name: str = "wikidata",
-        r_format: Format = Format.html,
-        limit:int=None)->str:
-        """
-        Execute a named SPARQL query using a specified endpoint and return the results formatted .
-
-        Args:
-            name (str): The name of the named query to execute.
-            namespace (str): The namespace of the named query, default is 'wikidata-examples'.
-            endpoint_name (str): The name of the endpoint to send the SPARQL query to, default is 'wikidata'.
-            r_format: (Format): the format to result should be returned in
-            limit(int): the query limit (if any)
-        Returns:
-            str: The results of the SPARQL query in the given format.
-
-        Raises:
-            ValueError: If no named query matches the given name and namespace.
-            Exception: If the SPARQL query execution fails or the endpoint returns an error.
-        """
-        qlod = self.query(endpoint_name=endpoint_name, name=name,namespace=namespace,limit=limit)
-        formatted_result=self.format_result(qlod=qlod, query=self.query, r_format=r_format, endpoint_name=endpoint_name)
-        return formatted_result
-
-    def format_result(
-        self,
-        qlod: List[Dict[str, Any]],
-        query: Query,
-        r_format: Format,
-        endpoint_name: str = "wikidata",
-    ) -> Optional[str]:
-        """
-        Formats the query results based on the specified format and prints them.
-
-        Args:
-            qlod (List[Dict[str, Any]]): The list of dictionaries that represent the query results.
-            query (Query): The query object which contains details like the endpoint and the database.
-            r_format_str(Format): The format in which to print the results.
-            endpoint_name (str): The name of the endpoint to be used, defaults to "wikidata".
-
-        Returns:
-            Optional[str]: The formatted string representation of the query results, or None if printed directly.
-        """
-        # Retrieve endpoint configuration using the provided endpoint name
-        endpointConf = self.endpoints.get(endpoint_name, Endpoint.getDefault())
-        query.tryItUrl = endpointConf.website
-        query.database = endpointConf.database
-
-        if r_format == Format.csv:
-            csv_output = CSV.toCSV(qlod)
-            return csv_output
-        elif r_format in [Format.latex, Format.github, Format.mediawiki, Format.html]:
-            doc = query.documentQueryResult(
-                qlod, tablefmt=str(r_format), floatfmt=".0f"
-            )
-            return doc.asText()
-        elif r_format == Format.json:
-            return json.dumps(qlod, indent=2, sort_keys=True, default=str)
-        return None  # In case no format is matched or needed
-
-    def print_result(
-        self,
-        qlod: List[Dict[str, Any]],
-        query: Query,
-        r_format_str: str,
-        endpoint_name: str = "wikidata",
-    ) -> None:
-        """
-        Prints the formatted results of a query.
-
-        Args:
-            qlod (List[Dict[str, Any]]): The list of dictionaries that represent the query results.
-            query (Query): The query object which contains details such as the endpoint and the database.
-            r_format_str: The format in which to print the results.
-            endpoint_name (str): The name of the endpoint to be used, defaults to "wikidata".
-
-        Returns:
-            None
-        """
-        result_str = self.format_result(qlod, query, r_format_str, endpoint_name)
-        if result_str is not None:
-            print(result_str)
+            query.query = sparql_query
+        query_bundle = QueryBundle(
+            named_query=named_query, query=query, endpoint=endpoint
+        )
+        return query_bundle

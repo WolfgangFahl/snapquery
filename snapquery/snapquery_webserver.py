@@ -4,9 +4,9 @@ Created on 2024-05-03
 """
 from fastapi import HTTPException
 from fastapi.responses import HTMLResponse, PlainTextResponse
-from lodstorage.query import Query, Format
+from lodstorage.query import Format
 from ngwidgets.input_webserver import InputWebserver, InputWebSolution, WebserverConfig
-from nicegui import app
+from nicegui import app, ui
 from nicegui.client import Client
 
 from snapquery.snapquery_core import NamedQueryManager
@@ -40,33 +40,53 @@ class SnapQueryWebServer(InputWebserver):
         InputWebserver.__init__(self, config=SnapQueryWebServer.get_config())
         self.nqm = NamedQueryManager.from_samples()
 
-        @app.get("/sparql/{namespace}/{name}")
-        def sparql(namespace: str, name: str) -> PlainTextResponse:
+        @ui.page("/query/{namespace}/{name}")
+        def query_page(namespace: str, name: str):
+            """
+            show the query page for the given namespace and name
+            """
+            raise Exception("not done yet")
+
+        @app.get("/api/sparql/{namespace}/{name}")
+        def sparql(
+            namespace: str,
+            name: str,
+            endpoint_name: str = "wikidata",
+            limit: int = None,
+        ) -> PlainTextResponse:
             """
             Gets a SPARQL query by name within a specified namespace
 
             Args:
                 namespace (str): The namespace identifying the group or category of the query.
                 name (str): The specific name of the query to be executed.
-
+                endpoint_name(str): the name of the endpoint to use
+                limit(int): a limit to set, default=None
             Returns:
                 HTMLResponse: The plain text SPARQL code
 
             Raises:
                 HTTPException: If the query cannot be found or fails to execute.
             """
-            endpoint_name = "wikidata"
-            sparql_query = self.nqm.get_sparql(name, namespace, endpoint_name)
+            qb = self.nqm.get_query(name, namespace, endpoint_name, limit)
+            sparql_query = qb.query.query
             return PlainTextResponse(sparql_query)
 
-        @app.get("/query/{namespace}/{name}")
-        def query(namespace: str, name: str) -> HTMLResponse:
+        @app.get("/api/query/{namespace}/{name}")
+        def query(
+            namespace: str,
+            name: str,
+            endpoint_name: str = "wikidata",
+            limit: int = None,
+        ) -> HTMLResponse:
             """
             Executes a SPARQL query by name within a specified namespace, formats the results, and returns them as an HTML response.
 
             Args:
                 namespace (str): The namespace identifying the group or category of the query.
                 name (str): The specific name of the query to be executed.
+                endpoint_name(str): the name of the endpoint to use
+                limit(int): a limit to set, default=None
 
             Returns:
                 HTMLResponse: The HTML formatted response containing the results of the query execution.
@@ -74,16 +94,34 @@ class SnapQueryWebServer(InputWebserver):
             Raises:
                 HTTPException: If the query cannot be found or fails to execute.
             """
-            content = self.query(namespace, name)
+            content = self.query(
+                namespace, name, endpoint_name=endpoint_name, limit=limit
+            )
             if not content:
                 raise HTTPException(status_code=500, detail="Could not create result")
 
             # Return the content as an HTML response
             return HTMLResponse(content)
 
-    def query(self, namespace: str, name: str):
-        """ """
-        endpoint_name = "wikidata"
+    def query(
+        self,
+        namespace: str,
+        name: str,
+        endpoint_name: str = "wikidata",
+        limit: int = None,
+    ) -> str:
+        """
+        Queries an external API to retrieve data based on a given namespace and name.
+
+        Args:
+            namespace (str): The namespace to which the query belongs. It helps in categorizing the data.
+            name (str): The name identifier of the data to be queried.
+            endpoint_name (str): The name of the endpoint to be used for the query. Defaults to 'wikidata'.
+            limit(int): the limit for the query default: None
+
+            Returns:
+                str: the content retrieved
+        """
         # content negotiation
         # Determine response format by extension in the name or Accept header
         if "." in name:
@@ -92,23 +130,15 @@ class SnapQueryWebServer(InputWebserver):
         else:
             r_format_str = "html"
 
-        # Retrieve the SPARQL query string using the namespace and name.
         try:
-            sparql_query = self.nqm.get_sparql(name, namespace, endpoint_name)
-            qlod = self.nqm.query(
-                name=name, namespace=namespace, endpoint_name=endpoint_name
-            )
-            query = Query(name=name, query=sparql_query, lang="sparql")
+            r_format = Format[r_format_str]
+            qb = self.nqm.get_query(name, namespace, endpoint_name, limit)
+            qlod = qb.get_lod()
+            content = qb.format_result(qlod, r_format)
+            return content
         except Exception as e:
             # Handling specific exceptions can be more detailed based on what nqm.get_sparql and nqm.query can raise
             raise HTTPException(status_code=404, detail=str(e))
-
-        # Format the results and generate HTML content
-        r_format = Format[r_format_str]
-        content = self.nqm.format_result(
-            qlod, query, r_format, endpoint_name=endpoint_name
-        )
-        return content
 
 
 class SnapQuerySolution(InputWebSolution):

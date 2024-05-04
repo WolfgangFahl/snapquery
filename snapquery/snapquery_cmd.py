@@ -46,7 +46,10 @@ class SnapQueryCmd(WebserverCmd):
             "--limit", type=int, default=None, help="set limit parameter of query"
         )
         parser.add_argument(
-            "--namespace", type=str, default="wikidata-examples", help="namespace to filter queries"
+            "--namespace",
+            type=str,
+            default="wikidata-examples",
+            help="namespace to filter queries",
         )
         parser.add_argument("-qn", "--queryName", help="run a named query")
         parser.add_argument("-f", "--format", type=Format, choices=list(Format))
@@ -67,12 +70,16 @@ class SnapQueryCmd(WebserverCmd):
             handled = True  # Operation handled
         elif self.args.queryName is not None:
             nqm = NamedQueryManager()
-            namespace=self.args.namespace
+            namespace = self.args.namespace
             name = self.args.queryName
             endpoint_name = self.args.endpointName
             r_format = self.args.format
-            limit=self.args.limit
-            formatted_result=nqm.formatted_query(name, namespace=namespace,endpoint_name=endpoint_name, r_format=r_format,limit=limit)
+            limit = self.args.limit
+            qb = nqm.get_query(
+                name=name, namespace=namespace, endpoint_name=endpoint_name, limit=limit
+            )
+            qlod = qb.get_lod()
+            formatted_result = qb.format_result(qlod=qlod, r_format=r_format)
             print(formatted_result)
             return handled
 

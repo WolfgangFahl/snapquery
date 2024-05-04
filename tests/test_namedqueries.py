@@ -12,7 +12,7 @@ from snapquery.snapquery_core import NamedQueryManager
 
 class TestNamedQueryManager(Basetest):
     """
-    test the named query Manage
+    test the named query Manager
     """
 
     def setUp(self, debug=False, profile=True):
@@ -26,7 +26,8 @@ class TestNamedQueryManager(Basetest):
         nqm = NamedQueryManager.from_samples(db_path=db_path)
         for name, ex_count in [("x-invalid", -1), ("cats", 223)]:
             try:
-                lod = nqm.query(name)
+                query_bundle = nqm.get_query(name)
+                lod = query_bundle.get_lod()
                 if self.debug:
                     print(f"{name}:")
                     print(json.dumps(lod, default=str, indent=2))

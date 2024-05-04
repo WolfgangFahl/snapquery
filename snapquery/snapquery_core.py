@@ -414,7 +414,7 @@ WHERE
             limit=limit,
         )
         endpointConf = self.endpoints.get(endpoint_name, Endpoint.getDefault())
-        query.tryItUrl = endpointConf.website
+        query.tryItUrl = query.getTryItUrl(endpoint.website, endpoint.database)
         query.database = endpointConf.database
         query_bundle = QueryBundle(
             named_query=named_query, query=query, endpoint=endpoint

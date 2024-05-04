@@ -14,6 +14,7 @@ from lodstorage.query import Endpoint, EndpointManager, Format, Query
 from lodstorage.sparql import SPARQL
 from lodstorage.sql import SQLDB, EntityInfo
 from lodstorage.yamlable import lod_storable
+from ngwidgets.widgets import Link
 
 
 @lod_storable
@@ -50,6 +51,37 @@ class NamedQuery:
         """
         self.query_id = f"{self.namespace}.{self.name}"
 
+    def as_link(self) -> str:
+        url = f"/query/{self.namespace}/{self.name}"
+        text = self.name
+        tooltip = "query details"
+        link = Link.create(url, text, tooltip)
+        return link
+
+    @classmethod
+    def from_record(cls, record: Dict) -> "NamedQuery":
+        """
+        Class method to instantiate NamedQuery from a dictionary record.
+        """
+        return cls(
+            namespace=record["namespace"],
+            name=record["name"],
+            title=record["title"],
+            description=record["description"],
+            sparql=record["sparql"],
+        )
+
+    def as_viewrecord(self) -> Dict:
+        """
+        Return a dictionary representing the NamedQuery with keys ordered as Name, Namespace, Title, Description.
+        """
+        return {
+            "name": self.as_link(),
+            "namespace": self.namespace,
+            "title": self.title,
+            "description": self.description,
+        }
+
 
 class NamedQueryManager:
     """
@@ -72,7 +104,7 @@ class NamedQueryManager:
         if db_path is None:
             db_path = NamedQueryManager.get_cache_path()
         self.debug = debug
-        self.sql_db = SQLDB(dbname=db_path,check_same_thread=False, debug=debug)
+        self.sql_db = SQLDB(dbname=db_path, check_same_thread=False, debug=debug)
         self.endpoints = EndpointManager.getEndpoints(lang="sparql")
 
     @classmethod
@@ -245,7 +277,7 @@ WHERE
         endpointConf = self.endpoints.get(endpoint_name, Endpoint.getDefault())
         query.tryItUrl = endpointConf.website
         query.database = endpointConf.database
-        r_format = Format[r_format_str] 
+        r_format = Format[r_format_str]
 
         if r_format == Format.csv:
             csv_output = CSV.toCSV(qlod)

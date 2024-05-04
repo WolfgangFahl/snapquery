@@ -4,6 +4,7 @@ Created on 2024-05-03
 @author: wf
 """
 import json
+import re
 import os
 from dataclasses import field
 from pathlib import Path
@@ -228,6 +229,7 @@ WHERE
         name: str,
         namespace: str = "wikidata-examples",
         endpoint_name: str = "wikidata",
+        limit:int=None
     ):
         """
         Execute a named SPARQL query using a specified endpoint and return the results.
@@ -236,6 +238,7 @@ WHERE
             name (str): The name of the named query to execute.
             namespace (str): The namespace of the named query, default is 'wikidata-examples'.
             endpoint_name (str): The name of the endpoint to send the SPARQL query to, default is 'wikidata'.
+            limit(int): the query limit (if any)
 
         Returns:
             Dict[str, Any]: The results of the SPARQL query in JSON format.
@@ -250,15 +253,52 @@ WHERE
             msg = f"Invalid endpoint {endpoint_name}"
             ValueError(msg)
         endpoint = self.endpoints.get(endpoint_name)
+        self.query = Query(name=name, query=sparql_query, lang="sparql",limit=limit)
+ 
         sparql = SPARQL(endpoint.endpoint)
+        if limit: 
+            # @TODO - this is to naive for cases where there are 
+            # SPARQL elements hat have a "limit" in the name e.g. "height_limit"
+            if "limit" in sparql_query or "LIMIT" in sparql_query:
+                sparql_query = re.sub(
+                    r"(limit|LIMIT)\s+(\d+)", f"LIMIT {limit}", sparql_query
+                )
+            else:
+                sparql_query += f"\nLIMIT {limit}"
         lod = sparql.queryAsListOfDicts(sparql_query)
         return lod
+    
+    def formatted_query(self,
+        name: str,
+        namespace: str = "wikidata-examples",
+        endpoint_name: str = "wikidata",
+        r_format: Format = Format.html,
+        limit:int=None)->str:
+        """
+        Execute a named SPARQL query using a specified endpoint and return the results formatted .
+
+        Args:
+            name (str): The name of the named query to execute.
+            namespace (str): The namespace of the named query, default is 'wikidata-examples'.
+            endpoint_name (str): The name of the endpoint to send the SPARQL query to, default is 'wikidata'.
+            r_format: (Format): the format to result should be returned in
+            limit(int): the query limit (if any)
+        Returns:
+            str: The results of the SPARQL query in the given format.
+
+        Raises:
+            ValueError: If no named query matches the given name and namespace.
+            Exception: If the SPARQL query execution fails or the endpoint returns an error.
+        """
+        qlod = self.query(endpoint_name=endpoint_name, name=name,namespace=namespace,limit=limit)
+        formatted_result=self.format_result(qlod=qlod, query=self.query, r_format=r_format, endpoint_name=endpoint_name)
+        return formatted_result
 
     def format_result(
         self,
         qlod: List[Dict[str, Any]],
         query: Query,
-        r_format_str: str,
+        r_format: Format,
         endpoint_name: str = "wikidata",
     ) -> Optional[str]:
         """
@@ -267,7 +307,7 @@ WHERE
         Args:
             qlod (List[Dict[str, Any]]): The list of dictionaries that represent the query results.
             query (Query): The query object which contains details like the endpoint and the database.
-            r_format_str: The format in which to print the results.
+            r_format_str(Format): The format in which to print the results.
             endpoint_name (str): The name of the endpoint to be used, defaults to "wikidata".
 
         Returns:
@@ -277,7 +317,6 @@ WHERE
         endpointConf = self.endpoints.get(endpoint_name, Endpoint.getDefault())
         query.tryItUrl = endpointConf.website
         query.database = endpointConf.database
-        r_format = Format[r_format_str]
 
         if r_format == Format.csv:
             csv_output = CSV.toCSV(qlod)

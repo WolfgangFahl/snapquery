@@ -42,6 +42,12 @@ class SnapQueryCmd(WebserverCmd):
             action="store_true",
             help="show the list of available endpoints",
         )
+        parser.add_argument(
+            "--limit", type=int, default=None, help="set limit parameter of query"
+        )
+        parser.add_argument(
+            "--namespace", type=str, default="wikidata-examples", help="namespace to filter queries"
+        )
         parser.add_argument("-qn", "--queryName", help="run a named query")
         parser.add_argument("-f", "--format", type=Format, choices=list(Format))
         return parser
@@ -61,14 +67,14 @@ class SnapQueryCmd(WebserverCmd):
             handled = True  # Operation handled
         elif self.args.queryName is not None:
             nqm = NamedQueryManager()
+            namespace=self.args.namespace
             name = self.args.queryName
             endpoint_name = self.args.endpointName
             r_format = self.args.format
-            sparql_query = nqm.get_sparql(name=name, endpoint_name=endpoint_name)
-            qlod = nqm.query(endpoint_name=endpoint_name, name=name)
-            query = Query(name=name, query=sparql_query, lang="sparql")
-            nqm.format_result(qlod, query, r_format, endpoint_name=endpoint_name)
-        return handled
+            limit=self.args.limit
+            formatted_result=nqm.formatted_query(name, namespace=namespace,endpoint_name=endpoint_name, r_format=r_format,limit=limit)
+            print(formatted_result)
+            return handled
 
 
 def main(argv: list = None):

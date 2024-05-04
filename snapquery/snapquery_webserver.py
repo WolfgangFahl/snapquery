@@ -4,7 +4,7 @@ Created on 2024-05-03
 """
 from fastapi import HTTPException
 from fastapi.responses import HTMLResponse, PlainTextResponse
-from lodstorage.query import Query
+from lodstorage.query import Query, Format
 from ngwidgets.input_webserver import InputWebserver, InputWebSolution, WebserverConfig
 from nicegui import app
 from nicegui.client import Client
@@ -87,10 +87,10 @@ class SnapQueryWebServer(InputWebserver):
         # content negotiation
         # Determine response format by extension in the name or Accept header
         if "." in name:
-            r_format = name.split(".")[-1]
+            r_format_str = name.split(".")[-1]
             name = name[: name.rfind(".")]
         else:
-            r_format = "html"
+            r_format_str = "html"
 
         # Retrieve the SPARQL query string using the namespace and name.
         try:
@@ -104,6 +104,7 @@ class SnapQueryWebServer(InputWebserver):
             raise HTTPException(status_code=404, detail=str(e))
 
         # Format the results and generate HTML content
+        r_format = Format[r_format_str]
         content = self.nqm.format_result(
             qlod, query, r_format, endpoint_name=endpoint_name
         )

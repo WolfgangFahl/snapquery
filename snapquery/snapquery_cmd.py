@@ -79,8 +79,8 @@ class SnapQueryCmd(WebserverCmd):
             qb = nqm.get_query(
                 name=name, namespace=namespace, endpoint_name=endpoint_name, limit=limit
             )
-            if r_format==Format.raw:
-                formatted_result=qb.raw_query()
+            if r_format == Format.raw:
+                formatted_result = qb.raw_query()
             else:
                 qlod = qb.get_lod()
                 formatted_result = qb.format_result(qlod=qlod, r_format=r_format)

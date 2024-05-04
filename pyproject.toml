@@ -16,13 +16,18 @@ maintainers = [
 ]
 readme = "README.md"
 license = {text = "Apache-2.0"}
+
+
 dependencies = [
 	# https://github.com/WolfgangFahl/nicegui_widgets
 	"ngwidgets>=0.14.2",
     # https://pypi.org/project/pyLodStorage/
     "pyLodStorage>=0.10.5",
     "wikitextparser",
-    "requests"
+    "requests",
+    # https://pypi.org/project/mwoauth/
+    "mwoauth>=0.4.0"
+    #"mwoauth@git+https://github.com/mediawiki-utilities/python-mwoauth"
 ]
 
 requires-python = ">=3.9"
@@ -44,6 +49,9 @@ classifiers=[
 dynamic = ["version"]
 [tool.hatch.version]
 path = "snapquery/__init__.py"
+
+[tool.hatch.metadata]
+allow-direct-references = true
 
 [project.urls]
 Home = "https://github.com/WolfgangFahl/snapquery"

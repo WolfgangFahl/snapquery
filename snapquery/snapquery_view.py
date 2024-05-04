@@ -10,7 +10,7 @@ from typing import List
 from ngwidgets.input_webserver import InputWebSolution
 from ngwidgets.lod_grid import ListOfDictsGrid
 from ngwidgets.widgets import Link
-from nicegui import ui, run, background_tasks
+from nicegui import background_tasks, run, ui
 
 from snapquery.snapquery_core import NamedQuery, QueryBundle
 
@@ -117,8 +117,8 @@ class NamedQuerySearch:
                 .bind_value(self, "namespace")
                 .props("size=40")
             )
-        self.search_result_row=ui.row()
-        ui.timer(0.0,self.on_search_change,once=True)
+        self.search_result_row = ui.row()
+        ui.timer(0.0, self.on_search_change, once=True)
 
     async def on_search_change(self, _args=None):
         """

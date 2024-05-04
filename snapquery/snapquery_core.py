@@ -60,7 +60,7 @@ class NamedQuery:
         """
         get me as a link
         """
-        url = self.url
+        url = f"/query/{self.namespace}/{self.name}"
         text = self.name
         tooltip = "query details"
         link = Link.create(url, text, tooltip)
@@ -100,6 +100,7 @@ class NamedQuery:
             "namespace": self.namespace,
             "title": self.title,
             "description": self.description,
+            "url": self.url
         }
 
 

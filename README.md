@@ -17,6 +17,23 @@ Developers and data consumers can get access to the data via APIs.
 * [BITPlan](https://snapquery.bitplan.com)
 * [RWTH Aachen i5](https://snapquery.wikidata.dbis.rwth-aachen.de/)
 
+## Background
+In the Wikimedia ecosystem, we now boast several SPARQL engines and backends housing the complete Wikidata graph for querying purposes.
+
+Over recent years, WDQS has encountered escalating timeouts as the graph expands. Users desire alternative endpoints without grappling with disparities among SPARQL engines and their impact on query construction.
+
+Recognizing the needs of Wikidata data consumers, we aim to establish a system that simplifies:
+
+- Discovering pre-existing queries
+- Facilitating easy forking, sharing, rating, and monitoring of queries
+- Executing queries (or their variations) on diverse endpoints
+- Comparing query results over time and/or across multiple endpoints
+- Cultivating a collaborative community for query construction
+- Ensuring the reliability of query results
+- Providing alerts if a query no longer yields the expected results
+- Developing tools that access data from dependable, middleware-cached 
+queries via an accessible API, eliminating delays for downstream users.
+
 # Links
 * [Phabricator Task: Introduce Named Queries and Named Query Middleware to wikidata](https://phabricator.wikimedia.org/T363894)
 * [Named Queries prototype by Tim Holzheim](https://github.com/tholzheim/named-queries/tree/master)

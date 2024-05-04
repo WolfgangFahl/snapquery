@@ -107,18 +107,19 @@ class NamedQuerySearch:
         setup my user interface
         """
         with ui.row() as self.search_row:
-            self.namespace_search_input = (
-                ui.input(label="namespace", on_change=self.on_search_change)
-                .bind_value(self, "namespace")
-                .props("size=80")
-            )
             self.name_search_input = (
                 ui.input(label="name", on_change=self.on_search_change)
                 .bind_value(self, "name")
                 .props("size=80")
             )
+            self.namespace_search_input = (
+                ui.input(label="namespace", on_change=self.on_search_change)
+                .bind_value(self, "namespace")
+                .props("size=40")
+            )
         with ui.row() as self.search_result_row:
             self.search_result_grid = ListOfDictsGrid()
+        ui.timer(0.0,self.on_search_change,once=True)
 
     async def on_search_change(self, _args):
         """

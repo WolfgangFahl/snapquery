@@ -19,8 +19,10 @@ license = {text = "Apache-2.0"}
 dependencies = [
 	# https://github.com/WolfgangFahl/nicegui_widgets
 	"ngwidgets>=0.14.2",
-  # https://pypi.org/project/pyLodStorage/
-  "pyLodStorage>=0.10.4"
+    # https://pypi.org/project/pyLodStorage/
+    "pyLodStorage>=0.10.4",
+    "wikitextparser",
+    "requests"
 ]
 
 requires-python = ">=3.9"

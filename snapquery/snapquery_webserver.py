@@ -2,6 +2,7 @@
 Created on 2024-05-03
 @author: wf
 """
+
 from fastapi import HTTPException
 from fastapi.responses import HTMLResponse, PlainTextResponse
 from lodstorage.query import Format
@@ -45,9 +46,9 @@ class SnapQueryWebServer(InputWebserver):
             client: Client,
             namespace: str,
             name: str,
-            endpoint_name: str='wikidata',
+            endpoint_name: str = "wikidata",
             limit: int = None,
-            format:str='html',
+            format: str = "html",
         ):
             """
             show the query page for the given namespace and name
@@ -202,9 +203,12 @@ class SnapQuerySolution(InputWebSolution):
         name: str,
         endpoint_name: str = "wikidata",
         limit: int = None,
-        r_format_str: str='html'
+        r_format_str: str = "html",
     ):
         def show():
             query_bundle = self.nqm.get_query(name, namespace, endpoint_name, limit)
-            self.named_query_view=NamedQueryView(self,query_bundle=query_bundle,r_format_str=r_format_str)
+            self.named_query_view = NamedQueryView(
+                self, query_bundle=query_bundle, r_format_str=r_format_str
+            )
+
         await self.setup_content_div(show)

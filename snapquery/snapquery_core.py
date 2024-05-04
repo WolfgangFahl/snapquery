@@ -3,6 +3,7 @@ Created on 2024-05-03
 
 @author: wf
 """
+
 import json
 import os
 import re
@@ -31,6 +32,7 @@ class NamedQuery:
         sparql (str): The SPARQL query string. This might be hidden in future to encapsulate query details.
         query_id (str): A unique identifier for the query, generated from namespace and name, used as a primary key.
     """
+
     query_id: str = field(init=False)
 
     # namespace
@@ -150,10 +152,10 @@ class QueryBundle:
             return json.dumps(qlod, indent=2, sort_keys=True, default=str)
         return None  # In case no format is matched or needed
 
-    def set_limit(self,limit:int=None):
+    def set_limit(self, limit: int = None):
         if limit:
-            sparql_query=self.query.query
-            # @TODO - this is too naive for cases where 
+            sparql_query = self.query.query
+            # @TODO - this is too naive for cases where
             # there are SPARQL elements hat have a "limit" in the name e.g. "height_limit"
             # or if there is a LIMIT in a subquery
             if "limit" in sparql_query or "LIMIT" in sparql_query:
@@ -163,7 +165,8 @@ class QueryBundle:
             else:
                 sparql_query += f"\nLIMIT {limit}"
             self.query.query = sparql_query
-            
+
+
 class NamedQueryManager:
     """
     Manages the storage, retrieval, and execution of named SPARQL queries.
@@ -290,7 +293,7 @@ ORDER BY ?horse
         Returns:
             NamedQuery: the named query
         """
-        sql_query = f"""SELECT 
+        sql_query = """SELECT 
     *
 FROM 
     NamedQuery 
@@ -331,7 +334,7 @@ WHERE
             QueryBundle: named_query, query and endpoint
         """
         named_query = self.lookup(name, namespace)
-        if not endpoint_name in self.endpoints:
+        if endpoint_name not in self.endpoints:
             msg = f"Invalid endpoint {endpoint_name}"
             ValueError(msg)
         endpoint = self.endpoints.get(endpoint_name)

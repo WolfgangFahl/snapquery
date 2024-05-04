@@ -3,6 +3,7 @@ Created on 2024-05-03
 
 @author: wf
 """
+
 from lodstorage.query import EndpointManager
 from ngwidgets.basetest import Basetest
 

@@ -12,8 +12,6 @@ from ngwidgets.widgets import Link
 from nicegui import ui, run, background_tasks
 
 from snapquery.snapquery_core import NamedQuery, QueryBundle
-from google.protobuf.internal.well_known_types import WKTBASES
-
 
 class NamedQueryView:
     """

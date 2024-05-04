@@ -7,11 +7,11 @@ Created on 2024-05-03
 import json
 import os
 import re
-import requests
 from dataclasses import field
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+import requests
 from lodstorage.csv import CSV
 from lodstorage.query import Endpoint, EndpointManager, Format, Query
 from lodstorage.sparql import SPARQL
@@ -42,13 +42,13 @@ class NamedQuery:
     name: str
     # sparql query (to be hidden later)
     sparql: str
-    # the url of the source code of the query 
-    url: Optional[str]=None
+    # the url of the source code of the query
+    url: Optional[str] = None
     # one line title
-    title: Optional[str]=None
+    title: Optional[str] = None
     # multiline description
-    description: Optional[str]=None
-  
+    description: Optional[str] = None
+
     def __post_init__(self):
         """
         Post-initialization processing to construct a unique identifier for the query
@@ -79,8 +79,8 @@ class NamedQuery:
             description=record["description"],
             sparql=record["sparql"],
         )
-        
-    def as_record(self)->Dict:
+
+    def as_record(self) -> Dict:
         record = {
             "namespace": self.namespace,
             "name": self.name,
@@ -100,7 +100,7 @@ class NamedQuery:
             "namespace": self.namespace,
             "title": self.title,
             "description": self.description,
-            "url": self.url
+            "url": self.url,
         }
 
 
@@ -128,8 +128,8 @@ class QueryBundle:
         self.query = query
         self.endpoint = endpoint
         self.sparql = SPARQL(endpoint.endpoint)
-        
-    def raw_query(self,resultFormat, mime_type:str=None, timeout:float=10.0):
+
+    def raw_query(self, resultFormat, mime_type: str = None, timeout: float = 10.0):
         """
         returns raw result of the endpoint
 
@@ -150,7 +150,12 @@ class QueryBundle:
         endpoint_url = self.endpoint.endpoint
         method = self.endpoint.method
         response = requests.request(
-            method, endpoint_url, headers=headers, data=payload, params=params,timeout=timeout
+            method,
+            endpoint_url,
+            headers=headers,
+            data=payload,
+            params=params,
+            timeout=timeout,
         )
         return response.text
 
@@ -199,7 +204,7 @@ class QueryBundle:
     def set_limit(self, limit: int = None):
         """
         set the limit of my query
-        
+
         Args:
             limit(int): the limit to set - default: None
         """
@@ -269,33 +274,32 @@ class NamedQueryManager:
         nqm = NamedQueryManager(debug=debug)
         path_obj = Path(db_path)
         if not path_obj.exists() or path_obj.stat().st_size == 0:
-            sample_records=cls.get_sample_records()
+            sample_records = cls.get_sample_records()
             entityInfo = EntityInfo(
                 sample_records, name="NamedQuery", primaryKey="query_id"
             )
             nqm.sql_db.createTable(sample_records, "NamedQuery", withDrop=True)
             nqm.sql_db.store(sample_records, entityInfo)
         return nqm
-    
-    def store(self,lod):
+
+    def store(self, lod):
         """
         store the given list of dicts
         """
-        sample_records=NamedQueryManager.get_sample_records()
+        sample_records = NamedQueryManager.get_sample_records()
         entityInfo = EntityInfo(
             sample_records, name="NamedQuery", primaryKey="query_id"
         )
-        self.sql_db.store(lod, entityInfo,fixNone=True,replace=True)
-        
+        self.sql_db.store(lod, entityInfo, fixNone=True, replace=True)
+
     @classmethod
     def get_sample_records(cls):
         sample_queries = cls.get_samples()
         list_of_records = []
         for _query_name, named_query in sample_queries.items():
-            record=named_query.as_record()
+            record = named_query.as_record()
             list_of_records.append(record)
         return list_of_records
-
 
     @classmethod
     def get_samples(cls) -> dict[str, NamedQuery]:
@@ -412,9 +416,7 @@ WHERE
         query.tryItUrl = query.getTryItUrl(endpoint.website, endpoint.database)
         query.database = endpointConf.database
         query_bundle = QueryBundle(
-            named_query=named_query, 
-            query=query, 
-            endpoint=endpoint
+            named_query=named_query, query=query, endpoint=endpoint
         )
         query_bundle.set_limit(limit)
         return query_bundle

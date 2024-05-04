@@ -6,21 +6,24 @@ Created on 2024-05-04
 
 import pprint
 import re
+
 import requests
 import wikitextparser as wtp
-from wikitextparser import Section, Template
 from ngwidgets.basetest import Basetest
+from wikitextparser import Section, Template
+
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager
+
 
 class TestWdQueryParsing(Basetest):
     """
     test wikidata query parsing
     """
-    
+
     def setUp(self, debug=True, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
         self.base_url = "https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples"
-        
+
     def _get_examples_wikitext(self) -> str:
         """Get wiki text with SPARQL query examples"""
         res = requests.get(f"{self.base_url}?action=raw")

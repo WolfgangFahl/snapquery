@@ -9,6 +9,23 @@ package snapquery {
         - title : Optional[str]
         - description : Optional[str]
     }
+    class Endpoint {
+	    - name : string
+	    - lang : string
+	    - endpoint : string
+	    - website : string
+	    - database : string
+	    - method : string
+	    - prefixes : string
+    }
+}
+
+note right of Endpoint
+  Represents an endpoint configuration for a SPARQL
+  query service, including connection details
+  and prefixes used in queries.
+end note
+
 }
 
 note right of NamedQuery

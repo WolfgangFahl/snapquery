@@ -26,7 +26,7 @@ Developers and data consumers can get access to the data via APIs.
 * [API documentation](https://snapquery.bitplan.com/docs)
 
 ### Model
-![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/WolfgangFahl/snapquery/main/snapquery.puml?fmt=svg&version=1)
+![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/WolfgangFahl/snapquery/main/snapquery.puml?fmt=svg&version=2)
 
 ## Authors
 * [Wolfgang Fahl](http://www.bitplan.com/Wolfgang_Fahl)
@@ -35,8 +35,8 @@ Developers and data consumers can get access to the data via APIs.
 # Features
 ## Planned
 These are the planned features
-* support for naming queries ([#9][i9])
-* support for sharing queries (unique identifier) ([#2][i2])
+* support for naming queries ([#9][i9]) ✅
+* support for sharing queries (unique identifier) ([#2][i2]) ✅
 * query multiple backends simultaneously and repeatedly
 * stores queries and adaptations needed for different backends
 * support user login

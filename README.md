@@ -21,7 +21,8 @@ Developers and data consumers can get access to the data via APIs.
 * [Phabricator Task: Introduce Named Queries and Named Query Middleware to wikidata](https://phabricator.wikimedia.org/T363894)
 * [Named Queries prototype by Tim Holzheim](https://github.com/tholzheim/named-queries/tree/master)
 
-## API
+## Docs
+* [Wiki](https://wiki.bitplan.com/index.php/Snapquery)
 * [API documentation](https://snapquery.bitplan.com/docs)
 
 ### Model
@@ -29,12 +30,13 @@ Developers and data consumers can get access to the data via APIs.
 
 ## Authors
 * [Wolfgang Fahl](http://www.bitplan.com/Wolfgang_Fahl)
+* [Tim Holzheim](https://rwthcontacts.rwth-aachen.de/person/PER-46LT8TU)
 
 # Features
 ## Planned
 These are the planned features
-* support for naming queries #9 #6
-* support for sharing queries (unique identifier) #2
+* support for naming queries ([#9][i9])
+* support for sharing queries (unique identifier) ([#2][i2])
 * query multiple backends simultaneously and repeatedly
 * stores queries and adaptations needed for different backends
 * support user login
@@ -85,3 +87,13 @@ These are the planned features
 * as a wikidata user I want to link my current account to my wmf account so others can find me by username
 * as a developer I want to expose the data in API endpoints
 * as a LLM developer I want to consume the queries and use them to improve my LLM so it can suggest KNOWN GOOD queries to users
+
+[i9]: https://github.com/WolfgangFahl/snapquery/issues/9
+[i8]: https://github.com/WolfgangFahl/snapquery/issues/8
+[i7]: https://github.com/WolfgangFahl/snapquery/issues/7
+[i6]: https://github.com/WolfgangFahl/snapquery/issues/6
+[i5]: https://github.com/WolfgangFahl/snapquery/issues/5
+[i4]: https://github.com/WolfgangFahl/snapquery/issues/4
+[i3]: https://github.com/WolfgangFahl/snapquery/issues/3
+[i2]: https://github.com/WolfgangFahl/snapquery/issues/2
+[i1]: https://github.com/WolfgangFahl/snapquery/issues/1

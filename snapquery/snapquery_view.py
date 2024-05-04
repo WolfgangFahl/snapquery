@@ -59,7 +59,7 @@ class NamedQueryView:
         """
         (re) load the query results
         """
-        self.query_bundle.set_limit(self.limit)
+        self.query_bundle.set_limit(int(self.limit))
         lod = await run.io_bound(self.query_bundle.get_lod)
         self.grid_row.clear()
         with self.grid_row:
@@ -76,6 +76,7 @@ class NamedQueryView:
             if self.load_task:
                 self.load_task.cancel()
 
+        self.grid_row.clear()
         with self.grid_row:
             ui.spinner()
         self.grid_row.update()

@@ -7,6 +7,7 @@ Created on 2024-05-03
 import json
 import os
 import re
+import requests
 from dataclasses import field
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -109,6 +110,31 @@ class QueryBundle:
         self.query = query
         self.endpoint = endpoint
         self.sparql = SPARQL(endpoint.endpoint)
+        
+    def raw_query(self,resultFormat, mimeType, timeout:float=10.0):
+        """
+        returns raw result of the endpoint
+
+        Args:
+            resultFormat(str): format of the result
+            mimeType(str): mimeType
+            timeout(float): timeout in seconds
+
+        Returns:
+            raw result of the query
+        """
+        params = {"query": self.query.query, "format": resultFormat}
+        payload = {}
+        if mimeType:
+            headers = {"Accept": mimeType}
+        else:
+            headers = {}
+        endpoint_url = self.endpoint.endpoint
+        method = self.endpoint.method
+        response = requests.request(
+            method, endpoint_url, headers=headers, data=payload, params=params,timeout=timeout
+        )
+        return response.text
 
     def get_lod(self) -> List[dict]:
         """
@@ -350,7 +376,9 @@ WHERE
         query.tryItUrl = endpointConf.website
         query.database = endpointConf.database
         query_bundle = QueryBundle(
-            named_query=named_query, query=query, endpoint=endpoint
+            named_query=named_query, 
+            query=query, 
+            endpoint=endpoint
         )
         query_bundle.set_limit(limit)
         return query_bundle

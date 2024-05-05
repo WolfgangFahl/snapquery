@@ -43,7 +43,7 @@ class TestWdQueryParsing(Basetest):
                 name=title,
                 title=title,
                 description=desc,
-                url=self.base_url, 
+                url=self.base_url,
                 sparql=query.arguments[0].value,
             )
         return named_query

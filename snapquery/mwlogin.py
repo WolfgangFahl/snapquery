@@ -12,8 +12,9 @@ from mwoauth import ConsumerToken, Handshaker
 
 class Login:
     """
-    login to mediawiki 
+    login to mediawiki
     """
+
     def __init__(
         self,
         consumer_key,

@@ -15,8 +15,8 @@ from starlette.responses import RedirectResponse
 
 from snapquery.snapquery_core import NamedQueryManager
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
-from snapquery.version import Version
 from snapquery.urlimport import UrlImport
+from snapquery.version import Version
 
 
 class SnapQueryWebServer(InputWebserver):
@@ -86,9 +86,9 @@ class SnapQueryWebServer(InputWebserver):
 
         @app.get("/api/endpoints")
         def get_endpoints():
-            endpoints=self.nqm.endpoints
+            endpoints = self.nqm.endpoints
             return endpoints
-        
+
         @app.get("/api/sparql/{namespace}/{name}")
         def sparql(
             namespace: str,
@@ -225,11 +225,11 @@ class SnapQuerySolution(InputWebSolution):
         """
         admin ui
         """
+
         def show():
-            """
-            """
-            self.url_import=UrlImport(self)
-            
+            """ """
+            self.url_import = UrlImport(self)
+
         await self.setup_content_div(show)
 
     async def login_ui(self):
@@ -247,8 +247,7 @@ class SnapQuerySolution(InputWebSolution):
     async def home(
         self,
     ):
-        """Generates the home page
-        """
+        """Generates the home page"""
         await self.setup_content_div(self.setup_ui)
 
     async def query_page(

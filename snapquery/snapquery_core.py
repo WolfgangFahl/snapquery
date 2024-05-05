@@ -95,13 +95,13 @@ class NamedQuery:
         """
         Return a dictionary representing the NamedQuery with keys ordered as Name, Namespace, Title, Description.
         """
-        url_link=Link.create(self.url,self.url)
+        url_link = Link.create(self.url, self.url)
         return {
             "name": self.as_link(),
             "namespace": self.namespace,
             "title": self.title,
             "description": self.description,
-            "url": url_link
+            "url": url_link,
         }
 
 

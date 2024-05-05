@@ -4,6 +4,7 @@ Created on 2024-05-03
 @author: wf
 """
 import json
+
 from ngwidgets.webserver_test import WebserverTest
 
 from snapquery.snapquery_cmd import SnapQueryCmd
@@ -27,16 +28,15 @@ class TestRestFulApi(WebserverTest):
         # self.debug=True
         html = self.getHtml("/docs")
         self.assertTrue("Swagger" in html)
-        
+
     def testEndpointApi(self):
         """
         test the endpoints api
         """
-        endpoints_data=self.get_json("/api/endpoints")
+        endpoints_data = self.get_json("/api/endpoints")
         if self.debug:
             print(endpoints_data)
         self.assertTrue("wikidata" in endpoints_data)
-        
 
     def testSparqlApi(self):
         """

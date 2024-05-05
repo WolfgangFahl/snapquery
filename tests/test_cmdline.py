@@ -3,7 +3,7 @@ Created on 2024-05-04
 
 @author: wf
 """
-
+import contextlib
 import json
 import sys
 from io import StringIO
@@ -26,13 +26,9 @@ class TestCommandLine(Basetest):
         Executes a callback with given arguments and captures stdout.
         """
         capture = StringIO()
-        original_stdout = sys.stdout
-        sys.stdout = capture
-        try:
+        with contextlib.redirect_stdout(capture):
             callback(*args, **kwargs)
-            return capture.getvalue()
-        finally:
-            sys.stdout = original_stdout
+        return capture.getvalue()
 
     def test_list_endpoints(self):
         """

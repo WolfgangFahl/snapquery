@@ -74,7 +74,6 @@ class QueryStats:
                 sample.duration = 0.5
         return samples
                 
-        
 @lod_storable
 class NamedQuery:
     """
@@ -177,10 +176,10 @@ ORDER BY ?horse
         return cls(
             namespace=record["namespace"],
             name=record["name"],
-            title=record["title"],
-            url=record["url"],
-            description=record["description"],
-            sparql=record["sparql"],
+            title=record.get("title"),
+            url=record.get("url"),
+            description=record.get("description"),
+            sparql=record.get("sparql"),
         )
 
     def as_record(self) -> Dict:

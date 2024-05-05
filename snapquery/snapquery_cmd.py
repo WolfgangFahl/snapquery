@@ -12,7 +12,7 @@ from ngwidgets.cmd import WebserverCmd
 
 from snapquery.snapquery_core import NamedQueryManager
 from snapquery.snapquery_webserver import SnapQueryWebServer
-
+from snapquery.qimport import QueryImport
 
 class SnapQueryCmd(WebserverCmd):
     """
@@ -52,8 +52,13 @@ class SnapQueryCmd(WebserverCmd):
             default="wikidata-examples",
             help="namespace to filter queries",
         )
-        parser.add_argument("-qn", "--queryName", help="run a named query")
         parser.add_argument("-f", "--format", type=Format, choices=list(Format))
+        parser.add_argument("-qn", "--queryName", help="run a named query")
+        parser.add_argument("--import", 
+            dest="import_file", 
+            help="Import named queries from a JSON file."
+        )
+
         return parser
 
     def handle_args(self) -> bool:
@@ -85,7 +90,22 @@ class SnapQueryCmd(WebserverCmd):
                 qlod = qb.get_lod()
                 formatted_result = qb.format_result(qlod=qlod, r_format=r_format)
             print(formatted_result)
-            return handled
+        elif self.args.import_file:
+            self.handle_import(self.args.import_file)
+            handled = True   
+        return handled
+    
+    def handle_import(self, json_file: str):
+        """
+        Handle the import of named queries from a JSON file.
+
+        Args:
+            json_file (str): Path to the JSON file to import.
+        """
+        nqm = NamedQueryManager.from_samples()
+        qimport = QueryImport(nqm=nqm)
+        queries = qimport.import_from_json_file(json_file,with_store=True,show_progress=True)
+        print(f"Imported {len(queries)} named queries from {json_file}.")
 
 
 def main(argv: list = None):

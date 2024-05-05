@@ -1,0 +1,198 @@
+[
+  {
+    "namespace": "ceur-ws",
+    "name": "AllVolumes",
+    "title": "All [[Concept:Proceedings|proceedings]]",
+    "description": "List all proceedings",
+    "url": "https://w.wiki/6UCU"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "LocationOfEvents",
+    "title": "Locations of all CEUR-WS proceedings [[Concept:Proceedings|proceedings]] [[Concept:Event|events]]",
+    "description": "Map of all CEUR-WS event locations",
+    "url": "https://w.wiki/8gRw"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "AllPapers",
+    "title": "All [[Concept:Paper|papers]]",
+    "description": "List all papers published via CEUR-WS",
+    "url": "https://w.wiki/6UJb"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "AllEvents",
+    "title": "All [[Concept:Event|events]]",
+    "description": "List all proceeding events for proceedings published via CEUR-WS",
+    "url": "https://w.wiki/6UKq"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "AllEventSeries",
+    "title": "All [[Concept:EventSeries|event series]]",
+    "description": "List all event series that have at least one event whose proceedings have been published through CEUR-WS.",
+    "url": "https://w.wiki/6UE4"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "AllScholars",
+    "title": "All [[Concept:Scholar|scholars]]",
+    "description": "List all scholars that have at least once (co-)authored a paper or proceeding that has been published through CEUR-WS.",
+    "url": "https://w.wiki/6UT6"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "AllInstitutions",
+    "title": "All [[Concept:Institution|institutions]]",
+    "description": "List all institutions from which at least one scholar has once (co-)authored a paper or proceeding that has been published through CEUR-WS.",
+    "url": "https://w.wiki/6UKK"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "AllAuthorsOfPapersOfProceedings",
+    "title": "Authors of [[Concept:Paper|papers]] of [[Concept:Proceedings|proceedings]]",
+    "description": "List all authors of all papers of all proceedings",
+    "url": "https://w.wiki/6UTH"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "DuplicateAndEmptyURNs",
+    "title": "Duplicate and Empty URNs of [[Concept:Proceedings|proceedings]]",
+    "description": "List all proceedings with duplicate URN ids",
+    "url": "https://w.wiki/8eaz"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "DuplicateVolumeNumbers",
+    "title": "Duplicate CEUR-WS Volume numbers of [[Concept:Proceedings|proceedings]]",
+    "description": "List all wikidata proceedings with duplicate Volume numbers",
+    "url": "https://w.wiki/8ea4"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "AllEditorsOfWorkshop",
+    "title": "All Editors of Workshop(Volume W)",
+    "description": "List the full names of all editors of the proceedings of workshop W.",
+    "url": "https://w.wiki/6UAa"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "NumberOfEditionsOfWorkshopSeries",
+    "title": "Number of Editions of workshop series",
+    "description": "Determine the number of editions that the workshop series titled T has had, regardless of whether published with CEUR-WS.org.",
+    "url": "https://w.wiki/6UB4"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "ChangeOfWorkshopTitle",
+    "title": "Change of Workshop title",
+    "description": "(Change of workshop title) Determine the title (without year) that workshop W had in its first edition.",
+    "url": "https://w.wiki/6UB5"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "JointlyPublishedPapers",
+    "title": "Jointly published papers",
+    "description": "(Papers of a workshop published jointly with others) Identify the papers of the workshop titled T (which was published in a joint volume V with other workshops).",
+    "url": "https://w.wiki/6UBA"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "EditorsOfJointlyPublishedPapers",
+    "title": "Editors of jointly published papers",
+    "description": "(Editors of one workshop published jointly with others) List the full names of all editors of the proceedings of the workshop titled T (which was published in a joint volume V with other workshops).",
+    "url": "https://w.wiki/6UBB"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "NumberOfPapersInWorkshop",
+    "title": "Number of Papers in Workshop(Volume W)",
+    "description": "Count the number of papers in workshop W.",
+    "url": "https://w.wiki/6UAd"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "AllAuthorsOfWorkshop",
+    "title": "All Authors of Workshop",
+    "description": "List the full names of all authors who have (co-)authored a paper in workshop W.",
+    "url": "https://w.wiki/6UAf"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "AverageNoOfPagesInWorkshop",
+    "title": "Average # of pages in workshop",
+    "description": "Compute the average length of a paper (in pages) in workshop W.",
+    "url": "https://w.wiki/6UAX"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "PublicationTurnaround",
+    "title": "Publication turnaround",
+    "description": "Find out whether the proceedings of workshop W were published on CEUR-WS.org before the workshop took place.\n\nThis query lists all proceedings that were published before the event took place.",
+    "url": "https://w.wiki/6UAk"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "PreviousEditionsOfAWorkshop",
+    "title": "Previous editions of a workshop",
+    "description": "(Previous editions of a workshop) Identify all editions that the workshop series titled T has published with CEUR-WS.org.",
+    "url": "https://w.wiki/6UAo"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "ChairsOverTheHistoryOfAWorkshop",
+    "title": "Chairs over the history of a workshop",
+    "description": "Identify the full names of those chairs of the workshop series titled T that have so far been a chair in every edition of the workshop published with CEUR-WS.org.",
+    "url": "https://w.wiki/6UAu"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "WorkshopsOfConferenceInYear",
+    "title": "Workshops of Conference in Year",
+    "description": "Identify all CEUR-WS.org proceedings volumes in which workshops of conference C in year Y were published.",
+    "url": "https://w.wiki/6UAw"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "ChairOfWorkshopAsCoauthor",
+    "title": "Chair of Workshop as Coauthor",
+    "description": "Identify those papers of workshop W that were (co-)authored by at least one chair of the workshop.",
+    "url": "https://w.wiki/6UA$"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "WorksCitedByPaper",
+    "title": "Works cited by paper",
+    "description": "Identify all works cited by paper X.",
+    "url": "https://w.wiki/6UBC"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "WorksCitedByPaperAfterYear",
+    "title": "Works cited by paper after year",
+    "description": "Identify all works cited by paper X and published after year Y.",
+    "url": "https://w.wiki/6UBF"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "WikiCfpLinksForWorkshops",
+    "title": "Workshop call for papers",
+    "description": "Link a CEUR-WS.org workshop W to its call for papers announced on EventSeer and/or WikiCfP.",
+    "url": "https://w.wiki/6UKs"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "WorkshopWebsites",
+    "title": "Workshop website",
+    "description": "Link a workshop or conference X that appears in the CEUR-WS.org dataset to the workshop's or conference's website URL.",
+    "url": "https://w.wiki/6ULB"
+  },
+  {
+    "namespace": "ceur-ws",
+    "name": "AuthorActivityInYear",
+    "title": "Overall activity in a year",
+    "description": "Identify for an author A of a CEUR-WS.org paper P all his/her activity in year Y.",
+    "url": "https://w.wiki/6UTP"
+  }
+]

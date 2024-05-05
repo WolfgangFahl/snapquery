@@ -15,7 +15,7 @@ from starlette.responses import RedirectResponse
 
 from snapquery.snapquery_core import NamedQueryManager
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
-from snapquery.urlimport import UrlImport
+from snapquery.qimport_view import QueryImportView
 from snapquery.version import Version
 
 
@@ -228,7 +228,7 @@ class SnapQuerySolution(InputWebSolution):
 
         def show():
             """ """
-            self.url_import = UrlImport(self)
+            self.query_import_view = QueryImportView(self)
 
         await self.setup_content_div(show)
 

@@ -18,6 +18,18 @@ package snapquery {
 	    - method : string
 	    - prefixes : string
     }
+    
+    class QueryStats {
+        + stats_id : str
+        + query_id : str
+        + endpoint_name : str
+        + time_stamp : datetime.datetime
+        + duration : float
+        + error_msg : Optional[str]
+    }
+
+    NamedQuery --> QueryStats : query_id
+    Endpoint --> QueryStats : endpoint_name
 }
 
 note right of Endpoint
@@ -29,5 +41,9 @@ end note
 note right of NamedQuery
   The query_id is generated from namespace and name
   and used as a primary key e.g. wikidata-examples.Cats
+end note
+
+note right of QueryStats
+  statistics about the execution of a query
 end note
 @enduml

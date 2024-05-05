@@ -52,7 +52,7 @@ Recognizing the needs of Wikidata data consumers, we aim to establish a system t
 
 ### Model
 
-![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/WolfgangFahl/snapquery/main/snapquery.puml?fmt=svg&version=2)
+![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/WolfgangFahl/snapquery/main/snapquery.puml?fmt=svg&version=3)
 
 ## Authors
 
@@ -137,6 +137,7 @@ These are the planned features
 * as a LLM developer I want to consume the queries and use them to improve my LLM so it can suggest KNOWN GOOD queries
   to users
 
+[i10]: https://github.com/WolfgangFahl/snapquery/issues/10
 [i9]: https://github.com/WolfgangFahl/snapquery/issues/9
 
 [i8]: https://github.com/WolfgangFahl/snapquery/issues/8

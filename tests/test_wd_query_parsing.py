@@ -38,7 +38,13 @@ class TestWdQueryParsing(Basetest):
         named_query = None
         if query:
             desc = section.plain_text()
+            desc = desc.replace("<translate>", "")
+            desc = desc.replace("</translate>", "")
             title = self._sanitize_title(section.title).strip()
+            desc = desc.replace(f"====  {title} ====", "")
+            desc = desc.replace(f"===  {title} ===", "")
+            desc = desc.replace(f"==  {title} ==", "")
+            desc = desc.strip()
             named_query = NamedQuery(
                 namespace="wikidata-examples",
                 name=title,
@@ -92,6 +98,9 @@ class TestWdQueryParsing(Basetest):
             print(f"found {len(lod)} queries")
         nqm = NamedQueryManager.from_samples()
         nqm.store(lod)
+        json_text = json.dumps(lod, indent=2)
+        output_file = Path("/tmp/wikikdata-examples.json")
+        output_file.write_text(json_text)
         
     def test_create_json(self):
         nqm = NamedQueryManager.from_samples()

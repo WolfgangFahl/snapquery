@@ -6,6 +6,7 @@ Created on 2024-05-04
 import contextlib
 import json
 import sys
+import unittest
 from io import StringIO
 
 from ngwidgets.basetest import Basetest
@@ -45,6 +46,7 @@ class TestCommandLine(Basetest):
             print(output)
         self.assertTrue("wikidata:https://query.wikidata.org" in output)
 
+    @unittest.skipIf(Basetest.inPublicCI(), "reading stdout in CI returns None")
     def test_namedquery(self):
         """
         test a named query via command line

@@ -479,7 +479,7 @@ class NamedQueryManager:
     
         return list_of_records
 
-    def lookup(self, name: str, namespace: str) -> NamedQuery:
+    def lookup(self, name: str, namespace: str,lenient:bool=True) -> NamedQuery:
         """
         lookup the named query for the given name and namespace
 
@@ -487,7 +487,7 @@ class NamedQueryManager:
         Args:
             name (str): The name of the named query to execute.
             namespace (str): The namespace of the named query, default is 'wikidata-examples'.
-
+            lenient(bool): if True handle errors as warnings
         Returns:
             NamedQuery: the named query
         """
@@ -506,7 +506,10 @@ WHERE
         query_count = len(query_records)
         if query_count != 1:
             msg = f"multiple entries ({query_count}) for name '{name}' and namespace '{namespace}'"
-            raise ValueError(msg)
+            if lenient:
+                print(f"warning: {msg}")
+            else:
+                raise ValueError(msg)
 
         record = query_records[0]
         named_query = NamedQuery.from_record(record)

@@ -28,7 +28,7 @@ class TestScholia(Basetest):
             db_path = None
             #limit = None
         nqm = ScholiaQueries.get(db_path, debug=self.debug, limit=limit)
-        records=nqm.sql_db.query("select * from NamedQuery")
+        records=nqm.sql_db.query("select * from NamedQuery where namespace='scholia'")
         json_text=json.dumps(records,indent=2)
         output_file = Path("/tmp/scholia.json")
         output_file.write_text(json_text)

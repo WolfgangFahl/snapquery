@@ -20,23 +20,17 @@ class ScholiaQueries:
         headers = {"Accept": "application/vnd.github.v3+json"}
         response = requests.get(repository_url, headers=headers)
         response.raise_for_status()  # Ensure we notice bad responses
-
-        exclude = [
-            "author_topics",
-            "event_proceedings",
-            "publisher_editors",
-            "works_topics",
-        ]
         lod = []
         file_list_json = response.json()
         for i, file_info in enumerate(file_list_json, start=1):
             file_name = file_info["name"]
-            if file_name.endswith(".sparql") and file_name[:-7] not in exclude:
+            if file_name.endswith(".sparql") and file_name[:-7]:
                 file_response = requests.get(file_info["download_url"])
                 file_response.raise_for_status()
                 query_str = file_response.text
                 name = file_name[:-7]
                 record = {
+                    "query_id": f"scholia.{name}",
                     "namespace": "scholia",
                     "name": name,
                     "url": file_info["download_url"],

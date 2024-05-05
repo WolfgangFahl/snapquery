@@ -4,7 +4,7 @@ Created on 2024-05-03
 """
 
 from fastapi import HTTPException
-from fastapi.responses import HTMLResponse, PlainTextResponse
+from fastapi.responses import FileResponse, HTMLResponse, PlainTextResponse
 from lodstorage.query import Format
 from ngwidgets.input_webserver import InputWebserver, InputWebSolution, WebserverConfig
 from ngwidgets.login import Login
@@ -16,6 +16,7 @@ from starlette.responses import RedirectResponse
 from snapquery.snapquery_core import NamedQueryManager
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.version import Version
+from snapquery.urlimport import UrlImport
 
 
 class SnapQueryWebServer(InputWebserver):
@@ -83,6 +84,11 @@ class SnapQueryWebServer(InputWebserver):
                 r_format_str=format,
             )
 
+        @app.get("/api/endpoints")
+        def get_endpoints():
+            endpoints=self.nqm.endpoints
+            return endpoints
+        
         @app.get("/api/sparql/{namespace}/{name}")
         def sparql(
             namespace: str,
@@ -219,7 +225,12 @@ class SnapQuerySolution(InputWebSolution):
         """
         admin ui
         """
-        pass
+        def show():
+            """
+            """
+            self.url_import=UrlImport(self)
+            
+        await self.setup_content_div(show)
 
     async def login_ui(self):
         """
@@ -236,8 +247,7 @@ class SnapQuerySolution(InputWebSolution):
     async def home(
         self,
     ):
-        """Generates the home page with a selection of examples and
-        svg display
+        """Generates the home page
         """
         await self.setup_content_div(self.setup_ui)
 

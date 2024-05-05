@@ -42,7 +42,7 @@ class SnapQueryWebServer(InputWebserver):
     def __init__(self):
         """Constructs all the necessary attributes for the WebServer object."""
         InputWebserver.__init__(self, config=SnapQueryWebServer.get_config())
-        users = Users("~/.solutions/snapquery/storage/")
+        users = Users("~/.solutions/snapquery")
         self.login = Login(self, users)
         self.nqm = NamedQueryManager.from_samples()
 
@@ -204,6 +204,9 @@ class SnapQuerySolution(InputWebSolution):
         )
 
     def setup_menu(self, detailed: bool = None):
+        """
+        setup the menu
+        """
         super().setup_menu(detailed=detailed)
         with self.header:
             if self.webserver.login.authenticated():

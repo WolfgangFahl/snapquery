@@ -20,7 +20,7 @@ license = {text = "Apache-2.0"}
 
 dependencies = [
 	# https://github.com/WolfgangFahl/nicegui_widgets
-	"ngwidgets>=0.14.2",
+	"ngwidgets>=0.14.4",
     # https://pypi.org/project/pyLodStorage/
     "pyLodStorage>=0.10.5",
     "wikitextparser",

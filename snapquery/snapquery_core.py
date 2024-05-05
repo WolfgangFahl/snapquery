@@ -178,7 +178,8 @@ ORDER BY ?horse
     @classmethod
     def from_record(cls, record: Dict) -> "NamedQuery":
         """
-        Class method to instantiate NamedQuery from a dictionary record.
+        Class method to instantiate NamedQuery 
+        from a dictionary record.
         """
         return cls(
             namespace=record["namespace"],
@@ -209,7 +210,6 @@ ORDER BY ?horse
             "name": self.as_link(),
             "namespace": self.namespace,
             "title": self.title,
-            "description": self.description,
             "url": url_link,
         }
 

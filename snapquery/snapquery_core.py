@@ -192,6 +192,7 @@ ORDER BY ?horse
 
     def as_record(self) -> Dict:
         record = {
+            "query_id": self.query_id,
             "namespace": self.namespace,
             "name": self.name,
             "url": self.url,

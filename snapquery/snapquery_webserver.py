@@ -13,7 +13,7 @@ from nicegui import app, ui
 from nicegui.client import Client
 from starlette.responses import RedirectResponse
 
-from snapquery.snapquery_core import NamedQueryManager
+from snapquery.snapquery_core import NamedQueryManager, QueryStats
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.qimport_view import QueryImportView
 from snapquery.version import Version
@@ -175,7 +175,8 @@ class SnapQueryWebServer(InputWebserver):
         try:
             r_format = Format[r_format_str]
             qb = self.nqm.get_query(name, namespace, endpoint_name, limit)
-            qlod = qb.get_lod()
+            (qlod, stats) = qb.get_lod_with_stats()
+            self.nqm.store([stats.as_record()], source_class=QueryStats, primary_key="stats_id")
             content = qb.format_result(qlod, r_format)
             return content
         except Exception as e:

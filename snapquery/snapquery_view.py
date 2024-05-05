@@ -13,7 +13,7 @@ from ngwidgets.lod_grid import ListOfDictsGrid
 from ngwidgets.widgets import Link
 from nicegui import background_tasks, run, ui
 
-from snapquery.snapquery_core import NamedQuery, QueryBundle
+from snapquery.snapquery_core import NamedQuery, QueryBundle, QueryStats
 
 
 class NamedQueryView:
@@ -71,7 +71,8 @@ class NamedQueryView:
         (re) load the query results
         """
         self.query_bundle.set_limit(int(self.limit))
-        lod = await run.io_bound(self.query_bundle.get_lod)
+        (lod, stats) = await run.io_bound(self.query_bundle.get_lod_with_stats)
+        self.nqm.store([stats.as_record()], source_class=QueryStats, primary_key="stats_id")
         self.grid_row.clear()
         with self.grid_row:
             self.lod_grid = ListOfDictsGrid()

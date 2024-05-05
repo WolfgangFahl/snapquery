@@ -3,9 +3,10 @@ Created on 2024-05-04
 
 @author: wf
 """
-
+import contextlib
 import json
 import sys
+import unittest
 from io import StringIO
 
 from ngwidgets.basetest import Basetest
@@ -26,13 +27,9 @@ class TestCommandLine(Basetest):
         Executes a callback with given arguments and captures stdout.
         """
         capture = StringIO()
-        original_stdout = sys.stdout
-        sys.stdout = capture
-        try:
+        with contextlib.redirect_stdout(capture):
             callback(*args, **kwargs)
-            return capture.getvalue()
-        finally:
-            sys.stdout = original_stdout
+        return capture.getvalue()
 
     def test_list_endpoints(self):
         """
@@ -49,6 +46,7 @@ class TestCommandLine(Basetest):
             print(output)
         self.assertTrue("wikidata:https://query.wikidata.org" in output)
 
+    @unittest.skipIf(Basetest.inPublicCI(), "reading stdout in CI returns None")
     def test_namedquery(self):
         """
         test a named query via command line

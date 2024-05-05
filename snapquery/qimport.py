@@ -39,12 +39,16 @@ class QueryImport:
         queries = []
         lod=[]
         iterable = tqdm(data, desc="Importing Named Queries") if show_progress else data
-
+        known_queries = []
         for record in iterable:
             if record.get('url'):
                 nq=NamedQuery.from_record(record)
                 if not nq.sparql and nq.url.startswith("https://w.wiki/"):
                     nq.sparql=self.read_from_short_url(nq.url)
+                if nq.name not in known_queries:
+                    known_queries.append(nq.name)
+                else:
+                    continue
                 lod.append(nq.as_record())
                 queries.append(nq)
         if with_store and self.nqm:

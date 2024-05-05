@@ -7,6 +7,8 @@ Created on 2024-05-03
 import json
 import os
 import re
+import uuid
+import datetime
 from dataclasses import field
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -19,7 +21,32 @@ from lodstorage.sql import SQLDB, EntityInfo
 from lodstorage.yamlable import lod_storable
 from ngwidgets.widgets import Link
 
+@lod_storable
+class QueryStats:
+    """
+    statistics about a query
+    """
+    stats_id: str = field(init=False)
+    query_id: str # foreign key
+    endpoint_name: str # foreign key
+    time_stamp: datetime.datetime = field(init=False)
+    duration: float = field(init=False, default=None)  # duration in seconds
 
+    def __post_init__(self):
+        """
+        Post-initialization processing to construct a unique identifier for the query
+        and record the timestamp when the query stats object is created.
+        """
+        self.stats_id = str(uuid.uuid4())
+        self.time_stamp = datetime.datetime.now()
+
+    def done(self):
+        """
+        Set the duration by calculating the elapsed time since the `time_stamp`.
+        """
+        self.duration = (datetime.datetime.now() - self.time_stamp).total_seconds()
+
+        
 @lod_storable
 class NamedQuery:
     """

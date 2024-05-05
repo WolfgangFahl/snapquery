@@ -7,7 +7,7 @@ Created on 2024-05-03
 import asyncio
 from typing import List
 
-from lodstorage.query import QuerySyntaxHighlight
+from lodstorage.query import QuerySyntaxHighlight, ValueFormatter
 from ngwidgets.input_webserver import InputWebSolution
 from ngwidgets.lod_grid import ListOfDictsGrid
 from ngwidgets.widgets import Link
@@ -34,6 +34,8 @@ class NamedQueryView:
         self.load_task = None
         self.limit = 200
         self.timeout = 20.0
+        # preload ValueFormatter
+        ValueFormatter.getFormats()
         self.setup_ui()
 
     def setup_ui(self):
@@ -73,6 +75,16 @@ class NamedQueryView:
         self.query_bundle.set_limit(int(self.limit))
         (lod, stats) = await run.io_bound(self.query_bundle.get_lod_with_stats)
         self.nqm.store([stats.as_record()], source_class=QueryStats, primary_key="stats_id")
+        query=self.query_bundle.query
+        query.formats=["*:wikidata"]
+        tablefmt="html"
+        query.preFormatWithCallBacks(lod, tablefmt=tablefmt)
+        query.formatWithValueFormatters(lod, tablefmt=tablefmt)
+        for record in lod:
+            for key,value in record.items():
+                if isinstance(value,str):
+                    if value.startswith("http"):
+                        record[key]=Link.create(value,value)
         self.grid_row.clear()
         with self.grid_row:
             self.lod_grid = ListOfDictsGrid()

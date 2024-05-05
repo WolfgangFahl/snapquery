@@ -5,6 +5,6 @@ db=$HOME/.solutions/snapquery/storage/named_queries.db
 rm $db
 for f in $(find samples -name '*.json')
 do
-  snapquery --import  $f
+  snapquery --import  $f | grep -iv warning
 done
-sqlite_web $db
+#sqlite_web $db

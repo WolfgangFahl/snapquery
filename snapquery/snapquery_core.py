@@ -414,7 +414,7 @@ class NamedQueryManager:
             
                 # Create and populate the table specific to each class
                 nqm.sql_db.createTable(sample_records, source_class.__name__, withDrop=True)
-                nqm.sql_db.store(sample_records, entityInfo)
+                nqm.sql_db.store(sample_records, entityInfo,fixNone=True, replace=True)
         return nqm
 
     def store(self, lod: List[Dict[str, Any]], source_class: Type=NamedQuery, primary_key:str="query_id") -> None:

@@ -47,6 +47,13 @@ class QueryStats:
         """
         self.duration = (datetime.datetime.now() - self.time_stamp).total_seconds()
 
+    def error(self, ex: Exception):
+        """
+        Handle exception of query
+        """
+        self.duration = None
+        self.error_msg = str(ex)
+
     def as_record(self) -> Dict:
         record = {}
         for field in fields(self):
@@ -273,6 +280,22 @@ class QueryBundle:
         lod = self.sparql.queryAsListOfDicts(self.query.query)
         return lod
 
+    def get_lod_with_stats(self) -> tuple[list[dict], QueryStats]:
+        """
+        Executes the stored query using the SPARQL service and returns the results as a list of dictionaries.
+
+        Returns:
+            List[dict]: A list where each dictionary represents a row of results from the SPARQL query.
+        """
+        query_stat = QueryStats(query_id=self.query.name, endpoint_name=self.endpoint.name)
+        try:
+            lod = self.sparql.queryAsListOfDicts(self.query.query)
+            query_stat.done()
+        except Exception as ex:
+            lod = None
+            query_stat.error(ex)
+        return (lod, query_stat)
+
     def format_result(
         self,
         qlod: List[Dict[str, Any]] = None,
@@ -455,7 +478,6 @@ class NamedQueryManager:
                     raise AttributeError(f"The instance of class {source_class.__name__} does not have an 'as_record' method.")
     
         return list_of_records
-
 
     def lookup(self, name: str, namespace: str) -> NamedQuery:
         """

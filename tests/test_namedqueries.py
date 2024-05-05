@@ -5,6 +5,7 @@ Created on 2024-05-03
 """
 
 import json
+import tempfile
 
 from ngwidgets.basetest import Basetest
 
@@ -37,3 +38,17 @@ class TestNamedQueryManager(Basetest):
                 if self.debug:
                     print(f"{name}:Exception {str(ex)}")
                 self.assertEqual(-1, ex_count)
+
+    def test_query_with_stats(self):
+        """
+        tests executing a query with stats
+        """
+        with tempfile.NamedTemporaryFile() as tmpfile:
+            nqm = NamedQueryManager.from_samples(db_path=tmpfile.name)
+            query_bundle = nqm.get_query("cats")
+            lod, query_stats = query_bundle.get_lod_with_stats()
+            self.assertEqual(query_bundle.query.name, query_stats.query_id)
+            self.assertEqual(query_stats.endpoint_name, query_bundle.endpoint.name)
+            self.assertIsNone(query_stats.error_msg)
+            self.assertIsNotNone(query_stats.duration)
+

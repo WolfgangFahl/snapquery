@@ -18,7 +18,6 @@ class UrlImport:
 
     def __init__(self, solution=None):
         self.solution = solution
-        self.nqm=self.solution.nqm
         self.namespace = ""
         self.name = ""
         self.url = ""
@@ -26,6 +25,7 @@ class UrlImport:
         self.description = ""
         self.query=None
         if self.solution:
+            self.nqm=self.solution.nqm
             self.setup_ui()
 
     def setup_ui(self):

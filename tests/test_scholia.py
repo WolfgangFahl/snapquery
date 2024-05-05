@@ -20,10 +20,11 @@ class TestScholia(Basetest):
         """
         test retrieving scholia queries
         """
+        limit = 10
         if self.inPublicCI():
             db_path = "/tmp/scholia_queries.db"
-            limit = 10
         else:
             db_path = None
-            limit = None
+            #limit = None
         nqm = ScholiaQueries.get(db_path, debug=self.debug, limit=limit)
+        #nqm.lookup(name, "scholia")

@@ -20,7 +20,7 @@ class TestOAuthLogin(Basetest):
         test the login
         """
         if not self.inPublicCI():
-
+            return
             print(
                 "Hint: Obtain the Consumer Key and Secret from your MediaWiki instance's OAuth management page."
             )

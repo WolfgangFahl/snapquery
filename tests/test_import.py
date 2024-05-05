@@ -23,6 +23,7 @@ class TestImport(Basetest):
         """
         url = "https://w.wiki/6UCU"
         url_import = UrlImport()
-        query = url_import.import_from_url(url, debug=self.debug)
+        query = url_import.read_from_short_url(url)
         if self.debug:
             print(query)
+        self.assertTrue("Q0.1" in query)

@@ -9,9 +9,9 @@ import os
 import re
 import uuid
 import datetime
-from dataclasses import field
+from dataclasses import field, fields
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Type
 
 import requests
 from lodstorage.csv import CSV
@@ -31,7 +31,8 @@ class QueryStats:
     endpoint_name: str # foreign key
     time_stamp: datetime.datetime = field(init=False)
     duration: float = field(init=False, default=None)  # duration in seconds
-
+    error_msg: Optional[str]=None
+    
     def __post_init__(self):
         """
         Post-initialization processing to construct a unique identifier for the query
@@ -46,6 +47,33 @@ class QueryStats:
         """
         self.duration = (datetime.datetime.now() - self.time_stamp).total_seconds()
 
+    def as_record(self) -> Dict:
+        record = {}
+        for field in fields(self):
+            # Include field in the record dictionary if it has already been initialized (i.e., not None or has default)
+            if hasattr(self, field.name):
+                record[field.name] = getattr(self, field.name)
+        return record
+    
+    @classmethod
+    def get_samples(cls) -> dict[str, "QueryStats"]:
+        """
+        get samples
+        """
+        samples = {
+            "wikidata-examples": [
+                QueryStats(
+                    query_id="wikidata-examples.cats",
+                    endpoint_name="wikidata",
+                )
+            ]
+        }
+        # Set the duration for each sample instance
+        for sample_list in samples.values():
+            for sample in sample_list:
+                sample.duration = 0.5
+        return samples
+                
         
 @lod_storable
 class NamedQuery:
@@ -82,6 +110,54 @@ class NamedQuery:
         based on its namespace and name.
         """
         self.query_id = f"{self.namespace}.{self.name}"
+        
+    @classmethod
+    def get_samples(cls) -> dict[str, "NamedQuery"]:
+        """
+        get samples
+        """
+        samples = {
+            "wikidata-examples": [
+            NamedQuery(
+                namespace="wikidata-examples",
+                name="cats",
+                url="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples#Cats",
+                title="Cats on Wikidata",
+                description="This query retrieves all items classified under 'house cat' (Q146) on Wikidata.",
+                sparql="""
+SELECT ?item ?itemLabel
+WHERE {
+  ?item wdt:P31 wd:Q146. # Must be a cat
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}
+""",
+            ),
+            NamedQuery(
+                namespace="wikidata-examples",
+                name="horses",
+                url="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples#Horses_(showing_some_info_about_them)",
+                title="Horses on Wikidata",
+                description="This query retrieves information about horses, including parents, gender, and approximate birth and death years.",
+                sparql="""
+SELECT DISTINCT ?horse ?horseLabel ?mother ?motherLabel ?father ?fatherLabel 
+(year(?birthdate) as ?birthyear) (year(?deathdate) as ?deathyear) ?genderLabel
+WHERE {
+  ?horse wdt:P31/wdt:P279* wd:Q726 .     # Instance and subclasses of horse (Q726)
+  OPTIONAL{?horse wdt:P25 ?mother .}     # Mother
+  OPTIONAL{?horse wdt:P22 ?father .}     # Father
+  OPTIONAL{?horse wdt:P569 ?birthdate .} # Birth date
+  OPTIONAL{?horse wdt:P570 ?deathdate .} # Death date
+  OPTIONAL{?horse wdt:P21 ?gender .}     # Gender
+  SERVICE wikibase:label {
+    bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,ar,be,bg,bn,ca,cs,da,de,el,en,es,et,fa,fi,he,hi,hu,hy,id,it,ja,jv,ko,nb,nl,eo,pa,pl,pt,ro,ru,sh,sk,sr,sv,sw,te,th,tr,uk,yue,vec,vi,zh"
+  }
+}
+ORDER BY ?horse
+""",
+            )
+        ]
+        }
+        return samples
 
     def as_link(self) -> str:
         """
@@ -302,78 +378,84 @@ class NamedQueryManager:
         nqm = NamedQueryManager(debug=debug)
         path_obj = Path(db_path)
         if not path_obj.exists() or path_obj.stat().st_size == 0:
-            sample_records = cls.get_sample_records()
-            entityInfo = EntityInfo(
-                sample_records, name="NamedQuery", primaryKey="query_id"
-            )
-            nqm.sql_db.createTable(sample_records, "NamedQuery", withDrop=True)
-            nqm.sql_db.store(sample_records, entityInfo)
+            for (source_class,pk) in [
+                (NamedQuery,"query_id"),
+                (QueryStats,"stats_id")
+            ]:
+                # Fetch sample records from the specified class
+                sample_records = cls.get_sample_records(source_class=source_class)
+            
+                # Define entity information dynamically based on the class and primary key
+                entityInfo = EntityInfo(
+                    sample_records, name=source_class.__name__, primaryKey=pk
+                )
+            
+                # Create and populate the table specific to each class
+                nqm.sql_db.createTable(sample_records, source_class.__name__, withDrop=True)
+                nqm.sql_db.store(sample_records, entityInfo)
         return nqm
 
-    def store(self, lod):
+    def store(self, lod: List[Dict[str, Any]], source_class: Type=NamedQuery, primary_key:str="query_id") -> None:
         """
-        store the given list of dicts
+        Stores the given list of dictionaries in the database using entity information
+        derived from a specified source class.
+    
+        Args:
+            lod (List[Dict[str, Any]]): List of dictionaries that represent the records to be stored.
+            source_class (Type): The class from which the entity information is derived. This class
+                should have an attribute or method that defines its primary key and must have a `__name__` attribute.
+            primary_key(str): the primary key to use
+        Raises:
+            AttributeError: If the source class does not have the necessary method or attribute to define the primary key.
         """
-        sample_records = NamedQueryManager.get_sample_records()
+        # Fetch sample records to define the structure of data and to extract entity information.
+        sample_records = NamedQueryManager.get_sample_records(source_class=source_class)
+        
+        # Define entity information based on the source class
         entityInfo = EntityInfo(
-            sample_records, name="NamedQuery", primaryKey="query_id"
+            sample_records, name=source_class.__name__, primaryKey=primary_key
         )
+        
+        # Store the list of dictionaries in the database using the defined entity information
         self.sql_db.store(lod, entityInfo, fixNone=True, replace=True)
 
     @classmethod
-    def get_sample_records(cls):
-        sample_queries = cls.get_samples()
+    def get_sample_records(cls, source_class: Type) -> List[Dict[str, Any]]:
+        """
+        Generates a list of dictionary records based on the sample instances
+        provided by a source class. This method utilizes the `get_samples` method
+        of the source class, which should return a dictionary of sample instances.
+    
+        Args:
+            source_class (Type): The class from which to fetch sample instances.
+                This class must implement a `get_samples` method that returns
+                a dictionary of instances categorized by some key.
+    
+        Returns:
+            List[Dict[str, Any]]: A list of dictionaries where each dictionary
+                is a record that corresponds to a sample instance from the source class.
+    
+        Raises:
+            AttributeError: If the source_class does not have a `get_samples` method.
+        """
+        if not hasattr(source_class, "get_samples"):
+            raise AttributeError(f"The class {source_class.__name__} must have a 'get_samples' method.")
+    
+        sample_instances = source_class.get_samples()
         list_of_records = []
-        for _query_name, named_query in sample_queries.items():
-            record = named_query.as_record()
-            list_of_records.append(record)
+    
+        # Assuming each key in the returned dictionary of get_samples corresponds to a list of instances
+        for instance_group in sample_instances.values():
+            for instance in instance_group:
+                # Ensure that the instance has an 'as_record' method to convert it to a dictionary
+                if hasattr(instance, "as_record"):
+                    record = instance.as_record()
+                    list_of_records.append(record)
+                else:
+                    raise AttributeError(f"The instance of class {source_class.__name__} does not have an 'as_record' method.")
+    
         return list_of_records
 
-    @classmethod
-    def get_samples(cls) -> dict[str, NamedQuery]:
-        """
-        get samples
-        """
-        samples = {
-            "wikidata-examples.cats": NamedQuery(
-                namespace="wikidata-examples",
-                name="cats",
-                url="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples#Cats",
-                title="Cats on Wikidata",
-                description="This query retrieves all items classified under 'house cat' (Q146) on Wikidata.",
-                sparql="""
-SELECT ?item ?itemLabel
-WHERE {
-  ?item wdt:P31 wd:Q146. # Must be a cat
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-}
-""",
-            ),
-            "wikidata-examples.horses": NamedQuery(
-                namespace="wikidata-examples",
-                name="horses",
-                url="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples#Horses_(showing_some_info_about_them)",
-                title="Horses on Wikidata",
-                description="This query retrieves information about horses, including parents, gender, and approximate birth and death years.",
-                sparql="""
-SELECT DISTINCT ?horse ?horseLabel ?mother ?motherLabel ?father ?fatherLabel 
-(year(?birthdate) as ?birthyear) (year(?deathdate) as ?deathyear) ?genderLabel
-WHERE {
-  ?horse wdt:P31/wdt:P279* wd:Q726 .     # Instance and subclasses of horse (Q726)
-  OPTIONAL{?horse wdt:P25 ?mother .}     # Mother
-  OPTIONAL{?horse wdt:P22 ?father .}     # Father
-  OPTIONAL{?horse wdt:P569 ?birthdate .} # Birth date
-  OPTIONAL{?horse wdt:P570 ?deathdate .} # Death date
-  OPTIONAL{?horse wdt:P21 ?gender .}     # Gender
-  SERVICE wikibase:label {
-    bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,ar,be,bg,bn,ca,cs,da,de,el,en,es,et,fa,fi,he,hi,hu,hy,id,it,ja,jv,ko,nb,nl,eo,pa,pl,pt,ro,ru,sh,sk,sr,sv,sw,te,th,tr,uk,yue,vec,vi,zh"
-  }
-}
-ORDER BY ?horse
-""",
-            ),
-        }
-        return samples
 
     def lookup(self, name: str, namespace: str) -> NamedQuery:
         """

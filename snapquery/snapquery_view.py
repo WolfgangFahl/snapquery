@@ -9,13 +9,14 @@ from typing import List
 
 from lodstorage.query import QuerySyntaxHighlight, ValueFormatter
 from ngwidgets.input_webserver import InputWebSolution
+from ngwidgets.dict_edit import DictEdit
 from ngwidgets.lod_grid import ListOfDictsGrid
 from ngwidgets.widgets import Link
 from nicegui import background_tasks, run, ui
 
 from snapquery.error_filter import ErrorFilter
 from snapquery.snapquery_core import NamedQuery, QueryBundle, QueryStats
-
+from snapquery.params import Params
 
 class NamedQueryView:
     """
@@ -49,12 +50,16 @@ class NamedQueryView:
         tooltip = "try it!"
         link = Link.create(url, text, tooltip, target="_blank")
         with self.solution.container:
-            with ui.row() as self.query_parms_row:
+            with ui.row() as self.query_settings_row:
                 ui.number(label="limit").bind_value(self, "limit")
                 ui.number(label="time out").bind_value(self, "timeout")
             with ui.row() as self.query_row:
                 self.try_it_link = ui.html(link)
                 ui.label(nq.description)
+                self.params=Params(nq.sparql)
+                if self.params.has_params:
+                    self.params_edit=self.params.get_dict_edit()
+                    pass
                 ui.button(icon="play_arrow", on_click=self.run_query)
                 self.stats_html = ui.html()
             with ui.row():
@@ -74,6 +79,9 @@ class NamedQueryView:
         """
         (re) load the query results
         """
+        if self.params.has_params:
+            self.query_bundle.query.query=self.params.apply_parameters()
+            self.params.close()
         self.query_bundle.set_limit(int(self.limit))
         (lod, stats) = await run.io_bound(self.query_bundle.get_lod_with_stats)
         self.nqm.store(

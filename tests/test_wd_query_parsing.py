@@ -101,11 +101,13 @@ class TestWdQueryParsing(Basetest):
         json_text = json.dumps(lod, indent=2)
         output_file = Path("/tmp/wikidata-examples.json")
         output_file.write_text(json_text)
-        
+
     def test_create_json(self):
         nqm = NamedQueryManager.from_samples()
-        records=nqm.sql_db.query("select * from NamedQuery where namespace='wikidata-examples'")
-        json_text=json.dumps(records,indent=2)
+        records = nqm.sql_db.query(
+            "select * from NamedQuery where namespace='wikidata-examples'"
+        )
+        json_text = json.dumps(records, indent=2)
         output_file = Path("/tmp/wikidata-examples.json")
         output_file.write_text(json_text)
 

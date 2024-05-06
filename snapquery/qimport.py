@@ -3,26 +3,28 @@ Created on 2024-05-05
 
 @author: wf
 """
-from tqdm import tqdm
-import urllib.parse
 import json
-import requests
-from snapquery.snapquery_core import NamedQuery, NamedQueryManager
+import urllib.parse
 from typing import List
+
+import requests
+from tqdm import tqdm
+
+from snapquery.snapquery_core import NamedQuery, NamedQueryManager
+
 
 class QueryImport:
     """
     import named queries from a given url
     """
 
-    def __init__(self,nqm:NamedQueryManager=None):
-        self.nqm=nqm
+    def __init__(self, nqm: NamedQueryManager = None):
+        self.nqm = nqm
         pass
-    
-    def import_from_json_file(self, 
-        json_file: str, 
-        with_store:bool=False,
-        show_progress:bool=False) -> List[NamedQuery]:
+
+    def import_from_json_file(
+        self, json_file: str, with_store: bool = False, show_progress: bool = False
+    ) -> List[NamedQuery]:
         """
         Import named queries from a JSON file.
 
@@ -33,18 +35,18 @@ class QueryImport:
         Returns:
             List[NamedQuery]: A list of NamedQuery objects imported from the JSON file.
         """
-        with open(json_file, 'r') as f:
+        with open(json_file, "r") as f:
             data = json.load(f)
 
         queries = []
-        lod=[]
+        lod = []
         iterable = tqdm(data, desc="Importing Named Queries") if show_progress else data
         known_queries = set()
         for record in iterable:
-            if record.get('url'):
-                nq=NamedQuery.from_record(record)
+            if record.get("url"):
+                nq = NamedQuery.from_record(record)
                 if not nq.sparql and nq.url.startswith("https://w.wiki/"):
-                    nq.sparql=self.read_from_short_url(nq.url)
+                    nq.sparql = self.read_from_short_url(nq.url)
                 if nq.name not in known_queries:
                     known_queries.add(nq.name)
                 else:

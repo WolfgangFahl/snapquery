@@ -13,6 +13,7 @@ from ngwidgets.lod_grid import ListOfDictsGrid
 from ngwidgets.widgets import Link
 from nicegui import background_tasks, run, ui
 
+from snapquery.error_filter import ErrorFilter
 from snapquery.snapquery_core import NamedQuery, QueryBundle, QueryStats
 
 
@@ -55,6 +56,7 @@ class NamedQueryView:
                 self.try_it_link = ui.html(link)
                 ui.label(nq.description)
                 ui.button(icon="play_arrow", on_click=self.run_query)
+                self.stats_html = ui.html()
             with ui.row():
                 with ui.expansion("Show Query", icon="manage_search").classes("w-full"):
                     query_syntax_highlight = QuerySyntaxHighlight(
@@ -74,18 +76,35 @@ class NamedQueryView:
         """
         self.query_bundle.set_limit(int(self.limit))
         (lod, stats) = await run.io_bound(self.query_bundle.get_lod_with_stats)
-        self.nqm.store([stats.as_record()], source_class=QueryStats, primary_key="stats_id")
-        query=self.query_bundle.query
-        query.formats=["*:wikidata"]
-        tablefmt="html"
+        self.nqm.store(
+            [stats.as_record()], source_class=QueryStats, primary_key="stats_id"
+        )
+        self.grid_row.clear()
+        if stats.error_msg:
+            with self.grid_row:
+                error_filter = ErrorFilter(stats.error_msg)
+                filtered_msg = error_filter.get_message()
+                markup = f'<span style="color: red;">{filtered_msg}</span>'
+                ui.html(markup)
+        else:
+            with self.query_row:
+                record_count = len(lod) if lod is not None else 0
+                markup = f'<span style="color: green;">{record_count} records in {stats.duration:.2f} secs</span>'
+                self.stats_html.content = markup
+        if not lod:
+            with self.query_row:
+                ui.notify("query failed")
+            return
+        query = self.query_bundle.query
+        query.formats = ["*:wikidata"]
+        tablefmt = "html"
         query.preFormatWithCallBacks(lod, tablefmt=tablefmt)
         query.formatWithValueFormatters(lod, tablefmt=tablefmt)
         for record in lod:
-            for key,value in record.items():
-                if isinstance(value,str):
+            for key, value in record.items():
+                if isinstance(value, str):
                     if value.startswith("http"):
-                        record[key]=Link.create(value,value)
-        self.grid_row.clear()
+                        record[key] = Link.create(value, value)
         with self.grid_row:
             self.lod_grid = ListOfDictsGrid()
             self.lod_grid.load_lod(lod)

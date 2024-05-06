@@ -3,7 +3,6 @@ Created on 2024-05-03
 
 @author: wf
 """
-import json
 
 from ngwidgets.webserver_test import WebserverTest
 

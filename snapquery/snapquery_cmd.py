@@ -10,9 +10,10 @@ from argparse import ArgumentParser
 from lodstorage.query import EndpointManager, Format
 from ngwidgets.cmd import WebserverCmd
 
+from snapquery.qimport import QueryImport
 from snapquery.snapquery_core import NamedQueryManager
 from snapquery.snapquery_webserver import SnapQueryWebServer
-from snapquery.qimport import QueryImport
+
 
 class SnapQueryCmd(WebserverCmd):
     """
@@ -54,9 +55,10 @@ class SnapQueryCmd(WebserverCmd):
         )
         parser.add_argument("-f", "--format", type=Format, choices=list(Format))
         parser.add_argument("-qn", "--queryName", help="run a named query")
-        parser.add_argument("--import", 
-            dest="import_file", 
-            help="Import named queries from a JSON file."
+        parser.add_argument(
+            "--import",
+            dest="import_file",
+            help="Import named queries from a JSON file.",
         )
 
         return parser
@@ -92,9 +94,9 @@ class SnapQueryCmd(WebserverCmd):
             print(formatted_result)
         elif self.args.import_file:
             self.handle_import(self.args.import_file)
-            handled = True   
+            handled = True
         return handled
-    
+
     def handle_import(self, json_file: str):
         """
         Handle the import of named queries from a JSON file.
@@ -104,7 +106,9 @@ class SnapQueryCmd(WebserverCmd):
         """
         nqm = NamedQueryManager.from_samples()
         qimport = QueryImport(nqm=nqm)
-        queries = qimport.import_from_json_file(json_file,with_store=True,show_progress=True)
+        queries = qimport.import_from_json_file(
+            json_file, with_store=True, show_progress=True
+        )
         print(f"Imported {len(queries)} named queries from {json_file}.")
 
 

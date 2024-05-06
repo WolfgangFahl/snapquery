@@ -3,6 +3,7 @@ Created on 2024-05-04
 
 @author: wf
 """
+import os
 from pathlib import Path
 from ngwidgets.basetest import Basetest
 
@@ -21,12 +22,13 @@ class TestScholia(Basetest):
         """
         test retrieving scholia queries
         """
-        limit = 10
+        db_path = "/tmp/scholia_queries.db"
+        if os.path.exists(db_path): os.remove(db_path)
         if self.inPublicCI():
-            db_path = "/tmp/scholia_queries.db"
+            limit = 10
         else:
-            db_path = None
-            #limit = None
+            #limit = 10
+            limit = None
         nqm = ScholiaQueries.get(db_path, debug=self.debug, limit=limit)
         records=nqm.sql_db.query("select * from NamedQuery where namespace='scholia'")
         json_text=json.dumps(records,indent=2)

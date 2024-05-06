@@ -72,6 +72,7 @@ class QueryStats:
                 QueryStats(
                     query_id="wikidata-examples.cats",
                     endpoint_name="wikidata",
+                    error_msg=""
                 )
             ]
         }
@@ -94,7 +95,6 @@ class NamedQuery:
         sparql (str): The SPARQL query string. This might be hidden in future to encapsulate query details.
         query_id (str): A unique identifier for the query, generated from namespace and name, used as a primary key.
     """
-
     query_id: str = field(init=False)
 
     # namespace

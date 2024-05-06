@@ -1,6 +1,11 @@
 # snapQuery
+Just query wikidata by name of query ... 
+<pre>snapquery cats</pre> is all you need 
 
-A tool that simplifies the process of previewing, annotating, rating, commenting, running, and exploring Wikidata
+This endpoint and query detail independent style of querying wikidata and ther SPARQL services 
+makes your queries future proof. No worries about blazegraph being replaced, the graph being split or timeouts haunting you. snapquery introduces named queries and named query middleware to wikidata and other SPARQL endpoints 
+
+snapquery is a tool that simplifies the process of previewing, annotating, rating, commenting, running, and exploring Wikidata
 queries across different SPARQL backends. It enhances user experience by storing query results and allowing easy
 comparison across various backends and over time.
 
@@ -17,6 +22,7 @@ over time. Developers and data consumers can access data conveniently through AP
 
 ## Demos
 
+* [wikimedia toolhub](https://toolhub.wikimedia.org/tools/snapquery)
 * [BITPlan](https://snapquery.bitplan.com)
 * [RWTH Aachen i5](https://snapquery.wikidata.dbis.rwth-aachen.de/)
 
@@ -49,6 +55,18 @@ Recognizing the needs of Wikidata data consumers, we aim to establish a system t
 
 * [Wiki](https://wiki.bitplan.com/index.php/Snapquery)
 * [API documentation](https://snapquery.bitplan.com/docs)
+* [Wikimedia Hackathon 2024 closing presentation](https://docs.google.com/presentation/d/1hVoIwRHjmA8x2scl7SUpsx4p9CEhdSCN/preview)
+
+<iframe
+  width="640"
+  height="480"
+  src="https://youtu.be/-fHTdldf5Xo?t=3176"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+></iframe>
+
+
 
 ### Model
 

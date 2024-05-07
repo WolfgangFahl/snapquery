@@ -57,7 +57,7 @@ class TestRestFulApi(WebserverTest):
         test the plaintext SPARQL API
         """
         for example in ["cats", "horses"]:
-            path = f"/api/sparql/wikidata-examples/{example}?limit=10"
+            path = f"/api/sparql/snapquery-examples/{example}?limit=10"
             sparql_query = self.getHtml(path)
             if self.debug:
                 print(sparql_query)
@@ -68,7 +68,7 @@ class TestRestFulApi(WebserverTest):
         test the RESTFul Query API
         """
         for r_format in ["mediawiki", "github", "latex", "html", "json"]:
-            path = f"/api/query/wikidata-examples/cats.{r_format}?limit=10"
+            path = f"/api/query/snapquery-examples/cats.{r_format}?limit=10"
             result = self.getHtml(path)
             if self.debug:
                 print(result)

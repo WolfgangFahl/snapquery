@@ -8,7 +8,7 @@ import sys
 from argparse import ArgumentParser
 
 from lodstorage.params import Params, StoreDictKeyPair
-from lodstorage.query import EndpointManager, Format
+from lodstorage.query import Format
 from ngwidgets.cmd import WebserverCmd
 
 from snapquery.qimport import QueryImport

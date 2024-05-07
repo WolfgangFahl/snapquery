@@ -35,6 +35,7 @@ class SnapQueryWebServer(InputWebserver):
             copy_right=copy_right,
             version=Version(),
             default_port=9862,
+            timeout=6.0,
         )
         server_config = WebserverConfig.get(config)
         server_config.solution_class = SnapQuerySolution

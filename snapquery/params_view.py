@@ -12,14 +12,23 @@ class ParamsView:
     a view for Query Parameters
     """
 
-    def init(self, solution, params: Params):
+    def __init__(self, solution, params: Params):
+        """
+        construct me with the given solution and params
+        """
         self.solution = solution
         self.params = params
 
     def open(self):
+        """
+        show the details of the dict edit
+        """
         self.dict_edit.expansion.open()
 
     def close(self):
+        """
+        hide the details of the dict edit
+        """
         self.dict_edit.expansion.close()
 
     def get_dict_edit(self) -> DictEdit:

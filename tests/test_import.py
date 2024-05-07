@@ -16,7 +16,7 @@ class TestImport(Basetest):
     test importing  named queries
     """
 
-    def setUp(self, debug=True, profile=True):
+    def setUp(self, debug=False, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
 
     def testImport(self):

@@ -5,7 +5,6 @@ Created on 2024-05-04
 """
 import contextlib
 import json
-import sys
 import unittest
 from io import StringIO
 

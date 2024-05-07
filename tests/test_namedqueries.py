@@ -18,7 +18,7 @@ class TestNamedQueryManager(Basetest):
     test the named query Manager
     """
 
-    def setUp(self, debug=True, profile=True):
+    def setUp(self, debug=False, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
 
     def testNamedQueries(self):

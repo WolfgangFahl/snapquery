@@ -68,13 +68,15 @@ class SnapQueryWebServer(InputWebserver):
             client: Client,
             namespace: str,
             name: str,
-            endpoint_name: str = "wikidata",
+            endpoint_name: str = None,
             limit: int = None,
             format: str = "html",
         ):
             """
             show the query page for the given namespace and name
             """
+            if endpoint_name is None:
+                endpoint_name = SnapQuerySolution.get_user_endpoint()
             return await self.page(
                 client,
                 SnapQuerySolution.query_page,
@@ -238,14 +240,15 @@ class SnapQuerySolution(InputWebSolution):
         """
         super().__init__(webserver, client)  # Call to the superclass constructor
         self.nqm = self.webserver.nqm
-        self.endpoint_name = "wikidata"
+        self.endpoint_name = self.get_user_endpoint()
 
     def configure_settings(self):
         """
         add additional settings
         """
-        self.add_select("default Endpoint", list(self.nqm.endpoints.keys())).bind_value(
-            self, "endpoint_name"
+        self.add_select("default Endpoint", list(self.nqm.endpoints.keys()), value=self.endpoint_name).bind_value(
+            app.storage.user, "endpoint_name",
+
         )
 
     def setup_menu(self, detailed: bool = None):
@@ -304,3 +307,11 @@ class SnapQuerySolution(InputWebSolution):
             )
 
         await self.setup_content_div(show)
+
+    @staticmethod
+    def get_user_endpoint() -> str:
+        """
+        Get the endpoint selected by the user. If no endpoint is selected return the default endpoint wikidata
+        """
+        endpoint = app.storage.user.get("endpoint_name", "wikidata")
+        return endpoint

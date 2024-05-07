@@ -31,7 +31,7 @@ class QueryStats:
     stats_id: str = field(init=False)
     query_id: str  # foreign key
     endpoint_name: str  # foreign key
-    records: Optional[int]=None
+    records: Optional[int] = None
     time_stamp: datetime.datetime = field(init=False)
     duration: float = field(init=False, default=None)  # duration in seconds
     error_msg: Optional[str] = None
@@ -75,7 +75,7 @@ class QueryStats:
         get samples
         """
         samples = {
-            "wikidata-examples": [
+            "snapquery-examples": [
                 QueryStats(
                     query_id="snapquery-examples.cats",
                     endpoint_name="wikidata",
@@ -238,7 +238,9 @@ class QueryBundle:
         sparql (SPARQL): A SPARQL service object initialized with the endpoint URL.
     """
 
-    def __init__(self, named_query: NamedQuery, query: Query, endpoint: Endpoint=None):
+    def __init__(
+        self, named_query: NamedQuery, query: Query, endpoint: Endpoint = None
+    ):
         """
         Initializes a new instance of the QueryBundle class.
 
@@ -301,12 +303,11 @@ class QueryBundle:
             List[dict]: A list where each dictionary represents a row of results from the SPARQL query.
         """
         query_stat = QueryStats(
-            query_id=self.query.name, 
-            endpoint_name=self.endpoint.name
+            query_id=self.query.name, endpoint_name=self.endpoint.name
         )
         try:
             lod = self.sparql.queryAsListOfDicts(self.query.query)
-            query_stat.records=len(lod) if lod else -1
+            query_stat.records = len(lod) if lod else -1
             query_stat.done()
         except Exception as ex:
             lod = None
@@ -389,13 +390,19 @@ class NamedQueryManager:
         self.debug = debug
         self.sql_db = SQLDB(dbname=db_path, check_same_thread=False, debug=debug)
         # Get the path of the yaml_file relative to the current Python module
-        samples_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'samples')
-        endpoints_path=os.path.join(samples_path,'endpoints.yaml')        
-        self.endpoints = EndpointManager.getEndpoints(endpointPath=endpoints_path,lang="sparql",with_default=False)
-        yaml_path =  os.path.join(samples_path,'meta_query.yaml')
-        self.meta_qm=QueryManager(queriesPath=yaml_path,with_default=False,lang='sql')
+        samples_path = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "samples"
+        )
+        endpoints_path = os.path.join(samples_path, "endpoints.yaml")
+        self.endpoints = EndpointManager.getEndpoints(
+            endpointPath=endpoints_path, lang="sparql", with_default=False
+        )
+        yaml_path = os.path.join(samples_path, "meta_query.yaml")
+        self.meta_qm = QueryManager(
+            queriesPath=yaml_path, with_default=False, lang="sql"
+        )
         pass
-    
+
     @classmethod
     def get_cache_path(cls) -> str:
         home = str(Path.home())
@@ -584,11 +591,9 @@ WHERE
         self.endpointConf = self.endpoints.get(endpoint_name, Endpoint.getDefault())
         query.tryItUrl = query.getTryItUrl(endpoint.website, endpoint.database)
         query.database = self.endpointConf.database
-        query.query=f"{self.endpointConf.prefixes}\n{query.query}"
+        query.query = f"{self.endpointConf.prefixes}\n{query.query}"
         query_bundle = QueryBundle(
-            named_query=named_query, 
-            query=query, 
-            endpoint=endpoint
+            named_query=named_query, query=query, endpoint=endpoint
         )
         query_bundle.set_limit(limit)
         return query_bundle

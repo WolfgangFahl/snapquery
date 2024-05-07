@@ -18,9 +18,12 @@
     sql: |
       SELECT query_id,
         COUNT(duration) AS count,
-        MIN(duration) AS min,
-        MAX(duration) AS max,
-        AVG(duration) AS avg
+        MIN(duration) AS min_time,
+        MAX(duration) AS max_time,
+        AVG(duration) AS avg_time,
+        MIN(records) AS min,
+        MAX(records) AS max,
+        AVG(records) AS avg
       FROM QueryStats
         GROUP by query_id
         ORDER BY 1 DESC;

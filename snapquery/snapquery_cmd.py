@@ -6,7 +6,8 @@ Created on 2024-05-03
 
 import sys
 from argparse import ArgumentParser
-from lodstorage.params import Params,StoreDictKeyPair
+
+from lodstorage.params import Params, StoreDictKeyPair
 from lodstorage.query import EndpointManager, Format
 from ngwidgets.cmd import WebserverCmd
 
@@ -88,12 +89,9 @@ class SnapQueryCmd(WebserverCmd):
             r_format = self.args.format
             limit = self.args.limit
             qb = nqm.get_query(
-                name=name, 
-                namespace=namespace, 
-                endpoint_name=endpoint_name, 
-                limit=limit
+                name=name, namespace=namespace, endpoint_name=endpoint_name, limit=limit
             )
-            query=qb.query
+            query = qb.query
             params = Params(query.query)
             if params.has_params:
                 if not self.args.params:

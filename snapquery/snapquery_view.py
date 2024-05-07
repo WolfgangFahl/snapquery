@@ -59,7 +59,7 @@ class NamedQueryView:
                 ui.label(nq.description)
                 self.params = Params(nq.sparql)
                 if self.params.has_params:
-                    self.params_view=ParamsView(self,self.params)
+                    self.params_view = ParamsView(self, self.params)
                     self.params_edit = self.params_view.get_dict_edit()
                     pass
                 ui.button(icon="play_arrow", on_click=self.run_query)

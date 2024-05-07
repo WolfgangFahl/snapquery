@@ -1,19 +1,21 @@
-'''
+"""
 Created on 06.05.2024
 
 @author: wf
-'''
-from ngwidgets.dict_edit import DictEdit, FieldUiDef, FormUiDef
+"""
 from lodstorage.params import Params
+from ngwidgets.dict_edit import DictEdit, FieldUiDef, FormUiDef
 
-class ParamsView():
+
+class ParamsView:
     """
     a view for Query Parameters
     """
-    def init(self,solution,params:Params):
-        self.solution=solution
-        self.params=params
-        
+
+    def init(self, solution, params: Params):
+        self.solution = solution
+        self.params = params
+
     def open(self):
         self.dict_edit.expansion.open()
 

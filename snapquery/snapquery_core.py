@@ -79,7 +79,7 @@ class QueryStats:
                 QueryStats(
                     query_id="snapquery-examples.cats",
                     endpoint_name="wikidata",
-                    record=223,
+                    records=223,
                     error_msg="",
                 )
             ]

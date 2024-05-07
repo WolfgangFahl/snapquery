@@ -27,9 +27,9 @@ class TestNamedQueryManager(Basetest):
         """
         db_path = "/tmp/named_queries.db"
         nqm = NamedQueryManager.from_samples(db_path=db_path)
-        for name, ex_count in [("x-invalid", -1), ("cats", 223)]:
+        for name, ex_count in [("x-invalid", -1), ("cats", 205)]:
             try:
-                query_bundle = nqm.get_query(name)
+                query_bundle = nqm.get_query(namespace="snapquery-examples",name=name)
                 lod = query_bundle.get_lod()
                 if self.debug:
                     print(f"{name}:")
@@ -46,7 +46,7 @@ class TestNamedQueryManager(Basetest):
         """
         with tempfile.NamedTemporaryFile() as tmpfile:
             nqm = NamedQueryManager.from_samples(db_path=tmpfile.name)
-            query_bundle = nqm.get_query("cats")
+            query_bundle = nqm.get_query(namespace="snapquery-examples",name="cats")
             lod, query_stats = query_bundle.get_lod_with_stats()
             self.assertEqual(query_bundle.query.name, query_stats.query_id)
             self.assertEqual(query_stats.endpoint_name, query_bundle.endpoint.name)
@@ -58,6 +58,7 @@ class TestNamedQueryManager(Basetest):
         test meta queries
         """
         nqm = NamedQueryManager.from_samples()
+        self.assertTrue("query_count" in nqm.meta_qm.queriesByName)
         pass
 
     def test_query_with_stats_evaluation(self):
@@ -68,7 +69,7 @@ class TestNamedQueryManager(Basetest):
         limit=1
         if self.inPublicCI():
             limit=2
-        query_records = nqm.sql_db.query(f"SELECT * FROM NamedQuery LIMIT {limit}")
+        query_records = nqm.sql_db.query(f"SELECT * FROM NamedQuery WHERE namespace='snapquery-examples' LIMIT {limit}")
         query_stats = []
         for i,query_record in enumerate(query_records):
             named_query = NamedQuery.from_record(query_record)

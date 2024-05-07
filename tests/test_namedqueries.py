@@ -76,8 +76,9 @@ class TestNamedQueryManager(Basetest):
             if self.debug:
                 print(f"{i+1:3}/{len(query_records)}:{named_query.query_id}")
             lod, query_stat = query_bundle.get_lod_with_stats()
+            lod_len=len(lod)if lod else 0
             if self.debug:
-                print(f"    {len(lod)} records:{query_stat.duration:.1f} s")
+                print(f"    {lod_len} records:{query_stat.duration:.1f} s")
             query_stats.append(query_stat)
         stat_lod = [qs.as_record() for qs in query_stats]
         nqm.store(stat_lod, source_class=QueryStats, primary_key="stats_id")

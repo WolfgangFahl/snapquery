@@ -301,10 +301,12 @@ class QueryBundle:
             List[dict]: A list where each dictionary represents a row of results from the SPARQL query.
         """
         query_stat = QueryStats(
-            query_id=self.query.name, endpoint_name=self.endpoint.name
+            query_id=self.query.name, 
+            endpoint_name=self.endpoint.name
         )
         try:
             lod = self.sparql.queryAsListOfDicts(self.query.query)
+            query_stat.records=len(lod) if lod else -1
             query_stat.done()
         except Exception as ex:
             lod = None

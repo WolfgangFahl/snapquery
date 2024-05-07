@@ -56,7 +56,7 @@ Recognizing the needs of Wikidata data consumers, we aim to establish a system t
 * [Wiki](https://wiki.bitplan.com/index.php/Snapquery)
 * [API documentation](https://snapquery.bitplan.com/docs)
 * [Wikimedia Hackathon 2024 closing presentation](https://docs.google.com/presentation/d/1hVoIwRHjmA8x2scl7SUpsx4p9CEhdSCN/preview)
-* [![Wikimedia Hackathon 2024 video](https://github.com/WolfgangFahl/snapquery/assets/1336221/460756cb-5379-4a93-b465-a5cb26f363bb)](https://youtu.be/-fHTdldf5Xo?t=3176)
+* [![Wikimedia Hackathon 2024 video](https://github.com/WolfgangFahl/snapquery/assets/1336221/460756cb-5379-4a93-b465-a5cb26f363bb)](https://youtu.be/-fHTdldf5Xo?t=2612)
 
 
 ### Model

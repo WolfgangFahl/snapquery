@@ -7,15 +7,15 @@ Created on 2024-05-03
 import asyncio
 from typing import List
 
+from lodstorage.params import Params
 from lodstorage.query import QuerySyntaxHighlight, ValueFormatter
-from ngwidgets.dict_edit import DictEdit
 from ngwidgets.input_webserver import InputWebSolution
 from ngwidgets.lod_grid import ListOfDictsGrid
 from ngwidgets.widgets import Link
 from nicegui import background_tasks, run, ui
 
 from snapquery.error_filter import ErrorFilter
-from snapquery.params import Params
+from snapquery.params_view import ParamsView
 from snapquery.snapquery_core import NamedQuery, QueryBundle, QueryStats
 
 
@@ -59,7 +59,8 @@ class NamedQueryView:
                 ui.label(nq.description)
                 self.params = Params(nq.sparql)
                 if self.params.has_params:
-                    self.params_edit = self.params.get_dict_edit()
+                    self.params_view=ParamsView(self,self.params)
+                    self.params_edit = self.params_view.get_dict_edit()
                     pass
                 ui.button(icon="play_arrow", on_click=self.run_query)
                 self.stats_html = ui.html()
@@ -82,7 +83,7 @@ class NamedQueryView:
         """
         if self.params.has_params:
             self.query_bundle.query.query = self.params.apply_parameters()
-            self.params.close()
+            self.params_view.close()
         self.query_bundle.set_limit(int(self.limit))
         (lod, stats) = await run.io_bound(self.query_bundle.get_lod_with_stats)
         self.nqm.store(

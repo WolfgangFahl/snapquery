@@ -4,7 +4,7 @@ Created on 2024-05-03
 """
 
 from fastapi import HTTPException
-from fastapi.responses import FileResponse, HTMLResponse, PlainTextResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse
 from lodstorage.query import Format
 from ngwidgets.input_webserver import InputWebserver, InputWebSolution, WebserverConfig
 from ngwidgets.login import Login
@@ -14,10 +14,9 @@ from nicegui.client import Client
 from starlette.responses import RedirectResponse
 
 from snapquery.qimport_view import QueryImportView
-from snapquery.snapquery_core import NamedQueryManager, QueryStats
+from snapquery.snapquery_core import NamedQueryManager, QueryStats, QueryBundle
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.version import Version
-
 
 class SnapQueryWebServer(InputWebserver):
     """
@@ -86,8 +85,27 @@ class SnapQueryWebServer(InputWebserver):
 
         @app.get("/api/endpoints")
         def get_endpoints():
+            """
+            list all endpoints
+            """
             endpoints = self.nqm.endpoints
             return endpoints
+        
+        @app.get("/api/meta_query/{name}")
+        def meta_query(name:str,limit:int=None):
+            """
+            run the meta query with the given name
+            """
+            name,r_format=self.get_r_format(name,"json")
+            if not name in self.nqm.meta_qm.queriesByName:
+                raise HTTPException(status_code=404,detail=f"meta query {name} not known")
+            query=self.nqm.meta_qm.queriesByName[name]
+            qb=QueryBundle(named_query=None,query=query)
+            qlod=self.nqm.sql_db.query(query.query)
+            if limit:
+                qlod = qlod[:limit] 
+            content = qb.format_result(qlod, r_format)
+            return HTMLResponse(content)
 
         @app.get("/api/sparql/{namespace}/{name}")
         def sparql(
@@ -144,6 +162,27 @@ class SnapQueryWebServer(InputWebserver):
 
             # Return the content as an HTML response
             return HTMLResponse(content)
+        
+    def get_r_format(self,name:str,default_format_str:str='html')->Format:
+        """
+        get the result format from the given query name following the
+        dot convention that <name>.<r_format_str> specifies the result format
+        e.g. cats.json will ask for the json result format
+        
+        Args:
+            name(str): the name of the query/meta query
+            default_format_str(str): the name of the default format to use
+            
+        Returns:
+            Format: the result format
+        """
+        if "." in name:
+            r_format_str = name.split(".")[-1]
+            name = name[: name.rfind(".")]
+        else:
+            r_format_str = default_format_str
+        r_format = Format[r_format_str]
+        return name,r_format
 
     def query(
         self,
@@ -164,16 +203,9 @@ class SnapQueryWebServer(InputWebserver):
             Returns:
                 str: the content retrieved
         """
-        # content negotiation
-        # Determine response format by extension in the name or Accept header
-        if "." in name:
-            r_format_str = name.split(".")[-1]
-            name = name[: name.rfind(".")]
-        else:
-            r_format_str = "html"
-
         try:
-            r_format = Format[r_format_str]
+            # content negotiation
+            name,r_format=self.get_r_format(name)
             qb = self.nqm.get_query(name, namespace, endpoint_name, limit)
             (qlod, stats) = qb.get_lod_with_stats()
             self.nqm.store(

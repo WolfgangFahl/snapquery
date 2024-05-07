@@ -14,8 +14,8 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Type
 
 import requests
-from lodstorage.csv import CSV
-from lodstorage.query import Endpoint, EndpointManager, Format, Query
+from lodstorage.lod_csv import CSV
+from lodstorage.query import Endpoint, EndpointManager, Format, Query, QueryManager
 from lodstorage.sparql import SPARQL
 from lodstorage.sql import SQLDB, EntityInfo
 from lodstorage.yamlable import lod_storable
@@ -230,7 +230,7 @@ class QueryBundle:
         sparql (SPARQL): A SPARQL service object initialized with the endpoint URL.
     """
 
-    def __init__(self, named_query: NamedQuery, query: Query, endpoint: Endpoint):
+    def __init__(self, named_query: NamedQuery, query: Query, endpoint: Endpoint=None):
         """
         Initializes a new instance of the QueryBundle class.
 
@@ -242,7 +242,8 @@ class QueryBundle:
         self.named_query = named_query
         self.query = query
         self.endpoint = endpoint
-        self.sparql = SPARQL(endpoint.endpoint)
+        if endpoint:
+            self.sparql = SPARQL(endpoint.endpoint)
 
     def raw_query(self, resultFormat, mime_type: str = None, timeout: float = 10.0):
         """
@@ -377,8 +378,14 @@ class NamedQueryManager:
             db_path = NamedQueryManager.get_cache_path()
         self.debug = debug
         self.sql_db = SQLDB(dbname=db_path, check_same_thread=False, debug=debug)
-        self.endpoints = EndpointManager.getEndpoints(lang="sparql")
-
+        # Get the path of the yaml_file relative to the current Python module
+        samples_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'samples')
+        endpoints_path=os.path.join(samples_path,'endpoints.yaml')        
+        self.endpoints = EndpointManager.getEndpoints(endpointPath=endpoints_path,lang="sparql")
+        yaml_path =  os.path.join(samples_path,'meta_query.yaml')
+        self.meta_qm=QueryManager(queriesPath=yaml_path,with_default=False,lang='sql')
+        pass
+    
     @classmethod
     def get_cache_path(cls) -> str:
         home = str(Path.home())

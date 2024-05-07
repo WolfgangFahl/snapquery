@@ -6,7 +6,7 @@ Created on 2024-05-03
 
 import sys
 from argparse import ArgumentParser
-
+from lodstorage.params import Params,StoreDictKeyPair
 from lodstorage.query import EndpointManager, Format
 from ngwidgets.cmd import WebserverCmd
 
@@ -48,6 +48,11 @@ class SnapQueryCmd(WebserverCmd):
             "--limit", type=int, default=None, help="set limit parameter of query"
         )
         parser.add_argument(
+            "--params",
+            action=StoreDictKeyPair,
+            help="query parameters as Key-value pairs in the format key1=value1,key2=value2",
+        )
+        parser.add_argument(
             "--namespace",
             type=str,
             default="wikidata-examples",
@@ -84,8 +89,19 @@ class SnapQueryCmd(WebserverCmd):
             r_format = self.args.format
             limit = self.args.limit
             qb = nqm.get_query(
-                name=name, namespace=namespace, endpoint_name=endpoint_name, limit=limit
+                name=name, 
+                namespace=namespace, 
+                endpoint_name=endpoint_name, 
+                limit=limit
             )
+            query=qb.query
+            params = Params(query.query)
+            if params.has_params:
+                if not self.args.params:
+                    raise Exception(f"{query.name} needs parameters")
+                else:
+                    params.set(self.args.params)
+                    query.query = params.apply_parameters()
             if r_format == Format.raw:
                 formatted_result = qb.raw_query()
             else:

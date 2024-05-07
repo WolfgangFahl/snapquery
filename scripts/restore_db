@@ -3,7 +3,7 @@
 # restore the snapquery database
 db=$HOME/.solutions/snapquery/storage/named_queries.db
 rm $db
-for f in $(find samples -name '*.json')
+for f in $(find snapquery/samples -name '*.json')
 do
   snapquery --import  $f | grep -iv warning
 done

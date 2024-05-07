@@ -27,6 +27,21 @@ class TestRestFulApi(WebserverTest):
         # self.debug=True
         html = self.getHtml("/docs")
         self.assertTrue("Swagger" in html)
+        
+    def testMetaApi(self):
+        """
+        test the meta api
+        """
+        for qname,ex_status in [
+            ("query_count",200),
+            ("unknown_query_name",404)
+        ]:
+            try:
+                meta_data=self.get_json(f"/api/meta_query/{qname}",ex_status)
+                if self.debug:
+                    print(meta_data)
+            except Exception as _ex:
+                self.assertEqual(404,ex_status)
 
     def testEndpointApi(self):
         """

@@ -18,7 +18,7 @@ class TestNamedQueryManager(Basetest):
     test the named query Manager
     """
 
-    def setUp(self, debug=False, profile=True):
+    def setUp(self, debug=True, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
 
     def testNamedQueries(self):
@@ -52,19 +52,32 @@ class TestNamedQueryManager(Basetest):
             self.assertEqual(query_stats.endpoint_name, query_bundle.endpoint.name)
             self.assertIsNone(query_stats.error_msg)
             self.assertIsNotNone(query_stats.duration)
+            
+    def test_meta_queries(self):
+        """
+        test meta queries
+        """
+        nqm = NamedQueryManager.from_samples()
+        pass
 
-    @unittest.skip
     def test_query_with_stats_evaluation(self):
         """
         test query stats evaluation and storage on a bunch of queries
         """
-        nqm = NamedQueryManager.from_samples()
-        query_records = nqm.sql_db.query("SELECT * FROM NamedQuery LIMIT 20")
+        nqm = NamedQueryManager.from_samples(db_path="/tmp/stats_eval.db")
+        limit=1
+        if self.inPublicCI():
+            limit=2
+        query_records = nqm.sql_db.query(f"SELECT * FROM NamedQuery LIMIT {limit}")
         query_stats = []
-        for query_record in query_records:
+        for i,query_record in enumerate(query_records):
             named_query = NamedQuery.from_record(query_record)
-            query_bundle = nqm.get_query(named_query.name, named_query.namespace)
+            query_bundle = nqm.get_query(named_query.name, named_query.namespace,endpoint_name="wikidata-openlinksw")
+            if self.debug:
+                print(f"{i+1:3}/{len(query_records)}:{named_query.query_id}")
             lod, query_stat = query_bundle.get_lod_with_stats()
+            if self.debug:
+                print(f"    {len(lod)} records:{query_stat.duration:.1f} s")
             query_stats.append(query_stat)
         stat_lod = [qs.as_record() for qs in query_stats]
         nqm.store(stat_lod, source_class=QueryStats, primary_key="stats_id")

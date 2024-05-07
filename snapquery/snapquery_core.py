@@ -337,9 +337,12 @@ class QueryBundle:
         if r_format == Format.csv:
             csv_output = CSV.toCSV(qlod)
             return csv_output
-        elif r_format in [Format.latex, Format.github, Format.mediawiki, Format.html]:
+        elif r_format in [Format.latex, 
+            Format.github, 
+            Format.mediawiki, 
+            Format.html]:
             doc = self.query.documentQueryResult(
-                qlod, tablefmt=str(r_format), floatfmt=".0f"
+                qlod, tablefmt=str(r_format), floatfmt=".1f"
             )
             return doc.asText()
         elif r_format == Format.json:

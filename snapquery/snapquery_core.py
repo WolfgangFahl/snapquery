@@ -31,6 +31,7 @@ class QueryStats:
     stats_id: str = field(init=False)
     query_id: str  # foreign key
     endpoint_name: str  # foreign key
+    records: Optional[int]=None
     time_stamp: datetime.datetime = field(init=False)
     duration: float = field(init=False, default=None)  # duration in seconds
     error_msg: Optional[str] = None
@@ -57,6 +58,10 @@ class QueryStats:
         self.error_msg = str(ex)
 
     def as_record(self) -> Dict:
+        """
+        convert my declared attributes to a dict
+        @TODO may be use asdict from dataclasses instead?
+        """
         record = {}
         for field in fields(self):
             # Include field in the record dictionary if it has already been initialized (i.e., not None or has default)
@@ -72,8 +77,9 @@ class QueryStats:
         samples = {
             "wikidata-examples": [
                 QueryStats(
-                    query_id="wikidata-examples.cats",
+                    query_id="snapquery-examples.cats",
                     endpoint_name="wikidata",
+                    record=223,
                     error_msg="",
                 )
             ]
@@ -127,28 +133,29 @@ class NamedQuery:
         get samples
         """
         samples = {
-            "wikidata-examples": [
+            "snapquery-examples": [
                 NamedQuery(
-                    namespace="wikidata-examples",
+                    namespace="snapquery-examples",
                     name="cats",
                     url="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples#Cats",
                     title="Cats on Wikidata",
                     description="This query retrieves all items classified under 'house cat' (Q146) on Wikidata.",
-                    sparql="""
+                    sparql="""# snapquery cats example
 SELECT ?item ?itemLabel
 WHERE {
   ?item wdt:P31 wd:Q146. # Must be a cat
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+  OPTIONAL { ?item rdfs:label ?itemLabel. }
+  FILTER (LANG(?itemLabel) = "en")
 }
 """,
                 ),
                 NamedQuery(
-                    namespace="wikidata-examples",
+                    namespace="snapquery-examples",
                     name="horses",
                     url="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples#Horses_(showing_some_info_about_them)",
                     title="Horses on Wikidata",
                     description="This query retrieves information about horses, including parents, gender, and approximate birth and death years.",
-                    sparql="""
+                    sparql="""# snapquery example horses
 SELECT DISTINCT ?horse ?horseLabel ?mother ?motherLabel ?father ?fatherLabel 
 (year(?birthdate) as ?birthyear) (year(?deathdate) as ?deathyear) ?genderLabel
 WHERE {
@@ -158,9 +165,10 @@ WHERE {
   OPTIONAL{?horse wdt:P569 ?birthdate .} # Birth date
   OPTIONAL{?horse wdt:P570 ?deathdate .} # Death date
   OPTIONAL{?horse wdt:P21 ?gender .}     # Gender
-  SERVICE wikibase:label {
-    bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,ar,be,bg,bn,ca,cs,da,de,el,en,es,et,fa,fi,he,hi,hu,hy,id,it,ja,jv,ko,nb,nl,eo,pa,pl,pt,ro,ru,sh,sk,sr,sv,sw,te,th,tr,uk,yue,vec,vi,zh"
-  }
+  OPTIONAL { ?horse rdfs:label ?horseLabel . FILTER (lang(?horseLabel) = "en") }
+  OPTIONAL { ?mother rdfs:label ?motherLabel . FILTER (lang(?motherLabel) = "en") }
+  OPTIONAL { ?father rdfs:label ?fatherLabel . FILTER (lang(?fatherLabel) = "en") }
+  OPTIONAL { ?gender rdfs:label ?genderLabel . FILTER (lang(?genderLabel) = "en") }
 }
 ORDER BY ?horse
 """,
@@ -381,7 +389,7 @@ class NamedQueryManager:
         # Get the path of the yaml_file relative to the current Python module
         samples_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), 'samples')
         endpoints_path=os.path.join(samples_path,'endpoints.yaml')        
-        self.endpoints = EndpointManager.getEndpoints(endpointPath=endpoints_path,lang="sparql")
+        self.endpoints = EndpointManager.getEndpoints(endpointPath=endpoints_path,lang="sparql",with_default=False)
         yaml_path =  os.path.join(samples_path,'meta_query.yaml')
         self.meta_qm=QueryManager(queriesPath=yaml_path,with_default=False,lang='sql')
         pass
@@ -571,11 +579,14 @@ WHERE
             endpoint=endpoint.endpoint,
             limit=limit,
         )
-        endpointConf = self.endpoints.get(endpoint_name, Endpoint.getDefault())
+        self.endpointConf = self.endpoints.get(endpoint_name, Endpoint.getDefault())
         query.tryItUrl = query.getTryItUrl(endpoint.website, endpoint.database)
-        query.database = endpointConf.database
+        query.database = self.endpointConf.database
+        query.query=f"{self.endpointConf.prefixes}\n{query.query}"
         query_bundle = QueryBundle(
-            named_query=named_query, query=query, endpoint=endpoint
+            named_query=named_query, 
+            query=query, 
+            endpoint=endpoint
         )
         query_bundle.set_limit(limit)
         return query_bundle

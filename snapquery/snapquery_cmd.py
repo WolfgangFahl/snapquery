@@ -74,15 +74,14 @@ class SnapQueryCmd(WebserverCmd):
         """
         # Call the superclass handle_args to maintain base class behavior
         handled = super().handle_args()
-        endpoints = EndpointManager.getEndpoints(self.args.endpointPath, lang="sparql")
+        nqm = NamedQueryManager.from_samples()
         # Check if listing of endpoints is requested
         if self.args.listEndpoints:
             # List endpoints
-            for endpoint in endpoints.values():
+            for endpoint in nqm.endpoints.values():
                 print(endpoint)
             handled = True  # Operation handled
         elif self.args.queryName is not None:
-            nqm = NamedQueryManager.from_samples()
             namespace = self.args.namespace
             name = self.args.queryName
             endpoint_name = self.args.endpointName

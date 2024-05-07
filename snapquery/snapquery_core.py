@@ -253,7 +253,7 @@ class QueryBundle:
         self.query = query
         self.endpoint = endpoint
         if endpoint:
-            self.sparql = SPARQL(endpoint.endpoint)
+            self.sparql = SPARQL(endpoint.endpoint, method=self.endpoint.method)
 
     def raw_query(self, resultFormat, mime_type: str = None, timeout: float = 10.0):
         """

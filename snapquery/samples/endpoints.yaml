@@ -119,7 +119,7 @@
   endpoint: https://app-api.orbopengraph.com/bigdata/namespace/wdq/sparql
   website: https://scatter.red/
   database: blazegraph
-  method: POST
+  method: GET
   prefixes: |
     PREFIX bd: <http://www.bigdata.com/rdf#>
     PREFIX cc: <http://creativecommons.org/ns#>

@@ -48,8 +48,9 @@ class TestNamedQueryManager(Basetest):
             nqm = NamedQueryManager.from_samples(db_path=tmpfile.name)
             query_bundle = nqm.get_query(namespace="snapquery-examples", name="cats")
             lod, query_stats = query_bundle.get_lod_with_stats()
-            self.assertEqual(query_bundle.query.name, query_stats.query_id)
+            self.assertEqual(query_bundle.named_query.query_id, query_stats.query_id)
             self.assertEqual(query_stats.endpoint_name, query_bundle.endpoint.name)
+            self.assertEqual(len(lod),query_stats.records)
             self.assertIsNone(query_stats.error_msg)
             self.assertIsNotNone(query_stats.duration)
 

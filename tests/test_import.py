@@ -70,7 +70,8 @@ class TestImport(Basetest):
         with open(json_file, "w") as f:
             json.dump(sample_data, f,indent=2)
 
-        queries = qimport.import_from_json_file(json_file)
+        nq_list = qimport.import_from_json_file(json_file)
+        queries=nq_list.queries
         for query in queries:
             if self.debug:
                 print(query)

@@ -3,13 +3,13 @@ Created on 2024-05-04
 
 @author: wf
 """
-import json
+
 import os
-from pathlib import Path
 
 from ngwidgets.basetest import Basetest
 
 from snapquery.scholia import ScholiaQueries
+from snapquery.snapquery_core import NamedQueryManager
 
 
 class TestScholia(Basetest):
@@ -22,22 +22,28 @@ class TestScholia(Basetest):
 
     def test_scholia_queries(self):
         """
-        test retrieving scholia queries
+        Test retrieving Scholia queries.
         """
         db_path = "/tmp/scholia_queries.db"
         if os.path.exists(db_path):
             os.remove(db_path)
+
+        # Adjust limit based on environment (e.g., CI)
         if self.inPublicCI():
             limit = 10
         else:
-            # limit = 10
             limit = None
-        nqm = ScholiaQueries.get(db_path, debug=self.debug, limit=limit)
-        records = nqm.sql_db.query("select * from NamedQuery where namespace='scholia'")
-        json_text = json.dumps(records, indent=2)
-        output_file = Path("/tmp/scholia.json")
-        output_file.write_text(json_text)
+            # limit=10
 
-        if self.debug:
-            print(json_text)
-        # nqm.lookup(name, "scholia")
+        # Create a NamedQueryManager and ScholiaQueries instance
+        nqm = NamedQueryManager.from_samples(db_path=db_path)
+        scholia_queries = ScholiaQueries(nqm, debug=self.debug)
+
+        # Extract, store, and save queries to JSON
+        scholia_queries.extract_queries(limit=limit)
+        scholia_queries.store_queries()
+        scholia_queries.save_to_json("/tmp/scholia.json")
+
+        # Verify the data was stored
+        records = nqm.sql_db.query("SELECT * FROM NamedQuery WHERE namespace='scholia'")
+        self.assertEqual(len(records), len(scholia_queries.named_query_list.queries))

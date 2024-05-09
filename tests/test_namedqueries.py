@@ -6,7 +6,6 @@ Created on 2024-05-03
 
 import json
 import tempfile
-import unittest
 
 from ngwidgets.basetest import Basetest
 
@@ -50,7 +49,7 @@ class TestNamedQueryManager(Basetest):
             lod, query_stats = query_bundle.get_lod_with_stats()
             self.assertEqual(query_bundle.named_query.query_id, query_stats.query_id)
             self.assertEqual(query_stats.endpoint_name, query_bundle.endpoint.name)
-            self.assertEqual(len(lod),query_stats.records)
+            self.assertEqual(len(lod), query_stats.records)
             self.assertIsNone(query_stats.error_msg)
             self.assertIsNotNone(query_stats.duration)
 

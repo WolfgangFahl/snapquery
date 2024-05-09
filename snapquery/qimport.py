@@ -5,57 +5,57 @@ Created on 2024-05-05
 """
 import json
 import urllib.parse
-from typing import List
 
 import requests
 from tqdm import tqdm
 
-from snapquery.snapquery_core import NamedQuery, NamedQueryManager
+from snapquery.snapquery_core import NamedQuery, NamedQueryList, NamedQueryManager
 
 
 class QueryImport:
     """
-    import named queries from a given url
+    Import named queries from a given URL or file.
     """
 
     def __init__(self, nqm: NamedQueryManager = None):
+        """
+        Constructor
+
+        Args:
+            nqm (NamedQueryManager, optional): The NamedQueryManager to use for storing queries.
+        """
         self.nqm = nqm
         pass
 
     def import_from_json_file(
         self, json_file: str, with_store: bool = False, show_progress: bool = False
-    ) -> List[NamedQuery]:
+    ) -> NamedQueryList:
         """
         Import named queries from a JSON file.
 
         Args:
             json_file (str): Path to the JSON file.
-            with_store(bool): if True store the result
+            with_store (bool): If True, store the results in the NamedQueryManager.
+            show_progress (bool): If True, show a progress bar during the import.
 
         Returns:
-            List[NamedQuery]: A list of NamedQuery objects imported from the JSON file.
+            NamedQueryList: A NamedQueryList object containing the imported NamedQuery objects.
         """
-        with open(json_file, "r") as f:
-            data = json.load(f)
+        nq_list = NamedQueryList.load_from_json_file(json_file)
+        iterable = (
+            tqdm(nq_list.queries, desc="Importing Named Queries")
+            if show_progress
+            else nq_list.queries
+        )
 
-        queries = []
-        lod = []
-        iterable = tqdm(data, desc="Importing Named Queries") if show_progress else data
-        known_queries = set()
-        for record in iterable:
-            if record.get("url"):
-                nq = NamedQuery.from_record(record)
-                if not nq.sparql and nq.url.startswith("https://w.wiki/"):
-                    nq.sparql = self.read_from_short_url(nq.url)
-                if nq.name not in known_queries:
-                    known_queries.add(nq.name)
-                else:
-                    continue
-                lod.append(nq.as_record())
-                queries.append(nq)
+        for nq in iterable:
+            if not nq.sparql and nq.url.startswith("https://w.wiki/"):
+                nq.sparql = self.read_from_short_url(nq.url)
+
         if with_store and self.nqm:
-            self.nqm.store(lod)
-        return queries
+            self.nqm.store_named_query_list(nq_list)
+
+        return nq_list
 
     def read_from_short_url(self, short_url: str) -> str:
         """
@@ -69,7 +69,6 @@ class QueryImport:
 
         Raises:
             Exception: If there's an error fetching or processing the URL.
-
         """
         sparql_query = None
         try:
@@ -86,8 +85,6 @@ class QueryImport:
                 sparql_query = urllib.parse.unquote(parsed_url.fragment)
 
         except Exception as ex:
-            if not self.solution:
-                print(f"Error fetching URL: {ex}")
-            else:
-                self.solution.handle_exception(ex)
+            print(f"Error fetching URL: {ex}")
+
         return sparql_query

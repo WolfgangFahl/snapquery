@@ -246,9 +246,13 @@ class SnapQuerySolution(InputWebSolution):
         """
         add additional settings
         """
-        self.add_select("default Endpoint", list(self.nqm.endpoints.keys()), value=self.endpoint_name).bind_value(
-            app.storage.user, "endpoint_name",
-
+        self.add_select(
+            "default Endpoint",
+            list(self.nqm.endpoints.keys()),
+            value=self.endpoint_name,
+        ).bind_value(
+            app.storage.user,
+            "endpoint_name",
         )
 
     def setup_menu(self, detailed: bool = None):

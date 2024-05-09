@@ -112,7 +112,7 @@ class NamedQuery:
     # name/id
     name: str
     # sparql query (to be hidden later)
-    sparql: str
+    sparql: Optional[str]=None
     # the url of the source code of the query
     url: Optional[str] = None
     # one line title
@@ -227,6 +227,26 @@ ORDER BY ?horse
         }
 
 
+@lod_storable
+class QueryDetails:
+    """
+    Details for a named query
+    """
+
+    query_id: str
+    params: str
+
+
+@lod_storable
+class NamedQueryList:
+    """
+    a list of named queries with details
+    """
+
+    name: str  # the name of the list
+    queries: List[NamedQuery] = field(default_factory=list)
+
+
 class QueryBundle:
     """
     Bundles a named query, a query, and an endpoint into a single manageable object, facilitating the execution of SPARQL queries.
@@ -337,10 +357,7 @@ class QueryBundle:
         if r_format == Format.csv:
             csv_output = CSV.toCSV(qlod)
             return csv_output
-        elif r_format in [Format.latex, 
-            Format.github, 
-            Format.mediawiki, 
-            Format.html]:
+        elif r_format in [Format.latex, Format.github, Format.mediawiki, Format.html]:
             doc = self.query.documentQueryResult(
                 qlod, tablefmt=str(r_format), floatfmt=".1f"
             )
@@ -393,14 +410,14 @@ class NamedQueryManager:
         self.debug = debug
         self.sql_db = SQLDB(dbname=db_path, check_same_thread=False, debug=debug)
         # Get the path of the yaml_file relative to the current Python module
-        samples_path = os.path.join(
+        self.samples_path = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), "samples"
         )
-        endpoints_path = os.path.join(samples_path, "endpoints.yaml")
+        endpoints_path = os.path.join(self.samples_path, "endpoints.yaml")
         self.endpoints = EndpointManager.getEndpoints(
             endpointPath=endpoints_path, lang="sparql", with_default=False
         )
-        yaml_path = os.path.join(samples_path, "meta_query.yaml")
+        yaml_path = os.path.join(self.samples_path, "meta_query.yaml")
         self.meta_qm = QueryManager(
             queriesPath=yaml_path, with_default=False, lang="sql"
         )
@@ -452,6 +469,18 @@ class NamedQueryManager:
                 )
                 nqm.sql_db.store(sample_records, entityInfo, fixNone=True, replace=True)
         return nqm
+
+    def store_named_query_list(self, nq_list: NamedQueryList):
+        """
+        store the given named query list
+
+        Args:
+            nq_list: NamedQueryList
+        """
+        lod = []
+        for nq in nq_list.queries:
+            lod.append(nq.as_record())
+        self.store(lod=lod)
 
     def store(
         self,

@@ -57,6 +57,24 @@ class QueryStats:
         self.duration = None
         self.error_msg = str(ex)
 
+    @classmethod
+    def from_record(cls, record: Dict) -> "QueryStats":
+        """
+        Class method to instantiate NamedQuery
+        from a dictionary record.
+        """
+        stat = cls(
+                query_id=record.get("query_id", None),
+                endpoint_name=record.get("endpoint_name", None),
+                records=record.get("records", None),
+                error_msg=record.get("error_msg", None),
+        )
+        stat.stats_id = record.get("stats_id", stat.stats_id)
+        stat.time_stamp = record.get("time_stamp", stat.time_stamp)
+        stat.duration = record.get("duration", None)
+        return stat
+
+
     def as_record(self) -> Dict:
         """
         convert my declared attributes to a dict
@@ -448,7 +466,7 @@ class NamedQueryManager:
         if db_path is None:
             db_path = cls.get_cache_path()
 
-        nqm = NamedQueryManager(debug=debug)
+        nqm = NamedQueryManager(db_path=db_path, debug=debug)
         path_obj = Path(db_path)
         if not path_obj.exists() or path_obj.stat().st_size == 0:
             for (source_class, pk) in [
@@ -629,3 +647,27 @@ WHERE
         )
         query_bundle.set_limit(limit)
         return query_bundle
+
+    def get_query_stats(self, query_id: str) -> list[QueryStats]:
+        """
+        Get query stats for the given query name
+        Args:
+            query_id: id of the query
+
+        Returns:
+            list of query stats
+        """
+        sql_query = f"""
+        SELECT *
+        FROM QueryStats
+        WHERE query_id = ?
+        """
+        query_records = self.sql_db.query(sql_query, (query_id,))
+        stats = []
+        if query_records:
+            for record in query_records:
+                query_stat = QueryStats.from_record(record)
+                stats.append(query_stat)
+        return stats
+
+

@@ -264,6 +264,9 @@ class NamedQueryList:
     name: str  # the name of the list
     queries: List[NamedQuery] = field(default_factory=list)
 
+    def __len__(self):
+        return len(self.queries)
+
 
 class QueryBundle:
     """

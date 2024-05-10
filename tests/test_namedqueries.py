@@ -72,7 +72,7 @@ class TestNamedQueryManager(Basetest):
         query_records = nqm.sql_db.query(
             f"SELECT * FROM NamedQuery WHERE namespace='snapquery-examples' LIMIT {limit}"
         )
-        query_stats = []
+        query_stats_list = []
         for i, query_record in enumerate(query_records):
             named_query = NamedQuery.from_record(query_record)
             query_bundle = nqm.get_query(
@@ -82,10 +82,9 @@ class TestNamedQueryManager(Basetest):
             )
             if self.debug:
                 print(f"{i+1:3}/{len(query_records)}:{named_query.query_id}")
-            lod, query_stat = query_bundle.get_lod_with_stats()
+            lod, query_stats = query_bundle.get_lod_with_stats()
             lod_len = len(lod) if lod else 0
             if self.debug:
-                print(f"    {lod_len} records:{query_stat.duration:.1f} s")
-            query_stats.append(query_stat)
-        stat_lod = [qs.as_record() for qs in query_stats]
-        nqm.store(stat_lod, source_class=QueryStats, primary_key="stats_id")
+                print(f"    {lod_len} records:{query_stats.duration:.1f} s")
+            query_stats_list.append(query_stats)
+        nqm.store_stats(query_stats_list)

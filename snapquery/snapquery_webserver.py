@@ -214,8 +214,8 @@ class SnapQueryWebServer(InputWebserver):
             name, r_format = self.get_r_format(name)
             qb = self.nqm.get_query(name, namespace, endpoint_name, limit)
             (qlod, stats) = qb.get_lod_with_stats()
-            self.nqm.store(
-                [stats.as_record()], source_class=QueryStats, primary_key="stats_id"
+            self.nqm.store_stats(
+                [stats]
             )
             content = qb.format_result(qlod, r_format)
             return content

@@ -3,13 +3,12 @@ Created on 2024-05-03
 
 @author: wf
 """
-
 import datetime
 import json
 import os
 import re
 import uuid
-from dataclasses import field, fields
+from dataclasses import dataclass,field,asdict, is_dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Type
 
@@ -56,18 +55,6 @@ class QueryStats:
         """
         self.duration = None
         self.error_msg = str(ex)
-
-    def as_record(self) -> Dict:
-        """
-        convert my declared attributes to a dict
-        @TODO may be use asdict from dataclasses instead?
-        """
-        record = {}
-        for field in fields(self):
-            # Include field in the record dictionary if it has already been initialized (i.e., not None or has default)
-            if hasattr(self, field.name):
-                record[field.name] = getattr(self, field.name)
-        return record
 
     @classmethod
     def get_samples(cls) -> dict[str, "QueryStats"]:
@@ -202,18 +189,6 @@ ORDER BY ?horse
             sparql=record.get("sparql"),
         )
 
-    def as_record(self) -> Dict:
-        record = {
-            "query_id": self.query_id,
-            "namespace": self.namespace,
-            "name": self.name,
-            "url": self.url,
-            "title": self.title,
-            "description": self.description,
-            "sparql": self.sparql,
-        }
-        return record
-
     def as_viewrecord(self) -> Dict:
         """
         Return a dictionary representing the NamedQuery with keys ordered as Name, Namespace, Title, Description.
@@ -235,6 +210,18 @@ class QueryDetails:
 
     query_id: str
     params: str
+    
+    @classmethod
+    def get_samples(cls) -> dict[str, "QueryDetails"]:
+        """
+        get samples
+        """
+        samples = {
+            "snapquery-examples": [
+                QueryDetails(query_id="scholia.test",params="q")
+            ]
+        }
+        return samples
 
 
 @lod_storable
@@ -454,6 +441,7 @@ class NamedQueryManager:
             for (source_class, pk) in [
                 (NamedQuery, "query_id"),
                 (QueryStats, "stats_id"),
+                (QueryDetails,"quer_id")
             ]:
                 # Fetch sample records from the specified class
                 sample_records = cls.get_sample_records(source_class=source_class)
@@ -479,8 +467,23 @@ class NamedQueryManager:
         """
         lod = []
         for nq in nq_list.queries:
-            lod.append(nq.as_record())
+            lod.append(asdict(nq))
         self.store(lod=lod)
+        
+    def store_query_details_list(self,qd_list:List[QueryDetails]):
+        qd_lod=[]
+        for qd in qd_list:
+            qd_lod.append(asdict(qd))
+        self.store(lod=qd_lod,source_class=QueryDetails,primary_key="query_id")
+        
+    def store_stats(self,stats_list:List[QueryStats]):
+        """
+        store the given list of query statistics
+        """
+        stats_lod=[]
+        for stats in stats_list:
+            stats_lod.append(asdict(stats))
+        self.store(lod=stats_lod, source_class=QueryStats, primary_key="stats_id")
 
     def store(
         self,
@@ -541,13 +544,13 @@ class NamedQueryManager:
         # Assuming each key in the returned dictionary of get_samples corresponds to a list of instances
         for instance_group in sample_instances.values():
             for instance in instance_group:
-                # Ensure that the instance has an 'as_record' method to convert it to a dictionary
-                if hasattr(instance, "as_record"):
-                    record = instance.as_record()
+                # Ensure that the instance is a dataclass instance
+                if is_dataclass(instance):
+                    record = asdict(instance)
                     list_of_records.append(record)
                 else:
-                    raise AttributeError(
-                        f"The instance of class {source_class.__name__} does not have an 'as_record' method."
+                    raise ValueError(
+                        f"The instance of class {source_class.__name__} is not a dataclass instance"
                     )
 
         return list_of_records

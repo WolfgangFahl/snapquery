@@ -27,3 +27,10 @@
       FROM QueryStats
         GROUP by query_id
         ORDER BY 1 DESC;
+'params_stats':
+    sql: |
+        SELECT count(*),
+            params 
+        FROM "QueryDetails" 
+        GROUP BY params 
+        ORDER BY 1 desc

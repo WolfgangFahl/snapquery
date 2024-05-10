@@ -119,10 +119,10 @@ class SnapQueryCmd(WebserverCmd):
         """
         nqm = NamedQueryManager.from_samples()
         qimport = QueryImport(nqm=nqm)
-        queries = qimport.import_from_json_file(
+        nq_list = qimport.import_from_json_file(
             json_file, with_store=True, show_progress=True
         )
-        print(f"Imported {len(queries)} named queries from {json_file}.")
+        print(f"Imported {len(nq_list.queries)} named queries from {json_file}.")
 
 
 def main(argv: list = None):

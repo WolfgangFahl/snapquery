@@ -111,7 +111,10 @@ class SnapQueryWebServer(InputWebserver):
             if limit:
                 qlod = qlod[:limit]
             content = qb.format_result(qlod, r_format)
-            return HTMLResponse(content)
+            #content=content.replace("\n", "<br>\n")
+            if r_format==Format.html:
+                return HTMLResponse(content)
+            return PlainTextResponse(content)
 
         @app.get("/api/sparql/{namespace}/{name}")
         def sparql(

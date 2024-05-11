@@ -33,6 +33,7 @@ class QueryStats:
     stats_id: str = field(init=False)
     query_id: str  # foreign key
     endpoint_name: str  # foreign key
+    context:Optional[str] = None # a context for the query stats
     records: Optional[int] = None
     time_stamp: datetime.datetime = field(init=False)
     duration: Optional[float] = field(init=False, default=None)  # duration in seconds
@@ -75,6 +76,7 @@ class QueryStats:
                 QueryStats(
                     query_id="snapquery-examples.cats",
                     endpoint_name="wikidata",
+                    context="samples",
                     records=223,
                     error_msg="",
                     filtered_msg="",

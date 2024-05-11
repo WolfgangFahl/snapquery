@@ -210,6 +210,7 @@ class QueryDetails:
     """
     query_id: str
     params: str
+    param_count:int
     lines: int
     size: int
     
@@ -235,9 +236,10 @@ class QueryDetails:
         # Example to extract parameters - this may need to be replaced with actual parameter extraction logic
         sparql_params = Params(query=sparql)  # Assuming Params is a class that can parse SPARQL queries to extract parameters
         params = ",".join(sparql_params.params) if sparql_params.params else None
-
+        param_count=len(sparql_params.params)
+        
         # Create and return the QueryDetails instance
-        return cls(query_id=query_id, params=params, lines=lines, size=size)
+        return cls(query_id=query_id, params=params,param_count=param_count, lines=lines, size=size)
    
     @classmethod
     def get_samples(cls) -> dict[str, "QueryDetails"]:
@@ -246,7 +248,11 @@ class QueryDetails:
         """
         samples = {
             "snapquery-examples": [
-                QueryDetails(query_id="scholia.test",params="q",lines=1,size=50)
+                QueryDetails(query_id="scholia.test",
+                    params="q",
+                    param_count=1,
+                    lines=1,
+                    size=50)
             ]
         }
         return samples

@@ -7,7 +7,7 @@ import urllib.parse
 
 import requests
 from tqdm import tqdm
-from lodstorage.params import Params
+
 
 from snapquery.snapquery_core import QueryDetails,NamedQueryList, NamedQueryManager
 
@@ -42,7 +42,6 @@ class QueryImport:
             NamedQueryList: A NamedQueryList object containing the imported NamedQuery objects.
         """
         nq_list = NamedQueryList.load_from_json_file(json_file)
-        qd_list = []
         iterable = (
             tqdm(nq_list.queries, desc="Importing Named Queries")
             if show_progress
@@ -52,16 +51,8 @@ class QueryImport:
         for nq in iterable:
             if not nq.sparql and nq.url.startswith("https://w.wiki/"):
                 nq.sparql = self.read_from_short_url(nq.url)
-            params=Params(query=nq.sparql)
-            signature=",".join(params.params) if params.params else None
-            qd=QueryDetails(query_id=nq.query_id,params=signature)
-            qd_list.append(qd)
-            
-
-        if with_store and self.nqm:
-            self.nqm.store_named_query_list(nq_list)
-            self.nqm.store_query_details_list(qd_list)
-
+            if with_store and self.nqm:
+                self.nqm.add_and_store(nq)
         return nq_list
 
     def read_from_short_url(self, short_url: str) -> str:

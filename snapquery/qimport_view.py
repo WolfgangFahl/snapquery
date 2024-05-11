@@ -62,9 +62,7 @@ class QueryImportView:
             "sparql": self.query.query,
         }
         nq = NamedQuery.from_record(nq_record)
-        lod = []
-        lod.append(nq_record)
-        self.nqm.store(lod)
+        self.nqm.add_and_store(nq)
         with self.query_row:
             ui.notify(f"added named query {self.name}")
             self.named_query_link.content = nq.as_link()

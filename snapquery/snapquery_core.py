@@ -8,7 +8,8 @@ import json
 import os
 import re
 import uuid
-from dataclasses import dataclass,field,asdict, is_dataclass
+from lodstorage.params import Params
+from dataclasses import field,asdict, is_dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Type
 
@@ -207,10 +208,37 @@ class QueryDetails:
     """
     Details for a named query
     """
-
     query_id: str
     params: str
+    lines: int
+    size: int
     
+    @classmethod
+    def from_sparql(cls, query_id: str, sparql: str) -> "QueryDetails":
+        """
+        Creates an instance of QueryDetails from a SPARQL query string.
+
+        This method parses the SPARQL query to determine the number of lines and the size of the query.
+        It also identifies and lists the parameters used within the SPARQL query.
+
+        Args:
+            query_id (str): The identifier of the query.
+            sparql (str): The SPARQL query string from which to generate the query details.
+
+        Returns:
+            QueryDetails: An instance containing details about the SPARQL query.
+        """
+        # Calculate the number of lines and the size of the sparql string
+        lines = sparql.count('\n') + 1
+        size = len(sparql.encode('utf-8'))
+        
+        # Example to extract parameters - this may need to be replaced with actual parameter extraction logic
+        sparql_params = Params(query=sparql)  # Assuming Params is a class that can parse SPARQL queries to extract parameters
+        params = ",".join(sparql_params.params) if sparql_params.params else None
+
+        # Create and return the QueryDetails instance
+        return cls(query_id=query_id, params=params, lines=lines, size=size)
+   
     @classmethod
     def get_samples(cls) -> dict[str, "QueryDetails"]:
         """
@@ -218,7 +246,7 @@ class QueryDetails:
         """
         samples = {
             "snapquery-examples": [
-                QueryDetails(query_id="scholia.test",params="q")
+                QueryDetails(query_id="scholia.test",params="q",lines=1,size=50)
             ]
         }
         return samples
@@ -485,6 +513,24 @@ class NamedQueryManager:
             stats_lod.append(asdict(stats))
         self.store(lod=stats_lod, source_class=QueryStats, primary_key="stats_id")
 
+    def add_and_store(self,nq:NamedQuery):
+        """
+        Adds a new NamedQuery instance and stores it in the database.
+
+        Args:
+            nq (NamedQuery): The NamedQuery instance to add and store.
+
+        """
+        qd=QueryDetails.from_sparql(query_id=nq.query_id,sparql=nq.sparql)
+        lod = []
+        nq_record=asdict(nq)
+        lod.append(nq_record)
+        self.store(lod)
+        qd_list = []
+        qd_list.append(qd)
+        self.store_query_details_list(qd_list)
+        
+    
     def store(
         self,
         lod: List[Dict[str, Any]],

@@ -20,7 +20,7 @@ from lodstorage.sparql import SPARQL
 from lodstorage.sql import SQLDB, EntityInfo
 from lodstorage.yamlable import lod_storable
 from ngwidgets.widgets import Link
-
+from snapquery.error_filter import ErrorFilter
 
 @lod_storable
 class QueryStats:
@@ -35,6 +35,7 @@ class QueryStats:
     time_stamp: datetime.datetime = field(init=False)
     duration: float = field(init=False, default=None)  # duration in seconds
     error_msg: Optional[str] = None
+    filtered_msg: Optional[str] = None
 
     def __post_init__(self):
         """
@@ -43,19 +44,21 @@ class QueryStats:
         """
         self.stats_id = str(uuid.uuid4())
         self.time_stamp = datetime.datetime.now()
-
+ 
     def done(self):
         """
         Set the duration by calculating the elapsed time since the `time_stamp`.
         """
         self.duration = (datetime.datetime.now() - self.time_stamp).total_seconds()
-
+   
     def error(self, ex: Exception):
         """
         Handle exception of query
         """
         self.duration = None
         self.error_msg = str(ex)
+        error_filter = ErrorFilter(self.error_msg)
+        self.filtered_msg = error_filter.get_message()
 
     @classmethod
     def get_samples(cls) -> dict[str, "QueryStats"]:
@@ -442,6 +445,14 @@ class NamedQueryManager:
         self.meta_qm = QueryManager(
             queriesPath=yaml_path, with_default=False, lang="sql"
         )
+        # SQL meta data handling
+        # primary keys
+        self.primary_keys = {
+            QueryStats: 'stats_id',
+            NamedQuery: 'query_id',
+            QueryDetails: 'query_id',
+        }
+        self.entity_infos = {}
         pass
 
     @classmethod
@@ -508,7 +519,7 @@ class NamedQueryManager:
         qd_lod=[]
         for qd in qd_list:
             qd_lod.append(asdict(qd))
-        self.store(lod=qd_lod,source_class=QueryDetails,primary_key="query_id")
+        self.store(lod=qd_lod,source_class=QueryDetails)
         
     def store_stats(self,stats_list:List[QueryStats]):
         """
@@ -517,8 +528,24 @@ class NamedQueryManager:
         stats_lod=[]
         for stats in stats_list:
             stats_lod.append(asdict(stats))
-        self.store(lod=stats_lod, source_class=QueryStats, primary_key="stats_id")
+        self.store(lod=stats_lod, source_class=QueryStats)
 
+    def execute_query(self,named_query:NamedQuery,endpoint_name:str="wikidata",limit:int=None):
+        """
+        execute the given named_query
+        
+        Args:
+            named_query(NamedQuery): the query to execute
+            endpoint_name(str): the endpoint where to the excute the query
+            limit(int): the record limit for the results (if any)
+        """
+        # Assemble the query bundle using the named query, endpoint, and limit
+        query_bundle = self.as_query_bundle(named_query, endpoint_name, limit)
+        # Execute the query 
+        results, stats = query_bundle.get_lod_with_stats()
+        self.store_stats([stats])
+        return results,stats
+      
     def add_and_store(self,nq:NamedQuery):
         """
         Adds a new NamedQuery instance and stores it in the database.
@@ -536,12 +563,25 @@ class NamedQueryManager:
         qd_list.append(qd)
         self.store_query_details_list(qd_list)
         
+    def get_entity_info(self, source_class: Type) -> EntityInfo:
+        """
+        Gets or creates EntityInfo for the given source class.
+        """
+        if source_class not in self.entity_infos:
+            primary_key = self.primary_keys.get(source_class, None)
+            sample_records = self.get_sample_records(source_class)
+            self.entity_infos[source_class] = EntityInfo(
+                sample_records, 
+                name=source_class.__name__, 
+                primaryKey=primary_key,
+                debug=self.debug
+            )
+        return self.entity_infos[source_class]
     
     def store(
         self,
         lod: List[Dict[str, Any]],
         source_class: Type = NamedQuery,
-        primary_key: str = "query_id",
     ) -> None:
         """
         Stores the given list of dictionaries in the database using entity information
@@ -551,20 +591,12 @@ class NamedQueryManager:
             lod (List[Dict[str, Any]]): List of dictionaries that represent the records to be stored.
             source_class (Type): The class from which the entity information is derived. This class
                 should have an attribute or method that defines its primary key and must have a `__name__` attribute.
-            primary_key(str): the primary key to use
         Raises:
             AttributeError: If the source class does not have the necessary method or attribute to define the primary key.
         """
-        # Fetch sample records to define the structure of data and to extract entity information.
-        sample_records = NamedQueryManager.get_sample_records(source_class=source_class)
-
-        # Define entity information based on the source class
-        entityInfo = EntityInfo(
-            sample_records, name=source_class.__name__, primaryKey=primary_key
-        )
-
+        entity_info = self.get_entity_info(source_class)
         # Store the list of dictionaries in the database using the defined entity information
-        self.sql_db.store(lod, entityInfo, fixNone=True, replace=True)
+        self.sql_db.store(lod, entity_info, fixNone=True, replace=True)
 
     @classmethod
     def get_sample_records(cls, source_class: Type) -> List[Dict[str, Any]]:
@@ -643,44 +675,63 @@ WHERE
         named_query = NamedQuery.from_record(record)
         return named_query
 
-    def get_query(
-        self,
-        name: str,
-        namespace: str = "wikidata-examples",
-        endpoint_name: str = "wikidata",
-        limit: int = None,
-    ) -> QueryBundle:
+    def get_query(self, name: str, namespace: str = "wikidata-examples", endpoint_name: str = "wikidata", limit: int = None) -> QueryBundle:
         """
-        get the query for the given parameters
-
+        Get the query for the given parameters.
+    
         Args:
             name (str): The name of the named query to execute.
             namespace (str): The namespace of the named query, default is 'wikidata-examples'.
             endpoint_name (str): The name of the endpoint to send the SPARQL query to, default is 'wikidata'.
-            limit(int): the query limit (if any)
-
+            limit (int): The query limit (if any).
+    
         Returns:
-            QueryBundle: named_query, query and endpoint
+            QueryBundle: named_query, query, and endpoint.
         """
         named_query = self.lookup(name, namespace)
+        return self.as_query_bundle(named_query, endpoint_name, limit)
+
+    def as_query_bundle(self, named_query: NamedQuery, endpoint_name: str, limit: int = None) -> QueryBundle:
+        """
+        Assembles a QueryBundle from a NamedQuery, endpoint name, and optional limit.
+    
+        Args:
+            named_query (NamedQuery): Named query object.
+            endpoint_name (str): Name of the endpoint where the query should be executed.
+            limit (int): Optional limit for the query.
+    
+        Returns:
+            QueryBundle: A bundle containing the named query, the query object, and the endpoint.
+        """
         if endpoint_name not in self.endpoints:
-            msg = f"Invalid endpoint {endpoint_name}"
-            ValueError(msg)
-        endpoint = self.endpoints.get(endpoint_name)
-        sparql_query = named_query.sparql
+            raise ValueError(f"Invalid endpoint {endpoint_name}")
+    
+        endpoint = self.endpoints[endpoint_name]
         query = Query(
-            name=name,
-            query=sparql_query,
+            name=named_query.name,
+            query=named_query.sparql,
             lang="sparql",
             endpoint=endpoint.endpoint,
-            limit=limit,
+            limit=limit
         )
-        self.endpointConf = self.endpoints.get(endpoint_name, Endpoint.getDefault())
-        query.tryItUrl = query.getTryItUrl(endpoint.website, endpoint.database)
-        query.database = self.endpointConf.database
-        query.query = f"{self.endpointConf.prefixes}\n{query.query}"
-        query_bundle = QueryBundle(
-            named_query=named_query, query=query, endpoint=endpoint
-        )
-        query_bundle.set_limit(limit)
-        return query_bundle
+        query.query = f"{endpoint.prefixes}\n{query.query}"
+        if limit:
+            query.query += f"\nLIMIT {limit}"
+        return QueryBundle(named_query=named_query, query=query, endpoint=endpoint)
+
+    
+    def get_all_queries(self) -> List[NamedQuery]:
+        """
+        Retrieves all named queries stored in the database.
+    
+        Returns:
+            List[NamedQuery]: A list of all NamedQuery instances in the database.
+        """
+        sql_query = "SELECT * FROM NamedQuery"
+        query_records = self.sql_db.query(sql_query)
+        named_queries = []
+        for record in query_records:
+            named_query = NamedQuery.from_record(record)
+            named_queries.append(named_query)
+        return named_queries
+

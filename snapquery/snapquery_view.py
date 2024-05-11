@@ -13,7 +13,6 @@ from ngwidgets.lod_grid import ListOfDictsGrid
 from ngwidgets.widgets import Link
 from nicegui import background_tasks, run, ui
 
-from snapquery.error_filter import ErrorFilter
 from snapquery.params_view import ParamsView
 from snapquery.snapquery_core import NamedQuery, QueryBundle
 
@@ -89,9 +88,7 @@ class NamedQueryView:
         self.grid_row.clear()
         if stats.error_msg:
             with self.grid_row:
-                error_filter = ErrorFilter(stats.error_msg)
-                filtered_msg = error_filter.get_message()
-                markup = f'<span style="color: red;">{filtered_msg}</span>'
+                markup = f'<span style="color: red;">{stats.filtered_msg}</span>'
                 ui.html(markup)
         else:
             with self.query_row:

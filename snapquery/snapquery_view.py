@@ -88,6 +88,7 @@ class NamedQueryView:
         self.grid_row.clear()
         if stats.error_msg:
             with self.grid_row:
+                stats.apply_error_filter()
                 markup = f'<span style="color: red;">{stats.filtered_msg}</span>'
                 ui.html(markup)
         else:

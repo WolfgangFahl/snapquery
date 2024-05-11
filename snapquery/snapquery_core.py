@@ -27,13 +27,12 @@ class QueryStats:
     """
     statistics about a query
     """
-
     stats_id: str = field(init=False)
     query_id: str  # foreign key
     endpoint_name: str  # foreign key
     records: Optional[int] = None
     time_stamp: datetime.datetime = field(init=False)
-    duration: float = field(init=False, default=None)  # duration in seconds
+    duration: Optional[float] = field(init=False, default=None)  # duration in seconds
     error_msg: Optional[str] = None
     filtered_msg: Optional[str] = None
 
@@ -51,14 +50,17 @@ class QueryStats:
         """
         self.duration = (datetime.datetime.now() - self.time_stamp).total_seconds()
    
+    def apply_error_filter(self,for_html:bool=False):
+        error_filter = ErrorFilter(self.error_msg)
+        self.filtered_msg = error_filter.get_message(for_html=for_html)
+        
     def error(self, ex: Exception):
         """
         Handle exception of query
         """
         self.duration = None
         self.error_msg = str(ex)
-        error_filter = ErrorFilter(self.error_msg)
-        self.filtered_msg = error_filter.get_message()
+        self.apply_error_filter()
 
     @classmethod
     def get_samples(cls) -> dict[str, "QueryStats"]:
@@ -72,6 +74,7 @@ class QueryStats:
                     endpoint_name="wikidata",
                     records=223,
                     error_msg="",
+                    filtered_msg=""
                 )
             ]
         }
@@ -259,6 +262,14 @@ class QueryDetails:
             ]
         }
         return samples
+    
+@lod_storable
+class QueryStatsList:
+    """
+    a list of query statistics
+    """
+    name: str  # the name of the list
+    stats: List[QueryStats] = field(default_factory=list)
 
 
 @lod_storable
@@ -266,7 +277,6 @@ class NamedQueryList:
     """
     a list of named queries with details
     """
-
     name: str  # the name of the list
     queries: List[NamedQuery] = field(default_factory=list)
 

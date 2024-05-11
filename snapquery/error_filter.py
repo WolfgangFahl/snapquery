@@ -16,6 +16,8 @@ class ErrorFilter:
         self.filtered_message = self._extract_relevant_info()
 
     def _extract_relevant_info(self) -> str:
+        if not self.raw_error_message:
+            return None
         # Extract SPARQL query if present
         sparql_start_token = "SPARQL-QUERY:"
         sparql_end_token = "java.util.concurrent.ExecutionException"
@@ -43,7 +45,7 @@ class ErrorFilter:
         get the filtered message
         """
         filtered_msg = self.filtered_message
-        if for_html:
+        if for_html and self.filtered_message:
             filtered_msg = filtered_msg.replace("\n", "<br>\n")
             filtered_msg = filtered_msg.replace("\\n", "<br>\n")
         return filtered_msg

@@ -3,6 +3,7 @@ Created on 2024-05-06
 
 @author: wf
 """
+import unittest
 from dacite import from_dict
 from ngwidgets.basetest import Basetest
 
@@ -27,6 +28,7 @@ class TestErrorFilter(Basetest):
              "XMLSchema#date")
         ]
 
+    @unittest.skipIf(Basetest.inPublicCI(), "needs import to run") 
     def test_querystats_list(self):
         """
         test the query statistics list

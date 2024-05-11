@@ -4,6 +4,7 @@ Created on 2024-05-11
 @author: wf
 """
 import random
+import unittest
 
 from ngwidgets.basetest import Basetest
 
@@ -53,13 +54,15 @@ class TestEndpoints(Basetest):
                 msg+=f"{stats.records} records found"
             print(msg)
           
+    @unittest.skipIf(Basetest.inPublicCI(), "needs import to run")      
     def testQueryExecution(self):
         """
         test the execution of a named query on a certain endpoint
         """
         nq=self.nqm.lookup("author_other-locations", "scholia")
         self.execute(nq, endpoint_name="wikidata",title="query")
-
+  
+    @unittest.skipIf(Basetest.inPublicCI(), "needs import to run") 
     def testQueryExecutions(self):
         """
         Test executing queries from the NamedQueryManager by using the as_query_bundle method to

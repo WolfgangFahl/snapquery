@@ -8,8 +8,7 @@ import urllib.parse
 import requests
 from tqdm import tqdm
 
-
-from snapquery.snapquery_core import QueryDetails,NamedQueryList, NamedQueryManager
+from snapquery.snapquery_core import NamedQueryList, NamedQueryManager, QueryDetails
 
 
 class QueryImport:

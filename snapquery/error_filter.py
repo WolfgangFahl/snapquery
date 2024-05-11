@@ -16,6 +16,9 @@ class ErrorFilter:
         self.filtered_message = self._extract_relevant_info()
 
     def _extract_relevant_info(self) -> str:
+        """
+        extract relevant info from the given raw_error message
+        """
         if not self.raw_error_message:
             return None
         # Extract SPARQL query if present
@@ -30,13 +33,10 @@ class ErrorFilter:
             sparql_query = self.raw_error_message[sparql_start_idx:sparql_end_idx]
             sparql_query = sparql_query.replace("SPARQL-QUERY:", "").strip()
         else:
-            sparql_query = "SPARQL query not found."
-
-        # Find and include error message
-        error_summary = "Query error: A bad request was sent to the endpoint, possibly due to a malformed SPARQL query."
+            sparql_query = "?"
 
         # Combine error message and SPARQL query
-        filtered_message = f"{error_summary}\n\nMalformed Query:\n{sparql_query}"
+        filtered_message = f"Query error:\n{sparql_query}"
 
         return filtered_message
 
@@ -45,7 +45,8 @@ class ErrorFilter:
         get the filtered message
         """
         filtered_msg = self.filtered_message
-        if for_html and self.filtered_message:
-            filtered_msg = filtered_msg.replace("\n", "<br>\n")
-            filtered_msg = filtered_msg.replace("\\n", "<br>\n")
+        if filtered_msg:
+            filtered_msg = filtered_msg.replace("\\n", "\n")
+            if for_html:
+                filtered_msg = filtered_msg.replace("\n", "<br>\n")
         return filtered_msg

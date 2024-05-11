@@ -8,25 +8,28 @@ import json
 import os
 import re
 import uuid
-from lodstorage.params import Params
-from dataclasses import field,asdict, is_dataclass
+from dataclasses import asdict, field, is_dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Type
 
 import requests
 from lodstorage.lod_csv import CSV
+from lodstorage.params import Params
 from lodstorage.query import Endpoint, EndpointManager, Format, Query, QueryManager
 from lodstorage.sparql import SPARQL
 from lodstorage.sql import SQLDB, EntityInfo
 from lodstorage.yamlable import lod_storable
 from ngwidgets.widgets import Link
+
 from snapquery.error_filter import ErrorFilter
+
 
 @lod_storable
 class QueryStats:
     """
     statistics about a query
     """
+
     stats_id: str = field(init=False)
     query_id: str  # foreign key
     endpoint_name: str  # foreign key
@@ -43,17 +46,17 @@ class QueryStats:
         """
         self.stats_id = str(uuid.uuid4())
         self.time_stamp = datetime.datetime.now()
- 
+
     def done(self):
         """
         Set the duration by calculating the elapsed time since the `time_stamp`.
         """
         self.duration = (datetime.datetime.now() - self.time_stamp).total_seconds()
-   
-    def apply_error_filter(self,for_html:bool=False):
+
+    def apply_error_filter(self, for_html: bool = False):
         error_filter = ErrorFilter(self.error_msg)
         self.filtered_msg = error_filter.get_message(for_html=for_html)
-        
+
     def error(self, ex: Exception):
         """
         Handle exception of query
@@ -74,7 +77,7 @@ class QueryStats:
                     endpoint_name="wikidata",
                     records=223,
                     error_msg="",
-                    filtered_msg=""
+                    filtered_msg="",
                 )
             ]
         }
@@ -106,7 +109,7 @@ class NamedQuery:
     # name/id
     name: str
     # sparql query (to be hidden later)
-    sparql: Optional[str]=None
+    sparql: Optional[str] = None
     # the url of the source code of the query
     url: Optional[str] = None
     # one line title
@@ -214,12 +217,13 @@ class QueryDetails:
     """
     Details for a named query
     """
+
     query_id: str
     params: str
-    param_count:int
+    param_count: int
     lines: int
     size: int
-    
+
     @classmethod
     def from_sparql(cls, query_id: str, sparql: str) -> "QueryDetails":
         """
@@ -236,17 +240,25 @@ class QueryDetails:
             QueryDetails: An instance containing details about the SPARQL query.
         """
         # Calculate the number of lines and the size of the sparql string
-        lines = sparql.count('\n') + 1
-        size = len(sparql.encode('utf-8'))
-        
+        lines = sparql.count("\n") + 1
+        size = len(sparql.encode("utf-8"))
+
         # Example to extract parameters - this may need to be replaced with actual parameter extraction logic
-        sparql_params = Params(query=sparql)  # Assuming Params is a class that can parse SPARQL queries to extract parameters
+        sparql_params = Params(
+            query=sparql
+        )  # Assuming Params is a class that can parse SPARQL queries to extract parameters
         params = ",".join(sparql_params.params) if sparql_params.params else None
-        param_count=len(sparql_params.params)
-        
+        param_count = len(sparql_params.params)
+
         # Create and return the QueryDetails instance
-        return cls(query_id=query_id, params=params,param_count=param_count, lines=lines, size=size)
-   
+        return cls(
+            query_id=query_id,
+            params=params,
+            param_count=param_count,
+            lines=lines,
+            size=size,
+        )
+
     @classmethod
     def get_samples(cls) -> dict[str, "QueryDetails"]:
         """
@@ -254,20 +266,20 @@ class QueryDetails:
         """
         samples = {
             "snapquery-examples": [
-                QueryDetails(query_id="scholia.test",
-                    params="q",
-                    param_count=1,
-                    lines=1,
-                    size=50)
+                QueryDetails(
+                    query_id="scholia.test", params="q", param_count=1, lines=1, size=50
+                )
             ]
         }
         return samples
-    
+
+
 @lod_storable
 class QueryStatsList:
     """
     a list of query statistics
     """
+
     name: str  # the name of the list
     stats: List[QueryStats] = field(default_factory=list)
 
@@ -277,6 +289,7 @@ class NamedQueryList:
     """
     a list of named queries with details
     """
+
     name: str  # the name of the list
     queries: List[NamedQuery] = field(default_factory=list)
 
@@ -458,9 +471,9 @@ class NamedQueryManager:
         # SQL meta data handling
         # primary keys
         self.primary_keys = {
-            QueryStats: 'stats_id',
-            NamedQuery: 'query_id',
-            QueryDetails: 'query_id',
+            QueryStats: "stats_id",
+            NamedQuery: "query_id",
+            QueryDetails: "query_id",
         }
         self.entity_infos = {}
         pass
@@ -496,7 +509,7 @@ class NamedQueryManager:
             for (source_class, pk) in [
                 (NamedQuery, "query_id"),
                 (QueryStats, "stats_id"),
-                (QueryDetails,"quer_id")
+                (QueryDetails, "quer_id"),
             ]:
                 # Fetch sample records from the specified class
                 sample_records = cls.get_sample_records(source_class=source_class)
@@ -524,39 +537,51 @@ class NamedQueryManager:
         for nq in nq_list.queries:
             lod.append(asdict(nq))
         self.store(lod=lod)
-        
-    def store_query_details_list(self,qd_list:List[QueryDetails]):
-        qd_lod=[]
+
+    def store_query_details_list(self, qd_list: List[QueryDetails]):
+        qd_lod = []
         for qd in qd_list:
             qd_lod.append(asdict(qd))
-        self.store(lod=qd_lod,source_class=QueryDetails)
-        
-    def store_stats(self,stats_list:List[QueryStats]):
+        self.store(lod=qd_lod, source_class=QueryDetails)
+
+    def store_stats(self, stats_list: List[QueryStats]):
         """
         store the given list of query statistics
         """
-        stats_lod=[]
+        stats_lod = []
         for stats in stats_list:
             stats_lod.append(asdict(stats))
         self.store(lod=stats_lod, source_class=QueryStats)
 
-    def execute_query(self,named_query:NamedQuery,endpoint_name:str="wikidata",limit:int=None):
+    def execute_query(
+        self,
+        named_query: NamedQuery,
+        params_dict: Dict,
+        endpoint_name: str = "wikidata",
+        limit: int = None,
+    ):
         """
         execute the given named_query
-        
+
         Args:
             named_query(NamedQuery): the query to execute
+            params_dict(Dict): the query parameters to apply (if any)
             endpoint_name(str): the endpoint where to the excute the query
             limit(int): the record limit for the results (if any)
         """
         # Assemble the query bundle using the named query, endpoint, and limit
         query_bundle = self.as_query_bundle(named_query, endpoint_name, limit)
-        # Execute the query 
+        params=Params(query_bundle.query.query)
+        if params.has_params:
+            params.set(params_dict)
+            query=params.apply_parameters()
+            query_bundle.query.query=query
+        # Execute the query
         results, stats = query_bundle.get_lod_with_stats()
         self.store_stats([stats])
-        return results,stats
-      
-    def add_and_store(self,nq:NamedQuery):
+        return results, stats
+
+    def add_and_store(self, nq: NamedQuery):
         """
         Adds a new NamedQuery instance and stores it in the database.
 
@@ -564,15 +589,15 @@ class NamedQueryManager:
             nq (NamedQuery): The NamedQuery instance to add and store.
 
         """
-        qd=QueryDetails.from_sparql(query_id=nq.query_id,sparql=nq.sparql)
+        qd = QueryDetails.from_sparql(query_id=nq.query_id, sparql=nq.sparql)
         lod = []
-        nq_record=asdict(nq)
+        nq_record = asdict(nq)
         lod.append(nq_record)
         self.store(lod)
         qd_list = []
         qd_list.append(qd)
         self.store_query_details_list(qd_list)
-        
+
     def get_entity_info(self, source_class: Type) -> EntityInfo:
         """
         Gets or creates EntityInfo for the given source class.
@@ -581,13 +606,13 @@ class NamedQueryManager:
             primary_key = self.primary_keys.get(source_class, None)
             sample_records = self.get_sample_records(source_class)
             self.entity_infos[source_class] = EntityInfo(
-                sample_records, 
-                name=source_class.__name__, 
+                sample_records,
+                name=source_class.__name__,
                 primaryKey=primary_key,
-                debug=self.debug
+                debug=self.debug,
             )
         return self.entity_infos[source_class]
-    
+
     def store(
         self,
         lod: List[Dict[str, Any]],
@@ -685,55 +710,62 @@ WHERE
         named_query = NamedQuery.from_record(record)
         return named_query
 
-    def get_query(self, name: str, namespace: str = "wikidata-examples", endpoint_name: str = "wikidata", limit: int = None) -> QueryBundle:
+    def get_query(
+        self,
+        name: str,
+        namespace: str = "wikidata-examples",
+        endpoint_name: str = "wikidata",
+        limit: int = None,
+    ) -> QueryBundle:
         """
         Get the query for the given parameters.
-    
+
         Args:
             name (str): The name of the named query to execute.
             namespace (str): The namespace of the named query, default is 'wikidata-examples'.
             endpoint_name (str): The name of the endpoint to send the SPARQL query to, default is 'wikidata'.
             limit (int): The query limit (if any).
-    
+
         Returns:
             QueryBundle: named_query, query, and endpoint.
         """
         named_query = self.lookup(name, namespace)
         return self.as_query_bundle(named_query, endpoint_name, limit)
 
-    def as_query_bundle(self, named_query: NamedQuery, endpoint_name: str, limit: int = None) -> QueryBundle:
+    def as_query_bundle(
+        self, named_query: NamedQuery, endpoint_name: str, limit: int = None
+    ) -> QueryBundle:
         """
         Assembles a QueryBundle from a NamedQuery, endpoint name, and optional limit.
-    
+
         Args:
             named_query (NamedQuery): Named query object.
             endpoint_name (str): Name of the endpoint where the query should be executed.
             limit (int): Optional limit for the query.
-    
+
         Returns:
             QueryBundle: A bundle containing the named query, the query object, and the endpoint.
         """
         if endpoint_name not in self.endpoints:
             raise ValueError(f"Invalid endpoint {endpoint_name}")
-    
+
         endpoint = self.endpoints[endpoint_name]
         query = Query(
             name=named_query.name,
             query=named_query.sparql,
             lang="sparql",
             endpoint=endpoint.endpoint,
-            limit=limit
+            limit=limit,
         )
         query.query = f"{endpoint.prefixes}\n{query.query}"
         if limit:
             query.query += f"\nLIMIT {limit}"
         return QueryBundle(named_query=named_query, query=query, endpoint=endpoint)
 
-    
     def get_all_queries(self) -> List[NamedQuery]:
         """
         Retrieves all named queries stored in the database.
-    
+
         Returns:
             List[NamedQuery]: A list of all NamedQuery instances in the database.
         """
@@ -744,4 +776,3 @@ WHERE
             named_query = NamedQuery.from_record(record)
             named_queries.append(named_query)
         return named_queries
-

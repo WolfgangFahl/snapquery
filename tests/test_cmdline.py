@@ -53,7 +53,17 @@ class TestCommandLine(Basetest):
         limit = 10
 
         def run_cmd():
-            snapquery_cmd.main(["-d", "--namespace", "snapquery-examples", "-qn", "cats", "--limit", f"{limit}"])
+            snapquery_cmd.main(
+                [
+                    "-d",
+                    "--namespace",
+                    "snapquery-examples",
+                    "-qn",
+                    "cats",
+                    "--limit",
+                    f"{limit}",
+                ]
+            )
 
         # Capture the output of running the command
         output = self.capture_stdout(run_cmd)

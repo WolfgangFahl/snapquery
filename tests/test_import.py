@@ -12,6 +12,7 @@ from ngwidgets.basetest import Basetest
 
 from snapquery.qimport import QueryImport
 from snapquery.snapquery_core import NamedQueryManager
+from snapquery.wd_short_url import ShortUrl
 
 
 class TestImport(Basetest):
@@ -19,7 +20,7 @@ class TestImport(Basetest):
     test importing  named queries
     """
 
-    def setUp(self, debug=True, profile=True):
+    def setUp(self, debug=False, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
 
     def testSamplesImports(self):
@@ -84,9 +85,8 @@ class TestImport(Basetest):
         """
         test reading from a short url
         """
-        url = "https://w.wiki/6UCU"
-        qimport = QueryImport()
-        query = qimport.read_from_short_url(url)
+        short_url=ShortUrl("https://w.wiki/6UCU")
+        query = short_url.read_query()
         if self.debug:
             print(query)
         self.assertTrue("Q0.1" in query)

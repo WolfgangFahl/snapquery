@@ -3,7 +3,6 @@ Created on 2024-05-03
 
 @author: wf
 """
-
 import asyncio
 from typing import List
 
@@ -16,7 +15,6 @@ from ngwidgets.widgets import Link
 from nicegui import background_tasks, run, ui
 import plotly.express as px
 
-from snapquery.error_filter import ErrorFilter
 from snapquery.params_view import ParamsView
 from snapquery.snapquery_core import (
     NamedQuery,
@@ -163,15 +161,12 @@ class NamedQueryView:
             self.params_view.close()
         self.query_bundle.set_limit(int(self.limit))
         (lod, stats) = await run.io_bound(self.query_bundle.get_lod_with_stats)
-        self.nqm.store(
-            [stats.as_record()], source_class=QueryStats, primary_key="stats_id"
-        )
+        self.nqm.store_stats([stats])
         self.grid_row.clear()
         if stats.error_msg:
             with self.grid_row:
-                error_filter = ErrorFilter(stats.error_msg)
-                filtered_msg = error_filter.get_message()
-                markup = f'<span style="color: red;">{filtered_msg}</span>'
+                stats.apply_error_filter()
+                markup = f'<span style="color: red;">{stats.filtered_msg}</span>'
                 ui.html(markup)
         else:
             with self.query_row:

@@ -3,13 +3,12 @@ Created on 2024-05-05
 
 @author: wf
 """
-import json
 import urllib.parse
 
 import requests
 from tqdm import tqdm
 
-from snapquery.snapquery_core import NamedQuery, NamedQueryList, NamedQueryManager
+from snapquery.snapquery_core import NamedQueryList, NamedQueryManager, QueryDetails
 
 
 class QueryImport:
@@ -51,10 +50,8 @@ class QueryImport:
         for nq in iterable:
             if not nq.sparql and nq.url.startswith("https://w.wiki/"):
                 nq.sparql = self.read_from_short_url(nq.url)
-
-        if with_store and self.nqm:
-            self.nqm.store_named_query_list(nq_list)
-
+            if with_store and self.nqm:
+                self.nqm.add_and_store(nq)
         return nq_list
 
     def read_from_short_url(self, short_url: str) -> str:

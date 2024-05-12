@@ -27,3 +27,24 @@
       FROM QueryStats
         GROUP by query_id
         ORDER BY 1 DESC;
+'params_stats':
+    sql: |
+        SELECT count(*),
+            params 
+        FROM "QueryDetails" 
+        GROUP BY params 
+        ORDER BY 1 desc
+'query_details_stats':
+    sql: |
+      SELECT 
+        MIN(param_count) AS min_param_count,
+        MAX(param_count) AS max_param_count,
+        AVG(param_count) AS avg_param_count,
+        MIN(lines) AS min_lines,
+        MAX(lines) AS max_lines,
+        AVG(lines) AS avg_lines,
+        MIN(size) AS min_size,
+        MAX(size) AS max_size,
+        AVG(size) AS avg_size
+      FROM 
+        QueryDetails;

@@ -12,7 +12,7 @@ from lodstorage.query import Format
 from ngwidgets.cmd import WebserverCmd
 
 from snapquery.qimport import QueryImport
-from snapquery.snapquery_core import NamedQueryManager
+from snapquery.snapquery_core import NamedQueryManager, NamedQuery, QueryDetails
 from snapquery.snapquery_webserver import SnapQueryWebServer
 
 
@@ -46,7 +46,16 @@ class SnapQueryCmd(WebserverCmd):
             help="show the list of available endpoints",
         )
         parser.add_argument(
-            "--limit", type=int, default=None, help="set limit parameter of query"
+            "-tq",
+            "--testQueries",
+            action="store_true",
+            help="test run the queries",
+        )
+        parser.add_argument(
+            "--limit", 
+            type=int, 
+            default=None, 
+            help="set limit parameter of query"
         )
         parser.add_argument(
             "--params",
@@ -59,8 +68,12 @@ class SnapQueryCmd(WebserverCmd):
             default="wikidata-examples",
             help="namespace to filter queries",
         )
-        parser.add_argument("-f", "--format", type=Format, choices=list(Format))
-        parser.add_argument("-qn", "--queryName", help="run a named query")
+        parser.add_argument(
+            "-f", "--format",
+             type=Format, choices=list(Format))
+        parser.add_argument(
+            "-qn", "--queryName", 
+            help="run a named query")
         parser.add_argument(
             "--import",
             dest="import_file",
@@ -68,6 +81,41 @@ class SnapQueryCmd(WebserverCmd):
         )
 
         return parser
+    
+    def parameterize(self,nq:NamedQuery):
+        qd = QueryDetails.from_sparql(
+            query_id=nq.query_id, sparql=nq.sparql
+        )
+        # Execute the query
+        params_dict = {}
+        if qd.params=="q":
+            # use Tim Berners-Lee as a example
+            params_dict={"q": "Q80"}
+            pass
+        return qd, params_dict
+    
+    def execute(self,nq:NamedQuery,endpoint_name:str,title:str):
+        """
+        execute the given named query
+        """
+        qd,params_dict=self.parameterize(nq)
+        if self.debug:
+            print(f"{title}: {nq.name} {qd} - via {endpoint_name}")
+              
+        _results, stats = self.nqm.execute_query(
+                nq,
+                params_dict=params_dict,
+                endpoint_name=endpoint_name,
+        )
+        stats.context="test"
+        self.nqm.store_stats([stats])
+        if self.debug:
+            msg=f"{title} executed:"
+            if not stats.records:
+                msg+=f"error {stats.filtered_msg}"
+            else:
+                msg+=f"{stats.records} records found"
+            print(msg)
 
     def handle_args(self) -> bool:
         """
@@ -75,13 +123,21 @@ class SnapQueryCmd(WebserverCmd):
         """
         # Call the superclass handle_args to maintain base class behavior
         handled = super().handle_args()
+        self.debug=self.args.debug
         nqm = NamedQueryManager.from_samples()
+        self.nqm=nqm
         # Check if listing of endpoints is requested
         if self.args.listEndpoints:
             # List endpoints
-            for endpoint in nqm.endpoints.values():
+            for endpoint in self.nqm.endpoints.values():
                 print(endpoint)
             handled = True  # Operation handled
+        elif self.args.testQueries:
+            endpoint_names = list(nqm.endpoints.keys())
+            queries = self.nqm.get_all_queries()
+            for i,nq in enumerate(queries,start=1):
+                for endpoint_name in endpoint_names:
+                    self.execute(nq,endpoint_name=endpoint_name,title=f"query {i:3}/{len(queries)}::{endpoint_name}")
         elif self.args.queryName is not None:
             namespace = self.args.namespace
             name = self.args.queryName
@@ -119,10 +175,10 @@ class SnapQueryCmd(WebserverCmd):
         """
         nqm = NamedQueryManager.from_samples()
         qimport = QueryImport(nqm=nqm)
-        queries = qimport.import_from_json_file(
+        nq_list = qimport.import_from_json_file(
             json_file, with_store=True, show_progress=True
         )
-        print(f"Imported {len(queries)} named queries from {json_file}.")
+        print(f"Imported {len(nq_list.queries)} named queries from {json_file}.")
 
 
 def main(argv: list = None):

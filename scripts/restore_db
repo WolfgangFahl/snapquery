@@ -2,9 +2,33 @@
 # WF 2024-05-05
 # restore the snapquery database
 db=$HOME/.solutions/snapquery/storage/named_queries.db
+
+# Parse command-line arguments
+web_mode=false
+remaining_args=()
+
+for arg in "$@"
+do
+  case $arg in
+    --web)
+      web_mode=true
+      ;;
+    *)
+      remaining_args+=("$arg")
+      ;;
+  esac
+done
+
+# Remove old database
 rm $db
+
+# Import JSON files into snapquery database
 for f in $(find snapquery/samples -name '*.json')
 do
-  snapquery --import  $f | grep -iv warning
+  snapquery --import "$f" "${remaining_args[@]}" 
 done
-#sqlite_web $db
+
+# Start web server if --web option was passed
+if $web_mode; then
+  sqlite_web "$db"
+fi

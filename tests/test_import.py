@@ -68,10 +68,10 @@ class TestImport(Basetest):
         }
         json_file = "/tmp/sample_ceur-ws_queries.json"
         with open(json_file, "w") as f:
-            json.dump(sample_data, f,indent=2)
+            json.dump(sample_data, f, indent=2)
 
         nq_list = qimport.import_from_json_file(json_file)
-        queries=nq_list.queries
+        queries = nq_list.queries
         for query in queries:
             if self.debug:
                 print(query)

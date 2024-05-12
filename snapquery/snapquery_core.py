@@ -74,7 +74,6 @@ class QueryStats:
         stat.duration = record.get("duration", None)
         return stat
 
-
     def as_record(self) -> Dict:
         """
         convert my declared attributes to a dict
@@ -107,6 +106,12 @@ class QueryStats:
             for sample in sample_list:
                 sample.duration = 0.5
         return samples
+
+    def is_successful(self) -> bool:
+        """
+        Returns True if the query was successful
+        """
+        return self.duration and self.error_msg is None
 
 
 @lod_storable

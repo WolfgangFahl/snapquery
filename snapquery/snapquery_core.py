@@ -8,7 +8,7 @@ import json
 import os
 import re
 import uuid
-from dataclasses import asdict, field, is_dataclass
+from dataclasses import asdict, field, fields, is_dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Type
 
@@ -67,6 +67,35 @@ class QueryStats:
         self.apply_error_filter()
 
     @classmethod
+    def from_record(cls, record: Dict) -> "QueryStats":
+        """
+        Class method to instantiate NamedQuery
+        from a dictionary record.
+        """
+        stat = cls(
+                query_id=record.get("query_id", None),
+                endpoint_name=record.get("endpoint_name", None),
+                records=record.get("records", None),
+                error_msg=record.get("error_msg", None),
+        )
+        stat.stats_id = record.get("stats_id", stat.stats_id)
+        stat.time_stamp = record.get("time_stamp", stat.time_stamp)
+        stat.duration = record.get("duration", None)
+        return stat
+
+    def as_record(self) -> Dict:
+        """
+        convert my declared attributes to a dict
+        @TODO may be use asdict from dataclasses instead?
+        """
+        record = {}
+        for field in fields(self):
+            # Include field in the record dictionary if it has already been initialized (i.e., not None or has default)
+            if hasattr(self, field.name):
+                record[field.name] = getattr(self, field.name)
+        return record
+
+    @classmethod
     def get_samples(cls) -> dict[str, "QueryStats"]:
         """
         get samples
@@ -88,6 +117,12 @@ class QueryStats:
             for sample in sample_list:
                 sample.duration = 0.5
         return samples
+
+    def is_successful(self) -> bool:
+        """
+        Returns True if the query was successful
+        """
+        return self.duration and self.error_msg is None
 
 
 @lod_storable
@@ -201,6 +236,18 @@ ORDER BY ?horse
             sparql=record.get("sparql"),
         )
 
+    def as_record(self) -> Dict:
+        record = {
+            "query_id": self.query_id,
+            "namespace": self.namespace,
+            "name": self.name,
+            "url": self.url,
+            "title": self.title,
+            "description": self.description,
+            "sparql": self.sparql,
+        }
+        return record
+
     def as_viewrecord(self) -> Dict:
         """
         Return a dictionary representing the NamedQuery with keys ordered as Name, Namespace, Title, Description.
@@ -294,6 +341,9 @@ class NamedQueryList:
 
     name: str  # the name of the list
     queries: List[NamedQuery] = field(default_factory=list)
+
+    def __len__(self):
+        return len(self.queries)
 
 
 class QueryBundle:
@@ -505,7 +555,7 @@ class NamedQueryManager:
         if db_path is None:
             db_path = cls.get_cache_path()
 
-        nqm = NamedQueryManager(debug=debug)
+        nqm = NamedQueryManager(db_path=db_path, debug=debug)
         path_obj = Path(db_path)
         if not path_obj.exists() or path_obj.stat().st_size == 0:
             for (source_class, pk) in [
@@ -778,3 +828,27 @@ WHERE
             named_query = NamedQuery.from_record(record)
             named_queries.append(named_query)
         return named_queries
+
+    def get_query_stats(self, query_id: str) -> list[QueryStats]:
+        """
+        Get query stats for the given query name
+        Args:
+            query_id: id of the query
+
+        Returns:
+            list of query stats
+        """
+        sql_query = f"""
+        SELECT *
+        FROM QueryStats
+        WHERE query_id = ?
+        """
+        query_records = self.sql_db.query(sql_query, (query_id,))
+        stats = []
+        if query_records:
+            for record in query_records:
+                query_stat = QueryStats.from_record(record)
+                stats.append(query_stat)
+        return stats
+
+

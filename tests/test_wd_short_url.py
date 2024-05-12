@@ -21,11 +21,10 @@ class TestShortUrl(Basetest):
             with_llm=False
             count=3
         else:
-            count=1
+            count=100
             with_llm=True    
-        nq_list = ShortUrl.get_random_query_list(name="short_urls", count=count,with_llm=with_llm)
+        nq_list = ShortUrl.get_random_query_list(name="short_urls", count=count,with_llm=with_llm,debug=self.debug)
         nq_list.save_to_json_file("/tmp/wikidata-short-urls.json",indent=2)
         self.assertEqual(count,len(nq_list.queries))
-        
         
     

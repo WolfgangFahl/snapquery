@@ -92,7 +92,7 @@ SPARQL: {sparql}
             max_postfix="9pfu",
             with_llm=False,
             with_progress:bool=False,
-            debug=True) -> NamedQueryList:
+            debug=False) -> NamedQueryList:
         """
         Read a specified number of random queries from a list of short URLs.
 
@@ -125,7 +125,7 @@ SPARQL: {sparql}
             if short_ids.id_to_int(postfix) > max_short_int:
                 continue
             if debug:
-                print(f"{give_up}:{postfix}")
+                print(f"{give_up:4}:{postfix}")
             wd_short_url = f"{base_url}{postfix}"
             short_url=cls(short_url=wd_short_url)
             short_url.read_query()
@@ -149,7 +149,8 @@ SPARQL: {sparql}
                             nq.description = description
                             nq.__post_init__()
                     except Exception as ex:
-                        print(f"Failed to get LLM response: {str(ex)}")
+                        if debug:
+                            print(f"Failed to get LLM response: {str(ex)}")
                         continue
                 nq_list.queries.append(nq)
                 unique_urls.add(nq.url)
@@ -159,7 +160,6 @@ SPARQL: {sparql}
             else:
                 give_up-=1
         return nq_list
-
 
     def read_query(self) -> str:
         """

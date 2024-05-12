@@ -8,9 +8,7 @@ import json
 import tempfile
 
 from ngwidgets.basetest import Basetest
-
-from snapquery.snapquery_core import NamedQuery, NamedQueryManager, QueryStats
-
+from snapquery.snapquery_core import NamedQuery, NamedQueryManager
 
 class TestNamedQueryManager(Basetest):
     """

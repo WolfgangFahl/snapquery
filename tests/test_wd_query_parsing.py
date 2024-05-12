@@ -3,7 +3,6 @@ Created on 2024-05-04
 
 @author: tholzheim
 """
-import json
 import pprint
 import tempfile
 
@@ -27,7 +26,7 @@ class TestWdQueryParsing(Basetest):
 
         Queries can be found at https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples
         """
-        with tempfile.NamedTemporaryFile() as tmpfile:
+        with tempfile.NamedTemporaryFile(delete=False) as tmpfile:
             nqm = NamedQueryManager.from_samples(db_path=tmpfile.name)
             self.wikidata_examples = WikidataExamples(nqm)
             self.wikidata_examples.extract_queries()

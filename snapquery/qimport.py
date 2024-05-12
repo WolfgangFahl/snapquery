@@ -9,7 +9,7 @@ import requests
 from tqdm import tqdm
 
 from snapquery.snapquery_core import NamedQueryList, NamedQueryManager, QueryDetails
-
+from snapquery.wd_short_url import ShortUrl
 
 class QueryImport:
     """
@@ -49,39 +49,8 @@ class QueryImport:
 
         for nq in iterable:
             if not nq.sparql and nq.url.startswith("https://w.wiki/"):
-                nq.sparql = self.read_from_short_url(nq.url)
+                short_url = ShortUrl(nq.url)
+                nq.sparql = short_url.read_query()  
             if with_store and self.nqm:
                 self.nqm.add_and_store(nq)
         return nq_list
-
-    def read_from_short_url(self, short_url: str) -> str:
-        """
-        Read a query from a short URL.
-
-        Args:
-            short_url (str): The short URL from which to read the query.
-
-        Returns:
-            str: The SPARQL query extracted from the short URL.
-
-        Raises:
-            Exception: If there's an error fetching or processing the URL.
-        """
-        sparql_query = None
-        try:
-            # Follow the redirection
-            response = requests.head(short_url, allow_redirects=True)
-            redirected_url = response.url
-
-            # Check if the URL has the correct format
-            parsed_url = urllib.parse.urlparse(redirected_url)
-            if (
-                parsed_url.scheme == "https"
-                and parsed_url.netloc == "query.wikidata.org"
-            ):
-                sparql_query = urllib.parse.unquote(parsed_url.fragment)
-
-        except Exception as ex:
-            print(f"Error fetching URL: {ex}")
-
-        return sparql_query

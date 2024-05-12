@@ -1,0 +1,905 @@
+{
+  "name": "short_urls",
+  "queries": [
+    {
+      "query_id": "short_url.People_Died_of_Sudden_Infant_Death_Syndrome",
+      "namespace": "short_url",
+      "name": "People_Died_of_Sudden_Infant_Death_Syndrome",
+      "sparql": "SELECT ?personLabel ?instanceLabel\nWHERE\n{\n   SERVICE wikibase:label {\n    bd:serviceParam wikibase:language \"en\" .\n   }\n  #?person wdt:P31/wdt:P279* wd:Q5.\n  ?person wdt:P509 wd:Q3235597.\n}",
+      "url": "https://w.wiki/4QHZ",
+      "title": "People Who Died of Sudden Infant Death Syndrome",
+      "description": "Lists people who died of Sudden Infant Death Syndrome. The query retrieves and displays the names of individuals associated with the medical condition, Sudden Infant Death Syndrome (Q3235597)."
+    },
+    {
+      "query_id": "short_url.Female_Humans_with_Occupation_Q16271064_and_No_Eng_Wikipedia",
+      "namespace": "short_url",
+      "name": "Female_Humans_with_Occupation_Q16271064_and_No_Eng_Wikipedia",
+      "sparql": "SELECT ?item ?linkcount WHERE {\n  ?item wdt:P106 ?occ .\n  VALUES ?occ {\n    wd:Q16271064 # Q16271064\n  }\n  FILTER NOT EXISTS {                              # has no en.wikipedia sitelink\n    ?wen schema:about ?item .\n    ?wen schema:isPartOf <https://en.wikipedia.org/> .\n  }\n  ?item wdt:P21 wd:Q6581072 .                      # gender: female\n  ?item wdt:P31 wd:Q5 .                            # human\n  OPTIONAL {?item wikibase:sitelinks ?linkcount .} # count of sitelinks  \n}",
+      "url": "https://w.wiki/243c",
+      "title": "Female Humans with Occupation Q16271064 and No English Wikipedia Entry",
+      "description": "Lists female entities with the given occupation (Q16271064) but no English Wikipedia links. It includes their identifiers, and the count of their sitelinks to other languages or projects."
+    },
+    {
+      "query_id": "short_url.Course_Topics_in_Taiwanese_Wikipedia",
+      "namespace": "short_url",
+      "name": "Course_Topics_in_Taiwanese_Wikipedia",
+      "sparql": "SELECT DISTINCT ?topic ?topicLabel ?article WHERE {\n  ?course wdt:P921 ?topic;\n    wdt:P361 wd:Q113556931.\n  ?c wdt:P279 ?curriculum.\n  ?curriculum wdt:P31 wd:Q600134.\n  ?article schema:about ?topic;\n    schema:isPartOf <https://tw.wikipedia.org/>.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],fat\". }\n}",
+      "url": "https://w.wiki/6rsP",
+      "title": "Course Topics in Taiwanese Wikipedia",
+      "description": "Identifies distinct course topics that are part of a certain curriculum and have articles in Taiwanese Wikipedia. It lists topic identifiers, labels, and corresponding article URLs."
+    },
+    {
+      "query_id": "short_url.Identifiers_for_Quartz_and_Topaz",
+      "namespace": "short_url",
+      "name": "Identifiers_for_Quartz_and_Topaz",
+      "sparql": "SELECT DISTINCT ?i (STR(?il) as ?ilabel) {\n  ?i wdt:P31/wdt:P279* wd:Q12089225.\n  ?i rdfs:label ?il. FILTER(STR(?il) in (\"quartz\", \"topaz\"))\n}",
+      "url": "https://w.wiki/2RMV",
+      "title": "Identifiers for Quartz and Topaz",
+      "description": "Retrieves identifiers for the minerals Quartz and Topaz. The query filters for these specific stones and returns their respective identifiers."
+    },
+    {
+      "query_id": "short_url.Characters_in_Series_Q682371",
+      "namespace": "short_url",
+      "name": "Characters_in_Series_Q682371",
+      "sparql": "select ?s ?sLabel\nwhere {\n   ?s wdt:P674 wd:Q682371 .\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],ja\". }\n}\nLIMIT 100",
+      "url": "https://w.wiki/2YG3",
+      "title": "Characters in Series with Identifier Q682371",
+      "description": "Lists characters from a series with identifier Q682371. The results display unique identifiers and corresponding labels for each character, utilizing automatic language translation, prioritizing Japanese."
+    },
+    {
+      "query_id": "short_url.Cat_Entities",
+      "namespace": "short_url",
+      "name": "Cat_Entities",
+      "sparql": "#Chats\nSELECT ?item ?itemLabel \nWHERE \n{\n  ?item wdt:P31 wd:Q146. # <span class=\"mw-translate-fuzzy\">doit avoir comme nature chat</span>\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". } # le label viendra de pr\u00e9f\u00e9rence dans votre langue, et autrement en anglais\n}",
+      "url": "https://w.wiki/8Gri",
+      "title": "Entities Characterized as Cats",
+      "description": "Lists entities that have been characterized as cats. The results include identifiers and labels for each entity, with labels prioritized in the user's language or in English if not available."
+    },
+    {
+      "query_id": "short_url.Birthdate_of_Mother_Teresa",
+      "namespace": "short_url",
+      "name": "Birthdate_of_Mother_Teresa",
+      "sparql": "select ?date\nwhere {\n  wd:Q22686 wdt:P569 ?date.\n}",
+      "url": "https://w.wiki/5msq",
+      "title": "Birthdate of Mother Teresa",
+      "description": "A simple query to retrieve the birthdate of Mother Teresa (wd:Q22686) from the Wikidata. The result includes the specific date of birth."
+    },
+    {
+      "query_id": "short_url.Kerala_Politicians_and_their_Politician_Children",
+      "namespace": "short_url",
+      "name": "Kerala_Politicians_and_their_Politician_Children",
+      "sparql": "SELECT ?politician ?politicianLabel ?child ?childLabel\nWHERE {\n  ?politician wdt:P106 wd:Q82955 . # Politician\n  ?politician wdt:P103 wd:Q36236 . # From Kerala\n  ?politician wdt:P40 ?child . # Has child\n  ?child wdt:P106 wd:Q82955 . # Child is also a politician\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\" . }\n}",
+      "url": "https://w.wiki/82w7",
+      "title": "Politicians from Kerala and their Children who are also Politicians",
+      "description": "Lists politicians from Kerala who have children also serving as politicians. The output includes identifiers and names of both the politician and their child, each of whom are verified politicians."
+    },
+    {
+      "query_id": "short_url.Gender_Count_of_English_Writers",
+      "namespace": "short_url",
+      "name": "Gender_Count_of_English_Writers",
+      "sparql": "SELECT DISTINCT ?gender ?genderLabel ?count WHERE {\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE]\". }\n  {\n    SELECT ?gender (COUNT(?gender) AS ?count) WHERE {\n      ?person wdt:P106 wd:Q10871364.\n      ?person wdt:P21 ?gender.\n      \n      FILTER EXISTS { ?wfr schema:about ?person . ?wfr schema:inLanguage \"en\" }\n    }\n    GROUP BY ?gender\n  }\n}",
+      "url": "https://w.wiki/4zeo",
+      "title": "Gender Count of English Writers",
+      "description": "Counts the number of English writers based on gender. It identifies each individual's gender and counts the number of individuals identified as that gender. Only includes those who have English Wikipedia pages."
+    },
+    {
+      "query_id": "short_url.Graph_View_of_Selected_Items_and_Their_Relationships",
+      "namespace": "short_url",
+      "name": "Graph_View_of_Selected_Items_and_Their_Relationships",
+      "sparql": "#defaultView:Graph\nSELECT ?item1 ?image1 ?item1Label ?item2 ?image2 ?item2Label ?edgeLabel \nWITH {\n  SELECT ?item1 WHERE {\n    VALUES ?item1 { wd:Q174570 wd:Q96354844 wd:Q99566222 wd:Q6780171 wd:Q1222730  wd:Q8030967 wd:Q81165078 wd:Q100890107 wd:Q4801299 wd:Q2748532 wd:Q7186 wd:Q8031349 wd:Q254858 wd:Q55970423 wd:Q76948 wd:Q268702 wd:Q7259 wd:Q30128828 wd:Q268702 wd:Q225863 wd:Q83796578 wd:Q392703 wd:Q442818 wd:Q271477 wd:Q4801299}\n  }\n} AS %item1\nWITH {\n  SELECT (?item1 AS ?item2) WHERE { \n    INCLUDE %item1.\n  }\n} AS %item2\nWHERE {\n  INCLUDE %item1.\n  INCLUDE %item2.\n  ?item1 ?wdt ?item2.\n  ?edge wikibase:directClaim ?wdt;\n        a wikibase:Property.\n  OPTIONAL { ?item1 wdt:P18 ?image1. }\n  OPTIONAL { ?item2 wdt:P18 ?image2. }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n  }",
+      "url": "https://w.wiki/4qAF",
+      "title": "Graph View of Selected Items and Their Relationships",
+      "description": "Displays a graph view of selected items and their relationships. It shows the nodes (items) and edges (relations) between them, optionally with images. The items are pre-selected and identified with Wikidata IDs. The results include labels and optional images for each item and relationship."
+    },
+    {
+      "query_id": "short_url.British_Historic_Sites_and_Monuments",
+      "namespace": "short_url",
+      "name": "British_Historic_Sites_and_Monuments",
+      "sparql": "SELECT ?item ?article ?itemLabel ?GfS ?dsa ?grace ?canmore ?hs  ?commonscat WHERE {\n    ?item wdt:P31 wd:Q108792154 .\n    ?item wdt:P17 wd:Q145 .\n    OPTIONAL {?article schema:about ?item ; schema:isPartOf <https://en.wikipedia.org/> } .\n    OPTIONAL {?item wdt:P373 ?commonscat} .\n    OPTIONAL {?item wdt:P7350 ?GfS} .\n    OPTIONAL {?item wdt:P7630 ?dsa} .\n    OPTIONAL {?item wdt:P3074 ?grace} .\n    OPTIONAL {?item wdt:P718 ?canmore} .\n    OPTIONAL {?item wdt:P709 ?hs} .\n    SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\n",
+      "url": "https://w.wiki/4yS7",
+      "title": "British Historic Sites and Monuments Information",
+      "description": "Provides data about UK's historic sites and monuments recognized as Scheduled Monuments. It includes their identifiers, labels, and links to related resources such as Wikipedia articles and database entries in GfS, DSA, Grace, Canmore, HS, and Commons category."
+    },
+    {
+      "query_id": "short_url.Count_of_City_Types_in_Country",
+      "namespace": "short_url",
+      "name": "Count_of_City_Types_in_Country",
+      "sparql": "SELECT ?citiesLabel (COUNT(*) AS ?cityCount) WHERE {\n  {\n    ?cities (wdt:P31/wdt:P279) wd:Q515;\n  }\n  UNION\n  {\n    ?cities wdt:P31/wdt:P279 wd:Q3957;\n  }\n  UNION\n  {\n    ?cities wdt:P31/wdt:P279 wd:Q486972;\n  }\n  UNION\n  {\n    ?cities wdt:P31/wdt:P279 wd:Q1549591;\n  }\n  UNION\n  {\n    ?cities wdt:P31/wdt:P279 wd:532;\n  }\n  ?cities wdt:P17 wd:Q219. \n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"bg,en\". }\n}\nGROUP BY ?citiesLabel\nHAVING ((COUNT(*)) > 1)\nORDER BY DESC (?cityCount)\n\n\n",
+      "url": "https://w.wiki/4upG",
+      "title": "Count of Different City Types in a Specific Country",
+      "description": "Retrieves and counts the different types of cities in a specific country. The results include the city's name and the count of its type. Only cities appearing more than once are displayed, ordered by their count in descending order."
+    },
+    {
+      "query_id": "short_url.Catalog_of_Cats_With_Websites",
+      "namespace": "short_url",
+      "name": "Catalog_of_Cats_With_Websites",
+      "sparql": "#Cats\nSELECT ?item ?itemLabel ?sito\nWHERE \n{\n  ?item wdt:P31 wd:Q747074.\n  OPTIONAL {\n  ?item wdt:P856 ?sito.\n    }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}",
+      "url": "https://w.wiki/2jWV",
+      "title": "Catalog of Cats With Their Websites",
+      "description": "Lists all entities that are cats, along with their labels and optional website links. The results are fetched from Wikibase and displayed in the user's preferred language."
+    },
+    {
+      "query_id": "short_url.Species_level_taxon_names",
+      "namespace": "short_url",
+      "name": "Species_level_taxon_names",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/Q3933612> \n\nSELECT DISTINCT \n# ?item ?title ?taxonname\n  (REPLACE(STR(?item), \".*Q\", \"Q\") AS ?work) \n  (\"P921\" AS ?main_subject)\n  (REPLACE(STR(target: ), \".*Q\", \"Q\") AS ?taxon)\n  (\"S887\" AS ?heuristic)\n  (\"Q69652283\" AS ?deduced)\n\nWHERE\n{\n  target: wdt:P225 ?taxonname .\n  target: wdt:P105 wd:Q7432 . # this filters for species-level taxon names; comment out this line if you'd like to see other ranks too\n\n  SERVICE wikibase:mwapi\n  {\n    bd:serviceParam wikibase:endpoint \"www.wikidata.org\";\n                    wikibase:api \"Generator\";\n                    mwapi:generator \"search\";\n                    mwapi:gsrsearch ?taxonname;\n                    mwapi:gsrlimit \"max\".\n    ?item wikibase:apiOutputItem mwapi:title.\n  }\n  ?item wdt:P1476 ?title .\n  \n  MINUS {?item wdt:P921 target: }\n  MINUS {?item wdt:P921 [wdt:P105 wd:Q68947 ] }\n\n  FILTER (REGEX(LCASE(?title), LCASE(CONCAT( \"\\\\\", \"b\", ?taxonname ,\"\\\\\", \"b\"))))\n}\nLIMIT 200",
+      "url": "https://w.wiki/4xCp",
+      "title": "Species-level Taxon Names from Wikidata",
+      "description": "Queries for species-level taxon names from Wikidata, excluding those with a main subject of the target or a taxon rank of 'species'. Returns the work identifier, main subject, taxon, heuristic, and deduced information for the queried items."
+    },
+    {
+      "query_id": "short_url.Coastal_Habitat_Articles",
+      "namespace": "short_url",
+      "name": "Coastal_Habitat_Articles",
+      "sparql": "SELECT \n  DISTINCT\n#   ?item ?title\n  (REPLACE(STR(?item), \".*Q\", \"Q\") AS ?qid) \n  (\"P921\" AS ?property)\n  (\"Q121718257\" AS ?ReplaceWithYourTargetID)\n  (\"S887\" AS ?heuristic)\n  (\"Q69652283\" AS ?deduced)\n\nWHERE {\n  hint:Query hint:optimizer \"None\".\n  \n{  SERVICE wikibase:mwapi {\n    bd:serviceParam wikibase:api \"Search\";\n                    wikibase:endpoint \"www.wikidata.org\";\n                    mwapi:srsearch \"\\\"coastal habitat\\\" haswbstatement:P31=Q13442814 -haswbstatement:P921=Q121718257\". \n      ?page_title wikibase:apiOutput mwapi:title.\n  }\n }\nUNION\n{  SERVICE wikibase:mwapi {\n    bd:serviceParam wikibase:api \"Search\";\n                    wikibase:endpoint \"www.wikidata.org\";\n                    mwapi:srsearch \"\\\"coastal habitats\\\" haswbstatement:P31=Q13442814 -haswbstatement:P921=Q121718257\". \n      ?page_title wikibase:apiOutput mwapi:title.\n  }\n }\n  BIND(IRI(CONCAT(STR(wd:), ?page_title)) AS ?item)\n  \n  ?item wdt:P1476 ?title_.\n  ?item wdt:P1433 ?venue.\n  ?venue wdt:P1476 ?venue_title.\n  BIND(CONCAT(?title_ , \" | \" , ?venue_title)  AS ?title)\n  FILTER REGEX(LCASE(?title), \"coastal(.)habitat\").\n\n}\n",
+      "url": "https://w.wiki/7H$v",
+      "title": "Coastal Habitat Articles Excluding a Specific ID",
+      "description": "Searches for articles on 'coastal habitat' that are instances of scholarly articles and excludes those associated with a specific ID. It includes the article title and the venue where it was published."
+    },
+    {
+      "query_id": "short_url.Musical_Instruments_Categorized_As_Cats",
+      "namespace": "short_url",
+      "name": "Musical_Instruments_Categorized_As_Cats",
+      "sparql": "#Musical instruments query\nSELECT ?item ?itemLabel ?accused\nWHERE \n{\n  ?item wdt:P10838 ?accused . # Must be of a cat\n  ?item wdt:P1552 wd:Q34379 .\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". } # Helps get the label in your language, if not, then en language\n}",
+      "url": "https://w.wiki/6zAY",
+      "title": "Musical Instruments Categorized as Cats",
+      "description": "Lists musical instruments that are categorized as cats. It includes the identifiers and labels of the instruments, and the entity accused of being a cat. The query primarily uses P10838 and P1552 properties."
+    },
+    {
+      "query_id": "short_url.Creation_date_of_Versailles_Palace",
+      "namespace": "short_url",
+      "name": "Creation_date_of_Versailles_Palace",
+      "sparql": "select ?o\nwhere {\n   wd:Q1375103 wdt:P571 ?o .\n}\n",
+      "url": "https://w.wiki/2XxG",
+      "title": "Creation Date of Versailles Palace",
+      "description": "Retrieves the date the Palace of Versailles was created. The query returns a single value representing the inception date of the Palace of Versailles."
+    },
+    {
+      "query_id": "short_url.Current_Ministry_of_Home_Affairs",
+      "namespace": "short_url",
+      "name": "Current_Ministry_of_Home_Affairs",
+      "sparql": "# get the current current Ministry of Home Affairs\nSELECT DISTINCT ?item ?itemLabel WHERE {\n  wd:Q6866008 wdt:P3342 ?item\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n} ORDER BY ?itemLabel",
+      "url": "https://w.wiki/5WZY",
+      "title": "Current Ministry of Home Affairs",
+      "description": "Retrieves the current Ministry of Home Affairs. The results include the unique identifier and the English label of the entity."
+    },
+    {
+      "query_id": "short_url.Kin_Selection_Wikidata_Search",
+      "namespace": "short_url",
+      "name": "Kin_Selection_Wikidata_Search",
+      "sparql": "SELECT \n  DISTINCT\n#  ?item ?title\n  (REPLACE(STR(?item), \".*Q\", \"Q\") AS ?qid) \n  (\"P921\" AS ?property)\n  (\"Q741598\" AS ?ReplaceWithYourTargetID)\n  (\"S887\" AS ?heuristic)\n  (\"Q69652283\" AS ?deduced)\n\nWHERE {\n  hint:Query hint:optimizer \"None\".\n  \n{  SERVICE wikibase:mwapi {\n    bd:serviceParam wikibase:api \"Search\";\n                    wikibase:endpoint \"www.wikidata.org\";\n                    mwapi:srsearch \"\\\"kin selection\\\" haswbstatement:P31=Q13442814 -haswbstatement:P921=Q741598\".\n      ?page_title wikibase:apiOutput mwapi:title.\n  }\n }\n  BIND(IRI(CONCAT(STR(wd:), ?page_title)) AS ?item)\n  \n  ?item wdt:P1476 ?title.\n  FILTER REGEX(LCASE(?title), \"kin(.)selection\").\n\n}\n",
+      "url": "https://w.wiki/3u5G",
+      "title": "Wikidata Search for 'Kin Selection'",
+      "description": "Searches Wikidata for entries titled 'kin selection'. It excludes entries that already have the property P921 associated with the ID Q741598. The results include unique identifiers, properties, and deduced values."
+    },
+    {
+      "query_id": "short_url.Spanish_Names_for_Countries",
+      "namespace": "short_url",
+      "name": "Spanish_Names_for_Countries",
+      "sparql": "PREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\n\nSELECT ?lugar ?lugarLable\n\nWHERE {\n  \n  ?lugar wdt:P31 wd:Q6256 .\n         \n \n SERVICE wikibase:label {\n   bd:serviceParam wikibase:language \"es\".\n }\n \n}",
+      "url": "https://w.wiki/7r7d",
+      "title": "Spanish Names for Countries",
+      "description": "This query retrieves the Spanish labels for all entities in Wikidata that are classified as 'countries'. The results consist of the Wikidata identifier and the Spanish name for each country."
+    },
+    {
+      "query_id": "short_url.MainSubjects_in_CurriculumTopic_with_Wikipedia_Links",
+      "namespace": "short_url",
+      "name": "MainSubjects_in_CurriculumTopic_with_Wikipedia_Links",
+      "sparql": "SELECT ?mainSubject ?mainSubjectLabel ?enwiki ?dagwiki ?twiwiki\nWHERE {\n  ?curriculumTopic wdt:P31 wd:Q600134;  \n                   wdt:P361 wd:Q113556931.  \n  ?curriculumTopic wdt:P921 ?mainSubject.  \n  OPTIONAL {\n    ?mainSubject rdfs:label ?mainSubjectLabel filter (lang(?mainSubjectLabel) = \"en\").\n  }\n  OPTIONAL {\n    ?enwiki schema:about ?mainSubject;\n           schema:isPartOf <https://en.wikipedia.org/>.\n  }\n      OPTIONAL {\n    ?dagwiki schema:about ?mainSubject;\n           schema:isPartOf <https://dag.wikipedia.org/>.\n  }\n  OPTIONAL {\n    ?twiwiki schema:about ?mainSubject;\n            schema:isPartOf <https://tw.wikipedia.org/>.\n  }\n}",
+      "url": "https://w.wiki/6b$x",
+      "title": "Main Subjects in a Curriculum Topic with Wikipedia Links",
+      "description": "Lists the main subjects in a specific curriculum topic that have corresponding Wikipedia articles. The query returns the subjects' identifiers, names, and links to their English, Dagbani, and Twi Wikipedia pages."
+    },
+    {
+      "query_id": "short_url.Washington_DC_Reverse_Traversal",
+      "namespace": "short_url",
+      "name": "Washington_DC_Reverse_Traversal",
+      "sparql": "PREFIX gas: <http://www.bigdata.com/rdf/gas#>\n\nSELECT ?item ?itemLabel ?linkTo ?linkToLabel {\n  SERVICE gas:service {\n    gas:program gas:gasClass \"com.bigdata.rdf.graph.analytics.SSSP\" ;\n                gas:in wd:Q83405 ;                                        #statements for which Washington DC is a value\n                gas:traversalDirection \"Reverse\" ;\n                gas:out ?item ;\n                gas:out1 ?depth ;\n                gas:maxIterations 1 ;\n                gas:linkType wdt:P279 .                                # P131 - location property\n  }\n  OPTIONAL { ?item wdt:P279 ?linkTo }\n  SERVICE wikibase:label {bd:serviceParam wikibase:language \"en\" }\n}\nLIMIT 100",
+      "url": "https://w.wiki/2au3",
+      "title": "Reverse Traversal For Washington DC",
+      "description": "Executes a reverse traversal starting from Washington DC, showing entities linked by location property. It shows each entity's name, identifiers and optionally connected entities. The traversal depth is limited to 1 iteration."
+    },
+    {
+      "query_id": "short_url.Proteins_and_Genes_with_Specific_Subunits",
+      "namespace": "short_url",
+      "name": "Proteins_and_Genes_with_Specific_Subunits",
+      "sparql": "SELECT DISTINCT ?protein ?gene ?chromosome ?chromosomeLabel ?proteinLabel ?geneLabel  WHERE {\n  ?protein wdt:P527 wd:Q24726223, wd:Q24771608, wd:Q24773430.\n  ?gene wdt:P688 ?protein.\n  ?gene wdt:P1057 ?chromosome.\n  \n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n  \n}\nORDER BY DESC (?GOMFLabel)\nLIMIT 100",
+      "url": "https://w.wiki/2MNh",
+      "title": "Proteins and Genes Associated with Specific Subunits",
+      "description": "Lists proteins and their corresponding genes associated with specific subunits. The query includes genes linked to the protein and the chromosome where the gene is located. It provides the identifiers and labels for proteins, genes, and chromosomes."
+    },
+    {
+      "query_id": "short_url.Princeton_WordNet_3.1_Wikidata",
+      "namespace": "short_url",
+      "name": "Princeton_WordNet_3.1_Wikidata",
+      "sparql": "#title: Princeton WordNet 3.1 on Wikidata\nSELECT distinct ?item ?itemLabel (iri(concat(\"http://wordnet-rdf.princeton.edu/id/\",?pwn31)) as ?princeton) (sample (?sense) as ?example_linked_sense)\nWHERE \n{\n  ?item wdt:P8814 ?pwn31. \n  ?sense wdt:P5137 ?item.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". } \n} group by ?item ?itemLabel ?pwn31 ?example_linked_sense\nlimit 100",
+      "url": "https://w.wiki/8Q5h",
+      "title": "Princeton WordNet 3.1 on Wikidata",
+      "description": "Fetches distinct items from Wikidata associated with Princeton WordNet 3.1. The output includes the item's label, Princeton ID, and an example linked sense. Results are limited to 100."
+    },
+    {
+      "query_id": "short_url.Participant_Details_with_Country_and_Coordinates",
+      "namespace": "short_url",
+      "name": "Participant_Details_with_Country_and_Coordinates",
+      "sparql": "PREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX wikibase: <http://wikiba.se/ontology#>\nSELECT ?participant ?participantLabel ?country ?countryLabel ?countryCoord WHERE {\n  ?participant wdt:P31 wd:Q111535559;\n    wdt:P1532 ?country.\n  ?country wdt:P625 ?countryCoord.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE]\". }\n}",
+      "url": "https://w.wiki/6A$G",
+      "title": "Participant Details with Country and Coordinates",
+      "description": "Retrieves details of a participant who is an instance of the entity identified by Q111535559. The data includes the participant's label, the country associated with the participant, the country's label, and the country's coordinates."
+    },
+    {
+      "query_id": "short_url.Slice_Service_Unlinked_Human_Entities",
+      "namespace": "short_url",
+      "name": "Slice_Service_Unlinked_Human_Entities",
+      "sparql": "SELECT ?item WHERE \n{\n SERVICE bd:slice {\n                   ?item p:P7859 []  .\n                   bd:serviceParam bd:slice.offset 0 . # Start at item number (not to be confused with QID)\n                   bd:serviceParam bd:slice.limit 500000 . # List this many items\n  }\n  ?item wdt:P31 wd:Q5 . \n  FILTER NOT EXISTS { ?item p:P10832 [] . }\n}",
+      "url": "https://w.wiki/78JC",
+      "title": "Unlinked Human Entities in Slice Service",
+      "description": "Lists human entities that do not have a link to any property P10832. It uses the Slice Service to offset the start item number and limit the list to 500000 items. The results include entities without link to property P10832."
+    },
+    {
+      "query_id": "short_url.GB1900_Coordinates_Comparison",
+      "namespace": "short_url",
+      "name": "GB1900_Coordinates_Comparison",
+      "sparql": "SELECT ?dx ?dy ?item ?itemLabel (?dx * ?dx + ?dy * ?dy AS ?r2) ?map_url\n#SELECT ?dx ?dy (str(?item) AS ?qid)\n\nWITH {\n  SELECT ?item ?gb1900_stmt ?coord_stmt WHERE {\n    ?item p:P9284 ?gb1900_stmt .\n    ?item p:P625 ?coord_stmt .\n    ?coord_stmt a wikibase:BestRank.\n    MINUS {?item wdt:P31 wd:Q489357} .\n  }\n} AS %items \n\nWHERE {\n  INCLUDE %items .  \n  ?coord_stmt psv:P625/wikibase:geoLatitude  ?wd_lat .\n  ?coord_stmt psv:P625/wikibase:geoLongitude ?wd_lon .\n                  \n  ?gb1900_stmt pqv:P625/wikibase:geoLatitude ?gb_lat .\n  ?gb1900_stmt pqv:P625/wikibase:geoLongitude ?gb_lon .\n  BIND ( 111.2 * (?gb_lat - ?wd_lat) AS ?dy) .   # one degree of latitude is about 111 km\n  BIND (  65.4 * (?gb_lon - ?wd_lon) AS ?dx) .   # one degree of longitude is about 65 km at 54 degrees North. (eg York)\n  BIND(IRI(CONCAT(\"https://maps.nls.uk/geo/explore/#zoom=16&lat=\",str(?gb_lat),\"&lon=\",str(?gb_lon),\"&layers=6&b=1&marker=\",str(?wd_lat),\",\",str(?wd_lon))) AS ?map_url) .\n\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n} ORDER BY DESC(?r2)",
+      "url": "https://w.wiki/37NA",
+      "title": "Comparison of GB1900 and Wikidata Coordinates",
+      "description": "Compares coordinates from GB1900 and Wikidata for various entities excluding human settlements. Entities are selected based on their GB1900 and coordinates statements. The results include the difference in latitudes and longitudes, entity identifiers, labels, and map URLs."
+    },
+    {
+      "query_id": "short_url.Missing_Outdoor_Gym_Data_from_Sumpan",
+      "namespace": "short_url",
+      "name": "Missing_Outdoor_Gym_Data_from_Sumpan",
+      "sparql": "#defaultView:Map\n#title: Det f\u00f6rsvunna utegymsdatat fr\u00e5n Sumpan...\nSELECT ?item ?itemLabel ?adminLabel ?coord ?img ?www WHERE {\n  ?item wdt:P31 wd:Q692630;\n    wdt:P131 wd:Q972564;\n        wdt:P131 ?admin.\n  OPTIONAL {?item wdt:P18 ?img}\n  ?item wdt:P625 ?coord\n   OPTIONAL{      ?item wdt:P856 ?www}\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"sv,de,en\". }\n} order by ?itemLabel",
+      "url": "https://w.wiki/5i4J",
+      "title": "Missing Outdoor Gym Data from Sumpan",
+      "description": "Locates items classified as 'Outdoor Gym' (wd:Q692630) within the administrative territory of Sumpan (wd:Q972564). Provides item labels, administrative labels, coordinates, images, and optional website links. Query results are sorted by item labels. Data is presented in Swedish, German, and English."
+    },
+    {
+      "query_id": "short_url.Quickstatements_to_Correct_Year_Value",
+      "namespace": "short_url",
+      "name": "Quickstatements_to_Correct_Year_Value",
+      "sparql": "#title: Quickstatmen that adds correct value\nSELECT (CONCAT(\"-\",REPLACE(STR(?item), \".*Q\", \"Q\")) AS ?qid)  (\"P1031\" AS ?Prop) (CONCAT('\"', ?oldvalue, '\"') AS ?oldvalue_quoted) WHERE {\n  ?item wdt:P1031 ?oldvalue.\n  BIND(REPLACE(?oldvalue,\"1999/09\",\"1999/00\") AS ?newvalue)\n  FILTER (CONTAINS(?oldvalue,\"Mot. 1999/09\"))\n  }",
+      "url": "https://w.wiki/6sjA",
+      "title": "Quickstatements to Correct the Year Value",
+      "description": "A query to identify and correct values associated with property P1031 that contain 'Mot. 1999/09', replacing it with '1999/00'. The output includes the original and corrected values for each item."
+    },
+    {
+      "query_id": "short_url.Euskal_Lexemak_with_Lindemann_Alonso",
+      "namespace": "short_url",
+      "name": "Euskal_Lexemak_with_Lindemann_Alonso",
+      "sparql": "# Euskal Lexemak Wikidatan: Larramendiren hiztegiara lotura dutenak\n# Query for demonstration (Lindemann/Alonso 2021)\n\nselect ?lexemeId ?lemaBatua (group_concat(distinct ?attestedAs; separator=\"; \") as ?attestedLemmata)\n        (group_concat(distinct ?url; separator=\"; \") as ?wikisourceURLs) \nwhere \n{\n  ?lexemeId dct:language wd:Q8752;\n            wikibase:lemma ?lemaBatua;\n            p:P5323  [pq:P7855 ?attestedAs ;\n                      pq:P973 ?url ;\n                     ] .\n} group by ?lemaBatua ?lexemeId\n  order by ?attestedLemmata\n",
+      "url": "https://w.wiki/2wav",
+      "title": "Euskal Lexemak in Wikidata Linked to Lindemann/Alonso",
+      "description": "Provides a list of Euskal Lexemak (Basque Lexemes) in Wikidata that are linked to the Lindemann/Alonso dictionary. The results include lexeme ID, lemma and related Wikisource URLs."
+    },
+    {
+      "query_id": "short_url.Objects_Related_to_Shah_Jahan",
+      "namespace": "short_url",
+      "name": "Objects_Related_to_Shah_Jahan",
+      "sparql": "#defaultView:Graph\n#title:Objects related in some way to Shah Jahan\nSELECT ?from ?fromLabel ?image1 ?to ?toLabel ?image2 ?edgeLabel \nWITH {\n  SELECT ?start ?startimage ?image1 ?from ?prop ?coll  WHERE {\n  VALUES ?start {wd:Q83672 }. # Choose person to start with\n    ?start wdt:P18 ?startimage.\n    ?from ?rel ?start; wdt:P195 ?coll.\n    ?prop wikibase:directClaim ?rel ; a wikibase:Property.\n    OPTIONAL {?from wdt:P18 ?image1}.\n   }  } as %core\nWHERE {\n  {\n SELECT ?from  ?image1 (?start AS ?to) (?startimage AS ?image2) (?prop AS ?edge) WHERE {\n  INCLUDE %core.\n } ORDER BY ?coll # put objects from the same collection close together\n }\nUNION {\n  SELECT ?from  ?image1 (?coll AS ?to) ?image2 (wd:P195 AS ?edge) WHERE {\n   INCLUDE %core.\n   OPTIONAL {?coll wdt:P18 ?image2}.\n  }\n} #UNION {\n #   SELECT ?from ?image1 (?type AS ?to) (\"\" AS ?image2) (wd:P31 AS ?edge) WHERE {\n #  INCLUDE %core.\n#      ?from wdt:P31 ?type.\n#  }\n#}\n      SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". \n     ?from rdfs:label ?fromLabel. ?edge rdfs:label ?edgeLabel.  ?to rdfs:label ?toLabel}\n}",
+      "url": "https://w.wiki/4zCy",
+      "title": "Objects Related in Some Way to Shah Jahan",
+      "description": "Displays objects related to Shah Jahan, the Mughal emperor. The query maps the relations of these objects to Shah Jahan, and if they are part of any collection. The results include object's identifiers, images, and their relation to Shah Jahan."
+    },
+    {
+      "query_id": "short_url.Japanese_Libraries_Details",
+      "namespace": "short_url",
+      "name": "Japanese_Libraries_Details",
+      "sparql": "SELECT ?library ?libraryLabel ?isil ?ndl_auth ?postcode\nWHERE {\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],ja,en\". }\n  ?library wdt:P17 wd:Q17.\n  ?library wdt:P31 wd:Q28324850\n  OPTIONAL {?library wdt:P791 ?isil}\n  OPTIONAL {?library wdt:P349 ?ndl_auth}\n  OPTIONAL {?library wdt:P281 ?postcode}\n}",
+      "url": "https://w.wiki/289d",
+      "title": "Details of Libraries in Japan",
+      "description": "Retrieves details of libraries in Japan including their labels, ISIL identifiers, NDL Authority IDs and postal codes. The query automatically adjusts to the language setting."
+    },
+    {
+      "query_id": "short_url.Index_of_Collections_Books",
+      "namespace": "short_url",
+      "name": "Index_of_Collections_Books",
+      "sparql": "#\u00cdndice de libros de las colecciones\n#TEMPLATE={ \"template\": { \"en\": \"Textual description of template, referencing ?var\" }, \"variables\": { \"?var\": { \"query\": \"SELECT ?id WHERE { ?id wdt:P31 wd:Q146. }\" } } }\n#defaultView:Table{\"hide\": [\"?sortbydate\"]}\nSELECT ?obra_escrita ?t\u00edtulo ?fecha_de_publicaci\u00f3n ?colecci\u00f3nLabel ?lugar_de_publicaci\u00f3nLabel ?cat\u00e1logo_en_l\u00ednea ?sortbydate WHERE {\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"es\". }\n  ?obra_escrita wdt:P31 wd:Q47461344;\n    wdt:P195 wd:Q123283356.\n  OPTIONAL { ?obra_escrita wdt:P1476 ?t\u00edtulo. }\n  OPTIONAL {  }\n  OPTIONAL { ?obra_escrita wdt:P577 ?fecha_de_publicaci\u00f3n. } \n  OPTIONAL { ?obra_escrita wdt:P195 ?colecci\u00f3n. }\n  OPTIONAL { ?obra_escrita wdt:P291 ?lugar_de_publicaci\u00f3n. }\n  OPTIONAL { ?obra_escrita wdt:P8768 ?cat\u00e1logo_en_l\u00ednea. }\n}\nORDER BY (?fecha_de_publicaci\u00f3n)\nLIMIT 100",
+      "url": "https://w.wiki/8ATK",
+      "title": "Index of Books in Collections",
+      "description": "Lists written works in a specific collection. It presents the title, publication date, collection label, place of publication, and online catalog link of each work. The results are ordered by publication date."
+    },
+    {
+      "query_id": "short_url.Artwork_Properties_Count_in_Collection",
+      "namespace": "short_url",
+      "name": "Artwork_Properties_Count_in_Collection",
+      "sparql": "#defaultView:BarChart\nSELECT DISTINCT ?Propriedade ?Nome_da_propriedade (COUNT(DISTINCT(?item)) AS ?N\u00famero_de_obras) WHERE {\n  SERVICE wikibase:label {bd:serviceParam wikibase:language \"[AUTO_LANGUAGE], pt-br,pt,en,es,fr,de\".\n                          ?Propriedade rdfs:label ?Nome_da_propriedade.}\n  ?item wdt:P195 wd:Q56677318.\n  MINUS {?item wdt:P31 wd:Q2668072.}\n  ?item ?property ?value.\n  ?Propriedade wikibase:claim ?property.\n} GROUP BY ?Propriedade ?Nome_da_propriedade\nORDER BY DESC(?N\u00famero_de_obras)",
+      "url": "https://w.wiki/2Yp7",
+      "title": "Count of Distinct Artwork Properties in a Collection",
+      "description": "Displays different properties of artworks in a specific collection. It excludes those marked as a 'collection of the museum'. The results are grouped by property and include the count of artworks with each property."
+    },
+    {
+      "query_id": "short_url.Female_Greek_Artists_Details",
+      "namespace": "short_url",
+      "name": "Female_Greek_Artists_Details",
+      "sparql": "# Female greek artists\nSELECT ?item ?lastnameLabel ?birthdate ?deathdate ?itemDescription WHERE {\n  ?item wdt:P31 wd:Q5;\n    wdt:P21 wd:Q6581072;\n    (wdt:P106/(wdt:P279*)) wd:Q3391743.\n  OPTIONAL { ?item wdt:P1559 ?lastname. }\n  OPTIONAL { ?item wdt:P569 ?birthdate. }\n  OPTIONAL { ?item wdt:P570 ?deathdate. }\n  OPTIONAL {  }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,fr,it\". }\n  ?item wdt:P27 wd:Q41.\n}\nORDER BY (?itemLabel)",
+      "url": "https://w.wiki/2PFt",
+      "title": "Detailed Information about Female Greek Artists",
+      "description": "Provides detailed information about female Greek artists. The details include their names, birthdates, deathdates, and descriptions. The query also returns labels in English, French, and Italian."
+    },
+    {
+      "query_id": "short_url.Protected_Areas_in_Freiburg_Switzerland",
+      "namespace": "short_url",
+      "name": "Protected_Areas_in_Freiburg_Switzerland",
+      "sparql": "# Abfrage nach Schutzgebiet in Natur- oder Landschaftsschutz\n# ist Teil von Bundesinventar der Trockenwiesen/-weiden\n# in der Schweiz\n# im Kanton Freiburg\nSELECT ?aire_prot\u00e9g\u00e9e ?aire_prot\u00e9g\u00e9eLabel ?ist_Teil_vonLabel ?nom_officiel ?founded ?coords ?image ?cat_Commons WHERE {\nSERVICE wikibase:label { bd:serviceParam wikibase:language \"de,fr,it,en\". }\n?aire_prot\u00e9g\u00e9e wdt:P31 wd:Q473972;            # ist ein   Schutzgebiet in Natur- oder Landschaftsschutz\n      wdt:P17 wd:Q39;                         # Staat  Schweiz\n      wdt:P361 wd:Q108060388;                 # ist Teil von    Bundesinventar der Trockenwiesen/-weiden\n      wdt:P131 wd:Q12640.                     # liegt im        Kanton Freiburg\n  OPTIONAL {\n    ?aire_prot\u00e9g\u00e9e wdt:P1448 ?nom_officiel.\n    FILTER((LANG(?nom_officiel)) = \"de\").\n  }\n  OPTIONAL { ?aire_prot\u00e9g\u00e9e wdt:P571 ?founded. }\n  OPTIONAL { ?aire_prot\u00e9g\u00e9e wdt:P625 ?coords. }\n  OPTIONAL { ?aire_prot\u00e9g\u00e9e wdt:P18 ?image. }\n  OPTIONAL { ?aire_prot\u00e9g\u00e9e wdt:P373 ?cat_Commons. }\n  OPTIONAL { ?aire_prot\u00e9g\u00e9e wdt:P361 ?ist_Teil_von. }                \n}",
+      "url": "https://w.wiki/7Cth",
+      "title": "Protected Natural or Landscape Areas in Freiburg, Switzerland",
+      "description": "Lists protected areas in nature or landscape that are part of the Federal Inventory of Dry Meadows/Grasslands in Freiburg, Switzerland. It includes their official names, founding dates, coordinates, images, and associated Wikimedia Commons categories."
+    },
+    {
+      "query_id": "short_url.Indonesian_Museums_in_Special_Region_of_Yogyakarta",
+      "namespace": "short_url",
+      "name": "Indonesian_Museums_in_Special_Region_of_Yogyakarta",
+      "sparql": "#defaultView:Map\nSELECT ?museumLabel (?sejak AS ?Tanggal_Berdiri) ?koordinat_tempat WHERE {\n  VALUES ?butir {\n    wd:Q33506\n  }\n  ?museum wdt:P31 ?butir;\n    wdt:P17 wd:Q252;\n    (wdt:P131+) ?provinsi.\n  { SELECT ?provinsi WHERE { ?provinsi wdt:P131 wd:Q5078. } }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"id,en\". }\n  OPTIONAL { ?museum wdt:P571 ?sejak. }\n  OPTIONAL {  }\n  OPTIONAL { ?museum wdt:P625 ?koordinat_tempat. }\n}\nORDER BY (?provinsiLabel)\nLIMIT 50",
+      "url": "https://w.wiki/3hha",
+      "title": "Indonesian Museums in Special Region of Yogyakarta",
+      "description": "Displays a list of museums in the Special Region of Yogyakarta, Indonesia. It shows the museum's name, establishment date, and coordinates. The query is limited to 50 results, and it's ordered by the province label."
+    },
+    {
+      "query_id": "short_url.German_Organizational_Units_In_Astronomy",
+      "namespace": "short_url",
+      "name": "German_Organizational_Units_In_Astronomy",
+      "sparql": "SELECT ?organizational_unit ?geo ?organizational_unitLabel ?email_address ?official_website ?part_of ?instituion_typeLabel WHERE {\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],de\". }\n  ?organizational_unit wdt:P31 wd:Q679206;\n    wdt:P101 wd:Q30089794;\n    wdt:P131 wd:Q1198. \n  OPTIONAL { ?organizational_unit wdt:P968 ?email_address. }\n  OPTIONAL { ?organizational_unit wdt:P856 ?official_website. }\n  ?organizational_unit wdt:P361 ?part_of.\n  ?part_of wdt:P31 ?institution_type.\n  OPTIONAL { ?part_of wdt:P625 ?geo. }\n}",
+      "url": "https://w.wiki/77b7",
+      "title": "German Organizational Units in the Field of Astronomy",
+      "description": "Lists German organizational units related to Astronomy, including their geographical coordinates, labels, email addresses, official websites, and institution type. It also shows the larger institution they are part of."
+    },
+    {
+      "query_id": "short_url.Relatives_of_Beethoven_and_their_Instruments",
+      "namespace": "short_url",
+      "name": "Relatives_of_Beethoven_and_their_Instruments",
+      "sparql": "SELECT ?relativeLabel WHERE {\n  wd:Q1339 ((wdt:P40|wdt:P25|wdt:P26)+) ?relative.\n  ?relative wdt:P1303 ?instrument.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE]\". }\n}",
+      "url": "https://w.wiki/2qcu",
+      "title": "Relatives of Beethoven and their Musical Instruments",
+      "description": "Lists Beethoven's relatives and the musical instruments they play. The query traverses through Beethoven's family tree and identifies relatives who play an instrument."
+    },
+    {
+      "query_id": "short_url.Novels_and_Characters_from_Publisher",
+      "namespace": "short_url",
+      "name": "Novels_and_Characters_from_Publisher",
+      "sparql": "\nSELECT DISTINCT  ?novel ?novelLabel  ?characters ?charactersLabel\nWHERE {\n  ?novel  wdt:P31  wd:Q7725634;\n            wdt:P674 ?characters;\n            wdt:P747 ?edition.\n            ?edition wdt:P1433 wd:Q106927517;\n                     wdt:P123 wd:Q106926624.\nSERVICE wikibase:label \n{ bd:serviceParam wikibase:language \"sr,[AUTO_LANGUAGE],en\". }}",
+      "url": "https://w.wiki/4$6j",
+      "title": "Novels and Characters Published in a Specific Edition",
+      "description": "Retrieves a list of novels and their respective characters published in a specific edition by a particular publisher. It displays the novel and character identifiers and labels in Serbian or English."
+    },
+    {
+      "query_id": "short_url.Repository_Information_for_Item_Q106703494",
+      "namespace": "short_url",
+      "name": "Repository_Information_for_Item_Q106703494",
+      "sparql": "#defaultView:Map\nSELECT ?RepositoryLabel ?Website ?Coordinates\nWHERE\n{\n  wd:Q106703494 wdt:P4330 ?Repository.\n  ?Repository wdt:P17 wd:Q869\n  OPTIONAL {?Repository wdt:P17 ?Country. }\n  OPTIONAL {?Repository wdt:P856 ?Website. }\n  OPTIONAL {?Repository wdt:P625 ?Coordinates. }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE]\". }\n}\n",
+      "url": "https://w.wiki/3J5h",
+      "title": "Repository Information for Item Q106703494",
+      "description": "Retrieves and maps information related to the repository associated with the Wikidata item Q106703494. Information includes the repository's label, website, coordinates, and associated country."
+    },
+    {
+      "query_id": "short_url.Graph_View_of_Entity_Q10225_Related_Properties",
+      "namespace": "short_url",
+      "name": "Graph_View_of_Entity_Q10225_Related_Properties",
+      "sparql": "#defaultView:Graph\nSELECT ?node ?nodeLabel ?nodeImage ?childNode ?childNodeLabel ?childNodeImage ?rgb WHERE {\n  {\n    BIND(wd:Q10225 AS ?node)\n    ?node ?p ?i.\n    OPTIONAL { ?node wdt:P18 ?nodeImage. }\n    ?childNode ?x ?p.\n    ?childNode rdf:type wikibase:Property.\n    FILTER(STRSTARTS(STR(?i), \"http://www.wikidata.org/entity/Q\"))\n    FILTER(STRSTARTS(STR(?childNode), \"http://www.wikidata.org/entity/P\"))\n  }\n  UNION\n  {\n    BIND(\"EFFBD8\" AS ?rgb)\n    wd:Q10225 ?p ?childNode.\n    OPTIONAL { ?childNode wdt:P18 ?childNodeImage. }\n    ?node ?x ?p.\n    ?node rdf:type wikibase:Property.\n    FILTER(STRSTARTS(STR(?childNode), \"http://www.wikidata.org/entity/Q\"))\n  }\n  OPTIONAL {\n    ?node wdt:P18 ?nodeImage.\n    ?childNode wdt:P18 ?childNodeImage.\n  }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n}",
+      "url": "https://w.wiki/7X6p",
+      "title": "Graph View of Entity Q10225 and Related Properties",
+      "description": "Displays a graph view of the entity Q10225 and its related properties. The query also includes child nodes and images if available. Results are filtered to display only entities and properties in Wikidata."
+    },
+    {
+      "query_id": "short_url.Most_linked_Films_without_ZZ_Wikipedia_Page",
+      "namespace": "short_url",
+      "name": "Most_linked_Films_without_ZZ_Wikipedia_Page",
+      "sparql": "SELECT ?item ?itemLabel ?cnt ?Bild WHERE {\n  {\n    SELECT ?item (COUNT(?sitelink) AS ?cnt) WHERE {\n      ?item wdt:P31 wd:Q133585.\n      ?sitelink schema:about ?item.\n      FILTER(NOT EXISTS {\n        ?article schema:about ?item;\n          schema:isPartOf <https://zz.wikipedia.org/>.\n      })\n    }\n    GROUP BY ?item\n    ORDER BY DESC (?cnt)\n  }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en,fr,es,de\". }\n  OPTIONAL { ?item wdt:P18 ?Bild. }\n}\nORDER BY DESC (?cnt)",
+      "url": "https://w.wiki/2TeC",
+      "title": "Most Linked Films without a ZZ Wikipedia Page",
+      "description": "Lists films (instances of Q133585) with the most site links, excluding those with a ZZ Wikipedia page. The results include the film's identifiers, labels in multiple languages, and an optional image."
+    },
+    {
+      "query_id": "short_url.Instances_Authors_Texts_Related_to_Covid19",
+      "namespace": "short_url",
+      "name": "Instances_Authors_Texts_Related_to_Covid19",
+      "sparql": "SELECT ?inst_ncia_de ?nome_do_autor ?texto_na__ntegra_dispon_vel_em WHERE {\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n  ?inst_ncia_de wdt:P921 wd:Q84263196.\n  OPTIONAL { ?inst_ncia_de wdt:P2093 ?nome_do_autor. }\n  OPTIONAL { ?inst_ncia_de wdt:P953 ?texto_na__ntegra_dispon_vel_em. }\n  }\nLIMIT 100",
+      "url": "https://w.wiki/2e4k",
+      "title": "Instances, Authors, and Texts Related to Covid-19",
+      "description": "Fetches instances linked to Covid-19, along with their associated authors and available full texts. The results include the identifiers of the instances, the names of the authors, and the URLs of the full texts."
+    },
+    {
+      "query_id": "short_url.Items_with_Statements_in_Range_and_Instance_of_Music_Single",
+      "namespace": "short_url",
+      "name": "Items_with_Statements_in_Range_and_Instance_of_Music_Single",
+      "sparql": "SELECT ?item ?itemLabel ?number WITH {\n  SELECT ?number WHERE {\n  ?nn wdt:P31 wd:Q21199.\n  ?nn wdt:P1181 ?number .\n  FILTER (?number >= 100 && ?number <= 1000)\n} } AS %i\nWHERE {\n  INCLUDE %i\n  BIND(xsd:integer(?number) as ?b)\n  ?item wikibase:statements ?b.\n  FILTER EXISTS {?item wdt:P31 wd:Q7889 .}\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n} order by desc(?number)",
+      "url": "https://w.wiki/3uKZ",
+      "title": "Items with Statements Count in Specific Range and Instance of Music Single",
+      "description": "Extracts items having a statements count in the range of 100 to 1000 and are instances of 'Music Single'. It includes the items' identifiers, labels, and the corresponding statement count, sorted in descending order of the statement count."
+    },
+    {
+      "query_id": "short_url.People_Died_in_Municipality_of_Maribor",
+      "namespace": "short_url",
+      "name": "People_Died_in_Municipality_of_Maribor",
+      "sparql": "#Ljudje umrli v Ob\u010dini Maribor (Q3435104) ....\n# PAZI: Rezultati so za tiste osebe, ki imajo vpisan kraj smrti v WD, ker ga vsi na\u0161i ljubi Slovenci nimajo\nSELECT ?somebody ?somebodyLabel ?kraj_smrti ?kraj_smrtiLabel WHERE {\n  ?somebody wdt:P31 wd:Q5.\n  ?somebody wdt:P20 ?kraj_smrti.\n  ?kraj_smrti wdt:P131 wd:Q391800.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"sl,en\". }\n}",
+      "url": "https://w.wiki/4abP",
+      "title": "People who Died in Municipality of Maribor",
+      "description": "Lists individuals who died in the Municipality of Maribor. Includes individuals who have the place of death recorded in Wikidata. Note that not all Slovenians have this data entry."
+    },
+    {
+      "query_id": "short_url.Nuclear_Particles_with_Nucleon_Sum_238",
+      "namespace": "short_url",
+      "name": "Nuclear_Particles_with_Nucleon_Sum_238",
+      "sparql": "SELECT ?nuklid ?nuklidLabel ?subclassLabel ?protons ?neutrons WHERE {\n  ?nuklid wdt:P31/wdt:P279* wd:Q108149.\n  ?nuklid wdt:P31 ?subclass.\n  ?nuklid wdt:P1086 ?protons.\n  ?nuklid wdt:P1148 ?neutrons. \n  \n  BIND((?protons + ?neutrons) AS ?nucleonsum)\n  FILTER(?nucleonsum = 238)\n  \n\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[de,en\". } \n} \nORDER BY ASC (?number)\n\n",
+      "url": "https://w.wiki/8xR7",
+      "title": "Nuclear Particles with a Total Nucleon Sum of 238",
+      "description": "Lists nuclear particles with a total nucleon sum of 238. It displays the nuclear particle label, subclass, number of protons, and neutrons. The results are ordered by the number."
+    },
+    {
+      "query_id": "short_url.17th_Century_German_Composers_Who_Died_in_London",
+      "namespace": "short_url",
+      "name": "17th_Century_German_Composers_Who_Died_in_London",
+      "sparql": "# List of 17th-century German composers who died in London\nSELECT ?composer ?composerLabel ?birthdate ?birthplaceLabel ?deathplace ?deathplaceLabel\nWHERE {\n  ?composer wdt:P106 wd:Q36834;    # Composer occupation\n#           wdt:P27 wd:Q183;       # Nationality: Germany\n            wdt:P569 ?birthdate;   # Date of birth\n            wdt:P19 ?birthplace.   # Place of birth\n\n  ?composer wdt:P20 ?deathplace;   # Place of death\n            wdt:P570 ?deathdate.   # Date of death\n  \n  ?birthplace  wdt:P17 wd:Q183.    # Located in Germany\n\n  FILTER(YEAR(?birthdate) >= 1600 && YEAR(?birthdate) <= 1699)\n  FILTER(?deathplace = wd:Q84)  # Q84 is the Wikidata identifier for London\n  \n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n}\n",
+      "url": "https://w.wiki/7nWs",
+      "title": "17th Century German Composers Who Died in London",
+      "description": "Provides a list of German composers born in the 17th century who died in London. The results include composers' names, birth dates, birthplaces, and deathplaces. All birthplaces are located in Germany."
+    },
+    {
+      "query_id": "short_url.Distinct_Items_In_Film_And_Software",
+      "namespace": "short_url",
+      "name": "Distinct_Items_In_Film_And_Software",
+      "sparql": "SELECT DISTINCT ?item ?itemLabel WHERE {\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE]\". }\n  {\n    SELECT DISTINCT ?item WHERE {\n      ?item p:P156 ?statement0.\n      ?statement0 (ps:P156/(wdt:P279*)) _:anyValueP156.\n      {\n        ?item p:P31 ?statement1.\n        ?statement1 (ps:P31/(wdt:P279*)) wd:Q11424.\n      }\n      UNION\n      {\n        ?item p:P31 ?statement2.\n        ?statement2 (ps:P31/(wdt:P279*)) wd:Q202866.\n      }\n      MINUS {\n        ?item p:P361 ?statement3.\n        ?statement3 (ps:P361/(wdt:P279*)) _:anyValueP361.\n      }\n      MINUS {\n        ?item p:P1434 ?statement4.\n        ?statement4 (ps:P1434/(wdt:P279*)) _:anyValueP1434.\n      }\n      MINUS {\n        ?item p:P8345 ?statement5.\n        ?statement5 (ps:P8345/(wdt:P279*)) _:anyValueP8345.\n      }\n      MINUS {\n        ?item p:P179 ?statement6.\n        ?statement6 (ps:P179/(wdt:P279*)) _:anyValueP179.\n      }\n    }\n    LIMIT 5000\n  }\n}",
+      "url": "https://w.wiki/7Jjp",
+      "title": "Distinct Items in Film and Software",
+      "description": "Extracts distinct items that are either in the category of film or software. The results exclude items belonging to the categories of part of, is a work in the series, has edition or translation, and is part of the series. The results are limited to 5000 items."
+    },
+    {
+      "query_id": "short_url.Birthplaces_of_Malaysian_Women",
+      "namespace": "short_url",
+      "name": "Birthplaces_of_Malaysian_Women",
+      "sparql": "#Birth places of Malaysian women\n#defaultView:Map{\"hide\": [\"?coord\"]}\nSELECT ?subj ?subjLabel ?place ?placeLabel ?coord ?birthyear\nWHERE {\n   ?subj wdt:P21 wd:Q6581072 .\n   ?subj wdt:P19 ?place .\n   ?place wdt:P17 wd:Q833 .\n   ?place wdt:P625 ?coord .\n   OPTIONAL { ?subj wdt:P569 ?dob }\n  OPTIONAL { ?subj wdt:P18 ?image. }\n  OPTIONAL { ?subj wdt:P106 ?occupation. }\n   BIND(YEAR(?dob) as ?birthyear)\nSERVICE wikibase:label {  bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" }\n}",
+      "url": "https://w.wiki/37Ln",
+      "title": "Birthplaces of Malaysian Women",
+      "description": "Maps the birthplaces of Malaysian women. Displays their names, birthplaces, birth year, optional images and occupations. The map points are linked to the respective Wikipedia articles for more information."
+    },
+    {
+      "query_id": "short_url.Count_of_LexicalEntry_With_Specific_FilePath",
+      "namespace": "short_url",
+      "name": "Count_of_LexicalEntry_With_Specific_FilePath",
+      "sparql": "SELECT (COUNT(?file) AS ?count) WHERE {\n  ?l a ontolex:LexicalEntry ; ontolex:lexicalForm ?form ; wikibase:lemma ?lemma .\n  ?form wdt:P443 ?file .\n  FILTER regex (str(?file), \"^http://commons.wikimedia.org/wiki/Special:FilePath/LL-\").\n}",
+      "url": "https://w.wiki/2FE7",
+      "title": "Count of Lexical Entries With Specific File Path",
+      "description": "Counts the number of Lexical Entries with a file that matches a specific file path on Wikimedia Commons. The file path is filtered to match files starting with 'LL-' in their name."
+    },
+    {
+      "query_id": "short_url.Bibliography_of_Saxony_Region",
+      "namespace": "short_url",
+      "name": "Bibliography_of_Saxony_Region",
+      "sparql": "#Regional bibliography of Saxony\nSELECT ?item ?itemLabel\nWHERE \n{\n  ?item wdt:P972   wd:Q61729277.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}",
+      "url": "https://w.wiki/4y$G",
+      "title": "Regional Bibliography of Saxony",
+      "description": "Lists items associated with the regional bibliography of Saxony. The results include the items' identifiers and labels, using automatic language detection for labels when possible."
+    },
+    {
+      "query_id": "short_url.Disease_Data_from_Wikipedia_and_Wikidata",
+      "namespace": "short_url",
+      "name": "Disease_Data_from_Wikipedia_and_Wikidata",
+      "sparql": "SELECT ?wikidata ?wikidataLabel ?wikidataAltLabel ?wikidataDescription ?article ?ICD_10 WHERE {\n  ?wikidata wdt:P31 wd:Q12136.\n  ?article schema:about ?wikidata;\n    schema:isPartOf <https://en.wikipedia.org/>.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n  OPTIONAL { ?wikidata wdt:P494 ?ICD_10. }\n}",
+      "url": "https://w.wiki/2Yyx",
+      "title": "Disease Data Pulled from Wikipedia and Wikidata",
+      "description": "Fetches data on diseases from Wikidata and corresponding English Wikipedia articles. It provides disease's Wikidata identifier, labels, alternative labels, description, linked article, and ICD-10 code if available."
+    },
+    {
+      "query_id": "short_url.Items_with_P757_and_P1435_but_not_P2614",
+      "namespace": "short_url",
+      "name": "Items_with_P757_and_P1435_but_not_P2614",
+      "sparql": "SELECT distinct ?item  WHERE {\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n  ?item wdt:P757 ?Id_PH;\n          p:P1435 [\n           pq:P2614  ?qual\n          ].\n\nminus { ?item wdt:P2614 ?criteris. }\n}\nLIMIT 5000",
+      "url": "https://w.wiki/4Vkd",
+      "title": "Items that have properties P757 and P1435, but not P2614",
+      "description": "Queries for items that have the properties P757 and P1435 with a qualifier P2614, but does not have the property P2614. Displays up to 5000 distinct items."
+    },
+    {
+      "query_id": "short_url.Items_Manufactured_by_Certain_Company",
+      "namespace": "short_url",
+      "name": "Items_Manufactured_by_Certain_Company",
+      "sparql": "SELECT ?item ?itemLabel WHERE {\n  ?item wdt:P31 wd:Q9388534;\n        wdt:P126 wd:Q109363303.\n    SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}",
+      "url": "https://w.wiki/4Pvv",
+      "title": "Items Manufactured by a Specific Company",
+      "description": "Lists items that are of the type 'pharmaceutical product' and are manufactured by a specific company. The results include the item's identifier and label in the user's preferred language or English."
+    },
+    {
+      "query_id": "short_url.Population_ISO_Region_Country_Details",
+      "namespace": "short_url",
+      "name": "Population_ISO_Region_Country_Details",
+      "sparql": "\nSELECT ?population ?iso ?region ?country ?countryLabel ?regionLabel\n{\n  #?region wdt:P31 wd:Q16110 .\n  ?region wdt:P300 ?iso .\n  ?region wdt:P1082 ?population .\n  ?country wdt:P150 ?region\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\" }\n}\nLIMIT 100",
+      "url": "https://w.wiki/2LaZ",
+      "title": "Population, ISO, Region, and Country Details",
+      "description": "Fetches information about regions' population, ISO codes, associated countries and their labels. It also includes the regions' labels in English. The results are limited to 100 entries."
+    },
+    {
+      "query_id": "short_url.Architectural_Items_Linked_to_Q100363299",
+      "namespace": "short_url",
+      "name": "Architectural_Items_Linked_to_Q100363299",
+      "sparql": "SELECT ?item ?itemLabel ?architect ?architectLabel WHERE {\n  ?item wdt:P5008 wd:Q100363299;\n    (wdt:P31/(wdt:P279*)) wd:Q41176.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n  OPTIONAL { ?item wdt:P84 ?architect. }\n}",
+      "url": "https://w.wiki/3ReU",
+      "title": "Architectural Items Linked to Wikidata Entity Q100363299",
+      "description": "Lists architectural items linked to the Wikidata entity Q100363299. It displays items, their labels, associated architects, and architects' labels. The results may include optional architectural data."
+    },
+    {
+      "query_id": "short_url.Items_Located_in_Museums_in_France",
+      "namespace": "short_url",
+      "name": "Items_Located_in_Museums_in_France",
+      "sparql": "#TEMPLATE={\"template\":\"Items located in museums in ?country\",\"variables\":{\"?country\":{\"query\":\" SELECT ?id WHERE { ?id wdt:P31 wd:Q6256 . }\"} } }\nSELECT ?item ?itemLabel ?museumLabel WHERE {\n  BIND(wd:Q145 AS ?country)\n  ?item wdt:P17 ?country.\n  ?item wdt:P276 ?museum .\n  ?museum wdt:P31/wdt:P279* wd:Q33506 .\n\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}",
+      "url": "https://w.wiki/3H5y",
+      "title": "Items Located in Museums in France",
+      "description": "Lists items that are located in museums in France. It shows the item's name and the corresponding museum's label. The items are linked to their country (France) and their location (museum)."
+    },
+    {
+      "query_id": "short_url.Berlin_Properties",
+      "namespace": "short_url",
+      "name": "Berlin_Properties",
+      "sparql": "#Cats\nSELECT ?p ?o ?pLabel ?oLabel#?oLabel#?o_value is the uniformed \nWHERE \n{\n  wd:Q64 ?wdt ?o.\n  ?p wikibase:directClaim ?wdt. #p is in the form of wd:xxx .\n  MINUS\n  {\n    ?p wikibase:propertyType wikibase:ExternalId.\n  }\n  \n\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". } # Helps get the label in your language, if not, then en language\n}",
+      "url": "https://w.wiki/4A$L",
+      "title": "Properties Associated with Berlin",
+      "description": "Lists properties associated with Berlin excluding external IDs. It includes the property and object identifiers and labels in the preferred language, defaulting to English."
+    },
+    {
+      "query_id": "short_url.American_Architectural_Buildings_with_Images",
+      "namespace": "short_url",
+      "name": "American_Architectural_Buildings_with_Images",
+      "sparql": "#defaultView:ImageGrid\nSELECT ?item ?itemLabel ?pic ?countryLabel ?localLabel ?adminLabel ?worldviewLabel\nWHERE\n{\n  ?item wdt:P31 wd:Q16970.\n  ?item wdt:P18 ?pic.\n  ?item wdt:P17 wd:Q30.\n  OPTIONAL { ?item wdt:P131 ?local. }\n  OPTIONAL { ?item wdt:P276 ?admin. }\n  OPTIONAL { ?item wdt:P140 ?worldview. }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\n",
+      "url": "https://w.wiki/7b5x",
+      "title": "American Architectural Buildings with Images",
+      "description": "Displays images of architectural buildings in the United States. It shows the building's details, including its country, local and administrative jurisdiction, and worldview. The results include each building's identifier, image, and related labels."
+    },
+    {
+      "query_id": "short_url.Swedish_Actors_Chronologically",
+      "namespace": "short_url",
+      "name": "Swedish_Actors_Chronologically",
+      "sparql": "#defaultView:ImageGrid\nSELECT distinct ?artikel  ?img ?person ?personLabel (YEAR(?born) AS ?BornYear) (YEAR(?dead) AS ?DeadYear) WHERE {\n  ?person wdt:P31 wd:Q5;\n    wdt:P106 wd:Q33231;\n    wdt:P27 wd:Q34.\n  OPTIONAL { ?person wdt:P569 ?born. }\n  OPTIONAL { ?person wdt:P570 ?dead. }\n  ?person wdt:P18 ?img\n  OPTIONAL {\n    ?artikel schema:about ?person;\n      schema:inLanguage \"sv\";\n      schema:isPartOf <https://sv.wikipedia.org/>.\n  }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"sv,en\". }\n} order by xsd:integer(?BornYear)",
+      "url": "https://w.wiki/2Mn5",
+      "title": "Swedish Actors Ordered by Birth Year",
+      "description": "This query returns Swedish actors with their images, birth year, and death year, if applicable. It also links to their respective Swedish Wikipedia articles. Actors are ordered chronologically by birth year."
+    },
+    {
+      "query_id": "short_url.Total_Population_in_Oresund_Region",
+      "namespace": "short_url",
+      "name": "Total_Population_in_Oresund_Region",
+      "sparql": "#Total population in the \u00d8resund Region\n# by So9q, 2019-11-22\n # Total population in the \u00d8resund Region\n # Example of the SUM aggregate function\n \n SELECT distinct ?area ?areaLabel (sum(?folkm_ngd) as ?total_folkm) # the first two variables can be removed\n                                                                    # if only the number is needed\n WHERE {\n   ?item wdt:P361 wd:Q297853.\n   ?item wdt:P1082 ?folkm_ngd. \n  ?area wdt:P31 wd:Q1907114.\n  ?area wdt:P527 ?item.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\ngroup by ?area ?areaLabel",
+      "url": "https://w.wiki/2ph2",
+      "title": "Total Population in the \u00d8resund Region",
+      "description": "It displays the total population in the \u00d8resund Region. The results include area, area label, and total population. The results are grouped by area and area label."
+    },
+    {
+      "query_id": "short_url.ViafURIs_for_Humans",
+      "namespace": "short_url",
+      "name": "ViafURIs_for_Humans",
+      "sparql": "#Cats\nSELECT ?item ?viafURI\nWHERE \n{\n  ?item wdt:P31 wd:Q5;\n        wdt:P214 ?viafID\n  BIND(concat(\"http://viaf.org/viaf/\", ?viafID) AS ?viafURI). \n}\nlimit 10",
+      "url": "https://w.wiki/6Xmt",
+      "title": "VIAF URIs for Humans",
+      "description": "Returns the VIAF (Virtual International Authority File) URIs for human entities. It combines the VIAF ID with the base URI to create the complete URI. The query is limited to 10 results."
+    },
+    {
+      "query_id": "short_url.Polish_Monuments_Map",
+      "namespace": "short_url",
+      "name": "Polish_Monuments_Map",
+      "sparql": "#defaultView:Map\nSELECT DISTINCT ?item ?itemLabel ?statement2 WHERE {\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE]\". }\n  {\n    SELECT DISTINCT ?item ?statement2 WHERE {\n      ?item p:P31 ?statement0.\n      ?statement0 (ps:P31/(wdt:P279*)) wd:Q33506.\n      ?item p:P17 ?statement1.\n      ?statement1 (ps:P17/(wdt:P279*)) wd:Q36.\n      ?item wdt:P625 ?statement2.\n#       ?item p:P625 ?statement2.\n#       ?statement2 (ps:P625) _:anyValueP625.\n    }\n    LIMIT 10000000\n  }\n}",
+      "url": "https://w.wiki/6oyX",
+      "title": "Map of Monuments in Poland",
+      "description": "Displays a map of distinct monuments located in Poland. Each monument is identified by its unique item code and coordinates, using the Wikibase language service for labeling."
+    },
+    {
+      "query_id": "short_url.Churches_in_S\u00f8nderborg_with_Images",
+      "namespace": "short_url",
+      "name": "Churches_in_S\u00f8nderborg_with_Images",
+      "sparql": "SELECT ?kirke ?kirkeLabel ?billede WHERE {\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n  ?kirke wdt:P31 wd:Q16970;\n    wdt:P131 wd:Q21150.\n  OPTIONAL { ?kirke wdt:P18 ?billede. }\n}\nLIMIT 100",
+      "url": "https://w.wiki/28zs",
+      "title": "Churches in S\u00f8nderborg Municipality with Images",
+      "description": "Lists churches in the S\u00f8nderborg Municipality with associated images. It provides church entities, their labels, and any linked images. The query's language is set to auto-detect or English."
+    },
+    {
+      "query_id": "short_url.Wikidata_Entity_Members_and_Dates",
+      "namespace": "short_url",
+      "name": "Wikidata_Entity_Members_and_Dates",
+      "sparql": "SELECT ?date ?members WHERE {\n  <http://www.wikidata.org/entity/> p:P2124 ?p.\n  ?p pq:P585 ?date;\n    ps:P2124 ?members.\n}\nORDER BY (?date)",
+      "url": "https://w.wiki/2ycR",
+      "title": "Members and Dates of a Wikidata Entity",
+      "description": "Retrieves dates and members related to a specific Wikidata entity. The results include the specific dates and number of members associated with the Wikidata entity."
+    },
+    {
+      "query_id": "short_url.Human_settlements_in_Minsk_region",
+      "namespace": "short_url",
+      "name": "Human_settlements_in_Minsk_region",
+      "sparql": "SELECT DISTINCT ?item ?itemLabel ?itemDescription WHERE {\n  ?item (wdt:P31/(wdt:P279*)) wd:Q486972;\n    (wdt:P131/(wdt:P131*)) wd:Q1885601.\n  MINUS { ?item wdt:P31 wd:Q22674925. }\n  MINUS { ?item wdt:P31 wd:Q4286337. }\n  MINUS { ?item wdt:P31 wd:Q24067406. }\n  MINUS { ?item wdt:P31 wd:Q123705. }\n  MINUS { ?item wdt:P31 wd:Q188509. }\n  MINUS { ?item wdt:P31 wd:Q442799. }\n  MINUS { ?item wdt:P31 wd:Q152081. }\n  MINUS { ?item wdt:P31 wd:Q2583015. }\n  MINUS { ?item wdt:P31 wd:Q4413844. }\n  MINUS { ?item wdt:P31 wd:Q4443227. }\n  MINUS { ?item wdt:P31 wd:Q13028920. }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"be-tarask,be\". }\n}\nORDER BY (?itemLabel)",
+      "url": "https://w.wiki/2EU3",
+      "title": "Human Settlements in Minsk Region",
+      "description": "Lists distinct human settlements in the Minsk region, excluding certain types of entities. The results include the entities' identifiers, labels, and descriptions in the 'be-tarask,be' languages."
+    },
+    {
+      "query_id": "short_url.Commons_Category_Link_for_Entity",
+      "namespace": "short_url",
+      "name": "Commons_Category_Link_for_Entity",
+      "sparql": "SELECT ?commonsCategory WHERE {\n    VALUES ?item {wd:Q144} .\n    OPTIONAL {\n      ?commonsCategoryFromItem schema:about ?item;\n                               schema:isPartOf <https://commons.wikimedia.org/>.\n      FILTER(STRSTARTS(STR(?commonsCategoryFromItem), \"https://commons.wikimedia.org/wiki/Category:\"))\n    }\n    OPTIONAL {\n      ?item wdt:P910 ?catItem .\n      ?commonsCategoryFromCatItem schema:about ?catItem;\n                                  schema:isPartOf <https://commons.wikimedia.org/>.\n      FILTER(STRSTARTS(STR(?commonsCategoryFromCatItem), \"https://commons.wikimedia.org/wiki/Category:\"))\n    }\n    BIND(COALESCE(?commonsCategoryFromItem, ?commonsCategoryFromCatItem) AS ?commonsCategory)\n}",
+      "url": "https://w.wiki/28hM",
+      "title": "Wikimedia Commons Category Link for a Specific Entity",
+      "description": "Retrieves the Wikimedia Commons category link for a specific entity (wd:Q144). The query checks both the direct linkage from the entity and via the associated category item."
+    },
+    {
+      "query_id": "short_url.Villages_and_Images",
+      "namespace": "short_url",
+      "name": "Villages_and_Images",
+      "sparql": "SELECT ?village ?villageLabel ?image{\n  ?village wdt:P31 wd:Q748198.\n  OPTIONAL {?village wdt:P18 ?image}\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}",
+      "url": "https://w.wiki/2Hcg",
+      "title": "Villages with Images",
+      "description": "Retrieves villages and their corresponding images. Each result includes the identifier of the village, its English label, and a link to its image if one exists."
+    },
+    {
+      "query_id": "short_url.Items_with_Property_P8274_linked_to_Q4459799",
+      "namespace": "short_url",
+      "name": "Items_with_Property_P8274_linked_to_Q4459799",
+      "sparql": "SELECT ?item ?itemLabel\nWHERE {\n  ?item wdt:P8274 ?Q4459799\n   SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n}\nLIMIT 100",
+      "url": "https://w.wiki/3Bzu",
+      "title": "Items with Property P8274 Linked to Q4459799",
+      "description": "Fetches items that have the property P8274 linked to the entity Q4459799. It includes the item's identifiers and labels in English. The query has a limit of 100 results."
+    },
+    {
+      "query_id": "short_url.Czech_Railway_Network",
+      "namespace": "short_url",
+      "name": "Czech_Railway_Network",
+      "sparql": "#title:\u017delezni\u010dn\u00ed s\u00ed\u0165 v\u00a0\u010cesku\n#defaultView:Map\nSELECT ?station ?stationLabel ?line ?layer ?layerLabel WHERE {\n  ?station wdt:P17 wd:Q213.\n  ?pred wdt:P17 wd:Q213.\n  ?station p:P197 ?link;\n    wdt:P31 ?stationCls.\n  ?link ps:P197 ?pred.\n  FILTER((?stationCls = wd:Q55488) || (?stationCls = wd:Q55678))\n  OPTIONAL { ?link pq:P81 ?linkLine. }\n  ?pred (p:P625/psv:P625/wikibase:geoLatitude) ?lat1;\n    (p:P625/psv:P625/wikibase:geoLongitude) ?lon1.\n  ?station (p:P625/psv:P625/wikibase:geoLatitude) ?lat2;\n    (p:P625/psv:P625/wikibase:geoLongitude) ?lon2.\n  OPTIONAL { ?station wdt:P81 ?stationLine. }\n  BIND(COALESCE(?linkLine, ?stationLine) AS ?layer)\n  BIND(CONCAT(\"LINESTRING(\", STR(?lon1), \" \", STR(?lat1), \",\", STR(?lon2), \" \", STR(?lat2), \")\") AS ?str)\n  BIND(STRDT(?str, geo:wktLiteral) AS ?line)\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"cs,en\". }\n}",
+      "url": "https://w.wiki/8GW$",
+      "title": "Czech Railway Network",
+      "description": "Maps railway stations and lines in the Czech Republic. It displays entities in the Czech Republic, showing their names, coordinates, and linked railway lines. The results include entities' identifiers, coordinates, and related line details."
+    },
+    {
+      "query_id": "short_url.Humans_with_Children_Who_Are_Humans",
+      "namespace": "short_url",
+      "name": "Humans_with_Children_Who_Are_Humans",
+      "sparql": "SELECT ?human ?humanLabel\nWHERE\n{\n  ?human wdt:P31 wd:Q5.\n  ?human wdt:P40 ?child.\n  ?child wdt:P31 wd:Q5.\n  SERVICE wikibase:label {bd:serviceParam wikibase:language \"[AUTO_LANGUAGE]\".}\n}\nLIMIT 100\n         ",
+      "url": "https://w.wiki/2D2Z",
+      "title": "Humans with Children Who Are Also Humans",
+      "description": "Lists humans who have children who are also humans. The query returns both the identifier of the human and their label. Only the first 100 results are returned by the query."
+    },
+    {
+      "query_id": "short_url.Items_with_Telegram_Username",
+      "namespace": "short_url",
+      "name": "Items_with_Telegram_Username",
+      "sparql": "SELECT ?item ?tlg WHERE { ?item wdt:P3576 ?tlg . }",
+      "url": "https://w.wiki/6kqz",
+      "title": "Items with Telegram Username",
+      "description": "Fetches items that have a Telegram username associated with them. The query returns items' identifiers and their corresponding Telegram usernames."
+    },
+    {
+      "query_id": "short_url.Members_of_International_Council_for_Science",
+      "namespace": "short_url",
+      "name": "Members_of_International_Council_for_Science",
+      "sparql": "# members of the International Council for Science\n# sorted by country and name\n\nSELECT DISTINCT ?item ?itemLabel ?countryLabel ?itemDescription WHERE {\n  ?item wdt:P463 wd:Q1162568;\n    wdt:P856 ?URL;\n    wdt:P17 ?country.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\nORDER BY (?countryLabel) (?itemLabel)",
+      "url": "https://w.wiki/5q8f",
+      "title": "Members of the International Council for Science",
+      "description": "Lists members of the International Council for Science, sorted by country and name. The result includes member entity's identifiers, descriptions, associated country, and their official website URLs."
+    },
+    {
+      "query_id": "short_url.Items_DevelopedBy_SoftwareCompany",
+      "namespace": "short_url",
+      "name": "Items_DevelopedBy_SoftwareCompany",
+      "sparql": "SELECT ?item ?itemLabel \nWHERE \n{\n  ?item wdt:P178 wd:Q47092.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}",
+      "url": "https://w.wiki/3HeT",
+      "title": "Items Developed By Specified Software Company",
+      "description": "Lists items developed by a specific software company. The results include items' identifiers and their respective names in the preferred language or English."
+    },
+    {
+      "query_id": "short_url.2ELn",
+      "namespace": "short_url",
+      "name": "2ELn",
+      "sparql": "\"dentist\"",
+      "url": "https://w.wiki/2ELn",
+      "title": "",
+      "description": ""
+    },
+    {
+      "query_id": "short_url.Items_with_equivalent_property",
+      "namespace": "short_url",
+      "name": "Items_with_equivalent_property",
+      "sparql": "SELECT ?item ?itemLabel ?p\nWHERE\n{\n?item wdt:P1628 ?p\nSERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" }\n}",
+      "url": "https://w.wiki/27GM",
+      "title": "Items with an Equivalent Property",
+      "description": "Fetches items that have an equivalent property. The results include the identifiers of the items, their labels, and the equivalent properties."
+    },
+    {
+      "query_id": "short_url.Musicians_Birthdates_and_Images",
+      "namespace": "short_url",
+      "name": "Musicians_Birthdates_and_Images",
+      "sparql": "SELECT ?Mensch ?MenschLabel ?Geburtsdatum ?Bild WHERE {\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n  ?Mensch wdt:P31 wd:Q5;\n    wdt:P101 wd:Q413.\n  OPTIONAL { ?Mensch wdt:P569 ?Geburtsdatum. }\n  OPTIONAL { ?Mensch wdt:P18 ?Bild. }\n}\nLIMIT 100",
+      "url": "https://w.wiki/2828",
+      "title": "Birthdates and Images of Musicians",
+      "description": "This query retrieves data about musicians including their names, birthdates and images. It uses the Wikidata service to fetch this information and returns up to 100 results."
+    },
+    {
+      "query_id": "short_url.Query_for_Cats",
+      "namespace": "short_url",
+      "name": "Query_for_Cats",
+      "sparql": "#Katzen\nSELECT ?item ?itemLabel \nWHERE \n{\n  ?item wdt:P31 wd:Q107715.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}",
+      "url": "https://w.wiki/2gVm",
+      "title": "Query for Cats in Wikidata",
+      "description": "This query retrieves all items in Wikidata that are classified as cats. It returns the identifiers and labels of these items in English or the auto-detected language."
+    },
+    {
+      "query_id": "short_url.Mandals_of_AP_District_Post_2022_Reorganization",
+      "namespace": "short_url",
+      "name": "Mandals_of_AP_District_Post_2022_Reorganization",
+      "sparql": "#Get mandals of district of AP  as per 2022 reorg\nSELECT DISTINCT ?mandal ?mandalLabel ?page_titleTE (CONCAT(\"# [[\", STR(?mandalLabel), \"|\", STRBEFORE(STR(?mandalLabel), \" \u0c2e\u0c02\u0c21\u0c32\u0c02\"), \"]]\") AS ?mandalwikitext) WHERE {\n  ?mandal (wdt:P31/(wdt:P279*)) wd:Q817477;\n    p:P131 ?districtnode.\n  ?districtnode ps:P131 wd:Q110714857.\n    ?tewikilink schema:about ?mandal;\n    schema:isPartOf <https://te.wikipedia.org/>;\n    schema:name ?page_titleTE.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"te,en\". }\n  OPTIONAL { ?districtnode pq:P580 ?startdate. }\n  OPTIONAL { ?districtnode pq:P582 ?enddate. }\n  BIND(IF(BOUND(?startdate), \"yes\", \"no\") AS ?startflag_)\n  BIND(IF(BOUND(?enddate), \"yes\", \"no\") AS ?endflag_)\n  BIND(IF(BOUND(?startdate), YEAR(?startdate), 0 ) AS ?startyear)\n  BIND(IF(BOUND(?enddate), YEAR(?enddate), 0 ) AS ?endyear)\n  FILTER(((?startflag_ = \"yes\") && (?endflag_ = \"no\") && ?startyear=2022) || ((?startflag_ = \"no\") && (?endflag_ = \"no\")))\n}\nORDER BY (?mandalLabel)",
+      "url": "https://w.wiki/54oF",
+      "title": "Mandals of Andhra Pradesh District Post 2022 Reorganization",
+      "description": "Fetches the mandals (administrative divisions) of a district in Andhra Pradesh, India, as per the 2022 reorganization. It provides mandals' names, labels and Wikipedia page titles in Telugu. The mandals are ordered by their labels."
+    },
+    {
+      "query_id": "short_url.African_Born_Actors_Directors_and_Models",
+      "namespace": "short_url",
+      "name": "African_Born_Actors_Directors_and_Models",
+      "sparql": "select ?item ?itemLabel\nWHERE\n{\n  {?item wdt:P106 wd:Q36180 .} UNION { ?item wdt:P106 wd:Q482980 . } UNION { ?item wdt:P106 wd:Q49757 . }\n  ?item wdt:P19/wdt:P131*/wdt:P30 wd:Q15.\n} limit 5000",
+      "url": "https://w.wiki/6JR$",
+      "title": "Actors, Directors, and Models Born in Africa",
+      "description": "Lists actors, models, and directors who were born in Africa. It includes their identifiers and labels. The results are capped at 5000 entries."
+    },
+    {
+      "query_id": "short_url.Interconnected_Items_with_Images",
+      "namespace": "short_url",
+      "name": "Interconnected_Items_with_Images",
+      "sparql": "#defaultView:Graph\nSELECT ?item1 ?image ?item1Label ?item2 ?image2 ?item2Label ?edgeLabel\nWITH { SELECT ?item1 WHERE {\nVALUES ?item1 {wd:Q109501555 wd:Q109474585 wd:Q109512854 wd:Q109512828 wd:Q109512804 wd:Q4904190 wd:Q109472427 wd:Q109505200 wd:Q109505244 wd:Q109505252 wd:Q109505255 wd:Q109505258 wd:Q109505260 wd:Q109498388 wd:Q7981191 wd:Q326276 wd:Q109503909 wd:Q109472585}\n} } AS %item1\nWITH {SELECT (?item1 AS ?item2) WHERE {INCLUDE %item1} } AS %item2\nWHERE {\n  INCLUDE %item1.\n  INCLUDE %item2.\n?item1 ?prop ?item2.\n?edge wikibase:directClaim ?prop ; a wikibase:Property\nOPTIONAL {?item1 wdt:P18 ?image}\nOPTIONAL {?item2 wdt:P18 ?image2}\nSERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}",
+      "url": "https://w.wiki/4M$X",
+      "title": "Interconnected Items with Their Images",
+      "description": "This query retrieves specific interconnected items along with their images. It displays the items, their connected items, and the images of both if available. The results include items' identifiers, labels, and associated images."
+    },
+    {
+      "query_id": "short_url.Items_and_Their_Level_of_Description",
+      "namespace": "short_url",
+      "name": "Items_and_Their_Level_of_Description",
+      "sparql": "SELECT ?item ?itemLabel ?levelOfDescription ?levelOfDescriptionLabel\nWHERE \n{\n  ?item wdt:P31 wd:Q2668072.\n  OPTIONAL { ?item wdt:P6224 ?levelOfDescription }.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". } # Helps get the label in your language, if not, then en language\n}",
+      "url": "https://w.wiki/7v6P",
+      "title": "Items and Their Corresponding Level of Description",
+      "description": "Lists items that are classified as 'archival descriptions' and their corresponding levels of description, if available. The result includes the item's identifier, label, and the level of description's identifier and label."
+    },
+    {
+      "query_id": "short_url.Items_with_Zero_Statements_and_Sitelinks",
+      "namespace": "short_url",
+      "name": "Items_with_Zero_Statements_and_Sitelinks",
+      "sparql": "select * where {\n\n  ?item wikibase:statements 0 .\n  ?item wikibase:sitelinks 0 .\n\n}",
+      "url": "https://w.wiki/5N6C",
+      "title": "Wikibase Items with Zero Statements and Sitelinks",
+      "description": "Retrieves all Wikibase items that have no statements and sitelinks. This query can be used to identify items in the Wikibase that may lack context or relevance due to the absence of statements and sitelinks."
+    },
+    {
+      "query_id": "short_url.Belgian_Beers",
+      "namespace": "short_url",
+      "name": "Belgian_Beers",
+      "sparql": "#Bi\u00e8res belges\nSELECT ?item ?itemLabel ?image\nWHERE \n{\n  ?item wdt:P31 wd:Q44. #bi\u00e8re\n  ?item wdt:P17 wd:Q31. #belgique  \n  OPTIONAL {?item wdt:P18 ?image.}\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}",
+      "url": "https://w.wiki/2APp",
+      "title": "Belgian Beers with Images",
+      "description": "Lists Belgian beers and their images. The query retrieves all items that are classified as beer (Q44) and are associated with Belgium (Q31). If available, an image of the beer is also included."
+    },
+    {
+      "query_id": "short_url.Cats_Type_and_Part_Information",
+      "namespace": "short_url",
+      "name": "Cats_Type_and_Part_Information",
+      "sparql": "#Cats\nSELECT ?item ?itemLabel ?part_of ?part_ofLabel WHERE {\n  ?item wdt:P31 wd:Q113445303.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n  OPTIONAL { ?item wdt:P8263 ?part_of. }\n  \n}",
+      "url": "https://w.wiki/5moi",
+      "title": "Cats Type and Associated Part Information",
+      "description": "Lists items categorized as a specific type of cat (Q113445303) and, if available, a corresponding 'part of' (P8263) designation. Each item includes its label in the user's language and in English."
+    },
+    {
+      "query_id": "short_url.Snooker_Winners_Color_Coded",
+      "namespace": "short_url",
+      "name": "Snooker_Winners_Color_Coded",
+      "sparql": "#defaultView:BubbleChart\nSELECT ?winnerLabel ?wins ?rgb WHERE {\n  # the snooker ball colours\n   BIND ( COALESCE(\n    IF(?wins = 1, \"ff0000\", 1/0),\n    IF(?wins = 2, \"ffff00\", 1/0),\n    IF(?wins = 3, \"00ff00\", 1/0),\n    IF(?wins = 4, \"8b4513\", 1/0),\n    IF(?wins = 5, \"0000ff\", 1/0),\n    IF(?wins = 6, \"ffc0cb\", 1/0),\n    IF(?wins = 7, \"000000\", 1/0),\n    \"ffffff\"\n  ) AS ?rgb )\n  # inner select generates the winners totals\n  { SELECT ?winnerLabel (COUNT (?winner) AS ?wins) WHERE {\n  { ?p wdt:P31 wd:Q502948 }\n  UNION\n  { ?p wdt:P361 wd:Q502948 }\n  ?p wdt:P1346 ?winner .\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n} GROUP BY ?winnerLabel  }\n           }\n\n",
+      "url": "https://w.wiki/23ir",
+      "title": "Color Coded Snooker Winners",
+      "description": "Represents snooker winners and their total wins each color-coded according to the snooker ball colors. Each color corresponds to the number of wins. The data includes the winner's name and their total wins."
+    },
+    {
+      "query_id": "short_url.Swedish_Glaciers_Map",
+      "namespace": "short_url",
+      "name": "Swedish_Glaciers_Map",
+      "sparql": "#defaultView:Map\nSELECT  distinct ?node ?nodeLabel ?nodeDescription ?SwedishGlaciers (SAMPLE(?coord) AS ?coord) ?GridabaseglacierID ?GLAMOSglacierID ?WorldGlacierInventoryID ?GLIMSID WHERE {\n  ?node wdt:P31 wd:Q35666.\n  { ?node wdt:P17 wd:Q34. } \n OPTIONAL {?node  wdt:P625 ?coord}\n OPTIONAL {?node  wdt:P3707 ?GridabaseglacierID}\n OPTIONAL {?node  wdt:P6148 ?GLAMOSglacierID}\n OPTIONAL {?node  wdt:P6799 ?GLIMSID}\n OPTIONAL {?node  wdt:P8133 ?SwedishGlaciersID}\n BIND(URI(CONCAT(\"https://bolin.su.se/data/svenskaglaciarer/glacier.php?g=\",?SwedishGlaciersID)) AS ?SwedishGlaciers)\n  OPTIONAL { ?node wdt:P1404 ?WorldGlacierInventoryID. }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"sv,nn,no,en\". }\n} GROUP BY ?node ?nodeLabel ?nodeDescription ?GridabaseglacierID ?GLAMOSglacierID ?WorldGlacierInventoryID ?GLIMSID ?SwedishGlaciers\norder by ?nodeLabel ",
+      "url": "https://w.wiki/2Rdw",
+      "title": "Map of Glaciers in Sweden with Various Identifiers",
+      "description": "Maps glaciers in Sweden with their various identifiers. It displays the coordinates of each glacier along with their Gridabase, GLAMOS, GLIMS, Swedish Glaciers, and World Glacier Inventory IDs. The results are ordered by the glacier name."
+    },
+    {
+      "query_id": "short_url.Places_Less_Than_10_Meters_Above_Sea_Level",
+      "namespace": "short_url",
+      "name": "Places_Less_Than_10_Meters_Above_Sea_Level",
+      "sparql": "#Pl\u00e4tze weniger als 10 Meter \u00fcber dem Meeresspiegel\n#defaultView:Map\nSELECT ",
+      "url": "https://w.wiki/7ug4",
+      "title": "Places Less Than 10 Meters Above Sea Level",
+      "description": "Maps out places that are less than 10 meters above sea level. The query visualizes these locations on a map, allowing for geographical analysis of low-lying areas."
+    },
+    {
+      "query_id": "short_url.Properties_Count_of_French_Championship_Winners",
+      "namespace": "short_url",
+      "name": "Properties_Count_of_French_Championship_Winners",
+      "sparql": "SELECT ?property ?propertyLabel (COUNT(*) AS ?count) WHERE {\n  SELECT DISTINCT ?item ?itemLabel ?property ?propertyLabel WHERE {\n    ?item wdt:P31 wd:Q1438040; wdt:P361 wd:Q58242826.\n    ?item ?p ?statement.\n    ?statement ?ps ?ps_.\n    ?property wikibase:claim ?p;\n    wikibase:statementProperty ?ps.\n    SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n  }\n}\nGROUP BY ?property ?propertyLabel\nORDER BY DESC(?count)\n",
+      "url": "https://w.wiki/72t5",
+      "title": "Count of Properties of French Championship Winners",
+      "description": "This query returns the count of distinct properties for each French Championship winner. It includes the properties' labels and their respective count. The results are grouped by property and ordered by count in descending order."
+    },
+    {
+      "query_id": "short_url.Active_Territorial_Administrative_Entities_in_Portugal",
+      "namespace": "short_url",
+      "name": "Active_Territorial_Administrative_Entities_in_Portugal",
+      "sparql": "#Entidades territoriais administrativas\nSELECT ?item ?itemLabel \nWHERE \n{\n  ?item wdt:P31 wd:Q1131296. #Freguesia\n  ?item wdt:P17 wd:Q45. #Portugal\n  MINUS { ?item pq:P582 ?endTime. }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}",
+      "url": "https://w.wiki/2MY3",
+      "title": "Active Territorial Administrative Entities in Portugal",
+      "description": "Fetches active territorial administrative entities (Freguesia) in Portugal. It excludes entities with a specified end time, suggesting that they're no longer active. The results include the entities' identifiers and their labels in the appropriate language."
+    },
+    {
+      "query_id": "short_url.Awards_and_their_Countries",
+      "namespace": "short_url",
+      "name": "Awards_and_their_Countries",
+      "sparql": "#Cats\nSELECT ?award ?countryLabel ?awardLabel  ?_count_statements ?_count_external_ids ?awardAlts\nWHERE \n{\n  { ?award (wdt:P31|wdt:P279)+ wd:Q4220917;         \n         wdt:P17 ?country.\n  } UNION {\n  ?award (wdt:P31|wdt:P279)+ wd:Q1407225;\n     wdt:P17 ?country.                \n  }\n  OPTIONAL { ?award wikibase:statements ?_count_statements }\n  OPTIONAL { ?award wikibase:identifiers ?_count_external_ids }\n  SERVICE wikibase:label { \n    bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". \n    ?award skos:altLabel ?awardAltLabel ; rdfs:label ?awardLabel.\n    ?country rdfs:label ?countryLabel.\n  }\n  BIND ( REPLACE(?awardAltLabel, \"[\ud83c\udde6-\ud83c\uddff]{2}, |, ?[\ud83c\udde6-\ud83c\uddff]{2}\", \"\") AS ?awardAlts )\n}\nORDER BY ?country ?awardLabel\n",
+      "url": "https://w.wiki/2ZRn",
+      "title": "Awards and their Respective Countries",
+      "description": "Lists awards and their respective countries. The results include awards that are 'award by country' or 'national award', their country labels, count of statements and external IDs, and alternative awards labels."
+    },
+    {
+      "query_id": "short_url.French_Entities_without_Coordinates",
+      "namespace": "short_url",
+      "name": "French_Entities_without_Coordinates",
+      "sparql": "SELECT * WHERE {\n  ?q wdt:P31 wd:Q483453 ; wdt:P17 wd:Q142 .\n  MINUS { ?q wdt:P625 [] }\n}",
+      "url": "https://w.wiki/2anU",
+      "title": "French Entities without Coordinates",
+      "description": "Lists entities in France that do not have coordinates. The query returns entities that are classified as 'human', based in France, but lack geographic coordinates."
+    },
+    {
+      "query_id": "short_url.Mount_Cameroon_Articles_Excluding_TargetID",
+      "namespace": "short_url",
+      "name": "Mount_Cameroon_Articles_Excluding_TargetID",
+      "sparql": "SELECT \n  DISTINCT\n#   ?item ?title\n  (REPLACE(STR(?item), \".*Q\", \"Q\") AS ?qid) \n  (\"P921\" AS ?property)\n  (\"Q190562\" AS ?ReplaceWithYourTargetID)\n  (\"S887\" AS ?heuristic)\n  (\"Q69652283\" AS ?deduced)\n\nWHERE {\n  hint:Query hint:optimizer \"None\".\n  \n{  SERVICE wikibase:mwapi {\n    bd:serviceParam wikibase:api \"Search\";\n                    wikibase:endpoint \"www.wikidata.org\";\n                    mwapi:srsearch \"\\\"mount cameroon\\\" and haswbstatement:P31=Q13442814 -haswbstatement:P921=Q190562\".\n      ?page_title wikibase:apiOutput mwapi:title.\n  }\n }\nUNION\n{  SERVICE wikibase:mwapi {\n    bd:serviceParam wikibase:api \"Search\";\n                    wikibase:endpoint \"www.wikidata.org\";\n                    mwapi:srsearch \"\\\"mount cameroon\\\" -and haswbstatement:P31=Q13442814 -haswbstatement:P921=Q190562\". \n      ?page_title wikibase:apiOutput mwapi:title.\n  }\n }\n  BIND(IRI(CONCAT(STR(wd:), ?page_title)) AS ?item)\n  \n  ?item wdt:P1476 ?title.\n  FILTER REGEX(LCASE(?title), \"\\\\bmount(.)cameroon\\\\b\").\n\n}\n",
+      "url": "https://w.wiki/64S2",
+      "title": "Articles on Mount Cameroon Excluding a Specific Target ID",
+      "description": "Searches for articles about Mount Cameroon that do not have a certain Target ID. The query uses different parameters to filter out articles with specific statements. The results are the unique identifiers of the filtered articles."
+    },
+    {
+      "query_id": "short_url.Spanish_Articles_on_Insect_Species",
+      "namespace": "short_url",
+      "name": "Spanish_Articles_on_Insect_Species",
+      "sparql": "SELECT ?item ?taxonname ?art WHERE {\n  ?item wdt:P31 wd:Q16521 ;\n        wdt:P105 wd:Q7432 ;\n        wdt:P171* wd:Q25327 ;\n        wdt:P225 ?taxonname .\n  OPTIONAL {\n    ?art schema:about ?item.\n        ?art schema:isPartOf <https://es.wikipedia.org/>.\n      }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],es\". }        \n}",
+      "url": "https://w.wiki/52BS",
+      "title": "Spanish Articles on Specific Insect Species",
+      "description": "Queries for insect species articles in Spanish Wikipedia. It returns entity identifiers and taxonomic names of insect species that belong to the family Formicidae. Additionally, it provides links to their respective Spanish Wikipedia pages, if available."
+    },
+    {
+      "query_id": "short_url.Infrastructure_Energy_Materials_Mining",
+      "namespace": "short_url",
+      "name": "Infrastructure_Energy_Materials_Mining",
+      "sparql": "# 09. INFRASTRUCTURE, ENERGY & MATERIALS 09.1 Mining\nSELECT DISTINCT ?manufacturer ?manufacturerLabel ?productType ?productTypeLabel  ?product ?productLabel ?industry ?industryLabel\nWHERE {\n  ?product wdt:P176 ?manufacturer.\n  ?manufacturer wdt:P452 ?industry.\n  ?product wdt:P279 ?productType.\n   \n  VALUES ?industry {wd:Q1778629\nwd:Q766401\nwd:Q15850907\nwd:Q5283\nwd:Q56604589\nwd:Q12089268\nwd:Q1349660\nwd:Q1961917\nwd:Q1071389\nwd:Q11202319\nwd:Q29585219\nwd:Q29584505\nwd:Q44497\nwd:Q1945600\nwd:Q29584418\nwd:Q2990216\nwd:Q1370637\nwd:Q6865576\nwd:Q29584984\nwd:Q12880211\nwd:Q29584408\nwd:Q29584414\nwd:Q29584410\nwd:Q16638398\nwd:Q29584416\nwd:Q29584980\nwd:Q29584253\nwd:Q29584989\nwd:Q29584981\nwd:Q29584417\nwd:Q57443580\nwd:Q1048939\nwd:Q16659581\nwd:Q328381\nwd:Q29585539\nwd:Q897\nwd:Q92768401\nwd:Q663\n}\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,fr\". } \n\n}\nORDER BY ?manufacturerLabel ?industryLabel ?productTypeLabel ?productLabel \nLIMIT 25000\n",
+      "url": "https://w.wiki/9jng",
+      "title": "Infrastructure, Energy & Materials: Mining Industry",
+      "description": "Lists manufacturers and their products in the mining industry. It provides information about the manufacturer, product type, product, and the industry they belong to. The data is sorted by manufacturer name, industry, product type, and product label. Limited to 25000 entries."
+    },
+    {
+      "query_id": "short_url.NFDI_Affiliations_and_Locations",
+      "namespace": "short_url",
+      "name": "NFDI_Affiliations_and_Locations",
+      "sparql": "SELECT DISTINCT ?bundesland ?bundeslandLabel ?stadt ?stadtLabel ?w ?wLabel {\n{\nSELECT DISTINCT ?bundesland ?stadt ?w ?affiliationType ?p WHERE {\n  {\n   ?w wdt:P463 wd:Q105757481 .\n  } UNION {\n    ?p wdt:P31 wd:Q98270496 .\n    ?p p:P1416 ?statement .\n    ?statement ps:P1416 ?w .\n    OPTIONAL { ?statement pq:P3831 ?affiliationType .}  \n  }\n  OPTIONAL {\n    ?w wdt:P131+ ?stadt .\n    ?stadt  wdt:P31/wdt:P279* wd:Q515 .\n    OPTIONAL {\n      ?w wdt:P131+ ?bundesland .\n      ?bundesland  wdt:P31 wd:Q1221156 .\n     }\n   }\n  OPTIONAL {\n    ?w wdt:P159/wdt:P131* ?stadt . \n    ?stadt  wdt:P31/wdt:P279* wd:Q515 .\n    OPTIONAL {\n      ?stadt wdt:P131* ?bundesland .\n      ?bundesland  wdt:P31 wd:Q1221156 .\n     }    \n   }\n  FILTER NOT EXISTS {?w  wdt:P31 wd:Q98270496 }  # To not display Konsortia associations to Base4NFDI\n  BIND(IF(! Bound(?affiliationType), \"NFDI-Vereinsmitglied\", ?affiliationTypeLabel) AS ?affiliationTypeLabel)\n}\n  }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"de,en\" . }\n} ORDER BY ASC(?bundeslandLabel) ASC(?stadtLabel) ASC(?affiliationTypeLabel) ASC(?wLabel)",
+      "url": "https://w.wiki/6RbK",
+      "title": "NFDI Affiliations and their Locations in Cities and States",
+      "description": "Lists the NFDI affiliations and their corresponding locations in cities and states. It includes the affiliations that are either a member of NFDI or have a special type of affiliation. The affiliations that are 'Konsortia associations to Base4NFDI' are excluded."
+    },
+    {
+      "query_id": "short_url.Bavarian_Castles_with_Images",
+      "namespace": "short_url",
+      "name": "Bavarian_Castles_with_Images",
+      "sparql": "SELECT ?item ?label ?_image WHERE {\n  ?item wdt:P31 wd:Q34442.\n  ?item wdt:P131* wd:Q1348.\n  SERVICE wikibase:label {\n    bd:serviceParam wikibase:language \"bn,en\" . \n    ?item rdfs:label ?label\n  }\n  \nOPTIONAL { ?item wdt:P18 ?_image. }\n}",
+      "url": "https://w.wiki/2fNK",
+      "title": "Bavarian Castles with Images",
+      "description": "Lists castles located in Bavaria with their labels and optional images. The query fetches all items that are instances of castles and located in Bavaria, and provides their labels in Bengali and English along with images if available."
+    },
+    {
+      "query_id": "short_url.Bulgarian_Cities_Count",
+      "namespace": "short_url",
+      "name": "Bulgarian_Cities_Count",
+      "sparql": "#defaultView:Map\nSELECT ?cityLabel (COUNT(*) AS ?cityCount) WHERE {\n  {\n    ?city wdt:P31/wdt:P279* wd:Q89487741.\n  }\n  UNION\n  {\n    ?city wdt:P31/wdt:P279* wd:Q15630849.\n  }\n  ?city wdt:P17 wd:Q219.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"bg,en\". }\n}\nGROUP BY ?cityLabel\nHAVING (COUNT(*) > 1)\nORDER BY DESC (?cityCount)",
+      "url": "https://w.wiki/6TFM",
+      "title": "Count of Cities in Bulgaria",
+      "description": "Queries and counts cities in Bulgaria that are either human settlements or subdivisions of urban areas. The results are grouped by city and include cities with more than one record, ordered by the number of records per city."
+    },
+    {
+      "query_id": "short_url.English_Descriptions_of_Cats",
+      "namespace": "short_url",
+      "name": "English_Descriptions_of_Cats",
+      "sparql": "SELECT ?item ?itemLabel (GROUP_CONCAT(DISTINCT ?descript; SEPARATOR=\", \") AS ?allDescriptions) \n    WHERE \n    {\n        ?item wdt:P31 wd:Q146.\n        SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n       \n        ?item schema:description ?descript\n             FILTER(LANG(?descript) = \"en\") .\n        } GROUP BY ?item ?itemLabel",
+      "url": "https://w.wiki/4HhZ",
+      "title": "English Descriptions of Cats",
+      "description": "Lists all items identified as a 'Cat' (wd:Q146) and compiles their English descriptions. This query groups results by item and label, and concatenates distinct descriptions per item into a single string."
+    }
+  ]
+}

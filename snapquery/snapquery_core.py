@@ -764,15 +764,15 @@ WHERE
             query.query += f"\nLIMIT {limit}"
         return QueryBundle(named_query=named_query, query=query, endpoint=endpoint)
 
-    def get_all_queries(self) -> List[NamedQuery]:
+    def get_all_queries(self,namespace:str="snapquery-examples") -> List[NamedQuery]:
         """
         Retrieves all named queries stored in the database.
 
         Returns:
             List[NamedQuery]: A list of all NamedQuery instances in the database.
         """
-        sql_query = "SELECT * FROM NamedQuery"
-        query_records = self.sql_db.query(sql_query)
+        sql_query = "SELECT * FROM NamedQuery WHERE namespace = ?"
+        query_records = self.sql_db.query(sql_query,(namespace,))
         named_queries = []
         for record in query_records:
             named_query = NamedQuery.from_record(record)

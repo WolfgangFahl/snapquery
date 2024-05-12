@@ -4,6 +4,28 @@
     sql: |
       SELECT COUNT(*)
       FROM NamedQuery
+'query_success':
+    sql: |
+        SELECT 
+           COUNT(*) AS count,
+           endpoint_name
+        
+        FROM "QueryStats"
+        WHERE records>0
+        GROUP BY endpoint_name
+        ORDER BY 1 DESC
+'query_success_by_namespace':
+    sql: |
+        SELECT 
+           COUNT(*) AS count,
+           nq.namespace,
+           qs.endpoint_name
+           
+        FROM QueryStats qs
+        JOIN NamedQuery nq on qs.query_id=nq.query_id
+        WHERE records>0
+        GROUP BY endpoint_name,namespace
+        ORDER BY 2 ASC,1 DESC
 'all_queries':
     sql: |
       SELECT * FROM NamedQuery

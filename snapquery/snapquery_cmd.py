@@ -83,6 +83,12 @@ class SnapQueryCmd(WebserverCmd):
         return parser
     
     def parameterize(self,nq:NamedQuery):
+        """
+        parameterize the given named query
+        
+        Args:
+            nq(NamedQuery): the query to parameterize
+        """
         qd = QueryDetails.from_sparql(
             query_id=nq.query_id, sparql=nq.sparql
         )
@@ -134,7 +140,7 @@ class SnapQueryCmd(WebserverCmd):
             handled = True  # Operation handled
         elif self.args.testQueries:
             endpoint_names = list(nqm.endpoints.keys())
-            queries = self.nqm.get_all_queries()
+            queries = self.nqm.get_all_queries(namespace=self.args.namespace)
             for i,nq in enumerate(queries,start=1):
                 for endpoint_name in endpoint_names:
                     self.execute(nq,endpoint_name=endpoint_name,title=f"query {i:3}/{len(queries)}::{endpoint_name}")

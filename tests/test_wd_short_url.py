@@ -3,6 +3,8 @@ Created on 2024-05-12
 
 @author: wf
 """
+import unittest
+
 from ngwidgets.basetest import Basetest
 from snapquery.wd_short_url import ShortUrl
 
@@ -12,7 +14,8 @@ class TestShortUrl(Basetest):
     """
     def setUp(self, debug=False, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
-    
+
+    @unittest.skipIf(Basetest.inPublicCI(), "unreliable execution in CI")
     def test_random_query_list(self):
         """
         test reading a random query list

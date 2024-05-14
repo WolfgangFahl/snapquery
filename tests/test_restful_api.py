@@ -69,3 +69,21 @@ class TestRestFulApi(WebserverTest):
             result = self.getHtml(path)
             if self.debug:
                 print(result)
+                
+    def testEndpoints(self):
+        """
+        test different endpoints
+        """
+        debug=self.debug
+        #debug=True
+        for endpoint_name in [
+            "wikidata",
+            "wikidata-openlinksw",
+            "wikidata-qlever"
+            #"wikidata-scatter",
+            ]:
+            path = f"/api/query/snapquery-examples/cats.json?endpoint_name={endpoint_name}&limit=3"
+            result=self.getHtml(path)
+            if debug:
+                print(result)
+            

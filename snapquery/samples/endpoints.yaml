@@ -95,8 +95,7 @@
       PREFIX pr: <http://www.wikidata.org/prop/reference/>
       PREFIX prn: <http://www.wikidata.org/prop/reference/value-normalized/>
       PREFIX prov: <http://www.w3.org/ns/prov#>
-      PREFIX prv: <http://www.
-      wikidata.org/prop/reference/value/>
+      PREFIX prv: <http://www.wikidata.org/prop/reference/value/>
       PREFIX ps: <http://www.wikidata.org/prop/statement/>
       PREFIX psn: <http://www.wikidata.org/prop/statement/value-normalized/>
       PREFIX psv: <http://www.wikidata.org/prop/statement/value/>

@@ -80,10 +80,11 @@ class NamedQueryView:
                         )
                         ui.add_css(syntax_highlight_css)
                         ui.html(query_syntax_highlight.highlight())
-                with ui.row().classes("w-full"):
-                    with ui.expansion("Show Query Stats", icon="query_stats") as self.stats_container:
-                        self.stats_container.classes("w-full")
-                        self.load_stats()
+                if self.solution.webserver.login.authenticated():
+                    with ui.row().classes("w-full"):
+                        with ui.expansion("Show Query Stats", icon="query_stats") as self.stats_container:
+                            self.stats_container.classes("w-full")
+                            self.load_stats()
                 self.grid_row = ui.expansion("Query Results", icon="table_rows", value=True)
                 self.grid_row.classes("w-full")
                 with self.grid_row:

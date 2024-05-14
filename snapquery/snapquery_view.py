@@ -3,6 +3,7 @@ Created on 2024-05-03
 
 @author: wf
 """
+
 import asyncio
 from typing import List
 
@@ -22,6 +23,7 @@ from snapquery.snapquery_core import (
     QueryStats,
     NamedQueryManager,
 )
+from snapquery.query_annotate import SparqlQueryAnnotater
 
 
 class NamedQueryView:
@@ -71,21 +73,29 @@ class NamedQueryView:
                     ui.button(icon="play_arrow", on_click=self.run_query)
                     self.stats_html = ui.html()
                 with ui.row():
-                    with ui.expansion("Show Query", icon="manage_search").classes("w-full"):
+                    with ui.expansion("Show Query", icon="manage_search").classes(
+                        "w-full"
+                    ):
                         query_syntax_highlight = QuerySyntaxHighlight(
                             self.query_bundle.query
                         )
                         syntax_highlight_css = (
                             query_syntax_highlight.formatter.get_style_defs()
                         )
+                        annotated_query = SparqlQueryAnnotater(self.query_bundle.query)
                         ui.add_css(syntax_highlight_css)
-                        ui.html(query_syntax_highlight.highlight())
+                        # ui.html(query_syntax_highlight.highlight())
+                        ui.html(annotated_query.annotate())
                 if self.solution.webserver.login.authenticated():
                     with ui.row().classes("w-full"):
-                        with ui.expansion("Show Query Stats", icon="query_stats") as self.stats_container:
+                        with ui.expansion(
+                            "Show Query Stats", icon="query_stats"
+                        ) as self.stats_container:
                             self.stats_container.classes("w-full")
                             self.load_stats()
-                self.grid_row = ui.expansion("Query Results", icon="table_rows", value=True)
+                self.grid_row = ui.expansion(
+                    "Query Results", icon="table_rows", value=True
+                )
                 self.grid_row.classes("w-full")
                 with self.grid_row:
                     ui.label("Not yet executed ")
@@ -99,9 +109,7 @@ class NamedQueryView:
         self.stats_container.clear()
         with self.stats_container:
             container = ui.row()
-        query_stats = self.nqm.get_query_stats(
-            self.query_bundle.named_query.query_id
-        )
+        query_stats = self.nqm.get_query_stats(self.query_bundle.named_query.query_id)
         errors = [stat for stat in query_stats if not stat.is_successful()]
         successful = [stat for stat in query_stats if stat.is_successful()]
         if successful:
@@ -113,9 +121,9 @@ class NamedQueryView:
             data = []
             for endpoint_name, stats in exec_times_by_endpoint.items():
                 record = {
-                        "type": "box",
-                        "name": endpoint_name,
-                        "x": [stat.duration for stat in stats],
+                    "type": "box",
+                    "name": endpoint_name,
+                    "x": [stat.duration for stat in stats],
                 }
                 data.append(record)
             fig = {
@@ -129,7 +137,7 @@ class NamedQueryView:
                 },
                 "config": {
                     "staticPlot": True,
-                }
+                },
             }
             with container:
                 ui.plotly(fig)
@@ -141,8 +149,17 @@ class NamedQueryView:
                 else:
                     record["error_msg"] = "<unkown>"
             error_df = pd.DataFrame.from_records(error_records)
-            error_df_grouped = error_df.groupby(["endpoint_name", "error_msg"], as_index=False).count()
-            error_fig = px.bar(error_df_grouped, x="endpoint_name", y="query_id", title="Query Execution Errors",labels={"query_id": "count", "endpoint_name":"Endpoint"}, color="error_msg",)
+            error_df_grouped = error_df.groupby(
+                ["endpoint_name", "error_msg"], as_index=False
+            ).count()
+            error_fig = px.bar(
+                error_df_grouped,
+                x="endpoint_name",
+                y="query_id",
+                title="Query Execution Errors",
+                labels={"query_id": "count", "endpoint_name": "Endpoint"},
+                color="error_msg",
+            )
             error_fig.update_layout(margin=dict(l=15, r=15, t=30, b=15))
             with container:
                 ui.plotly(error_fig)
@@ -151,7 +168,6 @@ class NamedQueryView:
                 ui.label("No query statistics available")
         with container:
             ui.button("Update statistics", icon="update", on_click=self.load_stats)
-
 
     async def load_query_results(self):
         """

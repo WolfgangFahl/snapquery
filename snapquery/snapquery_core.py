@@ -89,10 +89,10 @@ class QueryStats:
         @TODO may be use asdict from dataclasses instead?
         """
         record = {}
-        for field in fields(self):
+        for _field in fields(self):
             # Include field in the record dictionary if it has already been initialized (i.e., not None or has default)
-            if hasattr(self, field.name):
-                record[field.name] = getattr(self, field.name)
+            if hasattr(self, _field.name):
+                record[_field.name] = getattr(self, _field.name)
         return record
 
     @classmethod
@@ -838,7 +838,7 @@ WHERE
         Returns:
             list of query stats
         """
-        sql_query = f"""
+        sql_query = """
         SELECT *
         FROM QueryStats
         WHERE query_id = ?

@@ -3,12 +3,10 @@ Created on 2024-05-05
 
 @author: wf
 """
-import urllib.parse
 
-import requests
 from tqdm import tqdm
 
-from snapquery.snapquery_core import NamedQueryList, NamedQueryManager, QueryDetails
+from snapquery.snapquery_core import NamedQueryList, NamedQueryManager
 from snapquery.wd_short_url import ShortUrl
 
 class QueryImport:

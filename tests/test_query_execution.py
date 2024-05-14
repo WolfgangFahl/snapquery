@@ -3,7 +3,6 @@ Created on 2024-05-11
 
 @author: wf
 """
-import random
 import unittest
 
 from ngwidgets.basetest import Basetest

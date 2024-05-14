@@ -14,7 +14,7 @@ from nicegui.client import Client
 from starlette.responses import RedirectResponse
 
 from snapquery.qimport_view import QueryImportView
-from snapquery.snapquery_core import NamedQueryManager, QueryBundle, QueryStats
+from snapquery.snapquery_core import NamedQueryManager, QueryBundle
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.version import Version
 
@@ -101,7 +101,7 @@ class SnapQueryWebServer(InputWebserver):
             run the meta query with the given name
             """
             name, r_format = self.get_r_format(name, "json")
-            if not name in self.nqm.meta_qm.queriesByName:
+            if name not in self.nqm.meta_qm.queriesByName:
                 raise HTTPException(
                     status_code=404, detail=f"meta query {name} not known"
                 )

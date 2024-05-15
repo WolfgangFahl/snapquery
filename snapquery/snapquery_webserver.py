@@ -16,6 +16,7 @@ from starlette.responses import RedirectResponse
 from snapquery.qimport_view import QueryImportView
 from snapquery.snapquery_core import NamedQueryManager, QueryBundle
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
+from snapquery.stats_view import QueryStatsView
 from snapquery.version import Version
 
 
@@ -53,6 +54,12 @@ class SnapQueryWebServer(InputWebserver):
             if not self.login.authenticated():
                 return RedirectResponse("/login")
             return await self.page(client, SnapQuerySolution.admin_ui)
+
+        @ui.page("/stats")
+        async def stats(client: Client):
+            if not self.login.authenticated():
+                return RedirectResponse("/login")
+            return await self.page(client, SnapQuerySolution.stats_ui)
 
         @ui.page("/login")
         async def login(client: Client):
@@ -265,6 +272,7 @@ class SnapQuerySolution(InputWebSolution):
             if self.webserver.login.authenticated():
                 self.link_button("logout", "/logout", "logout", new_tab=False)
                 self.link_button("admin", "/admin", "supervisor_account", new_tab=False)
+                self.link_button("stats", "/stats", icon_name="stats", new_tab=False)
             else:
                 self.link_button("login", "/login", "login", new_tab=False)
 
@@ -284,6 +292,17 @@ class SnapQuerySolution(InputWebSolution):
         login ui
         """
         await self.webserver.login.login(self)
+
+    async def stats_ui(self):
+        """
+        stats ui
+        """
+
+        def show():
+            """ """
+            QueryStatsView(self)
+
+        await self.setup_content_div(show)
 
     def setup_ui(self):
         """

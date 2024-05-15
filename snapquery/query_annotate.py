@@ -48,7 +48,10 @@ class SparqlQueryAnnotater:
                 item_stat = self.stats.get_by_id(identifier)
                 title = item_stat.label if item_stat else item.text
                 annotation_element = self.soup.new_tag(
-                    "a", href="http://www.wikidata.org/entity/" + item.text, title=title, target="_blank"
+                    "a",
+                    href="http://www.wikidata.org/entity/" + item.text,
+                    title=title,
+                    target="_blank",
                 )
                 prefix.insert_before(annotation_element)
                 annotation_element.insert(0, prefix)
@@ -108,6 +111,3 @@ class NamespaceStat:
 QUERY_ITEM_STATS: Stats = Stats.load_from_yaml_file(
     Path(__file__).parent.joinpath("samples", "query_stats.yaml")
 )
-
-
-

@@ -6,7 +6,12 @@ from lodstorage.query import Query
 from lodstorage.sparql import SPARQL
 from ngwidgets.basetest import Basetest
 
-from snapquery.query_annotate import ItemStat, SparqlQueryAnnotater, Stats, QUERY_ITEM_STATS
+from snapquery.query_annotate import (
+    ItemStat,
+    SparqlQueryAnnotater,
+    Stats,
+    QUERY_ITEM_STATS,
+)
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager
 
 
@@ -131,7 +136,6 @@ class TestSparqlQueryAnnotater(Basetest):
                 print(f"duplicate {identifier}: {label_lut[identifier]} vs. {label}")
             label_lut[identifier] = label
         return label_lut
-
 
     def test_plot_property_usage(self):
         """

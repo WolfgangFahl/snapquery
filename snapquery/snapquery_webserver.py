@@ -272,7 +272,7 @@ class SnapQuerySolution(InputWebSolution):
             if self.webserver.login.authenticated():
                 self.link_button("logout", "/logout", "logout", new_tab=False)
                 self.link_button("admin", "/admin", "supervisor_account", new_tab=False)
-                self.link_button("stats", "/stats", icon_name="stats", new_tab=False)
+                self.link_button("stats", "/stats", icon_name="query_stats", new_tab=False)
             else:
                 self.link_button("login", "/login", "login", new_tab=False)
 

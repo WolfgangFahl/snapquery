@@ -21,9 +21,12 @@ class QueryStatsView:
         """
         with self.solution.container:
             with ui.expansion(text="Statistics about the properties and items used in the stored queries", value=True):
-                self.input_row = ui.row()
+                self.input_row = ui.column()
+                self.input_row.classes("w-full")
                 self.show_entity_usage()
                 self.show_property_usage()
+            with ui.expansion(text="Query Stats", value=True):
+                ui.label("ToDo:")
 
 
     def show_entity_usage(self):
@@ -35,7 +38,7 @@ class QueryStatsView:
         df = DataFrame.from_records(records).sort_values(by='count', ascending=False)
         fig = px.bar(df, x="name", y="count", title="Entity usage in queries")
         with self.input_row:
-            ui.plotly(fig)
+            ui.plotly(fig).classes('w-full')
 
     def show_property_usage(self):
         """
@@ -46,4 +49,4 @@ class QueryStatsView:
         df = DataFrame.from_records(records).sort_values(by='count', ascending=False)
         fig = px.bar(df, x="name", y="count", title="Property usage in queries")
         with self.input_row:
-            ui.plotly(fig)
+            ui.plotly(fig).classes('w-full')

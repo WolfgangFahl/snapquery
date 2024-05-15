@@ -1,35 +1,41 @@
 @startuml
 package snapquery {
     class NamedQuery {
-        - query_id : str 
+        - query_id : str
         - namespace : str
         - name : str
         - sparql : str
         - url : Optional[str]
         - title : Optional[str]
         - description : Optional[str]
+       + execute(endpoint_name: str, limit: int, timeout: float, result_format: str)
     }
     class Endpoint {
-	    - name : string
-	    - lang : string
-	    - endpoint : string
-	    - website : string
-	    - database : string
-	    - method : string
-	    - prefixes : string
+        - name : string    - lang : string
+        - endpoint : string
+        - website : string
+        - database : string    - method : string
+        - prefixes : string
     }
-    
-    class QueryStats {
-        + stats_id : str
-        + query_id : str
-        + endpoint_name : str
-        + time_stamp : datetime.datetime
-        + duration : float
-        + error_msg : Optional[str]
-    }
+
+
 
     NamedQuery --> QueryStats : query_id
     Endpoint --> QueryStats : endpoint_name
+
+    class QueryDetails {
+        - query_id : str
+        - params : str
+        - param_count : int
+        - lines : int
+        - size : int
+    }
+
+
+
+    QueryDetails --> ReferencedRessources : query_id
+    ReferencedRessources --> Property : property_identifier
+    ReferencedRessources --> QItem : qitem_identifier
 }
 
 note right of Endpoint
@@ -45,5 +51,21 @@ end note
 
 note right of QueryStats
   statistics about the execution of a query
+end note
+
+note right of Property
+  Represents a property with a label and identifier
+end note
+
+note right of QItem
+  Represents a QItem with a label and identifier
+end note
+
+note right of QueryDetails
+  Stores details for a named query
+end note
+
+note right of ReferencedRessources
+  Connects QueryDetails to Property and QItem
 end note
 @enduml

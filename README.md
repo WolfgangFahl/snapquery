@@ -61,7 +61,7 @@ Recognizing the needs of Wikidata data consumers, we aim to establish a system t
 
 ### Model
 
-![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/WolfgangFahl/snapquery/main/snapquery.puml?fmt=svg&version=4)
+![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/WolfgangFahl/snapquery/main/snapquery.puml?fmt=svg&version=5)
 
 ## Authors
 

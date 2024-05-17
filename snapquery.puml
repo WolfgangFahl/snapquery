@@ -1,4 +1,7 @@
 @startuml
+' snapquery UML model
+' see https://github.com/WolfgangFahl/snapquery/blob/main/snapquery.puml
+hide circle
 package snapquery {
     class NamedQuery {
         - query_id : str
@@ -17,7 +20,6 @@ package snapquery {
         - database : string    - method : string
         - prefixes : string
     }
-
 
 
     NamedQuery --> QueryStats : query_id
@@ -39,6 +41,8 @@ package snapquery {
 }
 
 note right of Endpoint
+  see [[https://github.com/WolfgangFahl/pyLoDStorage/blob/66a90ddf94d6ae7436914de330d000a63be75f41/lodstorage/query.py#L707 lodstorage.query]]
+
   Represents an endpoint configuration for a SPARQL
   query service, including connection details
   and prefixes used in queries.

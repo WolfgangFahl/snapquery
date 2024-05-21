@@ -86,7 +86,7 @@ class NamedQueryView:
                         ui.add_css(syntax_highlight_css)
                         # ui.html(query_syntax_highlight.highlight())
                         ui.html(annotated_query.annotate())
-                if self.solution.webserver.login.authenticated():
+                if self.solution.webserver.authenticated():
                     with ui.row().classes("w-full"):
                         with ui.expansion(
                             "Show Query Stats", icon="query_stats"

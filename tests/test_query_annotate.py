@@ -1,5 +1,4 @@
 import unittest
-from collections import Counter
 from pathlib import Path
 
 from lodstorage.query import Query

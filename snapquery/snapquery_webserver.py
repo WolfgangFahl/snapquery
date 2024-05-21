@@ -2,6 +2,7 @@
 Created on 2024-05-03
 @author: wf
 """
+from pathlib import Path
 
 from fastapi import HTTPException
 from fastapi.responses import HTMLResponse, PlainTextResponse
@@ -13,6 +14,7 @@ from nicegui import app, ui
 from nicegui.client import Client
 from starlette.responses import RedirectResponse
 
+from snapquery.orcid import OrcidAuth
 from snapquery.qimport_view import QueryImportView
 from snapquery.snapquery_core import NamedQueryManager, QueryBundle
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
@@ -47,6 +49,7 @@ class SnapQueryWebServer(InputWebserver):
         InputWebserver.__init__(self, config=SnapQueryWebServer.get_config())
         users = Users("~/.solutions/snapquery")
         self.login = Login(self, users)
+        self.orcid_auth = OrcidAuth(Path(self.config.base_path))
         self.nqm = NamedQueryManager.from_samples()
 
         @ui.page("/admin")
@@ -57,7 +60,7 @@ class SnapQueryWebServer(InputWebserver):
 
         @ui.page("/stats")
         async def stats(client: Client):
-            if not self.login.authenticated():
+            if not self.authenticated():
                 return RedirectResponse("/login")
             return await self.page(client, SnapQuerySolution.stats_ui)
 
@@ -65,9 +68,20 @@ class SnapQueryWebServer(InputWebserver):
         async def login(client: Client):
             return await self.page(client, SnapQuerySolution.login_ui)
 
+        @app.get("/orcid_callback")
+        async def orcid_authenticate_callback(code: str):
+            try:
+                self.orcid_auth.login(code)
+            except Exception as e:
+                return HTTPException(status_code=401, detail=str(e))
+            return RedirectResponse("/")
+
         @ui.page("/logout")
         async def logout(client: Client) -> RedirectResponse:
-            await self.login.logout()
+            if self.login.authenticated():
+                await self.login.logout()
+            if self.orcid_auth.authenticated():
+                self.orcid_auth.logout()
             return RedirectResponse("/")
 
         @ui.page("/query/{namespace}/{name}")
@@ -231,6 +245,14 @@ class SnapQueryWebServer(InputWebserver):
             # Handling specific exceptions can be more detailed based on what nqm.get_sparql and nqm.query can raise
             raise HTTPException(status_code=404, detail=str(e))
 
+    def authenticated(self) -> bool:
+        """
+        Check if the user is authenticated.
+        Returns:
+            True if the user is authenticated, False otherwise.
+        """
+        return self.login.authenticated() or self.orcid_auth.authenticated()
+
 
 class SnapQuerySolution(InputWebSolution):
     """
@@ -247,6 +269,7 @@ class SnapQuerySolution(InputWebSolution):
             client (Client): The client instance this context is associated with.
         """
         super().__init__(webserver, client)  # Call to the superclass constructor
+        self.webserver: SnapQueryWebServer
         self.nqm = self.webserver.nqm
         self.endpoint_name = self.get_user_endpoint()
 
@@ -267,14 +290,22 @@ class SnapQuerySolution(InputWebSolution):
         """
         setup the menu
         """
+        self.webserver: SnapQueryWebServer
         super().setup_menu(detailed=detailed)
         with self.header:
-            if self.webserver.login.authenticated():
+            if self.webserver.authenticated():
                 self.link_button("logout", "/logout", "logout", new_tab=False)
-                self.link_button("admin", "/admin", "supervisor_account", new_tab=False)
+                if self.webserver.login.authenticated():
+                    self.link_button("admin", "/admin", "supervisor_account", new_tab=False)
                 self.link_button("stats", "/stats", icon_name="query_stats", new_tab=False)
             else:
                 self.link_button("login", "/login", "login", new_tab=False)
+                if self.webserver.orcid_auth.available():
+                    redirect_url = self.webserver.orcid_auth.authenticate_url()
+                    self.link_button("login with orcid", redirect_url, "login", new_tab=False)
+            if self.webserver.orcid_auth.authenticated():
+                orcid_token = self.webserver.orcid_auth.get_cached_user_access_token()
+                ui.markdown(f"*logged is as* **{orcid_token.name} ({orcid_token.orcid})**").props('flat color=white icon=folder').classes('ml-auto')
 
     async def admin_ui(self):
         """

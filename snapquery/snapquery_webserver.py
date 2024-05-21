@@ -305,7 +305,7 @@ class SnapQuerySolution(InputWebSolution):
                     self.link_button("login with orcid", redirect_url, "login", new_tab=False)
             if self.webserver.orcid_auth.authenticated():
                 orcid_token = self.webserver.orcid_auth.get_cached_user_access_token()
-                ui.markdown(f"*logged is as* **{orcid_token.name} ({orcid_token.orcid})**").props('flat color=white icon=folder').classes('ml-auto')
+                ui.markdown(f"*logged in as* **{orcid_token.name} ({orcid_token.orcid})**").props('flat color=white icon=folder').classes('ml-auto')
 
     async def admin_ui(self):
         """

@@ -59,7 +59,7 @@
       "query_id": "federated-query-examples.Editors of the WOP 2014",
       "namespace": "federated-query-examples",
       "name": "Editors of the WOP 2014",
-      "sparql": "# Editors of the WOP 2014\nSELECT DISTINCT ?editor ?editorName\\nWHERE {\\n  SERVICE <https://qlever.cs.uni-freiburg.de/api/wikidata> {\\n    wd:Q113544723 wdt:P179 ?editor.\\n    ?editor schema:name ?editorName.\\n  }\\n}",
+      "sparql": "# Editors of the WOP 2014\nSELECT DISTINCT ?editor ?editorName\nWHERE {\n  SERVICE <https://qlever.cs.uni-freiburg.de/api/wikidata> {\n    wd:Q113544723 wdt:P179 ?editor.\n    ?editor schema:name ?editorName.\n  }\n}",
       "url": "https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples",
       "title": "Editors of the WOP 2014",
       "description": ""
@@ -68,7 +68,7 @@
       "query_id": "federated-query-examples.Birth place of all persons with a Wikidata link (using SERVICE)",
       "namespace": "federated-query-examples",
       "name": "Birth place of all persons with a Wikidata link (using SERVICE)",
-      "sparql": "SELECT ?person_name ?person_wikidata_id ?place_of_birth (COUNT(DISTINCT ?paper_title) AS ?count) ?coordinates WHERE {\\n  ?person_dblp rdf:type dblp:Person .\\n  ?person_dblp dblp:wikidata ?person_wikidata_id .\\n  ?person_dblp ^dblp:authoredBy/dblp:title ?paper_title .\\n  ?person_dblp rdfs:label ?person_name .\\n  ?text ql:contains-entity ?paper_title .\\n  ?text ql:contains-word \"graph algo*\" .\\n  SERVICE <https://qlever.cs.uni-freiburg.de/api/wikidata> {\\n    SELECT ?person_wikidata_id ?place_of_birth ?coordinates {\\n\t  ?person_wikidata_id wdt:P2456 ?person_dblp_id .\\n\t  ?person_wikidata_id wdt:P19 ?place_of_birth_id .\\n\t  ?place_of_birth_id @en@rdfs:label ?place_of_birth .\\n      ?place_of_birth_id wdt:P625 ?coordinates\\n\t}\\n  }\\n}\\nGROUP BY ?person_name ?person_wikidata_id ?place_of_birth ?coordinates\\nORDER BY DESC(?count)",
+      "sparql": "SELECT ?person_name ?person_wikidata_id ?place_of_birth (COUNT(DISTINCT ?paper_title) AS ?count) ?coordinates WHERE {\n  ?person_dblp rdf:type dblp:Person .\n  ?person_dblp dblp:wikidata ?person_wikidata_id .\n  ?person_dblp ^dblp:authoredBy/dblp:title ?paper_title .\n  ?person_dblp rdfs:label ?person_name .\n  ?text ql:contains-entity ?paper_title .\n  ?text ql:contains-word \"graph algo*\" .\n  SERVICE <https://qlever.cs.uni-freiburg.de/api/wikidata> {\n    SELECT ?person_wikidata_id ?place_of_birth ?coordinates {\n\t  ?person_wikidata_id wdt:P2456 ?person_dblp_id .\n\t  ?person_wikidata_id wdt:P19 ?place_of_birth_id .\n\t  ?place_of_birth_id @en@rdfs:label ?place_of_birth .\n      ?place_of_birth_id wdt:P625 ?coordinates\n\t}\n  }\n}\nGROUP BY ?person_name ?person_wikidata_id ?place_of_birth ?coordinates\nORDER BY DESC(?count)",
       "url": "",
       "title": "Birth place of all persons with a Wikidata link (using SERVICE)",
       "description": ""
@@ -77,7 +77,7 @@
       "query_id": "federated-query-examples.Birth places for particular venues (using SERVICE)",
       "namespace": "federated-query-examples",
       "name": "Birth places for particular venues (using SERVICE)",
-      "sparql": "SELECT ?person_name ?person_wikidata_id ?place_of_birth (COUNT(DISTINCT ?paper) AS ?count) ?coordinates WHERE {\\n  ?person_dblp rdf:type dblp:Person .\\n  ?person_dblp dblp:wikidata ?person_wikidata_id .\\n  ?person_dblp ^dblp:authoredBy ?paper .\\n  ?paper dblp:publishedIn ?venue .\\n  ?person_dblp rdfs:label ?person_name .\\n  FILTER REGEX(?venue, \"SIGIR|CIKM|ECIR\")\\n  SERVICE <https://qlever.cs.uni-freiburg.de/api/wikidata> {\\n    SELECT ?person_wikidata_id ?place_of_birth ?coordinates {\\n      ?person_wikidata_id wdt:P2456 ?person_dblp_id .\\n      ?person_wikidata_id wdt:P19 ?place_of_birth_id .\\n      ?place_of_birth_id @en@rdfs:label ?place_of_birth .\\n      ?place_of_birth_id wdt:P625 ?coordinates\\n    }\\n  }\\n}\\nGROUP BY ?person_name ?person_wikidata_id ?place_of_birth ?coordinates\\nHAVING (?count > 10)\\nORDER BY DESC(?count)",
+      "sparql": "SELECT ?person_name ?person_wikidata_id ?place_of_birth (COUNT(DISTINCT ?paper) AS ?count) ?coordinates WHERE {\n  ?person_dblp rdf:type dblp:Person .\n  ?person_dblp dblp:wikidata ?person_wikidata_id .\n  ?person_dblp ^dblp:authoredBy ?paper .\n  ?paper dblp:publishedIn ?venue .\n  ?person_dblp rdfs:label ?person_name .\n  FILTER REGEX(?venue, \"SIGIR|CIKM|ECIR\")\n  SERVICE <https://qlever.cs.uni-freiburg.de/api/wikidata> {\n    SELECT ?person_wikidata_id ?place_of_birth ?coordinates {\n      ?person_wikidata_id wdt:P2456 ?person_dblp_id .\n      ?person_wikidata_id wdt:P19 ?place_of_birth_id .\n      ?place_of_birth_id @en@rdfs:label ?place_of_birth .\n      ?place_of_birth_id wdt:P625 ?coordinates\n    }\n  }\n}\nGROUP BY ?person_name ?person_wikidata_id ?place_of_birth ?coordinates\nHAVING (?count > 10)\nORDER BY DESC(?count)",
       "url": "",
       "title": "Birth places for particular venues (using SERVICE)",
       "description": ""
@@ -86,7 +86,7 @@
       "query_id": "federated-query-examples.Affiliations by conference (using SERVICE)",
       "namespace": "federated-query-examples",
       "name": "Affiliations by conference (using SERVICE)",
-      "sparql": "SELECT ?affiliation (COUNT(?venue) AS ?count) (GROUP_CONCAT(DISTINCT ?person_name) AS ?people) ?coordinates WHERE {\\n  ?person_dblp rdf:type dblp:Person .\\n  ?person_dblp dblp:wikidata ?person_wikidata_id .\\n  ?person_dblp ^dblp:authoredBy/dblp:publishedIn ?venue .\\n  ?person_dblp rdfs:label ?person_name .\\n  FILTER REGEX(?venue, \"SIGIR|CIKM|ECIR\")\\n  SERVICE <https://qlever.cs.uni-freiburg.de/api/wikidata> {\\n    SELECT ?person_wikidata_id ?affiliation ?coordinates {\\n      ?person_wikidata_id wdt:P2456 ?person_dblp_id .\\n      ?person_wikidata_id wdt:P108 ?affiliation_id .\\n      ?affiliation_id @en@rdfs:label ?affiliation .\\n      ?affiliation_id wdt:P625 ?coordinates\\n    }\\n  }\\n}\\nGROUP BY ?affiliation ?coordinates\\nHAVING (?count > 10)\\nORDER BY DESC(?count)",
+      "sparql": "SELECT ?affiliation (COUNT(?venue) AS ?count) (GROUP_CONCAT(DISTINCT ?person_name) AS ?people) ?coordinates WHERE {\n  ?person_dblp rdf:type dblp:Person .\n  ?person_dblp dblp:wikidata ?person_wikidata_id .\n  ?person_dblp ^dblp:authoredBy/dblp:publishedIn ?venue .\n  ?person_dblp rdfs:label ?person_name .\n  FILTER REGEX(?venue, \"SIGIR|CIKM|ECIR\")\n  SERVICE <https://qlever.cs.uni-freiburg.de/api/wikidata> {\n    SELECT ?person_wikidata_id ?affiliation ?coordinates {\n      ?person_wikidata_id wdt:P2456 ?person_dblp_id .\n      ?person_wikidata_id wdt:P108 ?affiliation_id .\n      ?affiliation_id @en@rdfs:label ?affiliation .\n      ?affiliation_id wdt:P625 ?coordinates\n    }\n  }\n}\nGROUP BY ?affiliation ?coordinates\nHAVING (?count > 10)\nORDER BY DESC(?count)",
       "url": "https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples",
       "title": "Affiliations by conference (using SERVICE)",
       "description": ""
@@ -95,7 +95,7 @@
       "query_id": "federated-query-examples. For orkg author get dblp id over orcid",
       "namespace": "federated-query-examples",
       "name": " For orkg author get dblp id over orcid",
-      "sparql": "# For orkg author get dblp id over orcid\\nSELECT ?authorLabel ?orcid ?qid\\nWHERE {\\n  SERVICE <https://orkg.org/triplestore>{\\n  orkgr:R599385 rdfs:label ?authorLabel.\\n  orkgr:R599385 orkgp:HAS_ORCID ?orcid.\\n  SERVICE <https://sparql.dblp.org/sparql>{\\n      ?dblpAuthor datacite:hasIdentifier [\\n\t\tdatacite:usesIdentifierScheme datacite:orcid ;\\n\t\tlitre:hasLiteralValue ?orcid ;\\n        a datacite:PersonalIdentifier\\n\t  ].\\n    ?dblpAuthor dblp:wikidata ?qid.\\n  }\\n  }\\n}",
+      "sparql": "# For orkg author get dblp id over orcid\nSELECT ?authorLabel ?orcid ?qid\nWHERE {\n  SERVICE <https://orkg.org/triplestore>{\n  orkgr:R599385 rdfs:label ?authorLabel.\n  orkgr:R599385 orkgp:HAS_ORCID ?orcid.\n  SERVICE <https://sparql.dblp.org/sparql>{\n      ?dblpAuthor datacite:hasIdentifier [\n\t\tdatacite:usesIdentifierScheme datacite:orcid ;\n\t\tlitre:hasLiteralValue ?orcid ;\n        a datacite:PersonalIdentifier\n\t  ].\n    ?dblpAuthor dblp:wikidata ?qid.\n  }\n  }\n}",
       "url": "https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples",
       "title": " For orkg author get dblp id over orcid",
       "description": ""

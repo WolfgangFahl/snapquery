@@ -1,11 +1,33 @@
+"""
+Created 2023
+refactored to snapquery by WF 2024-05
+
+@author: th
+"""
 from dataclasses import dataclass
 from typing import List, Optional
-from sempubflow.models.affiliation import Affiliation
 
 @dataclass
-class Scholar:
+class Affiliation:
     """
-    a scholar
+    affiliation of a person
+    """
+    name: Optional[str] = None
+    location: Optional[str] = None
+    country: Optional[str] = None
+    wikidata_id: Optional[str] = None
+    
+    @property
+    def ui_label(self) -> str:
+        if not self.name:
+            return "❓"  # empty
+        else:
+            return self.name
+        
+@dataclass
+class Person:
+    """
+    A person
     """
     label: Optional[str] = None
     given_name: Optional[str] = None

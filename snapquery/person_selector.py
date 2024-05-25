@@ -10,19 +10,19 @@ from ngwidgets.profiler import Profiler
 from nicegui import run, ui
 from nicegui.element import Element
 
-from snapquery.models.scholar import Scholar
+from snapquery.models.person import Person
 from snapquery.services.dblp import Dblp
 from snapquery.services.wikidata import Wikidata
 
 
-class ScholarSuggestion(Element):
+class PersonSuggestion(Element):
     """
-    display a Scholar
+    display a Person
     """
 
-    def __init__(self, scholar: Scholar, on_select: Callable[[Scholar], Any]):
+    def __init__(self, person: Person, on_select: Callable[[Person], Any]):
         super().__init__(tag="div")
-        self.scholar = scholar
+        self.person = person
         self._on_select_callback = on_select
         with ui.card().tight() as card:
             card.on("click", self.on_select)
@@ -30,15 +30,15 @@ class ScholarSuggestion(Element):
                 section.props(add="horizontal")
                 with ui.card_section():
                     with ui.avatar():
-                        if scholar.image:
-                            ui.image(source=scholar.image)
+                        if person.image:
+                            ui.image(source=person.image)
                 ui.separator().props(add="vertical")
                 with ui.card_section():
                     with ui.row():
-                        self.scholar_label = ui.label(self.scholar.label)
+                        self.person_label = ui.label(self.person.label)
                     with ui.row():
-                        self.scholar_name = ui.label(
-                            f"{self.scholar.given_name} {self.scholar.family_name}"
+                        self.person_name = ui.label(
+                            f"{self.person.given_name} {self.person.family_name}"
                         )
                     with ui.row():
                         self._show_identifier()
@@ -47,13 +47,13 @@ class ScholarSuggestion(Element):
         """
         Handle selection of the suggestion card
         """
-        return self._on_select_callback(self.scholar)
+        return self._on_select_callback(self.person)
 
     def _show_identifier(self):
         """
-        display all identifier of the scholar
+        display all identifier of the person
         """
-        if self.scholar.wikidata_id:
+        if self.person.wikidata_id:
             with ui.element("div"):
                 ui.avatar(
                     icon="img:https://www.wikidata.org/static/favicon/wikidata.ico",
@@ -62,31 +62,31 @@ class ScholarSuggestion(Element):
                     square=True,
                 )
                 ui.link(
-                    text=self.scholar.wikidata_id,
-                    target=f"https://www.wikidata.org/wiki/{self.scholar.wikidata_id}",
+                    text=self.person.wikidata_id,
+                    target=f"https://www.wikidata.org/wiki/{self.person.wikidata_id}",
                     new_tab=True,
                 )
-        if self.scholar.dblp_author_id:
+        if self.person.dblp_author_id:
             with ui.element("div"):
                 ui.element("i").classes("ai ai-dblp")
                 ui.link(
-                    text=self.scholar.dblp_author_id,
-                    target=f"https://dblp.org/pid/{self.scholar.dblp_author_id}",
+                    text=self.person.dblp_author_id,
+                    target=f"https://dblp.org/pid/{self.person.dblp_author_id}",
                     new_tab=True,
                 )
-        if self.scholar.orcid_id:
+        if self.person.orcid_id:
             with ui.element("div"):
                 ui.element("i").classes("ai ai-orcid")
                 ui.link(
-                    text=self.scholar.orcid_id,
-                    target=f"https://orcid.org/{self.scholar.orcid_id}",
+                    text=self.person.orcid_id,
+                    target=f"https://orcid.org/{self.person.orcid_id}",
                     new_tab=True,
                 )
 
 
-class ScholarSelector:
+class PersonSelector:
     """
-    Select a scholar with auto-suggestion
+    Select a person with auto-suggestion
     """
 
     def __init__(self, solution: WebSolution):
@@ -101,17 +101,17 @@ class ScholarSelector:
         ui.add_head_html(
             '<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">'
         )
-        self.selected_scholar: Optional[Scholar] = None
+        self.selected_person: Optional[Person] = None
         self.suggestion_list_wd: Optional[ui.element] = None
         self.suggestion_list_dblp: Optional[ui.element] = None
-        self.scholar_selection()
+        self.person_selection()
 
     @ui.refreshable
-    def scholar_selection(self):
+    def person_selection(self):
         """
-        Display input fields for scholar data with autosuggestion
+        Display input fields for person data with autosuggestion
         """
-        scholar = self.selected_scholar if self.selected_scholar else Scholar()
+        person = self.selected_person if self.selected_person else Person()
         with ui.element("div").classes("w-full"):
             with ui.splitter().classes("h-full  w-full") as splitter:
                 with splitter.before:
@@ -119,14 +119,14 @@ class ScholarSelector:
                         self.given_name_input = ui.input(
                             label="given_name",
                             placeholder="""given name""",
-                            on_change=self.suggest_scholars,
-                            value=scholar.given_name,
+                            on_change=self.suggest_persons,
+                            value=person.given_name,
                         )
                         self.family_name_input = ui.input(
                             label="family_name",
                             placeholder="""family name""",
-                            on_change=self.suggest_scholars,
-                            value=scholar.family_name,
+                            on_change=self.suggest_persons,
+                            value=person.family_name,
                         )
                     with ui.row():
                         self.identifier_type_input = ui.radio(
@@ -136,13 +136,13 @@ class ScholarSelector:
                                 "orcid_id": "ORCID",
                             },
                             value="wikidata_id",
-                            on_change=self.suggest_scholars,
+                            on_change=self.suggest_persons,
                         ).props("inline")
                         self.identifier_input = ui.input(
                             label="identifier",
                             placeholder="""identifier-""",
-                            on_change=self.suggest_scholars,
-                            value=scholar.wikidata_id,
+                            on_change=self.suggest_persons,
+                            value=person.wikidata_id,
                         )
                 with splitter.after:
                     with ui.element("div").classes("columns-2 w-full h-full gap-2"):
@@ -156,32 +156,32 @@ class ScholarSelector:
                             "rounded-md border-2"
                         )
 
-    async def suggest_scholars(self):
+    async def suggest_persons(self):
         """
-        based on given input suggest potential scholars
+        based on given input suggest potential persons
 
         Returns:
-            List of scholars
+            List of persons
         """
         search_mask = self._get_search_mask()
         name = search_mask.name
         if len(name) >= 6:  # quick fix to avoid queries on empty input fields
             self.profilers["dblp"].start()
-            suggested_scholars_dblp = await run.io_bound(
-                Dblp().get_scholar_suggestions, search_mask
+            suggested_persons_dblp = await run.io_bound(
+                Dblp().get_person_suggestions, search_mask
             )
             self.update_suggestion_list(
-                self.suggestion_list_dblp, suggested_scholars_dblp
+                self.suggestion_list_dblp, suggested_persons_dblp
             )
             self.profilers["dblp"].time(f" {name}")
             self.profilers["wikidata"].start()
-            suggested_scholars_wd = await run.io_bound(
-                Wikidata().get_scholar_suggestions, search_mask
+            suggested_persons_wd = await run.io_bound(
+                Wikidata().get_person_suggestions, search_mask
             )
             self.profilers["wikidata"].time(f" {name}")
-            self.update_suggestion_list(self.suggestion_list_wd, suggested_scholars_wd)
+            self.update_suggestion_list(self.suggestion_list_wd, suggested_persons_wd)
 
-    def update_suggestion_list(self, container: ui.element, suggestions: List[Scholar]):
+    def update_suggestion_list(self, container: ui.element, suggestions: List[Person]):
         """
         update the suggestions list
         """
@@ -189,9 +189,9 @@ class ScholarSelector:
         with container:
             if len(suggestions) <= 10:
                 with ui.scroll_area():
-                    for scholar in suggestions:
-                        ScholarSuggestion(
-                            scholar=scholar, on_select=self.select_scholar_suggestion
+                    for person in suggestions:
+                        PersonSuggestion(
+                            person=person, on_select=self.select_person_suggestion
                         )
             else:
                 ui.spinner(size="lg")
@@ -200,29 +200,29 @@ class ScholarSelector:
                 )
         return []
 
-    def select_scholar_suggestion(self, scholar: Scholar):
+    def select_person_suggestion(self, person: Person):
         """
-        Select the given Scholar by updating the input fields to the selected scholar and storing teh object internally
+        Select the given Person by updating the input fields to the selected person and storing teh object internally
         Args:
-            scholar: scholar that should be selected
+            person: person that should be selected
         """
-        self.selected_scholar = scholar
-        self.scholar_selection.refresh()
+        self.selected_person = person
+        self.person_selection.refresh()
         if self.suggestion_list_wd:
             self.suggestion_list_wd.clear()
         if self.suggestion_list_dblp:
             self.suggestion_list_dblp.clear()
 
-    def _get_search_mask(self) -> Scholar:
+    def _get_search_mask(self) -> Person:
         """
         Get the current search mask from the input fields
         Returns:
-            ScholarSearchMask: current search input
+            PersonSearchMask: current search input
         """
         ids = dict()
         if self.identifier_type_input.value:
             ids[self.identifier_type_input.value] = self.identifier_input.value
-        search_mask = Scholar(
+        search_mask = Person(
             label=None,
             given_name=self.given_name_input.value,
             family_name=self.family_name_input.value,

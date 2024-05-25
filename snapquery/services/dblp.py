@@ -8,7 +8,7 @@ from typing import List, Optional
 import requests
 from lodstorage.sparql import SPARQL
 
-from snapquery.models.scholar import Scholar
+from snapquery.models.person import Scholar
 
 
 class Dblp:

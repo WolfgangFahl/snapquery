@@ -9,6 +9,7 @@ from tqdm import tqdm
 from snapquery.snapquery_core import NamedQueryList, NamedQueryManager
 from snapquery.wd_short_url import ShortUrl
 
+
 class QueryImport:
     """
     Import named queries from a given URL or file.
@@ -48,7 +49,7 @@ class QueryImport:
         for nq in iterable:
             if not nq.sparql and nq.url.startswith("https://w.wiki/"):
                 short_url = ShortUrl(nq.url)
-                nq.sparql = short_url.read_query()  
+                nq.sparql = short_url.read_query()
             if with_store and self.nqm:
                 self.nqm.add_and_store(nq)
         return nq_list

@@ -1,7 +1,8 @@
 from dataclasses import asdict
 from pathlib import Path
-from typing import Union
 from time import time
+from typing import Union
+
 import requests
 from lodstorage.yamlable import lod_storable
 from nicegui import app

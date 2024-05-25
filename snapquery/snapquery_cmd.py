@@ -12,7 +12,7 @@ from lodstorage.query import Format
 from ngwidgets.cmd import WebserverCmd
 
 from snapquery.qimport import QueryImport
-from snapquery.snapquery_core import NamedQueryManager, NamedQuery, QueryDetails
+from snapquery.snapquery_core import NamedQuery, NamedQueryManager, QueryDetails
 from snapquery.snapquery_webserver import SnapQueryWebServer
 
 
@@ -52,10 +52,7 @@ class SnapQueryCmd(WebserverCmd):
             help="test run the queries",
         )
         parser.add_argument(
-            "--limit", 
-            type=int, 
-            default=None, 
-            help="set limit parameter of query"
+            "--limit", type=int, default=None, help="set limit parameter of query"
         )
         parser.add_argument(
             "--params",
@@ -68,12 +65,8 @@ class SnapQueryCmd(WebserverCmd):
             default="wikidata-examples",
             help="namespace to filter queries",
         )
-        parser.add_argument(
-            "-f", "--format",
-             type=Format, choices=list(Format))
-        parser.add_argument(
-            "-qn", "--queryName", 
-            help="run a named query")
+        parser.add_argument("-f", "--format", type=Format, choices=list(Format))
+        parser.add_argument("-qn", "--queryName", help="run a named query")
         parser.add_argument(
             "--import",
             dest="import_file",
@@ -81,46 +74,44 @@ class SnapQueryCmd(WebserverCmd):
         )
 
         return parser
-    
-    def parameterize(self,nq:NamedQuery):
+
+    def parameterize(self, nq: NamedQuery):
         """
         parameterize the given named query
-        
+
         Args:
             nq(NamedQuery): the query to parameterize
         """
-        qd = QueryDetails.from_sparql(
-            query_id=nq.query_id, sparql=nq.sparql
-        )
+        qd = QueryDetails.from_sparql(query_id=nq.query_id, sparql=nq.sparql)
         # Execute the query
         params_dict = {}
-        if qd.params=="q":
+        if qd.params == "q":
             # use Tim Berners-Lee as a example
-            params_dict={"q": "Q80"}
+            params_dict = {"q": "Q80"}
             pass
         return qd, params_dict
-    
-    def execute(self,nq:NamedQuery,endpoint_name:str,title:str):
+
+    def execute(self, nq: NamedQuery, endpoint_name: str, title: str):
         """
         execute the given named query
         """
-        qd,params_dict=self.parameterize(nq)
+        qd, params_dict = self.parameterize(nq)
         if self.debug:
             print(f"{title}: {nq.name} {qd} - via {endpoint_name}")
-              
+
         _results, stats = self.nqm.execute_query(
-                nq,
-                params_dict=params_dict,
-                endpoint_name=endpoint_name,
+            nq,
+            params_dict=params_dict,
+            endpoint_name=endpoint_name,
         )
-        stats.context="test"
+        stats.context = "test"
         self.nqm.store_stats([stats])
         if self.debug:
-            msg=f"{title} executed:"
+            msg = f"{title} executed:"
             if not stats.records:
-                msg+=f"error {stats.filtered_msg}"
+                msg += f"error {stats.filtered_msg}"
             else:
-                msg+=f"{stats.records} records found"
+                msg += f"{stats.records} records found"
             print(msg)
 
     def handle_args(self) -> bool:
@@ -129,9 +120,9 @@ class SnapQueryCmd(WebserverCmd):
         """
         # Call the superclass handle_args to maintain base class behavior
         handled = super().handle_args()
-        self.debug=self.args.debug
+        self.debug = self.args.debug
         nqm = NamedQueryManager.from_samples()
-        self.nqm=nqm
+        self.nqm = nqm
         # Check if listing of endpoints is requested
         if self.args.listEndpoints:
             # List endpoints
@@ -141,9 +132,13 @@ class SnapQueryCmd(WebserverCmd):
         elif self.args.testQueries:
             endpoint_names = list(nqm.endpoints.keys())
             queries = self.nqm.get_all_queries(namespace=self.args.namespace)
-            for i,nq in enumerate(queries,start=1):
+            for i, nq in enumerate(queries, start=1):
                 for endpoint_name in endpoint_names:
-                    self.execute(nq,endpoint_name=endpoint_name,title=f"query {i:3}/{len(queries)}::{endpoint_name}")
+                    self.execute(
+                        nq,
+                        endpoint_name=endpoint_name,
+                        title=f"query {i:3}/{len(queries)}::{endpoint_name}",
+                    )
         elif self.args.queryName is not None:
             namespace = self.args.namespace
             name = self.args.queryName

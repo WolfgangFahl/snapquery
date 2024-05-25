@@ -31,3 +31,10 @@ class Scholar:
     @property
     def ui_label(self) -> str:
         return self.name
+    
+    @property
+    def has_pid(self) -> bool:
+        """
+        Checks if the scholar has any persistent identifier (PID) set.
+        """
+        return any([self.wikidata_id, self.dblp_author_id, self.orcid_id])

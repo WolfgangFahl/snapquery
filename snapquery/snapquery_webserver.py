@@ -16,11 +16,12 @@ from starlette.responses import RedirectResponse
 
 from snapquery.orcid import OrcidAuth
 from snapquery.qimport_view import QueryImportView
+from snapquery.scholar_selector import ScholarSelector
 from snapquery.snapquery_core import NamedQueryManager, QueryBundle
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.stats_view import QueryStatsView
 from snapquery.version import Version
-from snapquery.scholar_selector import ScholarSelector
+
 
 class SnapQueryWebServer(InputWebserver):
     """
@@ -61,7 +62,7 @@ class SnapQueryWebServer(InputWebserver):
         @ui.page("/nominate")
         async def nominate(client: Client):
             return await self.page(client, SnapQuerySolution.nominate_ui)
-        
+
         @ui.page("/stats")
         async def stats(client: Client):
             if not self.authenticated():
@@ -300,29 +301,39 @@ class SnapQuerySolution(InputWebSolution):
             if self.webserver.authenticated():
                 self.link_button("logout", "/logout", "logout", new_tab=False)
                 if self.webserver.login.authenticated():
-                    self.link_button("admin", "/admin", "supervisor_account", new_tab=False)
-                self.link_button("stats", "/stats", icon_name="query_stats", new_tab=False)
+                    self.link_button(
+                        "admin", "/admin", "supervisor_account", new_tab=False
+                    )
+                self.link_button(
+                    "stats", "/stats", icon_name="query_stats", new_tab=False
+                )
             else:
                 self.link_button("login", "/login", "login", new_tab=False)
                 if self.webserver.orcid_auth.available():
                     redirect_url = self.webserver.orcid_auth.authenticate_url()
-                    self.link_button("login with orcid", redirect_url, "login", new_tab=False)
+                    self.link_button(
+                        "login with orcid", redirect_url, "login", new_tab=False
+                    )
             if self.webserver.orcid_auth.authenticated():
                 orcid_token = self.webserver.orcid_auth.get_cached_user_access_token()
-                ui.markdown(f"*logged in as* **{orcid_token.name} ({orcid_token.orcid})**").props('flat color=white icon=folder').classes('ml-auto')
+                ui.markdown(
+                    f"*logged in as* **{orcid_token.name} ({orcid_token.orcid})**"
+                ).props("flat color=white icon=folder").classes("ml-auto")
 
     async def nominate_ui(self):
         """
         nominate a new query
         """
+
         def show():
             """
             show the nominate ui
             """
-            self.scholar_selector=ScholarSelector(solution=self)
-            
+            self.scholar_selector = ScholarSelector(solution=self)
+            self.query_import_view = QueryImportView(self)
+
         await self.setup_content_div(show)
-         
+
     async def admin_ui(self):
         """
         admin ui

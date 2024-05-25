@@ -6,10 +6,10 @@ from lodstorage.sparql import SPARQL
 from ngwidgets.basetest import Basetest
 
 from snapquery.query_annotate import (
+    QUERY_ITEM_STATS,
     ItemStat,
     SparqlQueryAnnotater,
     Stats,
-    QUERY_ITEM_STATS,
 )
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager
 

@@ -33,7 +33,7 @@ class QueryStats:
     stats_id: str = field(init=False)
     query_id: str  # foreign key
     endpoint_name: str  # foreign key
-    context:Optional[str] = None # a context for the query stats
+    context: Optional[str] = None  # a context for the query stats
     records: Optional[int] = None
     time_stamp: datetime.datetime = field(init=False)
     duration: Optional[float] = field(init=False, default=None)  # duration in seconds
@@ -73,10 +73,10 @@ class QueryStats:
         from a dictionary record.
         """
         stat = cls(
-                query_id=record.get("query_id", None),
-                endpoint_name=record.get("endpoint_name", None),
-                records=record.get("records", None),
-                error_msg=record.get("error_msg", None),
+            query_id=record.get("query_id", None),
+            endpoint_name=record.get("endpoint_name", None),
+            records=record.get("records", None),
+            error_msg=record.get("error_msg", None),
         )
         stat.stats_id = record.get("stats_id", stat.stats_id)
         stat.time_stamp = record.get("time_stamp", stat.time_stamp)
@@ -623,11 +623,11 @@ class NamedQueryManager:
         """
         # Assemble the query bundle using the named query, endpoint, and limit
         query_bundle = self.as_query_bundle(named_query, endpoint_name, limit)
-        params=Params(query_bundle.query.query)
+        params = Params(query_bundle.query.query)
         if params.has_params:
             params.set(params_dict)
-            query=params.apply_parameters()
-            query_bundle.query.query=query
+            query = params.apply_parameters()
+            query_bundle.query.query = query
         # Execute the query
         results, stats = query_bundle.get_lod_with_stats()
         self.store_stats([stats])
@@ -814,7 +814,9 @@ WHERE
             query.query += f"\nLIMIT {limit}"
         return QueryBundle(named_query=named_query, query=query, endpoint=endpoint)
 
-    def get_all_queries(self,namespace:str="snapquery-examples") -> List[NamedQuery]:
+    def get_all_queries(
+        self, namespace: str = "snapquery-examples"
+    ) -> List[NamedQuery]:
         """
         Retrieves all named queries stored in the database.
 
@@ -822,7 +824,7 @@ WHERE
             List[NamedQuery]: A list of all NamedQuery instances in the database.
         """
         sql_query = "SELECT * FROM NamedQuery WHERE namespace = ?"
-        query_records = self.sql_db.query(sql_query,(namespace,))
+        query_records = self.sql_db.query(sql_query, (namespace,))
         named_queries = []
         for record in query_records:
             named_query = NamedQuery.from_record(record)
@@ -850,5 +852,3 @@ WHERE
                 query_stat = QueryStats.from_record(record)
                 stats.append(query_stat)
         return stats
-
-

@@ -8,22 +8,22 @@ import asyncio
 from typing import List
 
 import pandas as pd
+import plotly.express as px
 from lodstorage.params import Params
 from lodstorage.query import QuerySyntaxHighlight, ValueFormatter
 from ngwidgets.input_webserver import InputWebSolution
 from ngwidgets.lod_grid import ListOfDictsGrid
 from ngwidgets.widgets import Link
 from nicegui import background_tasks, run, ui
-import plotly.express as px
 
 from snapquery.params_view import ParamsView
+from snapquery.query_annotate import SparqlQueryAnnotater
 from snapquery.snapquery_core import (
     NamedQuery,
+    NamedQueryManager,
     QueryBundle,
     QueryStats,
-    NamedQueryManager,
 )
-from snapquery.query_annotate import SparqlQueryAnnotater
 
 
 class NamedQueryView:

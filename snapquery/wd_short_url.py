@@ -4,48 +4,55 @@ Created on 2024-05-12
 @author: wf
 """
 import json
-from ngwidgets.llm import LLM
 import random
 import urllib.parse
+
 import requests
-from snapquery.snapquery_core import NamedQueryList, NamedQuery
+from ngwidgets.llm import LLM
+
+from snapquery.snapquery_core import NamedQuery, NamedQueryList
+
 
 class ShortIds:
     """
     short id handling
     """
-    def __init__(self,base_chars:str="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz$"):
-        self.base_chars=base_chars
-        
-        
-    def id_to_int(self,id_str: str) -> int:
+
+    def __init__(
+        self,
+        base_chars: str = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz$",
+    ):
+        self.base_chars = base_chars
+
+    def id_to_int(self, id_str: str) -> int:
         """
         Convert an ID string to an integer using my base character set.
-    
+
         Args:
             id_str (str): The custom ID string to convert.
-     
+
         Returns:
             int: The converted integer value.
         """
         base = len(self.base_chars)
         value = 0
-    
+
         for char in id_str:
             value *= base
             value += self.base_chars.index(char)
-    
+
         return value
-    
-    def get_random(self,k:int=4)->str:
+
+    def get_random(self, k: int = 4) -> str:
         """
         get a random short id
-        
+
         Returns:
             str: a random short id
         """
-        short_id = ''.join(random.choices(self.base_chars, k=k)) 
+        short_id = "".join(random.choices(self.base_chars, k=k))
         return short_id
+
 
 class ShortUrl:
     """
@@ -61,14 +68,13 @@ class ShortUrl:
             short_url (str): The short URL to be processed.
         """
         self.short_url = short_url
-        self.url=None
-        self.sparql=None
-        self.error=None
-      
+        self.url = None
+        self.sparql = None
+        self.error = None
 
     @classmethod
-    def get_prompt_text(cls,sparql:str)->str:
-        prompt_text=f"""give an english name, title and description in json 
+    def get_prompt_text(cls, sparql: str) -> str:
+        prompt_text = f"""give an english name, title and description in json 
 for cut &paste for the SPARQL query below- the name should be less than 60 chars be a proper identifier which has no special chars so it can be used in an url without escaping. The title should be less than 80 chars and the 
 description not more than three lines of 80 chars. 
 A valid example result would be e.g.
@@ -84,15 +90,17 @@ If the you can not determine a proper name, title and description return {{}}
 SPARQL: {sparql}
 """
         return prompt_text
-    
+
     @classmethod
-    def get_random_query_list(cls, 
-            name: str,
-            count:int,
-            max_postfix="9pfu",
-            with_llm=False,
-            with_progress:bool=False,
-            debug=False) -> NamedQueryList:
+    def get_random_query_list(
+        cls,
+        name: str,
+        count: int,
+        max_postfix="9pfu",
+        with_llm=False,
+        with_progress: bool = False,
+        debug=False,
+    ) -> NamedQueryList:
         """
         Read a specified number of random queries from a list of short URLs.
 
@@ -101,50 +109,57 @@ SPARQL: {sparql}
             count (int): Number of random URLs to fetch.
             max_postfix(str): the maximum ID to try
             with_progress(bool): if True show progress
-   
+
         Returns:
             NamedQueryList: A NamedQueryList containing the queries read from the URLs.
         """
         if with_llm:
-            llm=LLM(model="gpt-4")
-        short_ids=ShortIds()
+            llm = LLM(model="gpt-4")
+        short_ids = ShortIds()
         base_url = "https://w.wiki/"
         unique_urls = set()
         unique_names = set()
 
-        nq_list=NamedQueryList(name=name)
-        give_up=count*15 # heuristic factor for probability that a short url points to a wikidata entry - 14 has worked so far
-        max_short_int=short_ids.id_to_int(max_postfix)
+        nq_list = NamedQueryList(name=name)
+        give_up = (
+            count * 15
+        )  # heuristic factor for probability that a short url points to a wikidata entry - 14 has worked so far
+        max_short_int = short_ids.id_to_int(max_postfix)
         while len(unique_urls) < count and give_up > 0:
             if with_progress and not debug:
-                print(".",end="")
-                if give_up%80==0:
+                print(".", end="")
+                if give_up % 80 == 0:
                     print()
             # Generate a 4-char base36 string
-            postfix=short_ids.get_random()
+            postfix = short_ids.get_random()
             if short_ids.id_to_int(postfix) > max_short_int:
                 continue
             if debug:
                 print(f"{give_up:4}:{postfix}")
             wd_short_url = f"{base_url}{postfix}"
-            short_url=cls(short_url=wd_short_url)
+            short_url = cls(short_url=wd_short_url)
             short_url.read_query()
             if short_url.sparql and not short_url.error:
-                nq=NamedQuery(name=postfix,namespace="short_url",url=wd_short_url,sparql=short_url.sparql)
+                nq = NamedQuery(
+                    name=postfix,
+                    namespace="short_url",
+                    url=wd_short_url,
+                    sparql=short_url.sparql,
+                )
                 if with_llm:
                     try:
                         llm_response = llm.ask(cls.get_prompt_text(short_url.sparql))
                         if llm_response:
                             response_json = json.loads(llm_response)
-                            name = response_json.get('name', None)
+                            name = response_json.get("name", None)
                             if name in unique_names:
                                 # try again with a different url to avoid name clash
-                                give_up-=1
+                                give_up -= 1
                                 continue
                             if name:
-                                nq.name=name
-                            title = response_json.get('title', '')
-                            description = response_json.get('description', '')
+                                nq.name = name
+                            title = response_json.get("title", "")
+                            description = response_json.get("description", "")
                             nq.title = title
                             nq.description = description
                             nq.__post_init__()
@@ -158,7 +173,7 @@ SPARQL: {sparql}
                 if debug:
                     print(nq)
             else:
-                give_up-=1
+                give_up -= 1
         return nq_list
 
     def read_query(self) -> str:
@@ -178,10 +193,13 @@ SPARQL: {sparql}
 
             # Check if the URL has the correct format
             parsed_url = urllib.parse.urlparse(self.url)
-            if parsed_url.scheme == "https" and parsed_url.netloc == "query.wikidata.org":
+            if (
+                parsed_url.scheme == "https"
+                and parsed_url.netloc == "query.wikidata.org"
+            ):
                 self.sparql = urllib.parse.unquote(parsed_url.fragment)
 
         except Exception as ex:
-            self.error=ex
+            self.error = ex
 
         return self.sparql

@@ -52,8 +52,8 @@ class ErrorFilter:
         """
         start_idx = self.raw_error_message.find("Not supported:")
         if start_idx != -1:
-            end_idx = self.raw_error_message.find('}', start_idx)
-            error_message = self.raw_error_message[start_idx:end_idx+1].strip()
+            end_idx = self.raw_error_message.find("}", start_idx)
+            error_message = self.raw_error_message[start_idx : end_idx + 1].strip()
             return f"QLever error:\n{error_message}"
         else:
             return "Error: QLever error information is incomplete."

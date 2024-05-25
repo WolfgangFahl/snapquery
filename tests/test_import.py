@@ -85,7 +85,7 @@ class TestImport(Basetest):
         """
         test reading from a short url
         """
-        short_url=ShortUrl("https://w.wiki/6UCU")
+        short_url = ShortUrl("https://w.wiki/6UCU")
         query = short_url.read_query()
         if self.debug:
             print(query)

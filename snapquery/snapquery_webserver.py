@@ -16,7 +16,7 @@ from starlette.responses import RedirectResponse
 
 from snapquery.orcid import OrcidAuth
 from snapquery.qimport_view import QueryImportView
-from snapquery.person_selector import ScholarSelector
+from snapquery.person_selector import PersonSelector
 from snapquery.snapquery_core import NamedQueryManager, QueryBundle
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.stats_view import QueryStatsView
@@ -329,8 +329,8 @@ class SnapQuerySolution(InputWebSolution):
             """
             show the nominate ui
             """
-            self.scholar_selector = ScholarSelector(solution=self)
-            self.query_import_view = QueryImportView(self)
+            self.person_selector = PersonSelector(solution=self)
+            #self.query_import_view = QueryImportView(self)
 
         await self.setup_content_div(show)
 

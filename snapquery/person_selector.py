@@ -109,12 +109,14 @@ class PersonSelector:
     @ui.refreshable
     def person_selection(self):
         """
-        Display input fields for person data with autosuggestion
+        Display input fields for person data with auto suggestion
         """
         person = self.selected_person if self.selected_person else Person()
         with ui.element("div").classes("w-full"):
             with ui.splitter().classes("h-full  w-full") as splitter:
                 with splitter.before:
+                    with ui.row():
+                        self.label=ui.label("Please identify yourself:")
                     with ui.row():
                         self.given_name_input = ui.input(
                             label="given_name",
@@ -129,6 +131,13 @@ class PersonSelector:
                             value=person.family_name,
                         )
                     with ui.row():
+                        self.identifier_input = ui.input(
+                            label="identifier",
+                            placeholder="""identifier-""",
+                            on_change=self.suggest_persons,
+                            value=person.wikidata_id,
+                        )
+                    with ui.row():
                         self.identifier_type_input = ui.radio(
                             options={
                                 "wikidata_id": "Wikidata",
@@ -138,12 +147,6 @@ class PersonSelector:
                             value="wikidata_id",
                             on_change=self.suggest_persons,
                         ).props("inline")
-                        self.identifier_input = ui.input(
-                            label="identifier",
-                            placeholder="""identifier-""",
-                            on_change=self.suggest_persons,
-                            value=person.wikidata_id,
-                        )
                 with splitter.after:
                     with ui.element("div").classes("columns-2 w-full h-full gap-2"):
                         ui.label("wikidata")

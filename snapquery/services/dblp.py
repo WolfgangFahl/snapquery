@@ -8,7 +8,7 @@ from typing import List, Optional
 import requests
 from lodstorage.sparql import SPARQL
 
-from snapquery.models.person import Scholar
+from snapquery.models.person import Person
 
 
 class Dblp:
@@ -25,9 +25,9 @@ class Dblp:
         self.sparql_endpoint = SPARQL(sparql_endpoint_url)
         self.endpoint_url = endpoint_url
 
-    def get_scholar_suggestions(self, search_mask: Scholar) -> List[Scholar]:
+    def get_person_suggestions(self, search_mask: Person) -> List[Person]:
         """
-        Given a search mask query wikidata  for matching scholars
+        Given a search mask query wikidata  for matching persons
         Args:
             search_mask:
 
@@ -47,7 +47,7 @@ class Dblp:
         res = []
         if qres_hits is not None:
             hits = [hit.get("info").get("url") for hit in qres_hits]
-            scholar_urls = "\n".join([f"<{url}>" for url in hits])
+            person_urls = "\n".join([f"<{url}>" for url in hits])
             query = f"""
                 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
                 PREFIX dblp: <https://dblp.org/rdf/schema#>
@@ -55,7 +55,7 @@ class Dblp:
                 PREFIX litre: <http://purl.org/spar/literal/> 
                 SELECT DISTINCT ?author ?label ?dblp_author_id ?wikidata_id ?orcid_id WHERE {{
                 VALUES ?author {{
-                        {scholar_urls}
+                        {person_urls}
                 }}
                     ?author a dblp:Person.
                     ?author rdfs:label ?label
@@ -80,11 +80,11 @@ class Dblp:
             """
             lod = self.sparql_endpoint.queryAsListOfDicts(query)
             for d in lod:
-                scholar = Scholar(
+                person = Person(
                         label=d.get("label"),
                         wikidata_id=d.get("wikidata_id"),
                         dblp_author_id=d.get("dblp_author_id"),
                         orcid_id=d.get("orcid_id")
                 )
-                res.append(scholar)
+                res.append(person)
         return res

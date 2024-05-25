@@ -20,7 +20,7 @@ from snapquery.snapquery_core import NamedQueryManager, QueryBundle
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.stats_view import QueryStatsView
 from snapquery.version import Version
-
+from snapquery.scholar_selector import ScholarSelector
 
 class SnapQueryWebServer(InputWebserver):
     """
@@ -58,6 +58,10 @@ class SnapQueryWebServer(InputWebserver):
                 return RedirectResponse("/login")
             return await self.page(client, SnapQuerySolution.admin_ui)
 
+        @ui.page("/nominate")
+        async def nominate(client: Client):
+            return await self.page(client, SnapQuerySolution.nominate_ui)
+        
         @ui.page("/stats")
         async def stats(client: Client):
             if not self.authenticated():
@@ -307,6 +311,18 @@ class SnapQuerySolution(InputWebSolution):
                 orcid_token = self.webserver.orcid_auth.get_cached_user_access_token()
                 ui.markdown(f"*logged in as* **{orcid_token.name} ({orcid_token.orcid})**").props('flat color=white icon=folder').classes('ml-auto')
 
+    async def nominate_ui(self):
+        """
+        nominate a new query
+        """
+        def show():
+            """
+            show the nominate ui
+            """
+            self.scholar_selector=ScholarSelector(solution=self)
+            
+        await self.setup_content_div(show)
+         
     async def admin_ui(self):
         """
         admin ui

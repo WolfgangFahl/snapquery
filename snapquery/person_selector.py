@@ -13,19 +13,21 @@ from nicegui.element import Element
 from snapquery.models.person import Person
 from snapquery.services.dblp import Dblp
 from snapquery.services.wikidata import Wikidata
-
+from snapquery.pid import PIDs, PIDValue
 
 class PersonSuggestion(Element):
     """
-    display a Person
+    Display a Person
     """
 
     def __init__(self, person: Person, on_select: Callable[[Person], Any]):
+        self.pids = PIDs()
+        self.pid_values = self._create_pid_values(person)
         super().__init__(tag="div")
         self.person = person
         self._on_select_callback = on_select
-        with ui.card().tight() as card:
-            card.on("click", self.on_select)
+        with ui.card().tight() as self.person_card:
+            self.person_card.on("click", self.on_select)
             with ui.card_section() as section:
                 section.props(add="horizontal")
                 with ui.card_section():
@@ -43,6 +45,18 @@ class PersonSuggestion(Element):
                     with ui.row():
                         self._show_identifier()
 
+    def _create_pid_values(self, person: Person) -> List[PIDValue]:
+        """
+        Create PIDValue instances for the person's identifiers
+        """
+        pid_values = []
+        for pid_key, pid in self.pids.pids.items():
+            attr = f"{pid_key}_id"
+            pid_value = getattr(person, attr, None)
+            if pid_value:
+                pid_values.append(PIDValue(pid=pid, value=pid_value))
+        return pid_values
+
     def on_select(self):
         """
         Handle selection of the suggestion card
@@ -51,38 +65,21 @@ class PersonSuggestion(Element):
 
     def _show_identifier(self):
         """
-        display all identifier of the person
+        Display all identifiers of the person
         """
-        if self.person.wikidata_id:
+        for pid_value in self.pid_values:
             with ui.element("div"):
                 ui.avatar(
-                    icon="img:https://www.wikidata.org/static/favicon/wikidata.ico",
+                    icon=f"img:{pid_value.pid.logo}",
                     color=None,
                     size="sm",
                     square=True,
                 )
                 ui.link(
-                    text=self.person.wikidata_id,
-                    target=f"https://www.wikidata.org/wiki/{self.person.wikidata_id}",
+                    text=pid_value.value,
+                    target=pid_value.url,
                     new_tab=True,
                 )
-        if self.person.dblp_author_id:
-            with ui.element("div"):
-                ui.element("i").classes("ai ai-dblp")
-                ui.link(
-                    text=self.person.dblp_author_id,
-                    target=f"https://dblp.org/pid/{self.person.dblp_author_id}",
-                    new_tab=True,
-                )
-        if self.person.orcid_id:
-            with ui.element("div"):
-                ui.element("i").classes("ai ai-orcid")
-                ui.link(
-                    text=self.person.orcid_id,
-                    target=f"https://orcid.org/{self.person.orcid_id}",
-                    new_tab=True,
-                )
-
 
 class PersonSelector:
     """
@@ -102,8 +99,7 @@ class PersonSelector:
             '<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">'
         )
         self.selected_person: Optional[Person] = None
-        self.suggestion_list_wd: Optional[ui.element] = None
-        self.suggestion_list_dblp: Optional[ui.element] = None
+        self.suggestion_list: Optional[ui.element] = None
         self.person_selection()
 
     @ui.refreshable
@@ -115,49 +111,34 @@ class PersonSelector:
         with ui.element("div").classes("w-full"):
             with ui.splitter().classes("h-full  w-full") as splitter:
                 with splitter.before:
-                    with ui.row():
-                        self.label=ui.label("Please identify yourself:")
-                    with ui.row():
-                        self.given_name_input = ui.input(
-                            label="given_name",
-                            placeholder="""given name""",
-                            on_change=self.suggest_persons,
-                            value=person.given_name,
-                        )
-                        self.family_name_input = ui.input(
-                            label="family_name",
-                            placeholder="""family name""",
-                            on_change=self.suggest_persons,
-                            value=person.family_name,
-                        )
-                    with ui.row():
-                        self.identifier_input = ui.input(
-                            label="identifier",
-                            placeholder="""identifier-""",
-                            on_change=self.suggest_persons,
-                            value=person.wikidata_id,
-                        )
-                    with ui.row():
-                        self.identifier_type_input = ui.radio(
-                            options={
-                                "wikidata_id": "Wikidata",
-                                "dblp_author_id": "dblp",
-                                "orcid_id": "ORCID",
-                            },
-                            value="wikidata_id",
-                            on_change=self.suggest_persons,
-                        ).props("inline")
-                with splitter.after:
-                    with ui.element("div").classes("columns-2 w-full h-full gap-2"):
-                        ui.label("wikidata")
-                        self.suggestion_list_wd = ui.column().classes(
-                            "rounded-md border-2 p-3"
-                        )
-
-                        ui.label("dblp")
-                        self.suggestion_list_dblp = ui.column().classes(
-                            "rounded-md border-2"
-                        )
+                    with ui.card() as self.selection_card:
+                        with ui.row():
+                            self.label=ui.label("Please identify yourself by entering or looking up a valid PID(Wikidata ID, ORCID, dblp):")
+                        with ui.row():
+                            self.given_name_input = ui.input(
+                                label="given_name",
+                                placeholder="""Tim""",
+                                on_change=self.suggest_persons,
+                                value=person.given_name,
+                            ).props("size=20")
+                            self.family_name_input = ui.input(
+                                label="family_name",
+                                placeholder="""Berners-Lee""",
+                                on_change=self.suggest_persons,
+                                value=person.family_name,
+                            ).props("size=30")
+                        with ui.row():
+                            self.identifier_input = ui.input(
+                                label="PID",
+                                placeholder="""Q80""",
+                                on_change=self.suggest_persons,
+                                value=person.wikidata_id,
+                            ).props("size=20")
+            with splitter.after:
+                with ui.element("div").classes("columns-2 w-full h-full gap-2"):
+                    self.suggestion_list= ui.column().classes(
+                        "rounded-md border-2 p-3"
+                    )
 
     async def suggest_persons(self):
         """

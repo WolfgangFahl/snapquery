@@ -1,11 +1,11 @@
 import tempfile
 import unittest
 from pathlib import Path
-
+from ngwidgets.basetest import Basetest
 from snapquery.orcid import OrcidAuth, OrcidConfig
 
 
-class TestOrcid(unittest.TestCase):
+class TestOrcid(Basetest):
     """
     test OrcidAuth and OrcidConfig methods
     """
@@ -28,7 +28,3 @@ class TestOrcid(unittest.TestCase):
                 "scope=/authenticate&redirect_uri=http://127.0.0.1:9862/orcid_callback"
             )
             self.assertEqual(orcid_auth.authenticate_url(), authenticate_url)
-
-
-if __name__ == "__main__":
-    unittest.main()

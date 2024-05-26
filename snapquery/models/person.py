@@ -23,9 +23,17 @@ class Affiliation:
             return "❓"  # empty
         else:
             return self.name
+
+@dataclass
+class PersonName:    
+    """
+    """    
+    
+    
+    
         
 @dataclass
-class Person:
+class Person(PersonName):
     """
     A person
     """

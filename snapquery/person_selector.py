@@ -11,8 +11,7 @@ from nicegui import run, ui
 from nicegui.element import Element
 
 from snapquery.models.person import Person
-from snapquery.services.dblp import Dblp
-from snapquery.services.wikidata import Wikidata
+from snapquery.pid_lookup import PersonLookup
 from snapquery.pid import PIDs, PIDValue
 
 class PersonSuggestion(Element):
@@ -91,16 +90,11 @@ class PersonSelector:
         Constructor
         """
         self.solution = solution
-        self.profilers = {
-            "dblp": Profiler("dblp search", profile=True, with_start=False),
-            "wikidata": Profiler("wikidata search", profile=True, with_start=False),
-        }
-        ui.add_head_html(
-            '<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">'
-        )
         self.selected_person: Optional[Person] = None
         self.suggestion_list: Optional[ui.element] = None
+        self.search_name=""
         self.person_selection()
+        
 
     @ui.refreshable
     def person_selection(self):
@@ -115,18 +109,12 @@ class PersonSelector:
                         with ui.row():
                             self.label=ui.label("Please identify yourself by entering or looking up a valid PID(Wikidata ID, ORCID, dblp):")
                         with ui.row():
-                            self.given_name_input = ui.input(
-                                label="given_name",
-                                placeholder="""Tim""",
+                            self.name_input = ui.input(
+                                label="name",
+                                placeholder="""Tim Berners-Lee""",
                                 on_change=self.suggest_persons,
-                                value=person.given_name,
-                            ).props("size=20")
-                            self.family_name_input = ui.input(
-                                label="family_name",
-                                placeholder="""Berners-Lee""",
-                                on_change=self.suggest_persons,
-                                value=person.family_name,
-                            ).props("size=30")
+                                value=self.search_name,
+                            ).props("size=60")
                         with ui.row():
                             self.identifier_input = ui.input(
                                 label="PID",
@@ -147,22 +135,7 @@ class PersonSelector:
         Returns:
             List of persons
         """
-        search_mask = self._get_search_mask()
-        name = search_mask.name
-        if len(name) >= 6:  # quick fix to avoid queries on empty input fields
-            self.profilers["dblp"].start()
-            suggested_persons_dblp = await run.io_bound(
-                Dblp().get_person_suggestions, search_mask
-            )
-            self.update_suggestion_list(
-                self.suggestion_list_dblp, suggested_persons_dblp
-            )
-            self.profilers["dblp"].time(f" {name}")
-            self.profilers["wikidata"].start()
-            suggested_persons_wd = await run.io_bound(
-                Wikidata().get_person_suggestions, search_mask
-            )
-            self.profilers["wikidata"].time(f" {name}")
+        if len(self.search_name) >= 4:  # quick fix to avoid queries on empty input fields
             self.update_suggestion_list(self.suggestion_list_wd, suggested_persons_wd)
 
     def update_suggestion_list(self, container: ui.element, suggestions: List[Person]):

@@ -611,6 +611,7 @@ class NamedQueryManager:
         params_dict: Dict,
         endpoint_name: str = "wikidata",
         limit: int = None,
+        with_stats:bool=True,
     ):
         """
         execute the given named_query
@@ -620,6 +621,7 @@ class NamedQueryManager:
             params_dict(Dict): the query parameters to apply (if any)
             endpoint_name(str): the endpoint where to the excute the query
             limit(int): the record limit for the results (if any)
+            with_stats(bool): if True run the stats
         """
         # Assemble the query bundle using the named query, endpoint, and limit
         query_bundle = self.as_query_bundle(named_query, endpoint_name, limit)
@@ -628,9 +630,13 @@ class NamedQueryManager:
             params.set(params_dict)
             query = params.apply_parameters()
             query_bundle.query.query = query
-        # Execute the query
-        results, stats = query_bundle.get_lod_with_stats()
-        self.store_stats([stats])
+        if with_stats:
+            # Execute the query
+            results, stats = query_bundle.get_lod_with_stats()
+            self.store_stats([stats])
+        else:
+            results=query_bundle.get_lod()
+            stats=None
         return results, stats
 
     def add_and_store(self, nq: NamedQuery):

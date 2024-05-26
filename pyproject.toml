@@ -30,7 +30,10 @@ dependencies = [
     #"mwoauth@git+https://github.com/mediawiki-utilities/python-mwoauth"
     #https://pypi.org/project/tqdm/
     "tqdm>=4.66.4",
-    "nicegui[plotly]"
+    "nicegui[plotly]",
+    # py_ez_wikidata 
+    # https://github.com/WolfgangFahl/py_ez_wikidata
+    "py_ez_wikidata>=0.2.2"
 ]
 
 requires-python = ">=3.9"

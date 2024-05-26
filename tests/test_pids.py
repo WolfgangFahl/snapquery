@@ -3,14 +3,32 @@ PID tests
 
 @author wf
 """
+import tempfile
 from ngwidgets.basetest import Basetest
 from snapquery.pid import PIDs
+from snapquery.pid_lookup import PersonLookup
+from snapquery.snapquery_core import NamedQueryManager
 
-class TestPIDs(Basetest):
+class TestPIDandPersons(Basetest):
     """
-    Test cases for the PIDs class.
+    Test cases for the PIDs and PersonLookup class.
     """
-
+    
+    def setUp(self, debug=True, profile=True):
+        Basetest.setUp(self, debug=debug, profile=profile)
+        tmpfile=tempfile.NamedTemporaryFile(delete=False)
+        self.nqm = NamedQueryManager.from_samples(db_path=tmpfile.name)
+    
+    def test_person_lookup(self):
+        """
+        test person lookup
+        """
+        pl=PersonLookup(self.nqm)
+        person_list=pl.suggest("Tim Bern")
+        if self.debug:
+            for i,person in enumerate(person_list):
+                print(f"{i+1:2}:{person}")
+                      
     def test_pids(self):
         """
         Tests the availability and validity of PIDs.

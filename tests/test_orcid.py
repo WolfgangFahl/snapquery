@@ -2,6 +2,8 @@ import tempfile
 import unittest
 from pathlib import Path
 from ngwidgets.basetest import Basetest
+
+from snapquery.models.person import Person
 from snapquery.orcid import OrcidAuth, OrcidConfig, OrcidSearchParams
 
 
@@ -38,5 +40,8 @@ class TestOrcid(Basetest):
         orcid_auth = OrcidAuth(basedir)
         token = orcid_auth._request_search_token()
         res = orcid_auth.search(OrcidSearchParams(family_name="berners-lee"))
-        print(res)
+        self.assertIsInstance(res, list)
+        for person in res:
+            self.assertIsInstance(person, Person)
+            self.assertIsNotNone(person.orcid_id)
 

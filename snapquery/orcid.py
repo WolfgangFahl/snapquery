@@ -2,12 +2,11 @@ from dataclasses import asdict, dataclass, fields
 from pathlib import Path
 from time import time
 from typing import Optional, Union
-import xml.etree.ElementTree as ET
 
 import requests
 from lodstorage.yamlable import lod_storable
 from nicegui import app
-
+from snapquery.models.person import Person
 
 class OrcidAuth:
     """
@@ -141,22 +140,25 @@ class OrcidAuth:
         resp_json = resp.json()
         return resp_json["access_token"]
 
-    def search(self, params: "OrcidSearchParams"):
+    def search(self, params: "OrcidSearchParams", limit: int = 10) -> list[Person]:
         access_token = self._request_search_token()
-        url = f"{self.config.api_endpoint}/search/"
+        url = f"{self.config.api_endpoint}/expanded-search/?q={params.get_search_query()}&rows={limit}"
         headers = {
-            "Accept": "application/vnd.orcid+json",
+            "Accept": "application/json",
             "Authorization": f"Bearer {access_token}",
         }
-        params = {"q": params.get_search_query(), "rows": 10}
-        resp = requests.get(url, params=params)
+        resp = requests.get(url, headers=headers)
         resp.raise_for_status()
-        tree = ET.ElementTree(ET.fromstring(resp.text))
-        root = tree.getroot()
-        elements = root.findall(
-            ".//common:path", namespaces={"common": "http://www.orcid.org/ns/common"}
-        )
-        return [el.text for el in elements]
+        records: list[dict] = resp.json().get("expanded-result", [])
+        persons = []
+        for record in records:
+            person = Person(
+                    given_name=record.get("given-names", None),
+                    family_name=record.get("family-name", None),
+                    orcid_id=record.get("orcid-id", None)
+            )
+            persons.append(person)
+        return persons
 
 
 @lod_storable

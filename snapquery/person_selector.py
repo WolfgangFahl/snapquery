@@ -3,6 +3,7 @@ Created 2023
 
 @author: th
 """
+
 from typing import Any, Callable, List, Optional
 
 from ngwidgets.input_webserver import WebSolution
@@ -13,6 +14,7 @@ from nicegui.element import Element
 from snapquery.models.person import Person
 from snapquery.pid_lookup import PersonLookup
 from snapquery.pid import PIDs, PIDValue
+
 
 class PersonSuggestion(Element):
     """
@@ -80,6 +82,7 @@ class PersonSuggestion(Element):
                     new_tab=True,
                 )
 
+
 class PersonSelector:
     """
     Select a person with auto-suggestion
@@ -92,9 +95,9 @@ class PersonSelector:
         self.solution = solution
         self.selected_person: Optional[Person] = None
         self.suggestion_list: Optional[ui.element] = None
-        self.search_name=""
-        self.suggested_persons=[]
-        self.person_lookup=PersonLookup(nqm=solution.webserver.nqm)
+        self.search_name = ""
+        self.suggested_persons = []
+        self.person_lookup = PersonLookup(nqm=solution.webserver.nqm)
         self.person_selection()
 
     @ui.refreshable
@@ -108,7 +111,9 @@ class PersonSelector:
                 with splitter.before:
                     with ui.card() as self.selection_card:
                         with ui.row():
-                            self.label=ui.label("Please identify yourself by entering or looking up a valid PID(Wikidata ID, ORCID, dblp):")
+                            self.label = ui.label(
+                                "Please identify yourself by entering or looking up a valid PID(Wikidata ID, ORCID, dblp):"
+                            )
                         with ui.row():
                             self.name_input = ui.input(
                                 label="name",
@@ -125,7 +130,7 @@ class PersonSelector:
                             ).props("size=20")
             with splitter.after:
                 with ui.element("div").classes("columns-2 w-full h-full gap-2"):
-                    self.suggestion_list= ui.column().classes(
+                    self.suggestion_list = ui.column().classes(
                         "rounded-md border-2 p-3"
                     )
 
@@ -137,12 +142,18 @@ class PersonSelector:
             List of persons
         """
         try:
-            self.search_name=self.name_input.value
-            if len(self.search_name) >= 4:  # quick fix to avoid queries on empty input fields
-                self.suggested_persons=await(run.io_bound(self.person_lookup.suggest,self.search_name))
-                self.update_suggestion_list(self.suggestion_list, self.suggested_persons)
+            self.search_name = self.name_input.value
+            if (
+                len(self.search_name) >= 4
+            ):  # quick fix to avoid queries on empty input fields
+                self.suggested_persons = await run.io_bound(
+                    self.person_lookup.suggest, self.search_name
+                )
+                self.update_suggestion_list(
+                    self.suggestion_list, self.suggested_persons
+                )
         except Exception as ex:
-            self.solution.handle_exception(ex)          
+            self.solution.handle_exception(ex)
 
     def update_suggestion_list(self, container: ui.element, suggestions: List[Person]):
         """
@@ -173,7 +184,5 @@ class PersonSelector:
         self.person_selection.refresh()
         if self.suggestion_list:
             self.suggestion_list.clear()
-            self.suggest_persons=[Person]
+            self.suggest_persons = [Person]
             self.update_suggestion_list(self.suggestion_list, self.suggested_persons)
-  
-            

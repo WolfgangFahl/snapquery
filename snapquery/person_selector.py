@@ -93,8 +93,9 @@ class PersonSelector:
         self.selected_person: Optional[Person] = None
         self.suggestion_list: Optional[ui.element] = None
         self.search_name=""
+        self.suggested_persons=[]
+        self.person_lookup=PersonLookup(nqm=solution.webserver.nqm)
         self.person_selection()
-        
 
     @ui.refreshable
     def person_selection(self):
@@ -135,8 +136,13 @@ class PersonSelector:
         Returns:
             List of persons
         """
-        if len(self.search_name) >= 4:  # quick fix to avoid queries on empty input fields
-            self.update_suggestion_list(self.suggestion_list_wd, suggested_persons_wd)
+        try:
+            self.search_name=self.name_input.value
+            if len(self.search_name) >= 4:  # quick fix to avoid queries on empty input fields
+                self.suggested_persons=await(run.io_bound(self.person_lookup.suggest,self.search_name))
+                self.update_suggestion_list(self.suggestion_list, self.suggested_persons)
+        except Exception as ex:
+            self.solution.handle_exception(ex)          
 
     def update_suggestion_list(self, container: ui.element, suggestions: List[Person]):
         """
@@ -165,24 +171,9 @@ class PersonSelector:
         """
         self.selected_person = person
         self.person_selection.refresh()
-        if self.suggestion_list_wd:
-            self.suggestion_list_wd.clear()
-        if self.suggestion_list_dblp:
-            self.suggestion_list_dblp.clear()
-
-    def _get_search_mask(self) -> Person:
-        """
-        Get the current search mask from the input fields
-        Returns:
-            PersonSearchMask: current search input
-        """
-        ids = dict()
-        if self.identifier_type_input.value:
-            ids[self.identifier_type_input.value] = self.identifier_input.value
-        search_mask = Person(
-            label=None,
-            given_name=self.given_name_input.value,
-            family_name=self.family_name_input.value,
-            **ids,
-        )
-        return search_mask
+        if self.suggestion_list:
+            self.suggestion_list.clear()
+            self.suggest_persons=[Person]
+            self.update_suggestion_list(self.suggestion_list, self.suggested_persons)
+  
+            

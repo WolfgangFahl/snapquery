@@ -4,7 +4,7 @@ refactored to snapquery by WF 2024-05
 
 @author: th
 """
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 from typing import List, Optional
 
 @dataclass
@@ -68,3 +68,34 @@ class Person(PersonName):
         Checks if the scholar has any persistent identifier (PID) set.
         """
         return any([self.wikidata_id, self.dblp_author_id, self.orcid_id])
+
+    def share_identifier(self, other: "Person") -> bool:
+        """
+        Check if the given person shares an identifier with this person.
+        Args:
+
+            other: another person
+
+        Returns:
+            true if the person shares an identifier, false otherwise
+        """
+        share_id = False
+        if self.wikidata_id is not None and other.wikidata_id == self.wikidata_id:
+            share_id = True
+        elif self.dblp_author_id is not None and other.dblp_author_id == self.dblp_author_id:
+            share_id = True
+        elif self.orcid_id is not None and other.orcid_id == self.orcid_id:
+            share_id = True
+        return share_id
+
+    def merge_with(self, other: "Person"):
+        """
+        Merge this person with another person.
+        Args:
+            other: person to merge with
+        """
+        for field in fields(self):
+            value = getattr(self, field.name)
+            if value is None:
+                value = getattr(other, field.name)
+            setattr(self, field.name, value)

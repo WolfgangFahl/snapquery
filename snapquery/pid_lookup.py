@@ -1,10 +1,12 @@
 """
 Created on 2024-05-26
-@ author: wf
+@author: wf
 """
 
 from ez_wikidata.wdsearch import WikidataSearch
-from snapquery.pid import PIDs, PIDValue, PID
+
+from snapquery.orcid import OrcidAuth, OrcidSearchParams
+from snapquery.pid import PIDs
 from snapquery.models.person import Person
 from typing import List
 from snapquery.snapquery_core import NamedQueryManager, NamedQuery
@@ -29,6 +31,7 @@ class PersonLookup:
 
         Args:
             search_name (str): The name to search for suggestions.
+            limit: The maximum number of results to return.
         """
         persons = []
         suggestions = self.wikidata_search.searchOptions(search_name, limit=limit)
@@ -82,4 +85,46 @@ WHERE
             )
             persons.append(person)
 
+        return persons
+
+    def suggest_orcid_entry(self, search_name: str, limit: int = 10) -> List[Person]:
+        """
+        Suggest names using orcid registry search
+        Args:
+            search_name: name to search for suggestions.
+            limit: The maximum number of results to return.
+
+        Returns:
+            list of Persons
+        """
+        orcid = OrcidAuth()
+        persons = []
+        if orcid.available():
+            persons = orcid.search(
+                OrcidSearchParams(family_name=search_name), limit=limit
+            )
+        return persons
+
+    def suggest_from_all(self, search_name: str, limit: int = 10) -> List[Person]:
+        """
+        Suggest names using WikidataSearch
+        Args:
+            search_name: name to search for suggestions.
+            limit: Limit the number of results to return.
+
+        Returns:
+
+        """
+        # persons_orcid = self.suggest_orcid_entry(search_name, limit=limit)
+        persons_wd = self.suggest(search_name, limit=limit)
+        persons_to_merge = persons_wd #+ persons_orcid
+        persons = []
+        for new_person in persons_to_merge:
+            add = True
+            for person in persons:
+                if person.share_identifier(new_person):
+                    person.merge_with(new_person)
+                    add = False
+            if add:
+                persons.append(new_person)
         return persons

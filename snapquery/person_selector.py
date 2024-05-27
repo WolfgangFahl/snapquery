@@ -7,7 +7,6 @@ Created 2023
 from typing import Any, Callable, List, Optional
 
 from ngwidgets.input_webserver import WebSolution
-from ngwidgets.profiler import Profiler
 from nicegui import run, ui
 from nicegui.element import Element
 
@@ -27,24 +26,20 @@ class PersonSuggestion(Element):
         super().__init__(tag="div")
         self.person = person
         self._on_select_callback = on_select
-        with ui.card().tight() as self.person_card:
-            self.person_card.on("click", self.on_select)
-            with ui.card_section() as section:
-                section.props(add="horizontal")
-                with ui.card_section():
-                    with ui.avatar():
-                        if person.image:
-                            ui.image(source=person.image)
-                ui.separator().props(add="vertical")
-                with ui.card_section():
-                    with ui.row():
-                        self.person_label = ui.label(self.person.label)
-                    with ui.row():
-                        self.person_name = ui.label(
-                            f"{self.person.given_name} {self.person.family_name}"
-                        )
-                    with ui.row():
-                        self._show_identifier()
+        with ui.item(on_click=self.on_select) as self.person_card:
+            with ui.item_section().props("avatar"):
+                with ui.avatar():
+                    if person.image:
+                        ui.image(source=person.image)
+            with ui.item_section():
+                with ui.row():
+                    self.person_label = ui.label(self.person.label)
+                with ui.row():
+                    self.person_name = ui.label(
+                        f"{self.person.given_name} {self.person.family_name}"
+                    )
+                with ui.row():
+                    self._show_identifier()
 
     def _create_pid_values(self, person: Person) -> List[PIDValue]:
         """
@@ -103,10 +98,10 @@ class PersonSelector:
     @ui.refreshable
     def person_selection(self):
         """
-        Display input fields for person data with auto suggestion
+        Display input fields for person data with auto-suggestion
         """
         person = self.selected_person if self.selected_person else Person()
-        with ui.element("div").classes("w-full"):
+        with ui.element("row").classes("w-full h-full"):
             with ui.splitter().classes("h-full  w-full") as splitter:
                 with splitter.before:
                     with ui.card() as self.selection_card:
@@ -117,19 +112,19 @@ class PersonSelector:
                         with ui.row():
                             self.name_input = ui.input(
                                 label="name",
-                                placeholder="""Tim Berners-Lee""",
+                                placeholder="Tim Berners-Lee",
                                 on_change=self.suggest_persons,
                                 value=self.search_name,
                             ).props("size=60")
                         with ui.row():
                             self.identifier_input = ui.input(
                                 label="PID",
-                                placeholder="""Q80""",
+                                placeholder="Q80",
                                 on_change=self.suggest_persons,
                                 value=person.wikidata_id,
                             ).props("size=20")
             with splitter.after:
-                with ui.element("div").classes("columns-2 w-full h-full gap-2"):
+                with ui.element("column").classes(" w-full h-full gap-2"):
                     self.suggestion_list = ui.column().classes(
                         "rounded-md border-2 p-3"
                     )
@@ -147,7 +142,7 @@ class PersonSelector:
                 len(self.search_name) >= 4
             ):  # quick fix to avoid queries on empty input fields
                 self.suggested_persons = await run.io_bound(
-                    self.person_lookup.suggest, self.search_name
+                    self.person_lookup.suggest_from_all, self.search_name
                 )
                 self.update_suggestion_list(
                     self.suggestion_list, self.suggested_persons
@@ -161,22 +156,24 @@ class PersonSelector:
         """
         container.clear()
         with container:
-            if len(suggestions) <= 10:
-                with ui.scroll_area():
-                    for person in suggestions:
-                        PersonSuggestion(
-                            person=person, on_select=self.select_person_suggestion
+            with ui.list().props("bordered separator"):
+                ui.item_label("Suggestions").props("header").classes("text-bold")
+                ui.separator()
+                for person in suggestions[:10]:
+                    PersonSuggestion(
+                        person=person, on_select=self.select_person_suggestion
+                    )
+
+                if len(suggestions) > 10:
+                    with ui.item():
+                        ui.label(
+                            f"{'>' if len(suggestions) == 10000 else ''}{len(suggestions)} matches are available..."
                         )
-            else:
-                ui.spinner(size="lg")
-                ui.label(
-                    f"{'>' if len(suggestions) == 10000 else ''}{len(suggestions)} matches..."
-                )
         return []
 
     def select_person_suggestion(self, person: Person):
         """
-        Select the given Person by updating the input fields to the selected person and storing teh object internally
+        Select the given Person by updating the input fields to the selected person and storing the object internally
         Args:
             person: person that should be selected
         """
@@ -184,5 +181,5 @@ class PersonSelector:
         self.person_selection.refresh()
         if self.suggestion_list:
             self.suggestion_list.clear()
-            self.suggest_persons = [Person]
+            self.suggested_persons = [person]
             self.update_suggestion_list(self.suggestion_list, self.suggested_persons)

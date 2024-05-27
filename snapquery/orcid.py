@@ -8,12 +8,15 @@ from lodstorage.yamlable import lod_storable
 from nicegui import app
 from snapquery.models.person import Person
 
+
 class OrcidAuth:
     """
     authenticate with orcid
     """
 
-    def __init__(self, base_path: Path, config_file_name: str = "orcid_config.yaml"):
+    def __init__(self, base_path: Optional[Path] = None, config_file_name: str = "orcid_config.yaml"):
+        if base_path is None:
+            base_path = Path.home() / ".solutions/snapquery"
         self.base_path = base_path
         self.config_file_name = config_file_name
         self.config = self.load_config()
@@ -140,8 +143,19 @@ class OrcidAuth:
         resp_json = resp.json()
         return resp_json["access_token"]
 
+    @property
+    def search_token(self) -> str:
+        if self.config.search_token is None:
+            search_token = self._request_search_token()
+            self.config.search_token = search_token
+            self.store_config()
+        return self.config.search_token
+
+    def store_config(self):
+        self.config.save_to_yaml_file(str(self.get_config_path()))
+
     def search(self, params: "OrcidSearchParams", limit: int = 10) -> list[Person]:
-        access_token = self._request_search_token()
+        access_token = self.search_token
         url = f"{self.config.api_endpoint}/expanded-search/?q={params.get_search_query()}&rows={limit}"
         headers = {
             "Accept": "application/json",
@@ -151,13 +165,14 @@ class OrcidAuth:
         resp.raise_for_status()
         records: list[dict] = resp.json().get("expanded-result", [])
         persons = []
-        for record in records:
-            person = Person(
-                    given_name=record.get("given-names", None),
-                    family_name=record.get("family-name", None),
-                    orcid_id=record.get("orcid-id", None)
-            )
-            persons.append(person)
+        if records:
+            for record in records:
+                person = Person(
+                        given_name=record.get("given-names", None),
+                        family_name=record.get("family-names", None),
+                        orcid_id=record.get("orcid-id", None)
+                )
+                persons.append(person)
         return persons
 
 
@@ -172,6 +187,7 @@ class OrcidConfig:
     client_secret: str
     redirect_uri: str = "http://127.0.0.1:9862/orcid_callback"
     api_endpoint: str = "https://pub.orcid.org/v3.0"
+    search_token: Optional[str] = None
 
     @classmethod
     def get_samples(cls) -> list["OrcidConfig"]:

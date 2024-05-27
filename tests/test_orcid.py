@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from ngwidgets.basetest import Basetest
-from snapquery.orcid import OrcidAuth, OrcidConfig
+from snapquery.orcid import OrcidAuth, OrcidConfig, OrcidSearchParams
 
 
 class TestOrcid(Basetest):
@@ -28,3 +28,15 @@ class TestOrcid(Basetest):
                 "scope=/authenticate&redirect_uri=http://127.0.0.1:9862/orcid_callback"
             )
             self.assertEqual(orcid_auth.authenticate_url(), authenticate_url)
+
+    @unittest.skipIf(not Path.home().joinpath(".solutions/snapquery").exists(), "Orcid configuration does not exist")
+    def test_request_search_token(self):
+        """
+        test request search token
+        """
+        basedir = Path.home() / ".solutions/snapquery"
+        orcid_auth = OrcidAuth(basedir)
+        token = orcid_auth._request_search_token()
+        res = orcid_auth.search(OrcidSearchParams(family_name="berners-lee"))
+        print(res)
+

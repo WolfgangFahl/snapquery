@@ -1,7 +1,8 @@
-from dataclasses import asdict
+from dataclasses import asdict, dataclass, fields
 from pathlib import Path
 from time import time
-from typing import Union
+from typing import Optional, Union
+import xml.etree.ElementTree as ET
 
 import requests
 from lodstorage.yamlable import lod_storable
@@ -112,6 +113,51 @@ class OrcidAuth:
         """
         del app.storage.user["orcid_token"]
 
+    def _request_search_token(self) -> str:
+        """
+        Request search token
+        see https://info.orcid.org/documentation/api-tutorials/api-tutorial-searching-the-orcid-registry/
+
+        URL=https://sandbox.orcid.org/oauth/token
+          HEADER: Accept: application/json
+          METHOD: POST
+          DATA:
+            client_id=[Your public API client ID]
+            client_secret=[Your public API secret]
+            grant_type=client_credentials
+            scope=/read-public
+        Returns:
+
+        """
+        url = f"{self.config.url}/oauth/token"
+        data = {
+            "client_id": self.config.client_id,
+            "client_secret": self.config.client_secret,
+            "grant_type": "client_credentials",
+            "scope": "/read-public",
+        }
+        resp = requests.post(url, data=data)
+        resp.raise_for_status()
+        resp_json = resp.json()
+        return resp_json["access_token"]
+
+    def search(self, params: "OrcidSearchParams"):
+        access_token = self._request_search_token()
+        url = f"{self.config.api_endpoint}/search/"
+        headers = {
+            "Accept": "application/vnd.orcid+json",
+            "Authorization": f"Bearer {access_token}",
+        }
+        params = {"q": params.get_search_query(), "rows": 10}
+        resp = requests.get(url, params=params)
+        resp.raise_for_status()
+        tree = ET.ElementTree(ET.fromstring(resp.text))
+        root = tree.getroot()
+        elements = root.findall(
+            ".//common:path", namespaces={"common": "http://www.orcid.org/ns/common"}
+        )
+        return [el.text for el in elements]
+
 
 @lod_storable
 class OrcidConfig:
@@ -123,6 +169,7 @@ class OrcidConfig:
     client_id: str
     client_secret: str
     redirect_uri: str = "http://127.0.0.1:9862/orcid_callback"
+    api_endpoint: str = "https://pub.orcid.org/v3.0"
 
     @classmethod
     def get_samples(cls) -> list["OrcidConfig"]:
@@ -132,6 +179,7 @@ class OrcidConfig:
                 "client_id": "APP-123456789ABCDEFG",
                 "client_secret": "<KEY>",
                 "redirect_uri": "http://127.0.0.1:9862/orcid_callback",
+                "api_endpoint": "https://sandbox.orcid.org/v3.0",
             }
         ]
         return [OrcidConfig.from_dict2(d) for d in lod]
@@ -169,3 +217,55 @@ class OrcidAccessToken:
             }
         ]
         return [OrcidAccessToken.from_dict2(d) for d in lod]
+
+
+@dataclass
+class OrcidSearchParams:
+    """
+    Orcid search api params
+    see https://info.orcid.org/documentation/api-tutorials/api-tutorial-searching-the-orcid-registry/
+    """
+
+    # Biographical data
+    given_names: Optional[str] = None
+    family_name: Optional[str] = None
+    credit_name: Optional[str] = None
+    other_names: Optional[list[str]] = None
+    email: Optional[str] = None
+    keyword: Optional[list[str]] = None
+    external_id_reference: Optional[str] = None
+
+    # Affiliations data
+    affiliation_org_name: Optional[str] = None
+    grid_org_id: Optional[str] = None
+    ror_org_id: Optional[str] = None
+    ringgold_org_id: Optional[str] = None
+
+    # Funding data
+    funding_titles: Optional[list[str]] = None
+    fundref_org_id: Optional[str] = None
+    grant_numbers: Optional[list[str]] = None
+
+    # Research activities data
+    work_titles: Optional[list[str]] = None
+    digital_object_ids: Optional[list[str]] = None
+
+    # ORCID record data
+    orcid: Optional[str] = None
+    profile_submission_date: Optional[str] = None  # Assuming date format is string
+    profile_last_modified_date: Optional[str] = None  # Assuming date format is string
+
+    # All data (default for Lucene syntax)
+    text: Optional[str] = None
+
+    def get_search_query(self) -> str:
+        query = ""
+        dlim = ""
+        for field in fields(self):
+            key = field.name.replace("_", "-")
+            value = getattr(self, field.name)
+            if value is None:
+                continue
+            query += f"{key}:{value}"
+            dlim = "+"
+        return query

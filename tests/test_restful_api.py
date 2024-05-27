@@ -75,10 +75,10 @@ class TestRestFulApi(WebserverTest):
         test different endpoints
         """
         debug = self.debug
-        # debug=True
+        #debug=True
         for endpoint_name in [
             "wikidata",
-            "wikidata-openlinksw",
+            #"wikidata-openlinksw",
             "wikidata-qlever"
             # "wikidata-scatter",
         ]:

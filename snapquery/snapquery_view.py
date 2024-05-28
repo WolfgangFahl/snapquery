@@ -63,9 +63,10 @@ class NamedQueryView:
                     self.query_settings_row.classes("w-full")
                     ui.number(label="limit").bind_value(self, "limit")
                     ui.number(label="time out").bind_value(self, "timeout")
-                    endpoint_selector = ui.select(list(self.nqm.endpoints.keys()),
+                    endpoint_selector = ui.select(
+                        list(self.nqm.endpoints.keys()),
                         value=self.solution.endpoint_name,
-                        label="default endpoint"
+                        label="default endpoint",
                     )
                     endpoint_selector.bind_value(
                         app.storage.user,
@@ -258,6 +259,11 @@ class NamedQuerySearch:
         """
         setup my user interface
         """
+        with ui.row().classes("w-full"):
+            with ui.column().classes("w-full"):
+                ui.label("Available Queries").classes("text-xl")
+                ui.label("select a query to view and execute").classes("text-slate-400")
+
         with ui.row() as self.search_row:
             self.name_search_input = (
                 ui.input(label="name", on_change=self.on_search_change)

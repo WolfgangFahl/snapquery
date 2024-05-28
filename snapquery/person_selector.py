@@ -9,6 +9,7 @@ from typing import Any, Callable, List, Optional
 from ngwidgets.input_webserver import WebSolution
 from nicegui import run, ui
 from nicegui.element import Element
+from nicegui.elements.button import Button
 
 from snapquery.models.person import Person
 from snapquery.pid_lookup import PersonLookup
@@ -107,6 +108,7 @@ class PersonSelector:
         self.search_name = ""
         self.suggested_persons = []
         self.person_lookup = PersonLookup(nqm=solution.webserver.nqm)
+        self.selection_btn: Optional[Button] = None
         self.person_selection()
 
     @ui.refreshable
@@ -120,9 +122,7 @@ class PersonSelector:
                 with splitter.before:
                     with ui.card() as self.selection_card:
                         with ui.row():
-                            self.label = ui.label(
-                                "Please identify yourself by entering or looking up a valid PID(Wikidata ID, ORCID, dblp):"
-                            )
+                            self.label = ui.label("Name or Pid:")
                         with ui.row():
                             self.name_input = ui.input(
                                 label="name",
@@ -134,14 +134,40 @@ class PersonSelector:
                             self.identifier_input = ui.input(
                                 label="PID",
                                 placeholder="Q80",
-                                on_change=self.suggest_persons,
+                                on_change=self.check_pid,
                                 value=person.wikidata_id,
                             ).props("size=20")
+                        # if self.selection_btn is None:
+                        self.selection_btn = ui.button(
+                            text="Continue", on_click=self.btn_selection_callback
+                        )
+                        self.selection_btn.disable()
             with splitter.after:
                 with ui.element("column").classes(" w-full h-full gap-2"):
                     self.suggestion_list = ui.column().classes(
                         "rounded-md border-2 p-3"
                     )
+
+    async def btn_selection_callback(self):
+        person = Person()
+        pid_value = PIDs().pid4id(self.identifier_input.value)
+        if pid_value.pid.name == "Wikidata":
+            person.wikidata_id = self.identifier_input.value
+        elif pid_value.pid.name == "dblp":
+            person.dblp_id = self.identifier_input.value
+        elif pid_value.pid.name == "ORCID":
+            person.orcid_id = self.identifier_input.value
+        person.label = self.name_input.value
+        self.selection_callback(person)
+
+    async def check_pid(self):
+        pid = PIDs().pid4id(self.identifier_input.value)
+        if pid is not None and pid.is_valid() and self.selection_btn is not None:
+            print("Is valid PID")
+            self.selection_btn.enable()
+        elif self.selection_btn:
+            self.selection_btn.disable()
+        ui.update()
 
     async def suggest_persons(self):
         """

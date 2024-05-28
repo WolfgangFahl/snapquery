@@ -3,6 +3,7 @@ Created on 2024-05-03
 
 @author: wf
 """
+
 import datetime
 import json
 import os
@@ -153,6 +154,7 @@ class NamedQuery:
     title: Optional[str] = None
     # multiline description
     description: Optional[str] = None
+    comment: Optional[str] = None
 
     def __post_init__(self):
         """
@@ -174,6 +176,7 @@ class NamedQuery:
                     url="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples#Cats",
                     title="Cats on Wikidata",
                     description="This query retrieves all items classified under 'house cat' (Q146) on Wikidata.",
+                    comment="modified cats query from wikidata-examples",
                     sparql="""# snapquery cats example
 SELECT ?item ?itemLabel
 WHERE {
@@ -421,6 +424,7 @@ class QueryBundle:
         Returns:
             List[dict]: A list where each dictionary represents a row of results from the SPARQL query.
         """
+        print(f"Querying {self.endpoint.name} with query {self.named_query.name}")
         query_stat = QueryStats(
             query_id=self.named_query.query_id, endpoint_name=self.endpoint.name
         )
@@ -429,7 +433,8 @@ class QueryBundle:
             query_stat.records = len(lod) if lod else -1
             query_stat.done()
         except Exception as ex:
-            lod = None
+            lod = []
+            print(ex)
             query_stat.error(ex)
         return (lod, query_stat)
 
@@ -558,7 +563,7 @@ class NamedQueryManager:
         nqm = NamedQueryManager(db_path=db_path, debug=debug)
         path_obj = Path(db_path)
         if not path_obj.exists() or path_obj.stat().st_size == 0:
-            for (source_class, pk) in [
+            for source_class, pk in [
                 (NamedQuery, "query_id"),
                 (QueryStats, "stats_id"),
                 (QueryDetails, "quer_id"),
@@ -611,7 +616,7 @@ class NamedQueryManager:
         params_dict: Dict,
         endpoint_name: str = "wikidata",
         limit: int = None,
-        with_stats:bool=True,
+        with_stats: bool = True,
     ):
         """
         execute the given named_query
@@ -635,8 +640,8 @@ class NamedQueryManager:
             results, stats = query_bundle.get_lod_with_stats()
             self.store_stats([stats])
         else:
-            results=query_bundle.get_lod()
-            stats=None
+            results = query_bundle.get_lod()
+            stats = None
         return results, stats
 
     def add_and_store(self, nq: NamedQuery):

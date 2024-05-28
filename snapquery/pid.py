@@ -2,25 +2,30 @@
 Created on 2024-05-26
 @author: wf
 """
+
 from dataclasses import dataclass
 from typing import Optional
 import re
+
 
 @dataclass
 class PID:
     """
     A persistent identifier source e.g. ORCID, dblpID or wikidata id
     """
+
     name: str
     logo: str
     formatter_url: str
     regex: str
+
 
 @dataclass
 class PIDValue:
     """
     Represents a specific instance of a persistent identifier with its value.
     """
+
     pid: PID
     value: str
 
@@ -33,13 +38,14 @@ class PIDValue:
         return f'<a href="{self.url}"><img src="{self.pid.logo}" alt="{self.pid.name} logo"> {self.value}</a>'
 
     def is_valid(self) -> bool:
-        return re.match(self.pid.regex, self.value) is not None    
+        return re.match(self.pid.regex, self.value) is not None
+
 
 class PIDs:
     """
     Available PIDs
     """
-    
+
     def __init__(self):
         self.pids = {
             "orcid": PID(
@@ -59,7 +65,7 @@ class PIDs:
                 logo="https://www.wikidata.org/static/favicon/wikidata.ico",
                 formatter_url="https://www.wikidata.org/wiki/{}",
                 regex=r"^Q[0-9]+$",
-            )
+            ),
         }
 
     def pid4id(self, identifier: str) -> Optional[PIDValue]:

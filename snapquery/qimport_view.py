@@ -10,7 +10,6 @@ from lodstorage.query import Query, QuerySyntaxHighlight
 from nicegui import ui
 
 from snapquery.models.person import Person
-from snapquery.person_selector import PersonView
 from snapquery.qimport import QueryImport
 from snapquery.snapquery_core import NamedQuery
 
@@ -34,6 +33,7 @@ class QueryImportView:
         self.url = ""
         self.title = ""
         self.description = ""
+        self.comment = ""
         self.query = None
         if self.solution:
             self.qimport = QueryImport()
@@ -46,6 +46,7 @@ class QueryImportView:
         """
         with self.solution.container:
             with ui.row() as self.input_row:
+                self.input_row.classes("h-full")
                 ui.input(
                     label="namespace", placeholder="e.g. wikidata-examples"
                 ).bind_value(self, "namespace")
@@ -65,16 +66,22 @@ class QueryImportView:
                 ui.button(
                     icon="publish", text="Publish Query", on_click=self.on_import_button
                 )
-            with ui.row() as self.details_row:
                 with ui.input(label="title").props("size=80").bind_value(self, "title"):
                     ui.tooltip("Descriptive title of the query")
-                ui.textarea(label="description").bind_value(self, "description")
-                self.named_query_link = ui.html()
-            self.query_row = ui.row().classes("w-full h-full ")
+            self.query_row = ui.row().classes("w-full h-full flex ")
             with self.query_row:
                 ui.textarea(label="query").bind_value(self, "query").classes(
-                    "w-full h-full border-solid m-5 border-gray-dark border-2 rounded-md"
+                    "w-full h-full resize min-h-80 border-solid m-5 border-gray-dark border-2 rounded-md"
                 )
+            with ui.row() as self.details_row:
+                self.details_row.classes("flex")
+                ui.textarea(label="description").bind_value(
+                    self, "description"
+                ).classes("w-1/2 border-solid m-5 border-gray-dark border-2 rounded-md")
+                ui.textarea(label="comment").bind_value(self, "comment").classes(
+                    "w-2/5 border-solid m-5 border-gray-dark border-2 rounded-md"
+                )
+                self.named_query_link = ui.html()
 
     def on_import_button(self, _args):
         """
@@ -84,19 +91,31 @@ class QueryImportView:
             with self.query_row:
                 ui.notify("input a query first")
             return
+        if self.person:
+            self.comment = f"[query nominated by {self.person}] {self.comment}"
         nq_record = {
             "namespace": self.namespace,
             "name": self.name,
             "title": self.title,
             "url": self.url,
             "description": self.description,
-            "sparql": self.query.query,
+            "comment": self.comment,
+            "sparql": self.query.query if isinstance(self.query, Query) else self.query,
         }
         nq = NamedQuery.from_record(nq_record)
         self.nqm.add_and_store(nq)
         with self.query_row:
             ui.notify(f"added named query {self.name}")
             self.named_query_link.content = nq.as_link()
+        self.clear_inputs()
+
+    def clear_inputs(self):
+        self.query = None
+        self.name = None
+        self.url = None
+        self.title = None
+        self.description = None
+        self.comment = None
 
     def on_input_button(self, _args):
         """

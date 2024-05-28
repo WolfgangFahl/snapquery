@@ -293,13 +293,16 @@ class SnapQuerySolution(InputWebSolution):
             "endpoint_name",
         )
 
-    def setup_menu(self, detailed: bool = None):
+    def setup_menu(self, detailed: bool = True):
         """
         setup the menu
         """
+        ui.button(icon="menu", on_click=lambda: self.header.toggle())
         self.webserver: SnapQueryWebServer
         super().setup_menu(detailed=detailed)
         with self.header:
+            self.header.value = False
+            self.link_button("Nominate a Query", "/nominate", "post_add", new_tab=False)
             if self.webserver.authenticated():
                 self.link_button("logout", "/logout", "logout", new_tab=False)
                 if self.webserver.login.authenticated():
@@ -344,13 +347,24 @@ class SnapQuerySolution(InputWebSolution):
                                 target="https://wiki.bitplan.com/index.php/Snapquery#nominate",
                             )
                         PersonView(person).classes("ml-auto bg-slate-100 rounded-md")
-                self.query_import_view = QueryImportView(
-                    self, allow_importing_from_url=False
-                )
+                with ui.row().classes("w-full"):
+                    self.query_import_view = QueryImportView(
+                        self, allow_importing_from_url=False, person=person
+                    )
 
-            self.person_selector = PersonSelector(
-                solution=self, selection_callback=selection_callback
-            )
+            with ui.column():
+                ui.label(text="Nominate your Query").classes("text-xl")
+                ui.link(
+                    text="see the documentation for detailed information on the nomination procedure",
+                    new_tab=True,
+                    target="https://wiki.bitplan.com/index.php/Snapquery#nominate",
+                )
+                ui.label(
+                    "Please identify yourself by entering or looking up a valid PID(Wikidata ID, ORCID, dblp)."
+                )
+                self.person_selector = PersonSelector(
+                    solution=self, selection_callback=selection_callback
+                )
 
         await self.setup_content_div(show)
 

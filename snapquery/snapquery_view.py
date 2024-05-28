@@ -14,7 +14,7 @@ from lodstorage.query import QuerySyntaxHighlight, ValueFormatter
 from ngwidgets.input_webserver import InputWebSolution
 from ngwidgets.lod_grid import ListOfDictsGrid
 from ngwidgets.widgets import Link
-from nicegui import background_tasks, run, ui
+from nicegui import app, background_tasks, run, ui
 
 from snapquery.params_view import ParamsView
 from snapquery.query_annotate import SparqlQueryAnnotater
@@ -60,8 +60,18 @@ class NamedQueryView:
         with self.solution.container:
             with ui.column():
                 with ui.row() as self.query_settings_row:
+                    self.query_settings_row.classes("w-full")
                     ui.number(label="limit").bind_value(self, "limit")
                     ui.number(label="time out").bind_value(self, "timeout")
+                    endpoint_selector = ui.select(list(self.nqm.endpoints.keys()),
+                        value=self.solution.endpoint_name,
+                        label="default endpoint"
+                    )
+                    endpoint_selector.bind_value(
+                        app.storage.user,
+                        "endpoint_name",
+                    )
+                    endpoint_selector.classes("w-64")
                 with ui.row() as self.query_row:
                     self.try_it_link = ui.html(link)
                     ui.label(nq.description)

@@ -15,31 +15,31 @@ from snapquery.pid_lookup import PersonLookup
 from snapquery.pid import PIDs, PIDValue
 
 
-class PersonSuggestion(Element):
+class PersonView(Element):
     """
-    Display a Person
+    Display a person
     """
 
-    def __init__(self, person: Person, on_select: Callable[[Person], Any]):
+    def __init__(self, person: Person):
         self.pids = PIDs()
         self.pid_values = self._create_pid_values(person)
         super().__init__(tag="div")
         self.person = person
-        self._on_select_callback = on_select
-        with ui.item(on_click=self.on_select) as self.person_card:
-            with ui.item_section().props("avatar"):
-                with ui.avatar():
-                    if person.image:
-                        ui.image(source=person.image)
-            with ui.item_section():
-                with ui.row():
-                    self.person_label = ui.label(self.person.label)
-                with ui.row():
-                    self.person_name = ui.label(
-                        f"{self.person.given_name} {self.person.family_name}"
-                    )
-                with ui.row():
-                    self._show_identifier()
+        with self:
+            with ui.item() as self.person_card:
+                with ui.item_section().props("avatar"):
+                    with ui.avatar():
+                        if person.image:
+                            ui.image(source=person.image)
+                with ui.item_section():
+                    with ui.row():
+                        self.person_label = ui.label(self.person.label)
+                    with ui.row():
+                        self.person_name = ui.label(
+                            f"{self.person.given_name} {self.person.family_name}"
+                        )
+                    with ui.row():
+                        self._show_identifier()
 
     def _create_pid_values(self, person: Person) -> List[PIDValue]:
         """
@@ -52,12 +52,6 @@ class PersonSuggestion(Element):
             if pid_value:
                 pid_values.append(PIDValue(pid=pid, value=pid_value))
         return pid_values
-
-    def on_select(self):
-        """
-        Handle selection of the suggestion card
-        """
-        return self._on_select_callback(self.person)
 
     def _show_identifier(self):
         """
@@ -78,12 +72,31 @@ class PersonSuggestion(Element):
                 )
 
 
+class PersonSuggestion(PersonView):
+    """
+    Display a Person
+    """
+
+    def __init__(self, person: Person, on_select: Callable[[Person], Any]):
+        super().__init__(person=person)
+        self._on_select_callback = on_select
+        self.person_card.on_click(self.on_select)
+
+    def on_select(self):
+        """
+        Handle selection of the suggestion card
+        """
+        return self._on_select_callback(self.person)
+
+
 class PersonSelector:
     """
     Select a person with auto-suggestion
     """
 
-    def __init__(self, solution: WebSolution, selection_callback: Callable[[Person], Any]):
+    def __init__(
+        self, solution: WebSolution, selection_callback: Callable[[Person], Any]
+    ):
         """
         Constructor
         """
@@ -161,9 +174,7 @@ class PersonSelector:
                 ui.item_label("Suggestions").props("header").classes("text-bold")
                 ui.separator()
                 for person in suggestions[:10]:
-                    PersonSuggestion(
-                        person=person, on_select=self.selection_callback
-                    )
+                    PersonSuggestion(person=person, on_select=self.selection_callback)
 
                 if len(suggestions) > 10:
                     with ui.item():

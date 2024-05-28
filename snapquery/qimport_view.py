@@ -4,9 +4,13 @@ Created on 2024-05-05
 @author: wf
 """
 
+from typing import Optional
+
 from lodstorage.query import Query, QuerySyntaxHighlight
 from nicegui import ui
 
+from snapquery.models.person import Person
+from snapquery.person_selector import PersonView
 from snapquery.qimport import QueryImport
 from snapquery.snapquery_core import NamedQuery
 
@@ -16,7 +20,13 @@ class QueryImportView:
     display Query Import UI
     """
 
-    def __init__(self, solution=None, allow_importing_from_url: bool = True):
+    def __init__(
+        self,
+        solution=None,
+        person: Optional[Person] = None,
+        allow_importing_from_url: bool = True,
+    ):
+        self.person = person
         self.solution = solution
         self.allow_importing_from_url = allow_importing_from_url
         self.namespace = ""
@@ -60,7 +70,11 @@ class QueryImportView:
                     ui.tooltip("Descriptive title of the query")
                 ui.textarea(label="description").bind_value(self, "description")
                 self.named_query_link = ui.html()
-            self.query_row = ui.row()
+            self.query_row = ui.row().classes("w-full h-full ")
+            with self.query_row:
+                ui.textarea(label="query").bind_value(self, "query").classes(
+                    "w-full h-full border-solid m-5 border-gray-dark border-2 rounded-md"
+                )
 
     def on_import_button(self, _args):
         """

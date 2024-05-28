@@ -2,6 +2,7 @@
 Created on 2024-05-03
 @author: wf
 """
+
 from pathlib import Path
 
 from fastapi import HTTPException
@@ -17,7 +18,7 @@ from starlette.responses import RedirectResponse
 from snapquery.models.person import Person
 from snapquery.orcid import OrcidAuth
 from snapquery.qimport_view import QueryImportView
-from snapquery.person_selector import PersonSelector
+from snapquery.person_selector import PersonSelector, PersonView
 from snapquery.snapquery_core import NamedQueryManager, QueryBundle
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.stats_view import QueryStatsView
@@ -330,13 +331,26 @@ class SnapQuerySolution(InputWebSolution):
             """
             show the nominate ui
             """
+
             def selection_callback(person: Person):
                 self.container.clear()
                 with self.container:
-                    ui.label(text="Nominate your Query").classes("text-xl")
-                    ui.link(text="see the documentation for detailed information on the nomination procedure", new_tab=True, target="https://wiki.bitplan.com/index.php/Snapquery#nominate")
-                self.query_import_view = QueryImportView(self, allow_importing_from_url=False)
-            self.person_selector = PersonSelector(solution=self, selection_callback=selection_callback)
+                    with ui.row().classes("w-full"):
+                        with ui.column():
+                            ui.label(text="Nominate your Query").classes("text-xl")
+                            ui.link(
+                                text="see the documentation for detailed information on the nomination procedure",
+                                new_tab=True,
+                                target="https://wiki.bitplan.com/index.php/Snapquery#nominate",
+                            )
+                        PersonView(person).classes("ml-auto bg-slate-100 rounded-md")
+                self.query_import_view = QueryImportView(
+                    self, allow_importing_from_url=False
+                )
+
+            self.person_selector = PersonSelector(
+                solution=self, selection_callback=selection_callback
+            )
 
         await self.setup_content_div(show)
 

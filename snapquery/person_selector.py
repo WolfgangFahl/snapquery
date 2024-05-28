@@ -83,11 +83,12 @@ class PersonSelector:
     Select a person with auto-suggestion
     """
 
-    def __init__(self, solution: WebSolution):
+    def __init__(self, solution: WebSolution, selection_callback: Callable[[Person], Any]):
         """
         Constructor
         """
         self.solution = solution
+        self.selection_callback = selection_callback
         self.selected_person: Optional[Person] = None
         self.suggestion_list: Optional[ui.element] = None
         self.search_name = ""
@@ -161,7 +162,7 @@ class PersonSelector:
                 ui.separator()
                 for person in suggestions[:10]:
                     PersonSuggestion(
-                        person=person, on_select=self.select_person_suggestion
+                        person=person, on_select=self.selection_callback
                     )
 
                 if len(suggestions) > 10:

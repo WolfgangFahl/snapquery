@@ -14,6 +14,7 @@ from nicegui import app, ui
 from nicegui.client import Client
 from starlette.responses import RedirectResponse
 
+from snapquery.models.person import Person
 from snapquery.orcid import OrcidAuth
 from snapquery.qimport_view import QueryImportView
 from snapquery.person_selector import PersonSelector
@@ -329,8 +330,13 @@ class SnapQuerySolution(InputWebSolution):
             """
             show the nominate ui
             """
-            self.person_selector = PersonSelector(solution=self)
-            #self.query_import_view = QueryImportView(self)
+            def selection_callback(person: Person):
+                self.container.clear()
+                with self.container:
+                    ui.label(text="Nominate your Query").classes("text-xl")
+                    ui.link(text="see the documentation for detailed information on the nomination procedure", new_tab=True, target="https://wiki.bitplan.com/index.php/Snapquery#nominate")
+                self.query_import_view = QueryImportView(self, allow_importing_from_url=False)
+            self.person_selector = PersonSelector(solution=self, selection_callback=selection_callback)
 
         await self.setup_content_div(show)
 

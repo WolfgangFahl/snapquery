@@ -3,6 +3,7 @@ Created on 2024-05-05
 
 @author: wf
 """
+
 from lodstorage.query import Query, QuerySyntaxHighlight
 from nicegui import ui
 
@@ -15,8 +16,9 @@ class QueryImportView:
     display Query Import UI
     """
 
-    def __init__(self, solution=None):
+    def __init__(self, solution=None, allow_importing_from_url: bool = True):
         self.solution = solution
+        self.allow_importing_from_url = allow_importing_from_url
         self.namespace = ""
         self.name = ""
         self.url = ""
@@ -34,13 +36,28 @@ class QueryImportView:
         """
         with self.solution.container:
             with ui.row() as self.input_row:
-                ui.input(label="namespace").bind_value(self, "namespace")
-                ui.input(label="name").bind_value(self, "name")
-                ui.input(label="url").props("size=80").bind_value(self, "url")
-                ui.button(icon="input", on_click=self.on_input_button)
-                ui.button(icon="publish", on_click=self.on_import_button)
+                ui.input(
+                    label="namespace", placeholder="e.g. wikidata-examples"
+                ).bind_value(self, "namespace")
+                with ui.input(
+                    label="name", placeholder="e.g. all proceedings of CEUR-WS"
+                ).bind_value(self, "name"):
+                    ui.tooltip(
+                        "short name for query; needs to be unique within the namespace"
+                    )
+                ui.input(label="url", placeholder="e.g. short url to the query").props(
+                    "size=80"
+                ).bind_value(self, "url")
+                if self.allow_importing_from_url:
+                    ui.button(
+                        icon="input", text="Import Query", on_click=self.on_input_button
+                    )
+                ui.button(
+                    icon="publish", text="Publish Query", on_click=self.on_import_button
+                )
             with ui.row() as self.details_row:
-                ui.input(label="title").props("size=80").bind_value(self, "title")
+                with ui.input(label="title").props("size=80").bind_value(self, "title"):
+                    ui.tooltip("Descriptive title of the query")
                 ui.textarea(label="description").bind_value(self, "description")
                 self.named_query_link = ui.html()
             self.query_row = ui.row()

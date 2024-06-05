@@ -1,0 +1,14 @@
+{
+  "name": "dblp",
+  "queries": [
+    {
+      "query_id": "dblp.MostCitedPublicationsWithKeyword",
+      "namespace": "dblp",
+      "name": "MostCitedPublicationsWithKeyword",
+      "sparql": "PREFIX dblp: <https://dblp.org/rdf/schema#>\nPREFIX cito: <http://purl.org/spar/cito/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX schema: <https://schema.org/>\nSELECT ?url ?publ ?label (COUNT(?citation) as ?cites) WHERE {\n  ?publ rdf:type dblp:Publication .\n  ?publ dblp:title ?title .\n  FILTER CONTAINS(?title, \"{{ keyword }}\") .\n  ?publ dblp:omid ?omid .\n  ?publ rdfs:label ?label .\n  ?citation rdf:type cito:Citation .\n  ?citation cito:hasCitedEntity ?omid .\n  ?omid schema:url ?url .\n}\nGROUP BY ?url ?publ ?label\nORDER BY DESC(?cites)\nLIMIT 10",
+      "url": "https://sparql.dblp.org/dblp/9062it",
+      "title": "Most cited publications with title keyword '{{ keyword }}'",
+      "description": "List the top 10 most cited publications with the keyword '{{ keyword }}' in the title."
+    }
+  ]
+}

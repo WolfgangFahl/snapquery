@@ -1,0 +1,16 @@
+#!/bin/bash
+# WF 2024-06-05
+for namespace in dblp
+do
+  for endpoint in dblp
+  do
+    snapquery -tq -en $endpoint --namespace $namespace
+  done
+done
+for namespace in scholia
+do
+  for endpoint in wikidata wikidata-qlever
+  do
+    snapquery -tq -en $endpoint --namespace $namespace
+  done
+done

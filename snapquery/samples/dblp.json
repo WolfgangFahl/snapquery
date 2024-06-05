@@ -9,6 +9,34 @@
       "url": "https://sparql.dblp.org/dblp/9062it",
       "title": "Most cited publications with title keyword '{{ keyword }}'",
       "description": "List the top 10 most cited publications with the keyword '{{ keyword }}' in the title."
-    }
+    },
+    {
+      "query_id": "dblp.PublicationTypes",
+      "namespace": "dblp",
+      "name": "PublicationTypes",
+      "sparql": "PREFIX dblp: <https://dblp.org/rdf/schema#>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?type (COUNT(?type) AS ?count) WHERE {\n  ?subject rdf:type dblp:Publication .\n  ?subject rdf:type ?type .\n  FILTER( ?type != dblp:Publication )\n}\nGROUP BY ?type\nORDER BY DESC(?count)",
+      "url": "https://sparql.dblp.org/dblp/tLfR7u",
+      "title": "Publication Types",
+      "description": "Counts of different types of publications in the DBLP database."
+    },
+    {
+	  "query_id": "dblp.CreatorTypes",
+	  "namespace": "dblp",
+	  "name": "CreatorTypes",
+	  "sparql": "PREFIX dblp: <https://dblp.org/rdf/schema#>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?type (COUNT(?type) AS ?count) WHERE {\n  ?subject rdf:type dblp:Creator .\n  ?subject rdf:type ?type .\n  FILTER( ?type != dblp:Creator )\n}\nGROUP BY ?type\nORDER BY DESC(?count)",
+	  "url": "https://sparql.dblp.org/dblp/t4dF0g",
+	  "title": "Creator Types",
+	  "description": "Counts of different types of creators in the DBLP database."
+	},
+	{
+	  "query_id": "dblp.CitationTypes",
+	  "namespace": "dblp",
+	  "name": "CitationTypes",
+	  "sparql": "PREFIX cito: <http://purl.org/spar/cito/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?type (COUNT(?type) AS ?count) WHERE {\n  ?subject rdf:type cito:Citation .\n  ?subject rdf:type ?type .\n}\nGROUP BY ?type\nORDER BY DESC(?count)",
+	  "url": "https://sparql.dblp.org/dblp/1FF7rR",
+	  "title": "Citation Types",
+	  "description": "Counts of different types of citations in the DBLP+OCC database."
+	}
   ]
 }
+

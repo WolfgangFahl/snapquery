@@ -361,7 +361,10 @@ class QueryBundle:
     """
 
     def __init__(
-        self, named_query: NamedQuery, query: Query, endpoint: Endpoint = None
+        self, 
+        named_query: NamedQuery, 
+        query: Query, 
+        endpoint: Endpoint = None
     ):
         """
         Initializes a new instance of the QueryBundle class.

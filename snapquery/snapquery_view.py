@@ -188,7 +188,12 @@ class NamedQueryView:
             self.query_bundle.query.query = self.params.apply_parameters()
             self.params_view.close()
         self.query_bundle.set_limit(int(self.limit))
-        (lod, stats) = await run.io_bound(self.query_bundle.get_lod_with_stats)
+        result = await run.io_bound(self.query_bundle.get_lod_with_stats)
+        if not result:
+            with self.solution.container:
+                ui.notify("query execution failure")
+            return
+        lod, stats = result
         self.nqm.store_stats([stats])
         self.grid_row.clear()
         if stats.error_msg:

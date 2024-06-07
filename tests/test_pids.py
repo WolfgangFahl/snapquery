@@ -8,6 +8,7 @@ from ngwidgets.basetest import Basetest
 from snapquery.pid import PIDs
 from snapquery.pid_lookup import PersonLookup
 from snapquery.snapquery_core import NamedQueryManager
+from snapquery.dblp import DblpPersonLookup
 
 class TestPIDandPersons(Basetest):
     """
@@ -19,15 +20,35 @@ class TestPIDandPersons(Basetest):
         tmpfile=tempfile.NamedTemporaryFile(delete=False)
         self.nqm = NamedQueryManager.from_samples(db_path=tmpfile.name)
     
+    def show_pl(self,person_list):
+        if self.debug:
+            for i,person in enumerate(person_list):
+                print(f"{i+1:2}:{person}")
+                
     def test_person_lookup(self):
         """
         test person lookup
         """
         pl=PersonLookup(self.nqm)
         person_list=pl.suggest("Tim Bern")
-        if self.debug:
-            for i,person in enumerate(person_list):
-                print(f"{i+1:2}:{person}")
+        self.show_pl(person_list)
+        self.assertTrue(len(person_list)>1)
+        person=person_list[0]
+        self.assertEqual("Q80",person.wikidata_id)
+        
+                
+    def test_dblp_person_lookup(self):
+        """
+        test person lookup via dblp
+        """
+        dblp_pl=DblpPersonLookup(self.nqm)
+        person_list=dblp_pl.search("Donald C. Ga")
+        self.show_pl(person_list)
+        self.assertTrue(len(person_list)>=1)
+        person=person_list[0]
+        self.assertEqual("Donald",person.given_name)
+        self.assertEqual("Gause",person.family_name)
+        
                       
     def test_pids(self):
         """

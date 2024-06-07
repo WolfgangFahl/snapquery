@@ -6,6 +6,7 @@ refactored to snapquery by WF 2024-05
 """
 from dataclasses import dataclass, fields
 from typing import List, Optional
+from nameparser import HumanName
 
 @dataclass
 class Affiliation:
@@ -27,25 +28,11 @@ class Affiliation:
 @dataclass
 class PersonName:    
     """
+    person name handling
     """    
-    
-    
-    
-        
-@dataclass
-class Person(PersonName):
-    """
-    A person
-    """
     label: Optional[str] = None
     given_name: Optional[str] = None
     family_name: Optional[str] = None
-    wikidata_id: Optional[str] = None
-    dblp_author_id: Optional[str] = None
-    orcid_id: Optional[str] = None
-    image: Optional[str] = None
-    affiliation: Optional[List[Affiliation]] = None
-    official_website: Optional[str] = None
     
     @property
     def name(self) -> str:
@@ -61,6 +48,32 @@ class Person(PersonName):
     @property
     def ui_label(self) -> str:
         return self.name
+    
+    def parse_label(self):
+        """
+        get family name and given name from label
+        """
+        if self.label:
+            human_name=HumanName(self.label)
+            if not self.family_name and human_name.last:
+                self.family_name=human_name.last
+            if not self.given_name and human_name.first:
+                self.given_name=human_name.first
+        
+@dataclass
+class Person(PersonName):
+    """
+    A person
+    """
+   
+    wikidata_id: Optional[str] = None
+    dblp_author_id: Optional[str] = None
+    orcid_id: Optional[str] = None
+    image: Optional[str] = None
+    affiliation: Optional[List[Affiliation]] = None
+    official_website: Optional[str] = None
+    
+  
     
     @property
     def has_pid(self) -> bool:

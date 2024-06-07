@@ -6,6 +6,7 @@ Created on 2024-05-26
 from ez_wikidata.wdsearch import WikidataSearch
 
 from snapquery.orcid import OrcidAuth, OrcidSearchParams
+from snapquery.dblp import DblpPersonLookup
 from snapquery.pid import PIDs
 from snapquery.models.person import Person
 from typing import List
@@ -24,6 +25,7 @@ class PersonLookup:
         self.pids = PIDs()
         self.nqm = nqm
         self.wikidata_search = WikidataSearch()
+        self.dblp_person_lookup=DblpPersonLookup(self.nqm)
 
     def suggest(self, search_name: str, limit: int = 10) -> List[Person]:
         """
@@ -107,7 +109,7 @@ WHERE
 
     def suggest_from_all(self, search_name: str, limit: int = 10) -> List[Person]:
         """
-        Suggest names using WikidataSearch
+        Suggest names using WikidataSearch,ORCID and dblp search
         Args:
             search_name: name to search for suggestions.
             limit: Limit the number of results to return.

@@ -44,17 +44,23 @@ class QLever:
         """
         named_query_list = NamedQueryList(name="QLever Queries")
         for ticket, urls in ticket_dict.items():
-            for url in urls:
-                # Example placeholder logic to create a NamedQuery for each URL
-                query = NamedQuery(
-                    name=f"Query for {ticket.number}",
-                    namespace="QLever",
-                    url=url,
-                    sparql="",  # Assuming SPARQL or other query is not directly available
-                    title=f"Query Generated from Ticket #{ticket.number}",
-                    description="Automatically generated description based on the ticket's context."
-                )
-                named_query_list.queries.append(query)
+            for i,url in enumerate(urls):
+                # Assuming URLs are like 'https://qlever.cs.uni-freiburg.de/wikidata/iTzJwQ'
+                # Customizing ShortUrl instance for QLever specific URLs
+                short_url_handler = ShortUrl(url, scheme="https", netloc="qlever.cs.uni-freiburg.de")
+                short_url_handler.read_query()
+                if short_url_handler.sparql:
+                    # Example placeholder logic to create a NamedQuery for each URL
+                    query = NamedQuery(
+                        name=f"Ticket#{ticket.number}-query{i}",
+                        namespace="QLever",
+                        url=url,
+                        sparql=short_url_handler.sparql,
+                        title=f"QLever github issue #{ticket.number}-query{i}",
+                        description=ticket.title,
+                        comment=f"See {url}"
+                    )
+                    named_query_list.queries.append(query)
         return named_query_list
          
 

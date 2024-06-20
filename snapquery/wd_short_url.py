@@ -57,10 +57,12 @@ class ShortIds:
 class ShortUrl:
     """
     Handles operations related to wikidata and similar short URLs such as QLever.
-    see https://meta.wikimedia.org/wiki/Wikimedia_URL_Shortener for 
+    see https://meta.wikimedia.org/wiki/Wikimedia_URL_Shortener for
     """
 
-    def __init__(self, short_url: str, scheme: str = "https", netloc: str = "query.wikidata.org"):
+    def __init__(
+        self, short_url: str, scheme: str = "https", netloc: str = "query.wikidata.org"
+    ):
         """
         Constructor
 
@@ -75,7 +77,6 @@ class ShortUrl:
         self.url = None
         self.sparql = None
         self.error = None
-    
 
     @classmethod
     def get_prompt_text(cls, sparql: str) -> str:
@@ -180,7 +181,7 @@ SPARQL: {sparql}
             else:
                 give_up -= 1
         return nq_list
-    
+
     def fetch_final_url(self):
         """
         Follow the redirection to get the final URL.
@@ -206,14 +207,11 @@ SPARQL: {sparql}
         self.fetch_final_url()
         if self.url:
             parsed_url = urllib.parse.urlparse(self.url)
-            if (
-                parsed_url.scheme == self.scheme 
-                and parsed_url.netloc == self.netloc
-            ):
+            if parsed_url.scheme == self.scheme and parsed_url.netloc == self.netloc:
                 if parsed_url.fragment:
                     self.sparql = urllib.parse.unquote(parsed_url.fragment)
                 else:
                     query_params = urllib.parse.parse_qs(parsed_url.query)
-                    if 'query' in query_params:
-                        self.sparql = query_params['query'][0]
+                    if "query" in query_params:
+                        self.sparql = query_params["query"][0]
         return self.sparql

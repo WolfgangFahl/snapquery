@@ -15,25 +15,32 @@ from snapquery.snapquery_core import NamedQueryManager, NamedQuery
 
 class PersonLookup:
     """
-    Lookup potential persons
+    Lookup potential persons from various 
+    databases such as Wikidata, ORCID, and DBLP.
     """
 
     def __init__(self, nqm: NamedQueryManager):
         """
-        constructor
+        Initialize the PersonLookup with a Named Query Manager.
+
+        Args:
+            nqm (NamedQueryManager): The named query manager to execute SPARQL queries.
         """
         self.pids = PIDs()
         self.nqm = nqm
         self.wikidata_search = WikidataSearch()
         self.dblp_person_lookup=DblpPersonLookup(self.nqm)
 
-    def suggest(self, search_name: str, limit: int = 10) -> List[Person]:
+    def suggest_from_wikidata(self, search_name: str, limit: int = 10) -> List[Person]:
         """
-        Suggest names using WikidataSearch
+        Suggest persons using WikidataSearch.
 
         Args:
             search_name (str): The name to search for suggestions.
-            limit: The maximum number of results to return.
+            limit (int): The maximum number of results to return.
+
+        Returns:
+            List[Person]: A list of suggested persons from Wikidata.
         """
         persons = []
         suggestions = self.wikidata_search.searchOptions(search_name, limit=limit)
@@ -89,15 +96,16 @@ WHERE
 
         return persons
 
-    def suggest_orcid_entry(self, search_name: str, limit: int = 10) -> List[Person]:
+    def suggest_from_orcid(self, search_name: str, limit: int = 10) -> List[Person]:
         """
-        Suggest names using orcid registry search
+        Suggest persons using the ORCID registry search.
+
         Args:
-            search_name: name to search for suggestions.
-            limit: The maximum number of results to return.
+            search_name (str): The name to search for suggestions.
+            limit (int): The maximum number of results to return.
 
         Returns:
-            list of Persons
+            List[Person]: A list of suggested persons from ORCID.
         """
         orcid = OrcidAuth()
         persons = []
@@ -106,27 +114,18 @@ WHERE
                 OrcidSearchParams(family_name=search_name), limit=limit
             )
         return persons
-
-    def suggest_from_all(self, search_name: str, limit: int = 10) -> List[Person]:
+    
+    def suggest_from_dblp(self, search_name: str, limit: int = 10) -> List[Person]:
         """
-        Suggest names using WikidataSearch,ORCID and dblp search
+        Suggest persons using DBLP author search.
+
         Args:
-            search_name: name to search for suggestions.
-            limit: Limit the number of results to return.
+            search_name (str): The name to search for suggestions.
+            limit (int): The maximum number of results to return.
 
         Returns:
-
+            List[Person]: A list of suggested persons from DBLP.
         """
-        # persons_orcid = self.suggest_orcid_entry(search_name, limit=limit)
-        persons_wd = self.suggest(search_name, limit=limit)
-        persons_to_merge = persons_wd #+ persons_orcid
-        persons = []
-        for new_person in persons_to_merge:
-            add = True
-            for person in persons:
-                if person.share_identifier(new_person):
-                    person.merge_with(new_person)
-                    add = False
-            if add:
-                persons.append(new_person)
+        persons=self.dblp_person_lookup.search(name_part=search_name, limit=limit)
         return persons
+    

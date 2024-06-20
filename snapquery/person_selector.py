@@ -3,7 +3,7 @@ Created 2023
 
 @author: th
 """
-
+import asyncio
 from typing import Any, Callable, List, Optional
 
 from ngwidgets.input_webserver import WebSolution
@@ -96,21 +96,30 @@ class PersonSelector:
     """
 
     def __init__(
-        self, solution: WebSolution, selection_callback: Callable[[Person], Any]
+        self, 
+        solution: WebSolution, 
+        selection_callback: Callable[[Person], Any],
+        limit:int=10
     ):
         """
         Constructor
         """
+        # parameters
         self.solution = solution
         self.selection_callback = selection_callback
+        self.limit=limit
+        # instance variables
+        self.suggested_persons: List[Person] = []
         self.selected_person: Optional[Person] = None
-        self.suggestion_list: Optional[ui.element] = None
+        self.suggestion_view: Optional[ui.element] = None
         self.search_name = ""
-        self.suggested_persons = []
         self.person_lookup = PersonLookup(nqm=solution.webserver.nqm)
         self.selection_btn: Optional[Button] = None
+        self.search_debounce_task = None
+        self.keyStrokeTime = 0.5  # Debouncing interval in seconds
+        self.spinner = None  # Spinner to indicate loading
         self.person_selection()
-
+ 
     @ui.refreshable
     def person_selection(self):
         """
@@ -120,6 +129,8 @@ class PersonSelector:
         with ui.element("row").classes("w-full h-full"):
             with ui.splitter().classes("h-full  w-full") as splitter:
                 with splitter.before:
+                    with ui.row() as self.top_row:
+                        pass
                     with ui.card() as self.selection_card:
                         with ui.row():
                             self.label = ui.label("Name or Pid:")
@@ -144,7 +155,7 @@ class PersonSelector:
                         self.selection_btn.disable()
             with splitter.after:
                 with ui.element("column").classes(" w-full h-full gap-2"):
-                    self.suggestion_list = ui.column().classes(
+                    self.suggestion_view = ui.column().classes(
                         "rounded-md border-2 p-3"
                     )
 
@@ -168,46 +179,84 @@ class PersonSelector:
         elif self.selection_btn:
             self.selection_btn.disable()
         ui.update()
-
+        
     async def suggest_persons(self):
         """
-        based on given input suggest potential persons
+        Based on given input suggest potential persons with debouncing.
+        """
+        if self.search_debounce_task:
+            self.search_debounce_task.cancel()
+            self.suggested_persons=[]
+            self.spinner.visible=False
+        
+        self.search_debounce_task = asyncio.create_task(self.debounced_suggest_persons())
+        if not self.spinner:
+            with self.top_row:
+                self.spinner = ui.spinner()
 
-        Returns:
-            List of persons
+    async def debounced_suggest_persons(self):
+        """
+        Debounced version of suggest_persons.
         """
         try:
+            await asyncio.sleep(self.keyStrokeTime)
             self.search_name = self.name_input.value
             if (
                 len(self.search_name) >= 4
             ):  # quick fix to avoid queries on empty input fields
-                self.suggested_persons = await run.io_bound(
-                    self.person_lookup.suggest_from_all, self.search_name
-                )
-                self.update_suggestion_list(
-                    self.suggestion_list, self.suggested_persons
-                )
+                # Get suggestions concurrently and update UI as results come in
+                tasks = [
+                    asyncio.create_task(self.person_lookup.suggest_from_wikidata(self.search_name, limit=self.limit)),
+                    asyncio.create_task(self.person_lookup.suggest_from_orcid(self.search_name, limit=self.limit)),
+                    asyncio.create_task(self.person_lookup.suggest_from_dblp(self.search_name, limit=self.limit))
+                ]
+                for future in asyncio.as_completed(tasks):
+                    new_persons = await future
+                    self.merge_and_update_suggestions(new_persons)
+                self.spinner.visible = False  # Hide spinner when all tasks complete
+        except asyncio.CancelledError:
+            # If the task is cancelled, do nothing.
+            pass
         except Exception as ex:
             self.solution.handle_exception(ex)
-
-    def update_suggestion_list(self, container: ui.element, suggestions: List[Person]):
+            
+    def merge_and_update_suggestions(self, new_persons: List[Person]):
         """
-        update the suggestions list
+        Merges new persons with existing ones based on shared identifiers or adds them if unique.
+        Ensures no duplicates are present in the list of suggested persons.
+    
+        Args:
+            new_persons (List[Person]): New person suggestions to be added or merged.
         """
-        container.clear()
-        with container:
-            with ui.list().props("bordered separator"):
-                ui.item_label("Suggestions").props("header").classes("text-bold")
-                ui.separator()
-                for person in suggestions[:10]:
-                    PersonSuggestion(person=person, on_select=self.selection_callback)
+        for new_person in new_persons:
+            merged = False
+            for existing_person in self.suggested_persons:
+                if existing_person.share_identifier(new_person):
+                    existing_person.merge_with(new_person)
+                    merged = True
+                    break
+            if not merged:
+                self.suggested_persons.append(new_person)
 
-                if len(suggestions) > 10:
-                    with ui.item():
-                        ui.label(
-                            f"{'>' if len(suggestions) == 10000 else ''}{len(suggestions)} matches are available..."
-                        )
-        return []
+    def update_suggestions_view(self):
+        """
+        update the suggestions view
+        """
+        if self.suggestion_view:
+            self.suggestion_view.clear()
+            with self.suggestion_view:
+                with ui.list().props("bordered separator"):
+                    ui.item_label("Suggestions").props("header").classes("text-bold")
+                    ui.separator()
+                    for person in self.suggested_persons[:self.limit]:
+                        PersonSuggestion(person=person, on_select=self.selection_callback)
+    
+                    if len(self.suggested_persons) > self.limit:
+                        with ui.item():
+                            ui.label(
+                                f"{'>' if len(self.suggested_persons) >= 10000 else ''}{len(self.suggested_persons)} matches are available..."
+                            )
+            return []
 
     def select_person_suggestion(self, person: Person):
         """
@@ -217,7 +266,6 @@ class PersonSelector:
         """
         self.selected_person = person
         self.person_selection.refresh()
-        if self.suggestion_list:
-            self.suggestion_list.clear()
-            self.suggested_persons = [person]
-            self.update_suggestion_list(self.suggestion_list, self.suggested_persons)
+        self.suggested_persons = [person]
+        self.update_suggestions_list()
+     

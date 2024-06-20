@@ -73,8 +73,6 @@ class Person(PersonName):
     affiliation: Optional[List[Affiliation]] = None
     official_website: Optional[str] = None
     
-  
-    
     @property
     def has_pid(self) -> bool:
         """

@@ -142,6 +142,3 @@ class TestSparqlQueryAnnotater(Basetest):
         """
         stats = QUERY_ITEM_STATS
 
-
-if __name__ == "__main__":
-    unittest.main()

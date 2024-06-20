@@ -180,6 +180,21 @@ SPARQL: {sparql}
             else:
                 give_up -= 1
         return nq_list
+    
+    def fetch_final_url(self):
+        """
+        Follow the redirection to get the final URL.
+
+        Returns:
+            str: The final URL after redirection.
+        """
+        try:
+            response = requests.get(self.short_url, allow_redirects=True)
+            response.raise_for_status()
+            self.url = response.url
+        except Exception as ex:
+            self.error = ex
+        return self.url
 
     def read_query(self) -> str:
         """
@@ -187,25 +202,18 @@ SPARQL: {sparql}
 
         Returns:
             str: The SPARQL query extracted from the short URL.
-
-        Raises:
-            Exception: If there's an error fetching or processing the URL.
         """
-        try:
-            # Follow the redirection
-            response = requests.head(self.short_url, allow_redirects=True)
-            self.url = response.url
-
-            # Check if the URL has the correct format
+        self.fetch_final_url()
+        if self.url:
             parsed_url = urllib.parse.urlparse(self.url)
-            # Check if the URL matches the specified scheme and netloc
             if (
                 parsed_url.scheme == self.scheme 
-            and parsed_url.netloc == self.netloc
+                and parsed_url.netloc == self.netloc
             ):
-                self.sparql = urllib.parse.unquote(parsed_url.fragment)
-
-        except Exception as ex:
-            self.error = ex
-
+                if parsed_url.fragment:
+                    self.sparql = urllib.parse.unquote(parsed_url.fragment)
+                else:
+                    query_params = urllib.parse.parse_qs(parsed_url.query)
+                    if 'query' in query_params:
+                        self.sparql = query_params['query'][0]
         return self.sparql

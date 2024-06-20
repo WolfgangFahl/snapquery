@@ -46,8 +46,8 @@ SELECT * WHERE {
         Retrieve queries from GitHub tickets, specifically looking for URLs starting with
         'https://qlever.cs.uni-freiburg.de/wikidata' in the ticket bodies.
         """
-        limit = 50
-        # limit=None
+        #limit = 50
+        limit=None
         tickets = self.qlever.osproject.getAllTickets(limit=limit)
         if self.debug:
             print(f"Found {len(tickets)} tickets")

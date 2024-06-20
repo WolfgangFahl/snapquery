@@ -104,7 +104,7 @@ class QLever:
                         sparql=short_url_handler.sparql,
                         title=f"QLever github issue #{ticket.number}-query{i}",
                         description=ticket.title,
-                        comment=f"See {url}",
+                        comment=f"See ticket {ticket.url} and query {url}",
                     )
                     named_query_list.queries.append(query)
         return named_query_list

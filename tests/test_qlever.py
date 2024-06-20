@@ -8,6 +8,8 @@ from osprojects.osproject import OsProject,Ticket
 import re
 import unittest
 from typing import List
+from snapquery.wd_short_url import ShortUrl
+from snapquery.snapquery_core import NamedQuery, NamedQueryList
 
 class QLever:
     """
@@ -29,6 +31,31 @@ class QLever:
             found_urls = self.wd_url_pattern.findall(ticket.body)
             extracted_urls.extend(found_urls)  # Add found URLs to the list
         return extracted_urls
+    
+    def named_queries_for_tickets(self, ticket_dict):
+        """
+        Create named queries for each ticket's extracted URLs.
+
+        Args:
+            ticket_dict (dict): Dictionary mapping tickets to a list of URLs.
+
+        Returns:
+            NamedQueryList: A list of named queries generated from the URLs.
+        """
+        named_query_list = NamedQueryList(name="QLever Queries")
+        for ticket, urls in ticket_dict.items():
+            for url in urls:
+                # Example placeholder logic to create a NamedQuery for each URL
+                query = NamedQuery(
+                    name=f"Query for {ticket.number}",
+                    namespace="QLever",
+                    url=url,
+                    sparql="",  # Assuming SPARQL or other query is not directly available
+                    title=f"Query Generated from Ticket #{ticket.number}",
+                    description="Automatically generated description based on the ticket's context."
+                )
+                named_query_list.queries.append(query)
+        return named_query_list
          
 
 class TestQLever(Basetest):
@@ -70,6 +97,7 @@ class TestQLever(Basetest):
                 print(f"Unique URL: {url}")
 
         self.assertTrue(extracted_urls, "No URLs matching the specified pattern were found.")
-
+        nq_list=self.qlever.named_queries_for_tickets(wd_urls_4tickets)
+        nq_list.save_to_json_file("/tmp/qlever.json", indent=2)
         
         

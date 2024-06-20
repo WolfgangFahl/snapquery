@@ -56,21 +56,26 @@ class ShortIds:
 
 class ShortUrl:
     """
-    Handles operations related to wikidata short URLs.
-    see https://meta.wikimedia.org/wiki/Wikimedia_URL_Shortener
+    Handles operations related to wikidata and similar short URLs such as QLever.
+    see https://meta.wikimedia.org/wiki/Wikimedia_URL_Shortener for 
     """
 
-    def __init__(self, short_url: str):
+    def __init__(self, short_url: str, scheme: str = "https", netloc: str = "query.wikidata.org"):
         """
         Constructor
 
         Args:
-            short_url (str): The short URL to be processed.
+            short_url (str): The URL to be processed.
+            scheme (str): URL scheme to be used (e.g., 'https' or 'http') for validating URL format.
+            netloc (str): Network location part of the URL, typically the domain name, to be used for validating URL format.
         """
         self.short_url = short_url
+        self.scheme = scheme
+        self.netloc = netloc
         self.url = None
         self.sparql = None
         self.error = None
+    
 
     @classmethod
     def get_prompt_text(cls, sparql: str) -> str:
@@ -193,9 +198,10 @@ SPARQL: {sparql}
 
             # Check if the URL has the correct format
             parsed_url = urllib.parse.urlparse(self.url)
+            # Check if the URL matches the specified scheme and netloc
             if (
-                parsed_url.scheme == "https"
-                and parsed_url.netloc == "query.wikidata.org"
+                parsed_url.scheme == self.scheme 
+            and parsed_url.netloc == self.netloc
             ):
                 self.sparql = urllib.parse.unquote(parsed_url.fragment)
 

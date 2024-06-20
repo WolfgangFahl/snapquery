@@ -37,7 +37,7 @@ dependencies = [
     # https://pypi.org/project/nameparser/
     "nameparser>=1.1.3",
     # https://github.com/WolfgangFahl/pyOpenSourceProjects
-    "pyOpenSourceProjects>=0.1.0"
+    "pyOpenSourceProjects>=0.1.1"
 ]
 
 requires-python = ">=3.9"

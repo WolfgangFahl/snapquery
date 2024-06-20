@@ -3,19 +3,20 @@ Created on 2024-05-26
 @author: wf
 """
 
+from typing import List
+
 from ez_wikidata.wdsearch import WikidataSearch
 
-from snapquery.orcid import OrcidAuth, OrcidSearchParams
 from snapquery.dblp import DblpPersonLookup
-from snapquery.pid import PIDs
 from snapquery.models.person import Person
-from typing import List
-from snapquery.snapquery_core import NamedQueryManager, NamedQuery
+from snapquery.orcid import OrcidAuth, OrcidSearchParams
+from snapquery.pid import PIDs
+from snapquery.snapquery_core import NamedQuery, NamedQueryManager
 
 
 class PersonLookup:
     """
-    Lookup potential persons from various 
+    Lookup potential persons from various
     databases such as Wikidata, ORCID, and DBLP.
     """
 
@@ -29,7 +30,7 @@ class PersonLookup:
         self.pids = PIDs()
         self.nqm = nqm
         self.wikidata_search = WikidataSearch()
-        self.dblp_person_lookup=DblpPersonLookup(self.nqm)
+        self.dblp_person_lookup = DblpPersonLookup(self.nqm)
 
     def suggest_from_wikidata(self, search_name: str, limit: int = 10) -> List[Person]:
         """
@@ -114,7 +115,7 @@ WHERE
                 OrcidSearchParams(family_name=search_name), limit=limit
             )
         return persons
-    
+
     def suggest_from_dblp(self, search_name: str, limit: int = 10) -> List[Person]:
         """
         Suggest persons using DBLP author search.
@@ -126,6 +127,5 @@ WHERE
         Returns:
             List[Person]: A list of suggested persons from DBLP.
         """
-        persons=self.dblp_person_lookup.search(name_part=search_name, limit=limit)
+        persons = self.dblp_person_lookup.search(name_part=search_name, limit=limit)
         return persons
-    

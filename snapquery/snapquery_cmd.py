@@ -131,7 +131,7 @@ class SnapQueryCmd(WebserverCmd):
             handled = True  # Operation handled
         elif self.args.testQueries:
             if self.args.endpointName:
-                endpoint_names=[self.args.endpointName]
+                endpoint_names = [self.args.endpointName]
             else:
                 endpoint_names = list(nqm.endpoints.keys())
             queries = self.nqm.get_all_queries(namespace=self.args.namespace)

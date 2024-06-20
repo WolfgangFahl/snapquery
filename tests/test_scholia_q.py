@@ -5,10 +5,13 @@ Created on 2024-06-03
 """
 import json
 import unittest
+
 from lodstorage.params import Params
 from ngwidgets.basetest import Basetest
-from snapquery.snapquery_core import NamedQueryManager
 from ngwidgets.llm import LLM
+
+from snapquery.snapquery_core import NamedQueryManager
+
 
 class TestScholiaQ(Basetest):
     """
@@ -24,18 +27,20 @@ class TestScholiaQ(Basetest):
         """
         test guessing scholia Q Parameter guessing
         """
-        limit=5
+        limit = 5
         llm = LLM(model="gpt-4o")
-        namespace="scholia"
-        records = self.nqm.sql_db.query(f"SELECT * FROM NamedQuery WHERE namespace='{namespace}'")
-        for i,record in enumerate(records,start=1):
-            name=record["name"]
+        namespace = "scholia"
+        records = self.nqm.sql_db.query(
+            f"SELECT * FROM NamedQuery WHERE namespace='{namespace}'"
+        )
+        for i, record in enumerate(records, start=1):
+            name = record["name"]
             if self.debug:
-                print (json.dumps(record,indent=2))
-            sparql=record["sparql"]
+                print(json.dumps(record, indent=2))
+            sparql = record["sparql"]
             params = Params(sparql)
             if params.has_params:
-                prompt=f""""What entity type should q be in the following SPARQL Query 
+                prompt = f""""What entity type should q be in the following SPARQL Query 
                 and what would be a prominent example and the corresponding wikidata Identifier? The context is strictly scholarly publishing - make sure your choice fits this context. Never hallucinate wikidataIDs use None if you do not know 
                 Answer in yaml format for cut&paste e.g. 
                 entity:beer
@@ -49,9 +54,5 @@ class TestScholiaQ(Basetest):
                         print(llm_response)
                 except Exception as ex:
                     print(f"guess {i} failed with exception {str(ex)}")
-            if i>limit:
+            if i > limit:
                 break
-                
-                
-                
-  

@@ -12,8 +12,8 @@ from nicegui.element import Element
 from nicegui.elements.button import Button
 
 from snapquery.models.person import Person
-from snapquery.pid_lookup import PersonLookup
 from snapquery.pid import PIDs, PIDValue
+from snapquery.pid_lookup import PersonLookup
 
 
 class PersonView(Element):
@@ -96,10 +96,10 @@ class PersonSelector:
     """
 
     def __init__(
-        self, 
-        solution: WebSolution, 
+        self,
+        solution: WebSolution,
         selection_callback: Callable[[Person], Any],
-        limit:int=10
+        limit: int = 10,
     ):
         """
         Constructor
@@ -107,7 +107,7 @@ class PersonSelector:
         # parameters
         self.solution = solution
         self.selection_callback = selection_callback
-        self.limit=limit
+        self.limit = limit
         # instance variables
         self.suggested_persons: List[Person] = []
         self.selected_person: Optional[Person] = None
@@ -119,7 +119,7 @@ class PersonSelector:
         self.keyStrokeTime = 0.5  # Debouncing interval in seconds
         self.spinner = None  # Spinner to indicate loading
         self.person_selection()
- 
+
     @ui.refreshable
     def person_selection(self):
         """
@@ -179,17 +179,19 @@ class PersonSelector:
         elif self.selection_btn:
             self.selection_btn.disable()
         ui.update()
-        
+
     async def suggest_persons(self):
         """
         Based on given input suggest potential persons with debouncing.
         """
         if self.search_debounce_task:
             self.search_debounce_task.cancel()
-            self.suggested_persons=[]
-            self.spinner.visible=False
-        
-        self.search_debounce_task = asyncio.create_task(self.debounced_suggest_persons())
+            self.suggested_persons = []
+            self.spinner.visible = False
+
+        self.search_debounce_task = asyncio.create_task(
+            self.debounced_suggest_persons()
+        )
         if not self.spinner:
             with self.top_row:
                 self.spinner = ui.spinner()
@@ -206,9 +208,21 @@ class PersonSelector:
             ):  # quick fix to avoid queries on empty input fields
                 # Get suggestions concurrently and update UI as results come in
                 tasks = [
-                    asyncio.create_task(self.person_lookup.suggest_from_wikidata(self.search_name, limit=self.limit)),
-                    asyncio.create_task(self.person_lookup.suggest_from_orcid(self.search_name, limit=self.limit)),
-                    asyncio.create_task(self.person_lookup.suggest_from_dblp(self.search_name, limit=self.limit))
+                    asyncio.create_task(
+                        self.person_lookup.suggest_from_wikidata(
+                            self.search_name, limit=self.limit
+                        )
+                    ),
+                    asyncio.create_task(
+                        self.person_lookup.suggest_from_orcid(
+                            self.search_name, limit=self.limit
+                        )
+                    ),
+                    asyncio.create_task(
+                        self.person_lookup.suggest_from_dblp(
+                            self.search_name, limit=self.limit
+                        )
+                    ),
                 ]
                 for future in asyncio.as_completed(tasks):
                     new_persons = await future
@@ -219,12 +233,12 @@ class PersonSelector:
             pass
         except Exception as ex:
             self.solution.handle_exception(ex)
-            
+
     def merge_and_update_suggestions(self, new_persons: List[Person]):
         """
         Merges new persons with existing ones based on shared identifiers or adds them if unique.
         Ensures no duplicates are present in the list of suggested persons.
-    
+
         Args:
             new_persons (List[Person]): New person suggestions to be added or merged.
         """
@@ -248,9 +262,11 @@ class PersonSelector:
                 with ui.list().props("bordered separator"):
                     ui.item_label("Suggestions").props("header").classes("text-bold")
                     ui.separator()
-                    for person in self.suggested_persons[:self.limit]:
-                        PersonSuggestion(person=person, on_select=self.selection_callback)
-    
+                    for person in self.suggested_persons[: self.limit]:
+                        PersonSuggestion(
+                            person=person, on_select=self.selection_callback
+                        )
+
                     if len(self.suggested_persons) > self.limit:
                         with ui.item():
                             ui.label(
@@ -268,4 +284,3 @@ class PersonSelector:
         self.person_selection.refresh()
         self.suggested_persons = [person]
         self.update_suggestions_list()
-     

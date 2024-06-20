@@ -3,9 +3,9 @@ Created on 2024-05-26
 @author: wf
 """
 
+import re
 from dataclasses import dataclass
 from typing import Optional
-import re
 
 
 @dataclass

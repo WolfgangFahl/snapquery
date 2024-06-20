@@ -6,6 +6,7 @@ from typing import Optional, Union
 import requests
 from lodstorage.yamlable import lod_storable
 from nicegui import app
+
 from snapquery.models.person import Person
 
 
@@ -14,7 +15,11 @@ class OrcidAuth:
     authenticate with orcid
     """
 
-    def __init__(self, base_path: Optional[Path] = None, config_file_name: str = "orcid_config.yaml"):
+    def __init__(
+        self,
+        base_path: Optional[Path] = None,
+        config_file_name: str = "orcid_config.yaml",
+    ):
         if base_path is None:
             base_path = Path.home() / ".solutions/snapquery"
         self.base_path = base_path
@@ -168,9 +173,9 @@ class OrcidAuth:
         if records:
             for record in records:
                 person = Person(
-                        given_name=record.get("given-names", None),
-                        family_name=record.get("family-names", None),
-                        orcid_id=record.get("orcid-id", None)
+                    given_name=record.get("given-names", None),
+                    family_name=record.get("family-names", None),
+                    orcid_id=record.get("orcid-id", None),
                 )
                 persons.append(person)
         return persons

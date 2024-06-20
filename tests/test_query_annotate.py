@@ -141,4 +141,3 @@ class TestSparqlQueryAnnotater(Basetest):
         Tests plot_property_usage over all queries
         """
         stats = QUERY_ITEM_STATS
-

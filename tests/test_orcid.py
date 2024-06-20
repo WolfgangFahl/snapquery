@@ -1,6 +1,7 @@
 import tempfile
 import unittest
 from pathlib import Path
+
 from ngwidgets.basetest import Basetest
 
 from snapquery.models.person import Person
@@ -31,7 +32,10 @@ class TestOrcid(Basetest):
             )
             self.assertEqual(orcid_auth.authenticate_url(), authenticate_url)
 
-    @unittest.skipIf(not Path.home().joinpath(".solutions/snapquery").exists(), "Orcid configuration does not exist")
+    @unittest.skipIf(
+        not Path.home().joinpath(".solutions/snapquery").exists(),
+        "Orcid configuration does not exist",
+    )
     def test_request_search_token(self):
         """
         test request search token
@@ -44,4 +48,3 @@ class TestOrcid(Basetest):
         for person in res:
             self.assertIsInstance(person, Person)
             self.assertIsNotNone(person.orcid_id)
-

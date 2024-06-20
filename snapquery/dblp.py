@@ -4,15 +4,19 @@ Created on 2024-06-07
 @author: wf
 """
 from typing import List
+
 from snapquery.models.person import Person
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager
+
+
 class DblpPersonLookup:
     """
     lookup persons in dblp
     """
-    def __init__(self,nqm:NamedQueryManager,endpoint_name:str="dblp"):
-        self.nqm=nqm
-        self.endpoint_name=endpoint_name
+
+    def __init__(self, nqm: NamedQueryManager, endpoint_name: str = "dblp"):
+        self.nqm = nqm
+        self.endpoint_name = endpoint_name
 
     def search(self, name_part: str, limit: int = 10) -> List[Person]:
         """
@@ -60,7 +64,7 @@ WHERE {
             """,
         )
         params_dict = {"name_regex": name_part}
-        
+
         person_lod, _stats = self.nqm.execute_query(
             named_query=named_query,
             params_dict=params_dict,
@@ -72,7 +76,7 @@ WHERE {
         for pr in person_lod:
             person = Person(
                 label=pr.get("label"),
-                wikidata_id=pr.get("wikidata_id"), 
+                wikidata_id=pr.get("wikidata_id"),
                 dblp_author_id=pr.get("dblp_author_id"),
                 orcid_id=pr.get("orcid_id"),
             )

@@ -17,8 +17,8 @@ from starlette.responses import RedirectResponse
 
 from snapquery.models.person import Person
 from snapquery.orcid import OrcidAuth
-from snapquery.qimport_view import QueryImportView
 from snapquery.person_selector import PersonSelector, PersonView
+from snapquery.qimport_view import QueryImportView
 from snapquery.snapquery_core import NamedQueryManager, QueryBundle
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.stats_view import QueryStatsView

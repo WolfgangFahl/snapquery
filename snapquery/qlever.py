@@ -12,7 +12,7 @@ from osprojects.osproject import OsProject, Ticket
 
 from snapquery.snapquery_core import NamedQuery, NamedQueryList
 from snapquery.wd_short_url import ShortUrl
-
+from tqdm import tqdm
 
 class QLeverUrl(ShortUrl):
     """

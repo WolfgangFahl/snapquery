@@ -43,8 +43,10 @@ SELECT * WHERE {
     @unittest.skipIf(Basetest.inPublicCI(), "avoid github rate limit")
     def testGitHub(self):
         """
-        Retrieve queries from GitHub tickets, specifically looking for URLs starting with
-        'https://qlever.cs.uni-freiburg.de/wikidata' in the ticket bodies.
+        Retrieve queries from QLever GitHub tickets, 
+        specifically looking for URLs starting with
+        'https://qlever.cs.uni-freiburg.de/wikidata' 
+        in the ticket bodies and comments.
         """
         #limit = 50
         limit=None

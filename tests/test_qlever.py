@@ -6,7 +6,6 @@ Created on 2024-06-19
 import unittest
 
 from ngwidgets.basetest import Basetest
-from pyshex.utils import sparql_query
 from tqdm import tqdm
 
 from snapquery.qlever import QLever, QLeverUrl

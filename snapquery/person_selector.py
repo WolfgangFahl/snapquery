@@ -5,12 +5,11 @@ Created 2023
 """
 import asyncio
 from typing import Any, Callable, List, Optional
-
+from nicegui import ui
 from ngwidgets.input_webserver import WebSolution
-from nicegui import run, ui
+from ngwidgets.debouncer import DebouncerUI
 from nicegui.element import Element
 from nicegui.elements.button import Button
-
 from snapquery.models.person import Person
 from snapquery.pid import PIDs, PIDValue
 from snapquery.pid_lookup import PersonLookup
@@ -92,7 +91,7 @@ class PersonSuggestion(PersonView):
 
 class PersonSelector:
     """
-    Select a person with auto-suggestion
+    Provides an interface for searching and selecting people with auto-suggestions.
     """
 
     def __init__(
@@ -115,10 +114,10 @@ class PersonSelector:
         self.search_name = ""
         self.person_lookup = PersonLookup(nqm=solution.webserver.nqm)
         self.selection_btn: Optional[Button] = None
-        self.search_debounce_task = None
-        self.keyStrokeTime = 0.5  # Debouncing interval in seconds
-        self.spinner = None  # Spinner to indicate loading
+        self.debouncer_ui = DebouncerUI(
+            parent=self.solution.container,debug=True)
         self.person_selection()
+      
 
     @ui.refreshable
     def person_selection(self):
@@ -174,63 +173,44 @@ class PersonSelector:
     async def check_pid(self):
         pid = PIDs().pid4id(self.identifier_input.value)
         if pid is not None and pid.is_valid() and self.selection_btn is not None:
-            print("Is valid PID")
             self.selection_btn.enable()
         elif self.selection_btn:
             self.selection_btn.disable()
-        ui.update()
 
+    def clear_suggested_persons(self):
+        self.suggested_persons=[]
+        self.update_suggestions_view()
+        
     async def suggest_persons(self):
         """
-        Based on given input suggest potential persons with debouncing.
+        Use debouncer to 
+        suggest potential persons based on the input.
         """
-        if self.search_debounce_task:
-            self.search_debounce_task.cancel()
-            self.suggested_persons = []
-            self.spinner.visible = False
+        await self.debouncer_ui.debounce(
+            self.load_person_suggestions, 
+            self.name_input.value)
 
-        self.search_debounce_task = asyncio.create_task(
-            self.debounced_suggest_persons()
-        )
-        if not self.spinner:
-            with self.top_row:
-                self.spinner = ui.spinner()
-
-    async def debounced_suggest_persons(self):
+    async def load_person_suggestions(self, search_name:str):
         """
-        Debounced version of suggest_persons.
+        Load person suggestions based on the search name.
+        This method fetches data concurrently from multiple sources and updates suggestions as they arrive.
+        
+        Args:
+            search_name(str): the search name to search for
         """
+        if len(search_name) < 4:  # Skip querying for very short input strings.
+            return
         try:
-            await asyncio.sleep(self.keyStrokeTime)
-            self.search_name = self.name_input.value
-            if (
-                len(self.search_name) >= 4
-            ):  # quick fix to avoid queries on empty input fields
-                # Get suggestions concurrently and update UI as results come in
-                tasks = [
-                    asyncio.create_task(
-                        self.person_lookup.suggest_from_wikidata(
-                            self.search_name, limit=self.limit
-                        )
-                    ),
-                    asyncio.create_task(
-                        self.person_lookup.suggest_from_orcid(
-                            self.search_name, limit=self.limit
-                        )
-                    ),
-                    asyncio.create_task(
-                        self.person_lookup.suggest_from_dblp(
-                            self.search_name, limit=self.limit
-                        )
-                    ),
-                ]
-                for future in asyncio.as_completed(tasks):
-                    new_persons = await future
-                    self.merge_and_update_suggestions(new_persons)
-                self.spinner.visible = False  # Hide spinner when all tasks complete
-        except asyncio.CancelledError:
-            # If the task is cancelled, do nothing.
-            pass
+            self.clear_suggested_persons()
+            tasks = [
+                asyncio.to_thread(self.person_lookup.suggest_from_wikidata, search_name, self.limit),
+                asyncio.to_thread(self.person_lookup.suggest_from_orcid, search_name, self.limit),
+                asyncio.to_thread(self.person_lookup.suggest_from_dblp, search_name, self.limit),
+            ]
+            for future in asyncio.as_completed(tasks):
+                new_persons = await future
+                self.merge_and_update_suggestions(new_persons)
+                self.update_suggestions_view()
         except Exception as ex:
             self.solution.handle_exception(ex)
 

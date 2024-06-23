@@ -16,13 +16,13 @@ from nicegui.client import Client
 from starlette.responses import RedirectResponse
 
 from snapquery.models.person import Person
+from snapquery.namespace_stats_view import NamespaceStatsView
 from snapquery.orcid import OrcidAuth
 from snapquery.person_selector import PersonSelector, PersonView
 from snapquery.qimport_view import QueryImportView
 from snapquery.snapquery_core import NamedQueryManager, QueryBundle
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.stats_view import QueryStatsView
-from snapquery.namespace_stats_view import NamespaceStatsView
 from snapquery.version import Version
 
 
@@ -93,10 +93,9 @@ class SnapQueryWebServer(InputWebserver):
             return RedirectResponse("/")
 
         @ui.page("/queries_by_namespace")
-        async def queries_by_namespace(
-            client:Client):
-            return await self.page(client,SnapQuerySolution.queries_by_namespace)
- 
+        async def queries_by_namespace(client: Client):
+            return await self.page(client, SnapQuerySolution.queries_by_namespace)
+
         @ui.page("/query/{namespace}/{name}")
         async def query_page(
             client: Client,
@@ -416,10 +415,10 @@ class SnapQuerySolution(InputWebSolution):
 
     async def queries_by_namespace(self):
         def show():
-            _nsv=NamespaceStatsView(self)
-            
+            _nsv = NamespaceStatsView(self)
+
         await self.setup_content_div(show)
-        
+
     async def query_page(
         self,
         namespace: str,

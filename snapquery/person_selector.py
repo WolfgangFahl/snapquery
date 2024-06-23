@@ -5,11 +5,13 @@ Created 2023
 """
 import asyncio
 from typing import Any, Callable, List, Optional
-from nicegui import ui
-from ngwidgets.input_webserver import WebSolution
+
 from ngwidgets.debouncer import DebouncerUI
+from ngwidgets.input_webserver import WebSolution
+from nicegui import ui
 from nicegui.element import Element
 from nicegui.elements.button import Button
+
 from snapquery.models.person import Person
 from snapquery.pid import PIDs, PIDValue
 from snapquery.pid_lookup import PersonLookup
@@ -114,10 +116,8 @@ class PersonSelector:
         self.search_name = ""
         self.person_lookup = PersonLookup(nqm=solution.webserver.nqm)
         self.selection_btn: Optional[Button] = None
-        self.debouncer_ui = DebouncerUI(
-            parent=self.solution.container,debug=True)
+        self.debouncer_ui = DebouncerUI(parent=self.solution.container, debug=True)
         self.person_selection()
-      
 
     @ui.refreshable
     def person_selection(self):
@@ -178,23 +178,23 @@ class PersonSelector:
             self.selection_btn.disable()
 
     def clear_suggested_persons(self):
-        self.suggested_persons=[]
+        self.suggested_persons = []
         self.update_suggestions_view()
-        
+
     async def suggest_persons(self):
         """
-        Use debouncer to 
+        Use debouncer to
         suggest potential persons based on the input.
         """
         await self.debouncer_ui.debounce(
-            self.load_person_suggestions, 
-            self.name_input.value)
+            self.load_person_suggestions, self.name_input.value
+        )
 
-    async def load_person_suggestions(self, search_name:str):
+    async def load_person_suggestions(self, search_name: str):
         """
         Load person suggestions based on the search name.
         This method fetches data concurrently from multiple sources and updates suggestions as they arrive.
-        
+
         Args:
             search_name(str): the search name to search for
         """
@@ -203,9 +203,15 @@ class PersonSelector:
         try:
             self.clear_suggested_persons()
             tasks = [
-                asyncio.to_thread(self.person_lookup.suggest_from_wikidata, search_name, self.limit),
-                asyncio.to_thread(self.person_lookup.suggest_from_orcid, search_name, self.limit),
-                asyncio.to_thread(self.person_lookup.suggest_from_dblp, search_name, self.limit),
+                asyncio.to_thread(
+                    self.person_lookup.suggest_from_wikidata, search_name, self.limit
+                ),
+                asyncio.to_thread(
+                    self.person_lookup.suggest_from_orcid, search_name, self.limit
+                ),
+                asyncio.to_thread(
+                    self.person_lookup.suggest_from_dblp, search_name, self.limit
+                ),
             ]
             for future in asyncio.as_completed(tasks):
                 new_persons = await future

@@ -9,10 +9,11 @@ from typing import List
 import requests
 from bs4 import BeautifulSoup
 from osprojects.osproject import OsProject, Ticket
+from tqdm import tqdm
 
 from snapquery.snapquery_core import NamedQuery, NamedQueryList
 from snapquery.wd_short_url import ShortUrl
-from tqdm import tqdm
+
 
 class QLeverUrl(ShortUrl):
     """

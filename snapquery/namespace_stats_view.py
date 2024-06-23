@@ -5,12 +5,12 @@ Created on 2024-06-23
 """
 from collections import defaultdict
 from typing import Dict, List
-
-from ngwidgets.lod_grid import GridConfig, ListOfDictsGrid
+from ngwidgets.progress import NiceguiProgressbar
+from ngwidgets.lod_grid import ListOfDictsGrid
 from ngwidgets.webserver import WebSolution
 from nicegui import run, ui
 
-from snapquery.snapquery_core import NamedQueryManager
+from snapquery.snapquery_core import NamedQuery
 
 
 class NamespaceStatsView:
@@ -35,11 +35,66 @@ class NamespaceStatsView:
 
     def setup_ui(self):
         """Sets up the user interface for displaying SPARQL query statistics."""
+        with ui.row() as self.progress_row:
+            self.progress_bar = NiceguiProgressbar(desc='Query Progress', total=100, unit="queries")
+     
         with ui.row() as self.results_row:
             self.lod_grid = ListOfDictsGrid()
-
+            # Set up a click event handler for the grid
+            self.lod_grid.ag_grid.on('cellClicked', self.on_cell_clicked)
+        
         # Fetch and display data immediately upon UI setup
         ui.timer(0.0, self.on_fetch_lod, once=True)
+        
+    def execute(self, nq: NamedQuery, endpoint_name: str, title: str):
+        """Execute the given named query with notification and progress bar updates."""
+        qd, params_dict = self.parameterize(nq)
+        with self.results_row:
+            ui.notify(f"{title}: {nq.name} {qd} - via {endpoint_name}")
+    
+        results, stats = self.nqm.execute_query(nq, params_dict, endpoint_name)
+        stats.context = "test"
+        self.nqm.store_stats(stats)
+        
+        with self.results_row:
+            if not stats.records:
+                ui.notify(f"{title} error: {stats.filtered_msg}", kind='error')
+            else:
+                ui.notify(f"{title} executed: {stats.records} records found", kind='success')
+
+        
+    def execute_queries(self, namespace: str, endpoint_name: str):
+        """ execute queries with progress updates.
+    
+        Args:
+            namespace (str): The namespace of the queries to execute.
+            endpoint_name (str): The endpoint name where the queries will be executed.
+        """
+        queries = self.nqm.get_all_queries(namespace=namespace)
+        total_queries = len(queries)
+        count = 0
+    
+        self.progress_bar.total = total_queries
+        self.progress_bar.reset()
+
+        for i, nq in enumerate(queries, start=1):
+            count += 1
+            with self.progress_row:
+                self.progress_bar.update_value(count)
+                self.progress_bar.set_description(f"Executing {nq.name} on {endpoint_name}")
+            self.execute(nq, endpoint_name, title=f"query {i}/{len(queries)}::{endpoint_name}")
+            with self.progress_row:
+                self.progress_bar.set_description(f"Completed {count} of {total_queries} queries")
+
+        
+    async def on_cell_clicked(self, event):
+        """Handle cell click events to perform specific actions based on the cell content."""
+        # Retrieve details from the event object
+        row_data = event.args['data']
+        endpoint_name = event.args['colId']
+        namespace = row_data['namespace']
+        if endpoint_name in self.nqm.endpoints.keys():
+            await run.io_bound(self.execute_queries, namespace=namespace, endpoint_name=endpoint_name)
 
     async def on_fetch_lod(self, _args=None):
         """Fetches data asynchronously and loads it into the grid upon successful retrieval."""
@@ -64,34 +119,35 @@ class NamespaceStatsView:
 
     def process_stats_lod(self, raw_lod: List[Dict[str, any]]) -> List[Dict[str, any]]:
         """Process the raw list of dictionaries to format suitable for the grid display.
-
+    
         Args:
             raw_lod (List[Dict[str, any]]): The raw data fetched from the SQL query.
-
+    
         Returns:
             List[Dict[str, any]]: The processed list of dictionaries formatted for grid display.
         """
         namespace_stats = defaultdict(lambda: defaultdict(int))
-        endpoints = list(
-            self.nqm.endpoints.keys()
-        )  # Get all endpoint names from the NamedQueryManager
-
-        # Aggregate counts by namespace and endpoint
+        endpoints = list(self.nqm.endpoints.keys())  # Get all endpoint names from the NamedQueryManager
+        total_queries = {}
+    
+        # Aggregate counts by namespace and endpoint, and capture the total queries per namespace
         for entry in raw_lod:
             namespace = entry["namespace"]
             endpoint = entry["endpoint_name"]
-            count = entry["success_count"]
-            namespace_stats[namespace][endpoint] += count
-
+            success_count = entry["success_count"]
+            total_queries[namespace] = entry["total"]  # Store the total number from the SQL
+            namespace_stats[namespace][endpoint] += success_count
+    
         # Convert aggregated data to list of dicts format for the grid
         processed_lod = []
         for namespace, counts in namespace_stats.items():
             row = {"namespace": namespace}
-            total = 0
+            # Use the total from the SQL query directly
+            row["total"] = total_queries[namespace]
             for endpoint in endpoints:
                 row[endpoint] = counts.get(endpoint, 0)
-                total += row[endpoint]
-            row["total"] = total
             processed_lod.append(row)
-
+    
         return processed_lod
+
+

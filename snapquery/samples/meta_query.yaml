@@ -30,18 +30,19 @@
   sql: |
     SELECT 
       nq.namespace,
-      qs.endpoint_name,
-      COUNT(qs.query_id) AS success_count,
+      COALESCE(qs.endpoint_name, 'No Successful Endpoint') AS endpoint_name,
+      SUM(CASE WHEN qs.records > 0 THEN 1 ELSE 0 END) AS success_count,
       total.total_count AS total
     FROM NamedQuery nq
-    LEFT JOIN QueryStats qs ON nq.query_id = qs.query_id AND qs.records > 0
+    LEFT JOIN QueryStats qs ON nq.query_id = qs.query_id
     LEFT JOIN (
       SELECT namespace, COUNT(query_id) AS total_count
       FROM NamedQuery
       GROUP BY namespace
     ) total ON nq.namespace = total.namespace
-    GROUP BY nq.namespace, qs.endpoint_name
-    ORDER BY nq.namespace ASC, qs.endpoint_name DESC
+    GROUP BY nq.namespace, qs.endpoint_name, total.total_count
+    HAVING success_count > 0 OR endpoint_name = 'No Successful Endpoint'
+    ORDER BY nq.namespace ASC, COALESCE(qs.endpoint_name, 'No Successful Endpoint') DESC
 'all_queries':
     sql: |
       SELECT * FROM NamedQuery

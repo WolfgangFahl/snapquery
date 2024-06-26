@@ -1,16 +1,42 @@
 #!/bin/bash
 # WF 2024-06-05
-for namespace in dblp
+# Enhanced script to handle snapquery calls
+
+# Function to execute snapquery in the background
+run_snapquery() {
+    local namespace=$1
+    local endpoint=$2
+    nohup snapquery -tq -en $endpoint --namespace $namespace > /tmp/${endpoint}-${namespace}.log 2>&1 &
+}
+
+# Define lists of namespaces and endpoints
+# Declare an associative array to hold the namespace and their corresponding totals
+declare -A namespaces
+
+# Populate the array with data
+namespaces["dblp"]=5
+namespaces["QLever"]=181
+namespaces["scholia"]=373
+namespaces["ceur-ws"]=28
+namespaces["short_url"]=100
+namespaces["wikidata-examples"]=298
+namespaces["snapquery-examples"]=2
+namespaces["federated-query-examples"]=11
+
+# Sort the array by value (the totals)
+for namespace in $(echo ${!namespaces[@]} | tr ' ' '\n' | sort -k2 -n -t$'\t' --key=2,2)
 do
-  for endpoint in dblp
-  do
-    snapquery -tq -en $endpoint --namespace $namespace
-  done
+    echo "$namespace - ${namespaces[$namespace]}"
 done
-for namespace in scholia
-do
-  for endpoint in wikidata wikidata-qlever
-  do
-    snapquery -tq -en $endpoint --namespace $namespace
-  done
+declare -a endpoints=("dblp" "wikidata" "wikidata-qlever", "wikidata-triply", "wikidata-openlinksw","wikidata-scatter")
+
+# Iterate over namespaces and endpoints to run queries
+for namespace in "${namespaces[@]}"; do
+    if [[ "$namespace" == "dblp" ]]; then
+        run_snapquery "$namespace" "dblp"
+    elif [[ "$namespace" == "scholia" ]]; then
+        for endpoint in "${endpoints[@]:1}"; do  # Start from second element for Scholia
+            run_snapquery "$namespace" "$endpoint"
+        done
+    fi
 done

@@ -59,7 +59,7 @@ class NamespaceStatsView:
         with self.results_row:
             msg = f"{title}: {nq.name} {qd} - via {endpoint_name}"
             logger.info(msg)
-            ui.notify(msg)
+            # ui.notify(msg)
 
         results, stats = self.nqm.execute_query(nq, params_dict, endpoint_name)
         stats.context = "test"
@@ -72,7 +72,7 @@ class NamespaceStatsView:
             else:
                 msg = f"{title} executed: {stats.records} records found"
                 logger.info(msg)
-                ui.notify(msg, kind="success")
+                # ui.notify(msg, kind="success")
 
     def execute_queries(self, namespace: str, endpoint_name: str):
         """execute queries with progress updates.
@@ -125,9 +125,6 @@ class NamespaceStatsView:
             with self.results_row:
                 self.lod_grid.load_lod(processed_lod)
                 self.lod_grid.update()
-            headers = list(processed_lod[0].keys())
-            for header in headers[1:]:
-                self.lod_grid.set_checkbox_selection(header)
         except Exception as ex:
             self.solution.handle_exception(ex)
 

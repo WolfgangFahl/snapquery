@@ -43,6 +43,32 @@
     GROUP BY nq.namespace, qs.endpoint_name, total.total_count
     HAVING success_count > 0 OR endpoint_name = 'No Successful Endpoint'
     ORDER BY nq.namespace ASC, COALESCE(qs.endpoint_name, 'No Successful Endpoint') DESC
+'query_namespace_endpoint_matrix_with_distinct':
+  sql: |
+    SELECT
+        nq.namespace,
+        COALESCE(qs.endpoint_name, 'No Successful Endpoint') AS endpoint_name,
+        total.total_count AS total,
+        COUNT(DISTINCT (case when qs.success_count > 0 then qs.query_id end)) AS distinct_successful,
+        SUM(qs.success_count) AS success_count
+    FROM NamedQuery nq
+        LEFT JOIN (
+            SELECT 
+                query_id,
+                endpoint_name,
+                context,
+                SUM(CASE WHEN records > 0 THEN 1 ELSE 0 END) AS success_count
+            FROM QueryStats
+            GROUP BY query_id, endpoint_name, context
+        ) qs ON nq.query_id = qs.query_id
+        LEFT JOIN (
+          SELECT namespace, COUNT(DISTINCT(query_id)) AS total_count
+          FROM NamedQuery
+          GROUP BY namespace
+        ) total ON nq.namespace = total.namespace
+    GROUP BY nq.namespace, qs.endpoint_name, total.total_count
+    HAVING endpoint_name != 'No Successful Endpoint' AND SUM(qs.success_count) > 0
+
 'all_queries':
     sql: |
       SELECT * FROM NamedQuery

@@ -134,7 +134,7 @@ class NamespaceStatsView:
         Returns:
             List[Dict[str, any]]: A list of dictionaries containing the query results.
         """
-        query_name = "query_namespace_endpoint_matrix"
+        query_name = "query_namespace_endpoint_matrix_with_distinct"
         query = self.nqm.meta_qm.queriesByName[query_name]
         return self.nqm.sql_db.query(query.query)
 
@@ -148,6 +148,7 @@ class NamespaceStatsView:
             List[Dict[str, any]]: The processed list of dictionaries formatted for grid display.
         """
         namespace_stats = defaultdict(lambda: defaultdict(int))
+        namespace_stats_working_queries = defaultdict(lambda: defaultdict(int))
         endpoints = list(
             self.nqm.endpoints.keys()
         )  # Get all endpoint names from the NamedQueryManager
@@ -158,10 +159,12 @@ class NamespaceStatsView:
             namespace = entry["namespace"]
             endpoint = entry["endpoint_name"]
             success_count = entry["success_count"]
+            distinct_successful = entry.get("distinct_successful", 0)
             total_queries[namespace] = entry[
                 "total"
             ]  # Store the total number from the SQL
             namespace_stats[namespace][endpoint] += success_count
+            namespace_stats_working_queries[namespace][endpoint] += distinct_successful
 
         # Convert aggregated data to list of dicts format for the grid
         processed_lod = []
@@ -170,7 +173,8 @@ class NamespaceStatsView:
             # Use the total from the SQL query directly
             row["total"] = total_queries[namespace]
             for endpoint in endpoints:
-                row[endpoint] = counts.get(endpoint, 0)
+                number_working_queries = namespace_stats_working_queries[namespace][endpoint]
+                row[endpoint] = f"{number_working_queries} working; {counts.get(endpoint, 0)} successful runs"
             processed_lod.append(row)
 
         return processed_lod

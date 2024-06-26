@@ -1,15 +1,16 @@
 #!/bin/bash
 # WF 2024-06-05
-# Enhanced script to handle snapquery calls
+# Enhanced script to handle snapquery calls efficiently and with feedback
 
-# Function to execute snapquery in the background
+# Function to execute snapquery in the background with feedback
 run_snapquery() {
     local namespace=$1
     local endpoint=$2
+    echo "Running snapquery for $namespace on $endpoint..."
     nohup snapquery -tq -en $endpoint --namespace $namespace > /tmp/${endpoint}-${namespace}.log 2>&1 &
+    echo "Started snapquery for $namespace on $endpoint, logging to /tmp/${endpoint}-${namespace}.log"
 }
 
-# Define lists of namespaces and endpoints
 # Declare an associative array to hold the namespace and their corresponding totals
 declare -A namespaces
 
@@ -23,15 +24,15 @@ namespaces["wikidata-examples"]=298
 namespaces["snapquery-examples"]=2
 namespaces["federated-query-examples"]=11
 
-# Sort the array by value (the totals)
-for namespace in $(echo ${!namespaces[@]} | tr ' ' '\n' | sort -k2 -n -t$'\t' --key=2,2)
-do
-    echo "$namespace - ${namespaces[$namespace]}"
-done
-declare -a endpoints=("dblp" "wikidata" "wikidata-qlever", "wikidata-triply", "wikidata-openlinksw","wikidata-scatter")
+# Define list of endpoints
+declare -a endpoints=("dblp" "wikidata" "wikidata-qlever" "wikidata-triply" "wikidata-openlinksw" "wikidata-scatter")
 
-# Iterate over namespaces and endpoints to run queries
-for namespace in "${namespaces[@]}"; do
+# Create an indexed array to hold sorted namespaces by total count
+sorted_namespaces=($(for namespace in "${!namespaces[@]}"; do echo "$namespace ${namespaces[$namespace]}"; done | sort -k2 -n | cut -d' ' -f1))
+
+# Iterate over sorted namespaces and run queries
+for namespace in "${sorted_namespaces[@]}"; do
+    echo "Processing $namespace with total entries ${namespaces[$namespace]}"
     if [[ "$namespace" == "dblp" ]]; then
         run_snapquery "$namespace" "dblp"
     elif [[ "$namespace" == "scholia" ]]; then

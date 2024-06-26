@@ -3,9 +3,10 @@ Created on 2024-05-03
 
 @author: wf
 """
-
+import logging
 import sys
 from argparse import ArgumentParser
+from typing import Optional
 
 from lodstorage.params import Params, StoreDictKeyPair
 from lodstorage.query import Format
@@ -113,6 +114,21 @@ class SnapQueryCmd(WebserverCmd):
             else:
                 msg += f"{stats.records} records found"
             print(msg)
+
+    def cmd_parse(self, argv: Optional[list] = None):
+        """
+        parse the argument lists and prepare
+
+        Args:
+            argv(list): list of command line arguments
+
+        """
+        super().cmd_parse(argv)
+        log_level = logging.INFO
+        if self.args.debug:
+            log_level = logging.DEBUG
+        logging.basicConfig(level=log_level)
+        return self.args
 
     def handle_args(self) -> bool:
         """

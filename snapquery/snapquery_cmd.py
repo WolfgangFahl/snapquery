@@ -3,6 +3,7 @@ Created on 2024-05-03
 
 @author: wf
 """
+import argparse
 import logging
 import sys
 from argparse import ArgumentParser
@@ -16,6 +17,8 @@ from snapquery.qimport import QueryImport
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager, QueryDetails
 from snapquery.snapquery_webserver import SnapQueryWebServer
 
+
+logger = logging.getLogger(__name__)
 
 class SnapQueryCmd(WebserverCmd):
     """
@@ -73,7 +76,14 @@ class SnapQueryCmd(WebserverCmd):
             dest="import_file",
             help="Import named queries from a JSON file.",
         )
-
+        subparsers = parser.add_subparsers(help='sub-command help')
+        snapquery_evaluate = subparsers.add_parser(name="evaluate" , description="evaluate queries by executing queries against different endpoints")
+        snapquery_evaluate.set_defaults(func=self.snapquery_evaluate)
+        snapquery_evaluate.add_argument("--namespaces", type=str, nargs="*" , default="wikidata-examples", help="evaluate all queries of the given namespace")
+        snapquery_evaluate.add_argument("--context", type=str, default="test", help="context name to store the execution statistics with")
+        snapquery_evaluate.add_argument( "--endpoints", type=str, nargs="*", default="wikidata",
+                help="Name of the endpoint to use for queries - use --listEndpoints to list available endpoints", )
+        snapquery_evaluate.add_argument( "-d", "--debug", action="store_true", help="Show debug messages")
         return parser
 
     def parameterize(self, nq: NamedQuery):
@@ -92,28 +102,25 @@ class SnapQueryCmd(WebserverCmd):
             pass
         return qd, params_dict
 
-    def execute(self, nq: NamedQuery, endpoint_name: str, title: str):
+    def execute(self, nq: NamedQuery, endpoint_name: str, title: str, context: str):
         """
         execute the given named query
         """
         qd, params_dict = self.parameterize(nq)
-        if self.debug:
-            print(f"{title}: {nq.name} {qd} - via {endpoint_name}")
-
+        logger.debug(f"{title}: {nq.name} {qd} - via {endpoint_name}")
         _results, stats = self.nqm.execute_query(
             nq,
             params_dict=params_dict,
             endpoint_name=endpoint_name,
         )
-        stats.context = "test"
+        stats.context = context
         self.nqm.store_stats([stats])
-        if self.debug:
-            msg = f"{title} executed:"
-            if not stats.records:
-                msg += f"error {stats.filtered_msg}"
-            else:
-                msg += f"{stats.records} records found"
-            print(msg)
+        msg = f"{title} executed:"
+        if not stats.records:
+            msg += f"error {stats.filtered_msg}"
+        else:
+            msg += f"{stats.records} records found"
+        logger.debug(msg)
 
     def cmd_parse(self, argv: Optional[list] = None):
         """
@@ -124,11 +131,47 @@ class SnapQueryCmd(WebserverCmd):
 
         """
         super().cmd_parse(argv)
-        log_level = logging.INFO
         if self.args.debug:
-            log_level = logging.DEBUG
-        logging.basicConfig(level=log_level)
+            level = logging.DEBUG
+        else:
+            level = logging.INFO
+        logging.basicConfig(level=level)
+        if hasattr(self.args, "func"):
+            self.args.func(self.args)
         return self.args
+
+    def setup_logger(self, level: int):
+        """
+        setup logging for the cmd
+        """
+
+    def snapquery_evaluate(self, args: argparse.Namespace):
+        """
+        Handle the evaluation of different endpoints by executing queries and storing the stats
+        Args:
+            args: argparse namespace
+        """
+        endpoint_names = args.endpoints
+        namespaces = args.namespaces
+        context = args.context
+        self.nqm = NamedQueryManager.from_samples()
+        if not endpoint_names:
+            endpoint_names = list(self.nqm.endpoints.keys())
+        # validate endpoint names
+        skipped_namespaces = []
+        for endpoint_name in endpoint_names:
+            if endpoint_name not in self.nqm.endpoints:
+                logger.error(f"Endpoint {endpoint_name} is not known and thus will be skipped")
+                skipped_namespaces.append(endpoint_name)
+        endpoint_names = [endpoint_name for endpoint_name in endpoint_names if endpoint_name not in skipped_namespaces]
+        queries = []
+        for namespace in namespaces:
+            namespace_queries = self.nqm.get_all_queries(namespace=namespace)
+            queries.extend(namespace_queries)
+        for i, nq in enumerate(queries, start=1):
+            for j, endpoint_name in enumerate(endpoint_names, start=1):
+                logger.info(f"Executing query {i}/{len(queries)} ({i/len(queries):.2%}) on endpoint {endpoint_name} ({j}/{len(endpoint_names)})")
+                self.execute(nq, endpoint_name=endpoint_name, title=f"query {i:3}/{len(queries)}::{endpoint_name}", context=context)
 
     def handle_args(self) -> bool:
         """

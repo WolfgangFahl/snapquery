@@ -8,7 +8,7 @@ import logging
 from collections import defaultdict
 from typing import Dict, List, Optional
 from ngwidgets.progress import NiceguiProgressbar
-from ngwidgets.lod_grid import ListOfDictsGrid
+from ngwidgets.lod_grid import GridConfig, ListOfDictsGrid
 from ngwidgets.webserver import WebSolution
 from nicegui import run, ui
 
@@ -125,6 +125,9 @@ class NamespaceStatsView:
             with self.results_row:
                 self.lod_grid.load_lod(processed_lod)
                 self.lod_grid.update()
+            headers = list(processed_lod[0].keys())
+            for header in headers[1:]:
+                self.lod_grid.set_checkbox_selection(header)
         except Exception as ex:
             self.solution.handle_exception(ex)
 

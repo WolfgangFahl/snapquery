@@ -6,6 +6,7 @@ Created on 2024-05-03
 
 import datetime
 import json
+import logging
 import os
 import re
 import uuid
@@ -23,6 +24,9 @@ from lodstorage.yamlable import lod_storable
 from ngwidgets.widgets import Link
 
 from snapquery.error_filter import ErrorFilter
+
+
+logger = logging.getLogger(__name__)
 
 
 @lod_storable
@@ -424,7 +428,7 @@ class QueryBundle:
         Returns:
             List[dict]: A list where each dictionary represents a row of results from the SPARQL query.
         """
-        print(f"Querying {self.endpoint.name} with query {self.named_query.name}")
+        logger.info(f"Querying {self.endpoint.name} with query {self.named_query.name}")
         query_stat = QueryStats(
             query_id=self.named_query.query_id, endpoint_name=self.endpoint.name
         )
@@ -434,7 +438,7 @@ class QueryBundle:
             query_stat.done()
         except Exception as ex:
             lod = []
-            print(ex)
+            logger.debug(f"Execution of query failed: {ex}")
             query_stat.error(ex)
         return (lod, query_stat)
 

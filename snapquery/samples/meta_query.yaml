@@ -42,8 +42,8 @@
 # - sum of success counts
 # - sum of failure counts
 #
-# Note: This query includes information about both 
-# successful and failed queries.
+# Note: A query is considered failed if it has a non-null error_msg.
+# The records count is used for successful queries.
 'query_namespace_endpoint_matrix_with_distinct':
   sql: |
     SELECT
@@ -60,8 +60,8 @@
                 query_id,
                 endpoint_name,
                 context,
-                SUM(CASE WHEN records > 0 THEN 1 ELSE 0 END) AS success_count,
-                SUM(CASE WHEN records = 0 THEN 1 ELSE 0 END) AS failure_count
+                SUM(CASE WHEN error_msg IS NULL AND records > 0 THEN 1 ELSE 0 END) AS success_count,
+                SUM(CASE WHEN error_msg IS NOT NULL THEN 1 ELSE 0 END) AS failure_count
             FROM QueryStats
             GROUP BY query_id, endpoint_name, context
         ) qs ON nq.query_id = qs.query_id

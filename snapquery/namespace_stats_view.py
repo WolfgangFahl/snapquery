@@ -114,9 +114,15 @@ class NamespaceStatsView:
         endpoint_name = event.args["colId"]
         namespace = row_data["namespace"]
         if endpoint_name in self.nqm.endpoints.keys():
-            await run.io_bound(
-                self.execute_queries, namespace=namespace, endpoint_name=endpoint_name
-            )
+            if self.solution.webserver.authenticated():
+                await run.io_bound(
+                    self.execute_queries, namespace=namespace, endpoint_name=endpoint_name
+                )
+            else:
+                ui.notify("you must be admin to run queries via the web interface")
+        else:
+            # this should not be possible
+            ui.notify(f"invalid endpoint {endpoint_name}")
 
     async def on_fetch_lod(self, _args=None):
         """Fetches data asynchronously and loads it into the grid upon successful retrieval."""
@@ -165,8 +171,11 @@ class NamespaceStatsView:
         for namespace, counts in namespace_stats.items():
             row = {"namespace": namespace, "total": total_queries[namespace]}
             for endpoint in endpoints:
-                stats = counts.get(endpoint, [0, 0, 0])
-                row[endpoint] = f"✅{stats[0]} ❌{stats[1]} 🔄{stats[2]}"
+                success, fail, total = counts.get(endpoint, [0, 0, 0])
+                if success == 0 and fail == 0 and total == 0:
+                    row[endpoint] = ""
+                else:
+                    row[endpoint] = f"✅{success} ❌{fail} 🔄{total}"
             processed_lod.append(row)
 
         return processed_lod

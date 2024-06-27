@@ -147,34 +147,25 @@ class NamespaceStatsView:
         Returns:
             List[Dict[str, any]]: The processed list of dictionaries formatted for grid display.
         """
-        namespace_stats = defaultdict(lambda: defaultdict(int))
-        namespace_stats_working_queries = defaultdict(lambda: defaultdict(int))
-        endpoints = list(
-            self.nqm.endpoints.keys()
-        )  # Get all endpoint names from the NamedQueryManager
+        namespace_stats = defaultdict(lambda: defaultdict(lambda: [0, 0, 0]))
+        endpoints = list(self.nqm.endpoints.keys())
         total_queries = {}
 
-        # Aggregate counts by namespace and endpoint, and capture the total queries per namespace
         for entry in raw_lod:
             namespace = entry["namespace"]
             endpoint = entry["endpoint_name"]
-            success_count = entry["success_count"]
             distinct_successful = entry.get("distinct_successful", 0)
-            total_queries[namespace] = entry[
-                "total"
-            ]  # Store the total number from the SQL
-            namespace_stats[namespace][endpoint] += success_count
-            namespace_stats_working_queries[namespace][endpoint] += distinct_successful
+            distinct_failed = entry.get("distinct_failed", 0)
+            success_count = entry["success_count"]
+            total_queries[namespace] = entry["total"]
+            namespace_stats[namespace][endpoint] = [distinct_successful, distinct_failed, success_count]
 
-        # Convert aggregated data to list of dicts format for the grid
         processed_lod = []
         for namespace, counts in namespace_stats.items():
-            row = {"namespace": namespace}
-            # Use the total from the SQL query directly
-            row["total"] = total_queries[namespace]
+            row = {"namespace": namespace, "total": total_queries[namespace]}
             for endpoint in endpoints:
-                number_working_queries = namespace_stats_working_queries[namespace][endpoint]
-                row[endpoint] = f"{number_working_queries} working; {counts.get(endpoint, 0)} successful runs"
+                stats = counts.get(endpoint, [0, 0, 0])
+                row[endpoint] = f"✅{stats[0]} ❌{stats[1]} 🔄{stats[2]}"
             processed_lod.append(row)
 
         return processed_lod

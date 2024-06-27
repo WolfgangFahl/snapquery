@@ -38,11 +38,14 @@ class QueryStats:
     stats_id: str = field(init=False)
     query_id: str  # foreign key
     endpoint_name: str  # foreign key
+    
     context: Optional[str] = None  # a context for the query stats
     records: Optional[int] = None
     time_stamp: datetime.datetime = field(init=False)
     duration: Optional[float] = field(init=False, default=None)  # duration in seconds
     error_msg: Optional[str] = None
+    error_category: Optional[str] = None
+
     filtered_msg: Optional[str] = None
 
     def __post_init__(self):
@@ -59,10 +62,21 @@ class QueryStats:
         """
         self.duration = (datetime.datetime.now() - self.time_stamp).total_seconds()
 
-    def apply_error_filter(self, for_html: bool = False):
+    def apply_error_filter(self, for_html: bool = False) -> ErrorFilter:
+        """
+        Applies an error filter to the error message and sets the filtered message.
+
+        Args:
+            for_html (bool): If True, formats the message for HTML output.
+
+        Returns:
+            ErrorFilter: the error filter that has been applied
+        """
         error_filter = ErrorFilter(self.error_msg)
         self.filtered_msg = error_filter.get_message(for_html=for_html)
-
+        self.error_category = error_filter.category
+        return error_filter
+        
     def error(self, ex: Exception):
         """
         Handle exception of query
@@ -107,14 +121,23 @@ class QueryStats:
         """
         samples = {
             "snapquery-examples": [
-                QueryStats(
+                cls(
                     query_id="snapquery-examples.cats",
                     endpoint_name="wikidata",
                     context="samples",
                     records=223,
                     error_msg="",
                     filtered_msg="",
-                )
+                ),
+                cls(
+                    query_id="snapquery-examples.horses",
+                    endpoint_name="wikidata",
+                    context="samples",
+                    records=None,
+                    error_msg="HTTP Error 504: Query has timed out.",
+                    filtered_msg="Timeout: HTTP Error 504: Query has timed out.",
+                    error_category="Timeout"
+                ),
             ]
         }
         # Set the duration for each sample instance

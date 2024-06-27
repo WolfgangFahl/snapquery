@@ -33,6 +33,29 @@ class TestErrorFilter(Basetest):
                 "XMLSchema#date",
             ),
         ]
+        
+    def test_error_categories(self):
+        """
+        Test the error categorization functionality of ErrorFilter
+        """
+        test_cases = [
+            ("Query timeout after 60 seconds", "Timeout"),
+            ("Syntax error in SPARQL query", "Syntax Error"),
+            ("Invalid SPARQL query: Unexpected token", "Syntax Error"),
+            ("Connection error: Unable to reach endpoint", "Connection Error"),
+            ("Access denied: Insufficient permissions", "Authorization Error"),
+            ("Unknown error occurred", "Other"),
+            (None, None)
+        ]
+
+        for error_msg, expected_category in test_cases:
+            error_filter = ErrorFilter(error_msg)
+            self.assertEqual(error_filter.category, expected_category, 
+                             f"Failed for message: {error_msg}")
+            if self.debug:
+                print(f"Message: {error_msg}")
+                print(f"Category: {error_filter.category}")
+                print("---")
 
     @unittest.skipIf(Basetest.inPublicCI(), "needs import to run")
     def test_querystats_list(self):

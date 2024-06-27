@@ -14,6 +14,30 @@ class ErrorFilter:
     def __init__(self, raw_error_message: str):
         self.raw_error_message = raw_error_message
         self.filtered_message = self._extract_relevant_info()
+        self.category = self.categorize_error()
+
+    def categorize_error(self) -> str:
+        """
+        Categorizes the error message into predefined types.
+    
+        Returns:
+            str: The category of the error message.
+        """
+        if self.raw_error_message is None:
+            return None
+        
+        lower_error_msg = self.raw_error_message.lower()
+        
+        if "timeout" in lower_error_msg:
+            return "Timeout"
+        elif "syntax error" in lower_error_msg or "invalid sparql query" in lower_error_msg:
+            return "Syntax Error"
+        elif "connection error" in lower_error_msg:
+            return "Connection Error"
+        elif "access denied" in lower_error_msg:
+            return "Authorization Error"
+        else:
+            return "Other"
 
     def _extract_relevant_info(self) -> str:
         """
@@ -27,6 +51,8 @@ class ErrorFilter:
             return self._extract_sparql_error()
         elif "Not supported:" in self.raw_error_message:
             return self._extract_qlever_error()
+        elif "Invalid SPARQL query" in self.raw_error_message:
+            return self._extract_invalid_sparql_error()
         else:
             return "Error: Unrecognized error format."
 
@@ -58,6 +84,17 @@ class ErrorFilter:
         else:
             return "Error: QLever error information is incomplete."
 
+    def _extract_invalid_sparql_error(self) -> str:
+        """
+        Specifically extract and format Invalid SPARQL query error messages.
+        """
+        error_start = self.raw_error_message.find("Invalid SPARQL query")
+        if error_start != -1:
+            error_msg = self.raw_error_message[error_start:].split('\n')[0]
+            return f"Invalid SPARQL query error:\n{error_msg}"
+        else:
+            return "Error: Invalid SPARQL query information is incomplete."
+        
     def get_message(self, for_html: bool = True) -> str:
         """
         get the filtered message

@@ -46,6 +46,7 @@ class NamespaceStatsView:
                 desc="Query Progress", total=100, unit="queries"
             )
         with ui.row() as self.results_row:
+            ui.label("Legend: ✅ Distinct Successful Queries  ❌ Distinct Failed Queries  🔄 Total Successful Runs")
             self.lod_grid = ListOfDictsGrid()
             # Set up a click event handler for the grid
             self.lod_grid.ag_grid.on("cellClicked", self.on_cell_clicked)

@@ -29,37 +29,39 @@
 # This query calculates statistics for named queries across 
 # different namespaces and endpoints.
 # It joins NamedQuery with a subquery from QueryStats 
-# to get success counts.
+# to get both success and failure counts.
 # Another subquery is used to get the total count of 
 # distinct queries per namespace.
 # 
 # The results show:
 # - namespace
-# - endpoint name (or 'No Successful Endpoint' if null)
+# - endpoint name (or 'No Endpoint' if null)
 # - total count of distinct queries in the namespace
 # - count of distinct successful queries
+# - count of distinct failed queries
 # - sum of success counts
+# - sum of failure counts
 #
-# The HAVING clause filters out rows with no successful endpoints and zero success count.
-#
-# Note: This query does not include detail
-# information about failed queries.
-  
+# Note: This query includes information about both 
+# successful and failed queries.
 'query_namespace_endpoint_matrix_with_distinct':
   sql: |
     SELECT
         nq.namespace,
-        COALESCE(qs.endpoint_name, 'No Successful Endpoint') AS endpoint_name,
+        COALESCE(qs.endpoint_name, 'No Endpoint') AS endpoint_name,
         total.total_count AS total,
-        COUNT(DISTINCT (case when qs.success_count > 0 then qs.query_id end)) AS distinct_successful,
-        SUM(qs.success_count) AS success_count
+        COUNT(DISTINCT (CASE WHEN qs.success_count > 0 THEN qs.query_id END)) AS distinct_successful,
+        COUNT(DISTINCT (CASE WHEN qs.failure_count > 0 THEN qs.query_id END)) AS distinct_failed,
+        SUM(qs.success_count) AS success_count,
+        SUM(qs.failure_count) AS failure_count
     FROM NamedQuery nq
         LEFT JOIN (
             SELECT 
                 query_id,
                 endpoint_name,
                 context,
-                SUM(CASE WHEN records > 0 THEN 1 ELSE 0 END) AS success_count
+                SUM(CASE WHEN records > 0 THEN 1 ELSE 0 END) AS success_count,
+                SUM(CASE WHEN records = 0 THEN 1 ELSE 0 END) AS failure_count
             FROM QueryStats
             GROUP BY query_id, endpoint_name, context
         ) qs ON nq.query_id = qs.query_id
@@ -69,7 +71,6 @@
           GROUP BY namespace
         ) total ON nq.namespace = total.namespace
     GROUP BY nq.namespace, qs.endpoint_name, total.total_count
-    HAVING endpoint_name != 'No Successful Endpoint' AND SUM(qs.success_count) > 0
 'all_queries':
     sql: |
       SELECT * FROM NamedQuery

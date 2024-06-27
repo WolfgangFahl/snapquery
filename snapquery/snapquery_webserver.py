@@ -308,6 +308,7 @@ class SnapQuerySolution(InputWebSolution):
         with self.header:
             self.header.value = False
             self.link_button("Nominate a Query", "/nominate", "post_add", new_tab=False)
+            self.link_button("Queries by Namespace", "/queries_by_namespace", "view_list", new_tab=False)
             if self.webserver.authenticated():
                 self.link_button("logout", "/logout", "logout", new_tab=False)
                 if self.webserver.login.authenticated():

@@ -90,7 +90,8 @@ class QLever:
             NamedQuerySet: A set of named queries generated from the URLs.
         """
         named_query_set = NamedQuerySet(
-            namespace="qlever.cs.uni-freiburg.de/wikidata/tickets", target_graph_name="wikidata"
+            namespace="qlever.cs.uni-freiburg.de/wikidata/tickets",
+            target_graph_name="wikidata",
         )
         for ticket, urls in ticket_dict.items():
             for i, url in enumerate(urls):

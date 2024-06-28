@@ -20,12 +20,12 @@ class TestGraph(Basetest):
         """
         Test GraphManager functionality
         """
-        manager=GraphManager()
+        manager = GraphManager()
         for name, graph_list in Graph.get_samples().items():
             for graph in graph_list:
-                manager.graphs[graph.name]=graph
-        yaml_path="/tmp/graphs.yaml" 
-        manager.save_to_yaml_file(yaml_path)        
+                manager.graphs[graph.name] = graph
+        yaml_path = "/tmp/graphs.yaml"
+        manager.save_to_yaml_file(yaml_path)
         yaml_path = GraphManager.get_yaml_path()
         manager = GraphManager.load_from_yaml_file(yaml_path)
         self.assertTrue("wikidata" in manager.graphs)

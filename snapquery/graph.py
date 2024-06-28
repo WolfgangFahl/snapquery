@@ -37,14 +37,14 @@ class Graph:
             "graphs": [
                 cls(
                     name="wikidata",
-                    default_endpoint_name= "wikidata",
+                    default_endpoint_name="wikidata",
                     description="Wikidata knowledge graph",
                     url="https://query.wikidata.org/sparql",
                     comment="Main Wikidata endpoint",
                 ),
                 cls(
                     name="dblp",
-                    default_endpoint_name= "dblp",
+                    default_endpoint_name="dblp",
                     description="DBLP computer science bibliography",
                     url="https://qlever.cs.uni-freiburg.de/api/dblp",
                     comment="DBLP endpoint powered by QLever",

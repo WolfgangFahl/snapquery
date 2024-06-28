@@ -28,8 +28,8 @@ class ScholiaQueries:
         """
         self.nqm = nqm
         self.named_query_set = NamedQuerySet(
-            namespace="scholia.toolforge.org/named_queries", 
-            target_graph_name="wikidata"
+            namespace="scholia.toolforge.org/named_queries",
+            target_graph_name="wikidata",
         )
         self.debug = debug
 

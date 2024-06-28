@@ -22,8 +22,9 @@ from lodstorage.sparql import SPARQL
 from lodstorage.sql import SQLDB, EntityInfo
 from lodstorage.yamlable import lod_storable
 from ngwidgets.widgets import Link
-from snapquery.graph import GraphManager
+
 from snapquery.error_filter import ErrorFilter
+from snapquery.graph import GraphManager
 
 logger = logging.getLogger(__name__)
 
@@ -552,7 +553,7 @@ class NamedQueryManager:
         self.meta_qm = QueryManager(
             queriesPath=yaml_path, with_default=False, lang="sql"
         )
-        self.gm=GraphManager()
+        self.gm = GraphManager()
         # SQL meta data handling
         # primary keys
         self.primary_keys = {

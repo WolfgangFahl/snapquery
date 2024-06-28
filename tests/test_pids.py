@@ -44,7 +44,14 @@ class TestPIDandPersons(Basetest):
         test person lookup via dblp
         """
         dblp_pl = DblpPersonLookup(self.nqm)
-        person_list = dblp_pl.search("Donald C. Ga")
+        try:
+            person_list = dblp_pl.search("Donald C. Ga")
+        except Exception as ex:
+            if "HTTP Error 503" in str(ex):
+                print("test not possible due to dblp endpoint unavailability")
+                return
+            else:
+                self.fail(ex)
         self.show_pl(person_list)
         self.assertTrue(len(person_list) >= 1)
         person = person_list[0]

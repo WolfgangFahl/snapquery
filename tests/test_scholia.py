@@ -46,4 +46,4 @@ class TestScholia(Basetest):
 
         # Verify the data was stored
         records = nqm.sql_db.query("SELECT * FROM NamedQuery WHERE namespace='scholia'")
-        self.assertEqual(len(records), len(scholia_queries.named_query_list.queries))
+        self.assertEqual(len(records), len(scholia_queries.named_query_set.queries))

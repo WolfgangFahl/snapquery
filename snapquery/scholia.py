@@ -6,7 +6,7 @@ Created on 2024-05-04
 
 import requests
 
-from snapquery.snapquery_core import NamedQuery, NamedQueryList, NamedQueryManager
+from snapquery.snapquery_core import NamedQuery, NamedQueryManager, NamedQuerySet
 
 
 class ScholiaQueries:
@@ -27,7 +27,10 @@ class ScholiaQueries:
             debug (bool): Enable debug output. Defaults to False.
         """
         self.nqm = nqm
-        self.named_query_list = NamedQueryList(name="scholia")
+        self.named_query_set = NamedQuerySet(
+            namespace="scholia.toolforge.org/named_queries", 
+            target_graph_name="wikidata"
+        )
         self.debug = debug
 
     def get_scholia_file_list(self):
@@ -59,10 +62,12 @@ class ScholiaQueries:
             query_str = file_response.text
             name = file_name[:-7]
             return NamedQuery(
-                namespace="scholia",
+                namespace=self.named_query_set.namespace,
                 name=name,
                 url=file_info["download_url"],
                 title=name,
+                description=name,
+                comment="",
                 sparql=query_str,
             )
 
@@ -77,16 +82,16 @@ class ScholiaQueries:
         for i, file_info in enumerate(file_list_json, start=1):
             named_query = self.extract_query(file_info)
             if named_query:
-                self.named_query_list.queries.append(named_query)
+                self.named_query_set.queries.append(named_query)
                 if self.debug:
                     if i % 80 == 0:
                         print(f"{i}")
                     print(".", end="", flush=True)
-                if limit and len(self.named_query_list.queries) >= limit:
+                if limit and len(self.named_query_set.queries) >= limit:
                     break
 
         if self.debug:
-            print(f"found {len(self.named_query_list.queries)} scholia queries")
+            print(f"found {len(self.named_query_set.queries)} scholia queries")
 
     def save_to_json(self, file_path: str = "/tmp/scholia-queries.json"):
         """
@@ -95,10 +100,10 @@ class ScholiaQueries:
         Args:
             file_path (str): Path to the JSON file.
         """
-        self.named_query_list.save_to_json_file(file_path, indent=2)
+        self.named_query_set.save_to_json_file(file_path, indent=2)
 
     def store_queries(self):
         """
         Store the named queries into the database.
         """
-        self.nqm.store_named_query_list(self.named_query_list)
+        self.nqm.store_named_query_list(self.named_query_set)

@@ -13,7 +13,6 @@ run_snapquery() {
 
 # Declare an associative array to hold the namespace and their corresponding totals
 declare -A namespaces
-
 # Populate the array with data
 namespaces["dblp"]=5
 namespaces["QLever"]=181
@@ -25,7 +24,8 @@ namespaces["snapquery-examples"]=2
 namespaces["federated-query-examples"]=11
 
 # Define list of endpoints
-declare -a endpoints=("dblp" "wikidata" "wikidata-qlever" "wikidata-triply" "wikidata-openlinksw" "wikidata-scatter")
+declare -a wikidata_endpoints=("wikidata" "wikidata-qlever" "wikidata-triply" "wikidata-openlinksw" "wikidata-scatter")
+declare -a dblp_endpoints=("dblp")
 
 # Create an indexed array to hold sorted namespaces by total count
 sorted_namespaces=($(for namespace in "${!namespaces[@]}"; do echo "$namespace ${namespaces[$namespace]}"; done | sort -k2 -n | cut -d' ' -f1))
@@ -33,11 +33,16 @@ sorted_namespaces=($(for namespace in "${!namespaces[@]}"; do echo "$namespace $
 # Iterate over sorted namespaces and run queries
 for namespace in "${sorted_namespaces[@]}"; do
     echo "Processing $namespace with total entries ${namespaces[$namespace]}"
-    if [[ "$namespace" == "dblp" ]]; then
-        run_snapquery "$namespace" "dblp"
-    elif [[ "$namespace" == "scholia" ]]; then
-        for endpoint in "${endpoints[@]:1}"; do  # Start from second element for Scholia
+
+    if [[ "$namespace" == dblp* ]]; then
+        for endpoint in "${dblp_endpoints[@]}"; do
             run_snapquery "$namespace" "$endpoint"
         done
+    elif [[ "$namespace" == wikidata* ]]; then
+        for endpoint in "${wikidata_endpoints[@]}"; do
+            run_snapquery "$namespace" "$endpoint"
+        done
+    else
+        echo "Ignoring $namespace as it doesn't match dblp or wikidata prefix"
     fi
 done

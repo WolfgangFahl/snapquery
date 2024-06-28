@@ -6,7 +6,7 @@ Created on 2024-05-05
 
 from tqdm import tqdm
 
-from snapquery.snapquery_core import NamedQueryList, NamedQueryManager
+from snapquery.snapquery_core import NamedQueryManager, NamedQuerySet
 from snapquery.wd_short_url import ShortUrl
 
 
@@ -27,7 +27,7 @@ class QueryImport:
 
     def import_from_json_file(
         self, json_file: str, with_store: bool = False, show_progress: bool = False
-    ) -> NamedQueryList:
+    ) -> NamedQuerySet:
         """
         Import named queries from a JSON file.
 
@@ -37,13 +37,13 @@ class QueryImport:
             show_progress (bool): If True, show a progress bar during the import.
 
         Returns:
-            NamedQueryList: A NamedQueryList object containing the imported NamedQuery objects.
+            NamedQuerySet: A NamedQuerySet object containing the imported NamedQuery objects.
         """
-        nq_list = NamedQueryList.load_from_json_file(json_file)
+        nq_set = NamedQuerySet.load_from_json_file(json_file)
         iterable = (
-            tqdm(nq_list.queries, desc="Importing Named Queries")
+            tqdm(nq_set.queries, desc=f"Importing Namedspace {nq_set.namespace}")
             if show_progress
-            else nq_list.queries
+            else nq_set.queries
         )
 
         for nq in iterable:
@@ -52,4 +52,4 @@ class QueryImport:
                 nq.sparql = short_url.read_query()
             if with_store and self.nqm:
                 self.nqm.add_and_store(nq)
-        return nq_list
+        return nq_set

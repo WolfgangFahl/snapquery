@@ -10,7 +10,7 @@ import requests
 import wikitextparser as wtp
 from wikitextparser import Section, Template
 
-from snapquery.snapquery_core import NamedQuery, NamedQueryList, NamedQueryManager
+from snapquery.snapquery_core import NamedQuery, NamedQueryManager, NamedQuerySet
 
 
 class WikidataExamples:
@@ -27,7 +27,9 @@ class WikidataExamples:
         constructor
         """
         self.nqm = nqm
-        self.named_query_list = NamedQueryList(name="wikidata-examples")
+        self.named_query_list = NamedQuerySet(
+            namespace="wikidata.org/examples", target_graph_name="wikidata"
+        )
 
     def get_examples_wikitext(self) -> str:
         """

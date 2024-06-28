@@ -17,8 +17,8 @@ from snapquery.qimport import QueryImport
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager, QueryDetails
 from snapquery.snapquery_webserver import SnapQueryWebServer
 
-
 logger = logging.getLogger(__name__)
+
 
 class SnapQueryCmd(WebserverCmd):
     """
@@ -76,14 +76,35 @@ class SnapQueryCmd(WebserverCmd):
             dest="import_file",
             help="Import named queries from a JSON file.",
         )
-        subparsers = parser.add_subparsers(help='sub-command help')
-        snapquery_evaluate = subparsers.add_parser(name="evaluate" , description="evaluate queries by executing queries against different endpoints")
+        subparsers = parser.add_subparsers(help="sub-command help")
+        snapquery_evaluate = subparsers.add_parser(
+            name="evaluate",
+            description="evaluate queries by executing queries against different endpoints",
+        )
         snapquery_evaluate.set_defaults(func=self.snapquery_evaluate)
-        snapquery_evaluate.add_argument("--namespaces", type=str, nargs="*" , default="wikidata-examples", help="evaluate all queries of the given namespace")
-        snapquery_evaluate.add_argument("--context", type=str, default="test", help="context name to store the execution statistics with")
-        snapquery_evaluate.add_argument( "--endpoints", type=str, nargs="*", default="wikidata",
-                help="Name of the endpoint to use for queries - use --listEndpoints to list available endpoints", )
-        snapquery_evaluate.add_argument( "-d", "--debug", action="store_true", help="Show debug messages")
+        snapquery_evaluate.add_argument(
+            "--namespaces",
+            type=str,
+            nargs="*",
+            default="wikidata-examples",
+            help="evaluate all queries of the given namespace",
+        )
+        snapquery_evaluate.add_argument(
+            "--context",
+            type=str,
+            default="test",
+            help="context name to store the execution statistics with",
+        )
+        snapquery_evaluate.add_argument(
+            "--endpoints",
+            type=str,
+            nargs="*",
+            default="wikidata",
+            help="Name of the endpoint to use for queries - use --listEndpoints to list available endpoints",
+        )
+        snapquery_evaluate.add_argument(
+            "-d", "--debug", action="store_true", help="Show debug messages"
+        )
         return parser
 
     def parameterize(self, nq: NamedQuery):
@@ -161,17 +182,30 @@ class SnapQueryCmd(WebserverCmd):
         skipped_namespaces = []
         for endpoint_name in endpoint_names:
             if endpoint_name not in self.nqm.endpoints:
-                logger.error(f"Endpoint {endpoint_name} is not known and thus will be skipped")
+                logger.error(
+                    f"Endpoint {endpoint_name} is not known and thus will be skipped"
+                )
                 skipped_namespaces.append(endpoint_name)
-        endpoint_names = [endpoint_name for endpoint_name in endpoint_names if endpoint_name not in skipped_namespaces]
+        endpoint_names = [
+            endpoint_name
+            for endpoint_name in endpoint_names
+            if endpoint_name not in skipped_namespaces
+        ]
         queries = []
         for namespace in namespaces:
             namespace_queries = self.nqm.get_all_queries(namespace=namespace)
             queries.extend(namespace_queries)
         for i, nq in enumerate(queries, start=1):
             for j, endpoint_name in enumerate(endpoint_names, start=1):
-                logger.info(f"Executing query {i}/{len(queries)} ({i/len(queries):.2%}) on endpoint {endpoint_name} ({j}/{len(endpoint_names)})")
-                self.execute(nq, endpoint_name=endpoint_name, title=f"query {i:3}/{len(queries)}::{endpoint_name}", context=context)
+                logger.info(
+                    f"Executing query {i}/{len(queries)} ({i/len(queries):.2%}) on endpoint {endpoint_name} ({j}/{len(endpoint_names)})"
+                )
+                self.execute(
+                    nq,
+                    endpoint_name=endpoint_name,
+                    title=f"query {i:3}/{len(queries)}::{endpoint_name}",
+                    context=context,
+                )
 
     def handle_args(self) -> bool:
         """

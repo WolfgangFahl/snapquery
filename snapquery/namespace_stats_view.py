@@ -7,8 +7,9 @@ Created on 2024-06-23
 import logging
 from collections import defaultdict
 from typing import Dict, List, Optional
-from ngwidgets.progress import NiceguiProgressbar
+
 from ngwidgets.lod_grid import GridConfig, ListOfDictsGrid
+from ngwidgets.progress import NiceguiProgressbar
 from ngwidgets.webserver import WebSolution
 from nicegui import run, ui
 
@@ -46,7 +47,9 @@ class NamespaceStatsView:
                 desc="Query Progress", total=100, unit="queries"
             )
         with ui.row() as self.results_row:
-            ui.label("Legend: ✅ Distinct Successful Queries  ❌ Distinct Failed Queries  🔄 Total Successful Runs")
+            ui.label(
+                "Legend: ✅ Distinct Successful Queries  ❌ Distinct Failed Queries  🔄 Total Successful Runs"
+            )
             self.lod_grid = ListOfDictsGrid()
             # Set up a click event handler for the grid
             self.lod_grid.ag_grid.on("cellClicked", self.on_cell_clicked)
@@ -116,7 +119,9 @@ class NamespaceStatsView:
         if endpoint_name in self.nqm.endpoints.keys():
             if self.solution.webserver.authenticated():
                 await run.io_bound(
-                    self.execute_queries, namespace=namespace, endpoint_name=endpoint_name
+                    self.execute_queries,
+                    namespace=namespace,
+                    endpoint_name=endpoint_name,
                 )
             else:
                 ui.notify("you must be admin to run queries via the web interface")
@@ -165,7 +170,11 @@ class NamespaceStatsView:
             distinct_failed = entry.get("distinct_failed", 0)
             success_count = entry["success_count"]
             total_queries[namespace] = entry["total"]
-            namespace_stats[namespace][endpoint] = [distinct_successful, distinct_failed, success_count]
+            namespace_stats[namespace][endpoint] = [
+                distinct_successful,
+                distinct_failed,
+                success_count,
+            ]
 
         processed_lod = []
         for namespace, counts in namespace_stats.items():

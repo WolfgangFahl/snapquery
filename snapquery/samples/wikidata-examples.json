@@ -1,5 +1,6 @@
 {
-  "name": "wikidata-examples",
+  "namespace": "wikidata-examples",
+  "target_graph_name": "wikidata",
   "queries": [
     {
       "query_id": "wikidata-examples.Cats",

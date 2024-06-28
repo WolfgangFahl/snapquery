@@ -22,9 +22,8 @@ from lodstorage.sparql import SPARQL
 from lodstorage.sql import SQLDB, EntityInfo
 from lodstorage.yamlable import lod_storable
 from ngwidgets.widgets import Link
-
+from snapquery.graph import GraphManager
 from snapquery.error_filter import ErrorFilter
-
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +37,7 @@ class QueryStats:
     stats_id: str = field(init=False)
     query_id: str  # foreign key
     endpoint_name: str  # foreign key
-    
+
     context: Optional[str] = None  # a context for the query stats
     records: Optional[int] = None
     time_stamp: datetime.datetime = field(init=False)
@@ -76,7 +75,7 @@ class QueryStats:
         self.filtered_msg = error_filter.get_message(for_html=for_html)
         self.error_category = error_filter.category
         return error_filter
-        
+
     def error(self, ex: Exception):
         """
         Handle exception of query
@@ -136,7 +135,7 @@ class QueryStats:
                     records=None,
                     error_msg="HTTP Error 504: Query has timed out.",
                     filtered_msg="Timeout: HTTP Error 504: Query has timed out.",
-                    error_category="Timeout"
+                    error_category="Timeout",
                 ),
             ]
         }
@@ -364,12 +363,13 @@ class QueryStatsList:
 
 
 @lod_storable
-class NamedQueryList:
+class NamedQuerySet:
     """
-    a list of named queries with details
+    a list/set of named queries which defines a namespace
     """
 
-    name: str  # the name of the list
+    namespace: str  # the namespace
+    target_graph_name: str  # the name of the target graph
     queries: List[NamedQuery] = field(default_factory=list)
 
     def __len__(self):
@@ -552,6 +552,7 @@ class NamedQueryManager:
         self.meta_qm = QueryManager(
             queriesPath=yaml_path, with_default=False, lang="sql"
         )
+        self.gm=GraphManager()
         # SQL meta data handling
         # primary keys
         self.primary_keys = {
@@ -610,15 +611,15 @@ class NamedQueryManager:
                 nqm.sql_db.store(sample_records, entityInfo, fixNone=True, replace=True)
         return nqm
 
-    def store_named_query_list(self, nq_list: NamedQueryList):
+    def store_named_query_list(self, nq_set: NamedQuerySet):
         """
-        store the given named query list
+        store the given named query set
 
         Args:
             nq_list: NamedQueryList
         """
         lod = []
-        for nq in nq_list.queries:
+        for nq in nq_set.queries:
             lod.append(asdict(nq))
         self.store(lod=lod)
 

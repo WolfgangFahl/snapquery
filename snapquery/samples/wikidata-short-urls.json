@@ -1,5 +1,6 @@
 {
-  "name": "short_urls",
+  "namespace": "short_url",
+  "target_graph_name": "wikidata",
   "queries": [
     {
       "query_id": "short_url.People_Died_of_Sudden_Infant_Death_Syndrome",

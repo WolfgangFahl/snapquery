@@ -10,7 +10,7 @@ import urllib.parse
 import requests
 from ngwidgets.llm import LLM
 
-from snapquery.snapquery_core import NamedQuery, NamedQueryList
+from snapquery.snapquery_core import NamedQuery, NamedQuerySet
 
 
 class ShortIds:
@@ -100,18 +100,18 @@ SPARQL: {sparql}
     @classmethod
     def get_random_query_list(
         cls,
-        name: str,
+        namespace: str,
         count: int,
         max_postfix="9pfu",
         with_llm=False,
         with_progress: bool = False,
         debug=False,
-    ) -> NamedQueryList:
+    ) -> NamedQuerySet:
         """
         Read a specified number of random queries from a list of short URLs.
 
         Args:
-            name(str): the name to use for the named query list
+            namespace(str): the name to use for the named query list
             count (int): Number of random URLs to fetch.
             max_postfix(str): the maximum ID to try
             with_progress(bool): if True show progress
@@ -126,7 +126,7 @@ SPARQL: {sparql}
         unique_urls = set()
         unique_names = set()
 
-        nq_list = NamedQueryList(name=name)
+        nq_list = NamedQuerySet(namespace=name, target_graph_name="wikidata")
         give_up = (
             count * 15
         )  # heuristic factor for probability that a short url points to a wikidata entry - 14 has worked so far

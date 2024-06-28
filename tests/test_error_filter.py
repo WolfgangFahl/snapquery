@@ -33,7 +33,7 @@ class TestErrorFilter(Basetest):
                 "XMLSchema#date",
             ),
         ]
-        
+
     def test_error_categories(self):
         """
         Test the error categorization functionality of ErrorFilter
@@ -45,13 +45,16 @@ class TestErrorFilter(Basetest):
             ("Connection error: Unable to reach endpoint", "Connection Error"),
             ("Access denied: Insufficient permissions", "Authorization Error"),
             ("Unknown error occurred", "Other"),
-            (None, None)
+            (None, None),
         ]
 
         for error_msg, expected_category in test_cases:
             error_filter = ErrorFilter(error_msg)
-            self.assertEqual(error_filter.category, expected_category, 
-                             f"Failed for message: {error_msg}")
+            self.assertEqual(
+                error_filter.category,
+                expected_category,
+                f"Failed for message: {error_msg}",
+            )
             if self.debug:
                 print(f"Message: {error_msg}")
                 print(f"Category: {error_filter.category}")

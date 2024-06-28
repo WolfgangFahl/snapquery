@@ -11,7 +11,7 @@ from bs4 import BeautifulSoup
 from osprojects.osproject import OsProject, Ticket
 from tqdm import tqdm
 
-from snapquery.snapquery_core import NamedQuery, NamedQueryList
+from snapquery.snapquery_core import NamedQuery, NamedQuerySet
 from snapquery.wd_short_url import ShortUrl
 
 
@@ -87,9 +87,11 @@ class QLever:
             ticket_dict (dict): Dictionary mapping tickets to a list of URLs.
 
         Returns:
-            NamedQueryList: A list of named queries generated from the URLs.
+            NamedQuerySet: A set of named queries generated from the URLs.
         """
-        named_query_list = NamedQueryList(name="QLever Queries")
+        named_query_set = NamedQuerySet(
+            namespace="qlever.cs.uni-freiburg.de/wikidata/tickets", target_graph_name="wikidata"
+        )
         for ticket, urls in ticket_dict.items():
             for i, url in enumerate(urls):
                 # Assuming URLs are like 'https://qlever.cs.uni-freiburg.de/wikidata/iTzJwQ'
@@ -100,12 +102,12 @@ class QLever:
                     # Example placeholder logic to create a NamedQuery for each URL
                     query = NamedQuery(
                         name=f"Ticket#{ticket.number}-query{i}",
-                        namespace="QLever",
+                        namespace=named_query_set.namespace,
                         url=url,
                         sparql=short_url_handler.sparql,
                         title=f"QLever github issue #{ticket.number}-query{i}",
                         description=ticket.title,
                         comment=f"See ticket {ticket.url} and query {url}",
                     )
-                    named_query_list.queries.append(query)
-        return named_query_list
+                    named_query_set.queries.append(query)
+        return named_query_set

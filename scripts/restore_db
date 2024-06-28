@@ -25,7 +25,7 @@ rm $db
 # Import JSON files into snapquery database
 for f in $(find snapquery/samples -name '*.json')
 do
-  snapquery --import "$f" "${remaining_args[@]}" 
+  snapquery -d --import "$f" "${remaining_args[@]}" 
 done
 
 # Start web server if --web option was passed

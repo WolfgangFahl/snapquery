@@ -3,7 +3,6 @@ Created on 2024-05-03
 
 @author: wf
 """
-import argparse
 import logging
 import sys
 from argparse import ArgumentParser
@@ -100,34 +99,11 @@ class SnapQueryCmd(WebserverCmd):
             dest="import_file",
             help="Import named queries from a JSON file.",
         )
-        subparsers = parser.add_subparsers(help="sub-command help")
-        snapquery_evaluate = subparsers.add_parser(
-            name="evaluate",
-            description="evaluate queries by executing queries against different endpoints",
-        )
-        snapquery_evaluate.set_defaults(func=self.snapquery_evaluate)
-        snapquery_evaluate.add_argument(
-            "--namespaces",
-            type=str,
-            nargs="*",
-            default="wikidata-examples",
-            help="evaluate all queries of the given namespace",
-        )
-        snapquery_evaluate.add_argument(
+        parser.add_argument(
             "--context",
             type=str,
             default="test",
             help="context name to store the execution statistics with",
-        )
-        snapquery_evaluate.add_argument(
-            "--endpoints",
-            type=str,
-            nargs="*",
-            default="wikidata",
-            help="Name of the endpoint to use for queries - use --listEndpoints to list available endpoints",
-        )
-        snapquery_evaluate.add_argument(
-            "-d", "--debug", action="store_true", help="Show debug messages"
         )
         return parser
 
@@ -185,51 +161,7 @@ class SnapQueryCmd(WebserverCmd):
             self.args.func(self.args)
         return self.args
 
-    def setup_logger(self, level: int):
-        """
-        setup logging for the cmd
-        """
-
-    def snapquery_evaluate(self, args: argparse.Namespace):
-        """
-        Handle the evaluation of different endpoints by executing queries and storing the stats
-        Args:
-            args: argparse namespace
-        """
-        endpoint_names = args.endpoints
-        namespaces = args.namespaces
-        context = args.context
-        self.nqm = NamedQueryManager.from_samples()
-        if not endpoint_names:
-            endpoint_names = list(self.nqm.endpoints.keys())
-        # validate endpoint names
-        skipped_namespaces = []
-        for endpoint_name in endpoint_names:
-            if endpoint_name not in self.nqm.endpoints:
-                logger.error(
-                    f"Endpoint {endpoint_name} is not known and thus will be skipped"
-                )
-                skipped_namespaces.append(endpoint_name)
-        endpoint_names = [
-            endpoint_name
-            for endpoint_name in endpoint_names
-            if endpoint_name not in skipped_namespaces
-        ]
-        queries = []
-        for namespace in namespaces:
-            namespace_queries = self.nqm.get_all_queries(namespace=namespace)
-            queries.extend(namespace_queries)
-        for i, nq in enumerate(queries, start=1):
-            for j, endpoint_name in enumerate(endpoint_names, start=1):
-                logger.info(
-                    f"Executing query {i}/{len(queries)} ({i/len(queries):.2%}) on endpoint {endpoint_name} ({j}/{len(endpoint_names)})"
-                )
-                self.execute(
-                    nq,
-                    endpoint_name=endpoint_name,
-                    title=f"query {i:3}/{len(queries)}::{endpoint_name}",
-                    context=context,
-                )
+    
 
     def handle_args(self) -> bool:
         """
@@ -258,8 +190,8 @@ class SnapQueryCmd(WebserverCmd):
             handled=True
         elif self.args.listNamespaces:
             namespaces = self.nqm.get_namespaces()
-            for namespace in namespaces:
-                print(namespace)
+            for namespace, count in namespaces.items():
+                print(f"{namespace}:{count}")
             handled=True
         elif self.args.testQueries:
             if self.args.endpointName:
@@ -272,6 +204,7 @@ class SnapQueryCmd(WebserverCmd):
                     self.execute(
                         nq,
                         endpoint_name=endpoint_name,
+                        context=self.args.context,
                         title=f"query {i:3}/{len(queries)}::{endpoint_name}",
                     )
         elif self.args.queryName is not None:

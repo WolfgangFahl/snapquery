@@ -2,52 +2,51 @@
 # WF 2024-06-05
 # Enhanced script to handle snapquery calls efficiently and with feedback
 
+
 # Function to execute snapquery in the background with feedback
 run_snapquery() {
-    local namespace=$1
-    local endpoint=$2
-    echo "Running snapquery for $namespace on $endpoint..."
-    nohup snapquery -tq -en $endpoint --namespace $namespace --context cmd_line_tests > /tmp/${endpoint}-${namespace}.log 2>&1 &
-    echo "Started snapquery for $namespace on $endpoint, logging to /tmp/${endpoint}-${namespace}.log"
+    local namespace="$1"
+    local endpoint="$2"
+    # Sanitize the namespace to be filesystem-friendly
+    local sanitized_namespace="${namespace//\//-}"  # Replace slashes with hyphens
+    sanitized_namespace="${sanitized_namespace//[^a-zA-Z0-9-_]/_}"  # Replace any non-alphanumeric characters with underscores
+
+    # Ensure the log directory exists
+    local log_dir="/tmp/query_test_log"
+    mkdir -p "$log_dir"
+
+    local log="${log_dir}/${endpoint}-${sanitized_namespace}.log"
+    local command="snapquery -d -tq -en '$endpoint' --context 'cmd_line_tests' --namespace '$namespace'"
+
+    echo "Running $command..."
+    nohup bash -c "$command" 2>&1 > "$log"  &
+    echo "... logged at $log"
 }
 
-# Declare an associative array to hold the namespace and their corresponding totals
-declare -A namespaces
-# Populate the array with data
-namespaces["dblp"]=5
-namespaces["QLever"]=181
-namespaces["scholia"]=373
-namespaces["ceur-ws"]=28
-namespaces["short_url"]=100
-namespaces["wikidata-examples"]=298
-namespaces["snapquery-examples"]=2
-namespaces["federated-query-examples"]=11
+# Fetch namespaces and their totals dynamically from snapquery -ln command
+namespace_data=$(snapquery -ln)
 
 # Define list of endpoints
-declare -a wikidata_endpoints=("wikidata" "wikidata-qlever" "wikidata-triply" "wikidata-openlinksw" "wikidata-scatter")
-declare -a dblp_endpoints=("dblp")
+wikidata_endpoints=("wikidata" "wikidata-qlever" "wikidata-triply" "wikidata-openlinksw" "wikidata-scatter")
+dblp_endpoints=("dblp")
 
-# Create an indexed array to hold sorted namespaces by total count
-sorted_namespaces=($(for namespace in "${!namespaces[@]}"; do echo "$namespace ${namespaces[$namespace]}"; done | sort -k2 -n | cut -d' ' -f1))
+# Process each line to extract namespaces and totals
+while IFS=':' read -r namespace count; do
+    echo "Processing $namespace with total entries $count"
 
-# Iterate over sorted namespaces and run queries
-for namespace in "${sorted_namespaces[@]}"; do
-    echo "Processing $namespace with total entries ${namespaces[$namespace]}"
-
-    case $namespace in
-        dblp*)
+    case "$namespace" in
+        dblp.org/examples*)
             for endpoint in "${dblp_endpoints[@]}"; do
                 run_snapquery "$namespace" "$endpoint"
             done
             ;;
-        fed*)
+        *fed*)
             echo "Ignoring $namespace"
             ;;
-
-        wikidata*)
+        *)
             for endpoint in "${wikidata_endpoints[@]}"; do
                 run_snapquery "$namespace" "$endpoint"
             done
             ;;
     esac
-done
+done <<< "$namespace_data"

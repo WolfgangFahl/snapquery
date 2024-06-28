@@ -903,16 +903,23 @@ WHERE
             query.query += f"\nLIMIT {limit}"
         return QueryBundle(named_query=named_query, query=query, endpoint=endpoint)
 
-    def get_namespaces(self):
+    def get_namespaces(self) -> Dict[str, int]:
         """
-        Retrieves all unique namespaces from the stored NamedQueries in the database.
+        Retrieves all unique namespaces and the count of NamedQueries associated with each from the database,
+        sorted by the count of queries from lowest to highest.
     
         Returns:
-            List[str]: A list of unique namespaces.
+            Dict[str, int]: A dictionary where keys are namespaces and values are the counts of associated queries, sorted by count.
         """
-        query = "SELECT DISTINCT namespace FROM NamedQuery"
+        # Multi-line SQL query for better readability
+        query = """
+        SELECT namespace, COUNT(*) AS query_count
+        FROM NamedQuery
+        GROUP BY namespace
+        ORDER BY COUNT(*)
+        """
         result = self.sql_db.query(query)
-        namespaces = [row['namespace'] for row in result]
+        namespaces: Dict[str, int] = {row['namespace']: int(row['query_count']) for row in result}
         return namespaces
 
             

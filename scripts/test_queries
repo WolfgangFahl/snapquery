@@ -7,7 +7,7 @@ run_snapquery() {
     local namespace=$1
     local endpoint=$2
     echo "Running snapquery for $namespace on $endpoint..."
-    nohup snapquery -tq -en $endpoint --namespace $namespace > /tmp/${endpoint}-${namespace}.log 2>&1 &
+    nohup snapquery -tq -en $endpoint --namespace $namespace --context cmd_line_tests > /tmp/${endpoint}-${namespace}.log 2>&1 &
     echo "Started snapquery for $namespace on $endpoint, logging to /tmp/${endpoint}-${namespace}.log"
 }
 
@@ -34,15 +34,20 @@ sorted_namespaces=($(for namespace in "${!namespaces[@]}"; do echo "$namespace $
 for namespace in "${sorted_namespaces[@]}"; do
     echo "Processing $namespace with total entries ${namespaces[$namespace]}"
 
-    if [[ "$namespace" == dblp* ]]; then
-        for endpoint in "${dblp_endpoints[@]}"; do
-            run_snapquery "$namespace" "$endpoint"
-        done
-    elif [[ "$namespace" == wikidata* ]]; then
-        for endpoint in "${wikidata_endpoints[@]}"; do
-            run_snapquery "$namespace" "$endpoint"
-        done
-    else
-        echo "Ignoring $namespace as it doesn't match dblp or wikidata prefix"
-    fi
+    case $namespace in
+        dblp*)
+            for endpoint in "${dblp_endpoints[@]}"; do
+                run_snapquery "$namespace" "$endpoint"
+            done
+            ;;
+        fed*)
+            echo "Ignoring $namespace"
+            ;;
+
+        wikidata*)
+            for endpoint in "${wikidata_endpoints[@]}"; do
+                run_snapquery "$namespace" "$endpoint"
+            done
+            ;;
+    esac
 done

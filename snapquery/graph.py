@@ -31,7 +31,7 @@ class Graph:
     @classmethod
     def get_samples(cls) -> dict[str, "Graph"]:
         """
-        get samples
+        get samples for Graph
         """
         samples = {
             "graphs": [

@@ -44,10 +44,34 @@ class SnapQueryCmd(WebserverCmd):
             help="Name of the endpoint to use for queries - use --listEndpoints to list available endpoints",
         )
         parser.add_argument(
+            "-idb",
+            "--initDatabase",
+            action="store_true",
+            help="initialize the database",
+        )
+        parser.add_argument(
             "-le",
             "--listEndpoints",
             action="store_true",
             help="show the list of available endpoints",
+        )
+        parser.add_argument(
+            "-lm",
+            "--listMetaqueries",
+            action="store_true",
+            help="show the list of available metaqueries",
+        )
+        parser.add_argument(
+            "-ln",
+            "--listNamespaces",
+            action="store_true",
+            help="show the list of available namespaces",
+        )
+        parser.add_argument(
+            "-lg",
+            "--listGraphs",
+            action="store_true",
+            help="show the list of available graphs",
         )
         parser.add_argument(
             "-tq",
@@ -216,12 +240,27 @@ class SnapQueryCmd(WebserverCmd):
         self.debug = self.args.debug
         nqm = NamedQueryManager.from_samples()
         self.nqm = nqm
-        # Check if listing of endpoints is requested
+        # Check args functions
+        nqm = NamedQueryManager.from_samples(force_init=self.args.initDatabase)
+        
         if self.args.listEndpoints:
             # List endpoints
             for endpoint in self.nqm.endpoints.values():
                 print(endpoint)
             handled = True  # Operation handled
+        elif self.args.listGraphs:
+            print(self.nqm.gm.to_json(indent=2))
+            handled=True
+        elif self.args.listMetaqueries:
+            meta_qm=self.nqm.meta_qm
+            for name, query in meta_qm.queriesByName.items():
+                print(f"{name}:{query.title}")
+            handled=True
+        elif self.args.listNamespaces:
+            namespaces = self.nqm.get_namespaces()
+            for namespace in namespaces:
+                print(namespace)
+            handled=True
         elif self.args.testQueries:
             if self.args.endpointName:
                 endpoint_names = [self.args.endpointName]

@@ -3,6 +3,7 @@ Created on 2024-05-06
 
 @author: wf
 """
+from typing import Union
 
 
 class ErrorFilter:
@@ -27,18 +28,41 @@ class ErrorFilter:
             return None
 
         lower_error_msg = self.raw_error_message.lower()
-
-        if "timeout" in lower_error_msg:
+        # Todo: query is often part of the error message when these keywords are used within the query the classification fails.
+        if (
+                "timeout" in lower_error_msg
+                or "query has timed out" in lower_error_msg
+                or "http error 504" in lower_error_msg
+        ):
             return "Timeout"
         elif (
             "syntax error" in lower_error_msg
             or "invalid sparql query" in lower_error_msg
+            or "querybadformed" in lower_error_msg
         ):
             return "Syntax Error"
         elif "connection error" in lower_error_msg:
             return "Connection Error"
         elif "access denied" in lower_error_msg:
             return "Authorization Error"
+        elif (
+                "service unavailable" in lower_error_msg
+                or "service temporarily unavailable" in lower_error_msg
+                or "http error 503" in lower_error_msg
+        ):
+            return "Service Unavailable"
+        elif (
+                "too many requests" in lower_error_msg
+                or "http error 429" in lower_error_msg
+        ):
+            return "Too Many Requests"
+        elif (
+                "bad gateway" in lower_error_msg
+                or "http error 502" in lower_error_msg
+        ):
+            return "Bad Gateway"
+        elif "endpointinternalerror" in lower_error_msg:
+            return "EndPointInternalError"
         else:
             return "Other"
 
@@ -56,6 +80,8 @@ class ErrorFilter:
             return self._extract_qlever_error()
         elif "Invalid SPARQL query" in self.raw_error_message:
             return self._extract_invalid_sparql_error()
+        elif self.raw_error_message.startswith("QueryBadFormed:") and "Virtuoso" in self.raw_error_message:
+            return self._extract_virtuoso_error()
         else:
             return "Error: Unrecognized error format."
 
@@ -65,12 +91,8 @@ class ErrorFilter:
         """
         sparql_start_token = "SPARQL-QUERY:"
         sparql_end_token = "java.util.concurrent.ExecutionException"
-        sparql_start_idx = self.raw_error_message.find(sparql_start_token)
-        sparql_end_idx = self.raw_error_message.find(sparql_end_token)
-
-        if sparql_start_idx != -1 and sparql_end_idx != -1:
-            sparql_query = self.raw_error_message[sparql_start_idx:sparql_end_idx]
-            sparql_query = sparql_query.replace("SPARQL-QUERY:", "").strip()
+        sparql_query = self._extract_message_between_tokens(sparql_start_token, sparql_end_token)
+        if sparql_query:
             return f"Query error in SPARQL:\n{sparql_query}"
         else:
             return "Error: SPARQL query information is incomplete."
@@ -86,6 +108,40 @@ class ErrorFilter:
             return f"QLever error:\n{error_message}"
         else:
             return "Error: QLever error information is incomplete."
+
+    def _extract_virtuoso_error(self) -> str:
+        """
+        Specifically extract and format virtuoso error messages.
+        Returns:
+
+        """
+        start_token = "Response: b'"
+        end_token = "SPARQL query:"
+        message = self._extract_message_between_tokens(start_token, end_token)
+        if message:
+            return f"Virtuoso error:\n{message}"
+        else:
+            return "Error: Virtuoso error information is incomplete."
+
+    def _extract_message_between_tokens(self, start_token: str, end_token: str) -> Union[str, None]:
+        """
+        Extract and format message between tokens.
+        Args:
+            start_token:
+            end_token:
+
+        Returns:
+
+        """
+        start_idx = self.raw_error_message.find(start_token)
+        end_idx = self.raw_error_message.find(end_token)
+        message = None
+        if start_idx != -1 and end_idx != -1:
+            message = self.raw_error_message[start_idx:end_idx]
+            message = message[len(start_token):]
+            message = message.strip()
+        return message
+
 
     def _extract_invalid_sparql_error(self) -> str:
         """

@@ -49,7 +49,8 @@ class TestImport(Basetest):
         qimport = QueryImport()
         # Create a temporary JSON file to test the import function
         sample_data = {
-            "name": "ceur-ws",
+            "namespace": "ceur-ws",
+            "target_graph_name": "wikidata",
             "queries": [
                 {
                     "namespace": "ceur-ws",

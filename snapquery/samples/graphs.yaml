@@ -1,0 +1,33 @@
+# YAML configuration for graph sources in the SnapQuery environment, each chosen for their unique data and integration capabilities.
+graphs:
+  # Wikidata graph configuration
+  wikidata:
+    name: wikidata
+    default_endpoint_name: wikidata
+    description: "Wikidata knowledge graph"
+    url: "https://www.wikidata.org/wiki/Wikidata:Main_Page"
+    comment: "Used for accessing structured data from Wikimedia projects, ideal for dynamic data linking and enrichment in knowledge-driven queries."
+ 
+  # DBLP graph configuration
+  dblp:
+    name: dblp
+    default_endpoint_name: dblp
+    description: "DBLP computer science bibliography"
+    url: "https://dblp.org/"
+    comment: "Provides comprehensive bibliographic information on computer science publications, used for academic research and citation analysis queries."
+
+  # ORKG graph configuration
+  orkg:
+    name: orkg
+    default_endpoint_name: orkg
+    description: "Open Research Knowledge Graph"
+    url: "https://orkg.org"
+    comment: "Enables structured and semantic representation of scientific contributions, supporting advanced queries on research outputs for analysis and comparisons."
+
+  # OpenStreetMap graph configuration
+  openstreetmap:
+    name: openstreetmap
+    default_endpoint_name: openstreetmap
+    description: "OpenStreetMap geographic database"
+    url: "https://www.openstreetmap.org"
+    comment: "Provides geospatial data which can be queried for mapping, spatial analysis, and integrating geographic information into our applications."

@@ -28,7 +28,7 @@ namespace_data=$(snapquery -ln)
 
 # Define list of endpoints
 wikidata_endpoints=("wikidata" "wikidata-qlever" "wikidata-triply" "wikidata-openlinksw" "wikidata-scatter")
-dblp_endpoints=("dblp")
+dblp_endpoints=("dblp" "dblp-qlever" "dblp-trier")
 
 # Process each line to extract namespaces and totals
 while IFS=':' read -r namespace count; do
@@ -40,8 +40,8 @@ while IFS=':' read -r namespace count; do
                 run_snapquery "$namespace" "$endpoint"
             done
             ;;
-        *fed*)
-            echo "Ignoring $namespace"
+        *bitplan.com/federated*)
+            run_snapquery "$namespace" "wikidata"
             ;;
         *)
             for endpoint in "${wikidata_endpoints[@]}"; do

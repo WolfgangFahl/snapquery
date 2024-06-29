@@ -14,6 +14,16 @@
         WHERE records>0
         GROUP BY endpoint_name
         ORDER BY 1 DESC
+'query_failures_by_database_count':
+    sql: |
+        SELECT
+           COUNT(*) AS count,
+           ep.database 
+        FROM QueryStats qs
+        JOIN Endpoint ep
+        ON qs.endpoint_name=ep.name
+        WHERE qs.error_msg IS NOT NULL
+        ORDER BY 1 DESC
 'query_success_by_namespace':
     sql: |
         SELECT 
@@ -115,3 +125,13 @@
         AVG(size) AS avg_size
       FROM 
         QueryDetails;
+'all_endpoints':
+    sql: |
+        SELECT 
+            name,
+            endpoint,
+            lang,
+            website,
+            database,
+            method
+        FROM Endpoint

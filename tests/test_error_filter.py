@@ -18,7 +18,7 @@ class TestErrorFilter(Basetest):
     https://github.com/WolfgangFahl/snapquery/issues/20
     """
 
-    def setUp(self, debug=False, profile=True):
+    def setUp(self, debug=True, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
         self.nqm = NamedQueryManager()
         self.example_errs = [(
@@ -86,6 +86,11 @@ class TestErrorFilter(Basetest):
             self.assertFalse(to_be_filtered in filtered_message)
             self.assertTrue(kept in filtered_message)
 
+    def test_virtuoso_errors(self):
+        """
+        
+        """
+        
     def test__extract_virtuoso_error(self):
         """
         test the _extract_virtuoso_error function

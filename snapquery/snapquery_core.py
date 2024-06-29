@@ -25,6 +25,7 @@ from ngwidgets.widgets import Link
 
 from snapquery.error_filter import ErrorFilter
 from snapquery.graph import GraphManager, Graph
+from snapquery.endpoint import Endpoint as SnapQueryEndpoint
 
 logger = logging.getLogger(__name__)
 
@@ -630,6 +631,8 @@ class NamedQueryManager:
                     sample_records, source_class.__name__, withDrop=True
                 )
                 nqm.sql_db.store(sample_records, entityInfo, fixNone=True, replace=True)
+            # store yaml defined entities to SQL database
+            nqm.store_endpoints()
             nqm.store_graphs()
         return nqm
         
@@ -682,6 +685,47 @@ class NamedQueryManager:
 
         self.store(lod=lod,source_class=Graph,with_create=True)
 
+    def store_endpoints(self, endpoints: Optional[Dict[str, Endpoint]] = None):
+        """
+        Stores the given endpoints or self.endpoints into the SQL database.
+    
+        Args:
+            endpoints (Optional[Dict[str, LODStorageEndpoint]]): A dictionary of endpoints to store.
+                If None, uses self.endpoints.
+        """
+        # This is a compatiblity layer for pylodstorage Endpoints
+        # as of 2024-06 pylodstorage Endpoint still uses @Jsonable which is
+        # deprecated so we convert instances to our local endpoint modules Endpoint format
+        # and use our store mechanism to create SQL records
+        if endpoints is None:
+            endpoints = self.endpoints
+    
+        endpoints_lod = []
+        for endpoint_name, lod_endpoint in endpoints.items():
+            # Create a dictionary with only the attributes that exist in lod_endpoint
+            endpoint_dict = {
+                'name': endpoint_name,
+                'lang': getattr(lod_endpoint, 'lang', None),
+                'endpoint': getattr(lod_endpoint, 'endpoint', None),
+                'website': getattr(lod_endpoint, 'website', None),
+                'database': getattr(lod_endpoint, 'database', None),
+                'method': getattr(lod_endpoint, 'method', None),
+                'prefixes': getattr(lod_endpoint, 'prefixes', None),
+                'auth': getattr(lod_endpoint, 'auth', None),
+                'user': getattr(lod_endpoint, 'user', None),
+                'password': getattr(lod_endpoint, 'password', None)
+            }
+    
+            # Remove None values
+            endpoint_dict = {k: v for k, v in endpoint_dict.items() if v is not None}
+    
+            # Create SnapQueryEndpoint instance with only the available attributes
+            snap_endpoint = SnapQueryEndpoint(**endpoint_dict)
+            endpoints_lod.append(asdict(snap_endpoint))
+    
+        # Store the list of dictionaries in the database
+        self.store(lod=endpoints_lod, source_class=SnapQueryEndpoint, with_create=True)
+    
     def execute_query(
         self,
         named_query: NamedQuery,

@@ -129,7 +129,11 @@ class TestErrorFilter(Basetest):
         error_log_path = Path(__file__).parent / "resources/error_messages"
         triplydb_path = error_log_path / "triplydb"
         error_msgs = [
-            (triplydb_path / "parser_error.txt", "Syntax Error", "Invalid SPARQL query: Parser error on line 63:\n\n} AS %MOLS {\n-----^"),
+            (
+                triplydb_path / "parser_error.txt",
+                "Syntax Error",
+                "Invalid SPARQL query: Parser error on line 63:\n\n} AS %MOLS {\n-----^",
+            ),
         ]
         for error_msg_path, expected_category, expected_msg in error_msgs:
             with self.subTest(error_msg=error_msg_path):
@@ -162,9 +166,21 @@ class TestErrorFilter(Basetest):
                 "Multiple prefix declarations for prefix 'wd'",
             ),
             (wdqs_path / "timeout.txt", "Timeout", "Query has timed out."),
-            (wdqs_path / "undefined_prefix.txt", "Syntax Error", "QName 'dcterms:isPartOf' uses an undefined prefix"),
-            (wdqs_path / "invalid_iri_declaration.txt", "Syntax Error", """Encountered " "<" "< "" at line 51, column 17.\nWas expecting:\n    <Q_IRI_REF> ..."""),
-            (wdqs_path / "invalid_sparql_syntax.txt", "Syntax Error", '''Lexical error at line 58, column 5.  Encountered: " " (32), after : "%"''')
+            (
+                wdqs_path / "undefined_prefix.txt",
+                "Syntax Error",
+                "QName 'dcterms:isPartOf' uses an undefined prefix",
+            ),
+            (
+                wdqs_path / "invalid_iri_declaration.txt",
+                "Syntax Error",
+                """Encountered " "<" "< "" at line 51, column 17.\nWas expecting:\n    <Q_IRI_REF> ...""",
+            ),
+            (
+                wdqs_path / "invalid_sparql_syntax.txt",
+                "Syntax Error",
+                '''Lexical error at line 58, column 5.  Encountered: " " (32), after : "%"''',
+            ),
         ]
         for error_msg_path, expected_category, expected_msg in error_msgs:
             with self.subTest(error_msg=error_msg_path):
@@ -180,10 +196,26 @@ class TestErrorFilter(Basetest):
         error_log_path = Path(__file__).parent / "resources/error_messages"
         qlever_path = error_log_path / "qlever"
         error_msgs = [
-            (qlever_path / "invalid_regex_func.txt", "Syntax Error", "Invalid SPARQL query: The second argument to the REGEX function must be a string literal (which contains the regular expression)"),
-            (qlever_path / "memory_limit.txt", "EndPointInternalError", "The memory limit was exceeded during the computation of a cross-product. Check if this cross-product is intentional or if you have mistyped a variable name."),
-            (qlever_path / "invalid_literal.txt", "Syntax Error", "[json.exception.parse_error.101] parse error at line 1, column 1: syntax error while parsing value - invalid literal; last read: \'<\'"),
-            (qlever_path / "ask_unsupported.txt", "Syntax Error", "Not supported: ASK queries are currently not supported by QLever."),
+            (
+                qlever_path / "invalid_regex_func.txt",
+                "Syntax Error",
+                "Invalid SPARQL query: The second argument to the REGEX function must be a string literal (which contains the regular expression)",
+            ),
+            (
+                qlever_path / "memory_limit.txt",
+                "EndPointInternalError",
+                "The memory limit was exceeded during the computation of a cross-product. Check if this cross-product is intentional or if you have mistyped a variable name.",
+            ),
+            (
+                qlever_path / "invalid_literal.txt",
+                "Syntax Error",
+                "[json.exception.parse_error.101] parse error at line 1, column 1: syntax error while parsing value - invalid literal; last read: '<'",
+            ),
+            (
+                qlever_path / "ask_unsupported.txt",
+                "Syntax Error",
+                "Not supported: ASK queries are currently not supported by QLever.",
+            ),
         ]
         for error_msg_path, expected_category, expected_msg in error_msgs:
             with self.subTest(error_msg=error_msg_path):

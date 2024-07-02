@@ -161,8 +161,6 @@ class SnapQueryCmd(WebserverCmd):
             self.args.func(self.args)
         return self.args
 
-    
-
     def handle_args(self) -> bool:
         """
         handle the command line args
@@ -174,7 +172,7 @@ class SnapQueryCmd(WebserverCmd):
         self.nqm = nqm
         # Check args functions
         nqm = NamedQueryManager.from_samples(force_init=self.args.initDatabase)
-        
+
         if self.args.listEndpoints:
             # List endpoints
             for endpoint in self.nqm.endpoints.values():
@@ -182,17 +180,17 @@ class SnapQueryCmd(WebserverCmd):
             handled = True  # Operation handled
         elif self.args.listGraphs:
             print(self.nqm.gm.to_json(indent=2))
-            handled=True
+            handled = True
         elif self.args.listMetaqueries:
-            meta_qm=self.nqm.meta_qm
+            meta_qm = self.nqm.meta_qm
             for name, query in meta_qm.queriesByName.items():
                 print(f"{name}:{query.title}")
-            handled=True
+            handled = True
         elif self.args.listNamespaces:
             namespaces = self.nqm.get_namespaces()
             for namespace, count in namespaces.items():
                 print(f"{namespace}:{count}")
-            handled=True
+            handled = True
         elif self.args.testQueries:
             if self.args.endpointName:
                 endpoint_names = [self.args.endpointName]

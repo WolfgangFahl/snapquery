@@ -23,9 +23,9 @@ from lodstorage.sql import SQLDB, EntityInfo
 from lodstorage.yamlable import lod_storable
 from ngwidgets.widgets import Link
 
-from snapquery.error_filter import ErrorFilter
-from snapquery.graph import GraphManager, Graph
 from snapquery.endpoint import Endpoint as SnapQueryEndpoint
+from snapquery.error_filter import ErrorFilter
+from snapquery.graph import Graph, GraphManager
 
 logger = logging.getLogger(__name__)
 
@@ -139,7 +139,7 @@ class QueryStats:
                     error_msg="",
                     error_category=None,
                     filtered_msg="",
-                )
+                ),
             ]
         }
         # Set the duration for each sample instance
@@ -168,6 +168,7 @@ class NamedQuery:
         sparql (str): The SPARQL query string. This might be hidden in future to encapsulate query details.
         query_id (str): A unique identifier for the query, generated from namespace and name, used as a primary key.
     """
+
     # query_id
     query_id: str = field(init=False)
     # domain
@@ -230,8 +231,8 @@ WHERE {
   ?band rdfs:label ?bandLabel.
   FILTER(LANG(?bandLabel)="en").
   FILTER(STRSTARTS(?bandLabel,"M")).
-}"""
-                    ),
+}""",
+                ),
                 NamedQuery(
                     domain="wikidata.org",
                     namespace="snapquery-examples",
@@ -366,11 +367,7 @@ class QueryDetails:
         samples = {
             "snapquery-examples": [
                 QueryDetails(
-                    query_id="scholia.test", 
-                    params="q", 
-                    param_count=1, 
-                    lines=1, 
-                    size=50
+                    query_id="scholia.test", params="q", param_count=1, lines=1, size=50
                 )
             ]
         }
@@ -392,9 +389,10 @@ class NamedQuerySet:
     """
     a list/set of named queries which defines a namespace
     """
-    domain: str # the domain of this NamedQuerySet
+
+    domain: str  # the domain of this NamedQuerySet
     namespace: str  # the namespace
-    
+
     target_graph_name: str  # the name of the target graph
     queries: List[NamedQuery] = field(default_factory=list)
 
@@ -601,10 +599,11 @@ class NamedQueryManager:
 
     @classmethod
     def from_samples(
-        cls, db_path: Optional[str] = None, 
-        force_init: bool=False,
-        with_backup: bool=True,
-        debug: bool = False
+        cls,
+        db_path: Optional[str] = None,
+        force_init: bool = False,
+        with_backup: bool = True,
+        debug: bool = False,
     ) -> "NamedQueryManager":
         """
         Creates and returns an instance of NamedQueryManager, optionally initializing it from sample data.
@@ -620,14 +619,16 @@ class NamedQueryManager:
         """
         if db_path is None:
             db_path = cls.get_cache_path()
-        
+
         path_obj = Path(db_path)
 
         # Handle backup and force initialization
         if force_init and path_obj.exists():
             if with_backup:
                 timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")
-                backup_path = path_obj.with_name(f"{path_obj.stem}-{timestamp}{path_obj.suffix}")
+                backup_path = path_obj.with_name(
+                    f"{path_obj.stem}-{timestamp}{path_obj.suffix}"
+                )
                 path_obj.rename(backup_path)  # Move the existing file to backup
 
         nqm = NamedQueryManager(db_path=db_path, debug=debug)
@@ -654,7 +655,7 @@ class NamedQueryManager:
             nqm.store_endpoints()
             nqm.store_graphs()
         return nqm
-        
+
     def store_named_query_list(self, nq_set: NamedQuerySet):
         """
         store the given named query set
@@ -667,17 +668,16 @@ class NamedQueryManager:
             lod.append(asdict(nq))
         self.store(lod=lod)
 
-
     def store_query_details_list(self, qd_list: List[QueryDetails]):
         """
         Stores a list of QueryDetails instances into the database. This function converts
         each QueryDetails instance into a dictionary and then stores the entire list of dictionaries.
-        It utilizes the 'store' method to handle database operations based on the entity information 
+        It utilizes the 'store' method to handle database operations based on the entity information
         derived from the QueryDetails class.
-    
+
         Args:
             qd_list (List[QueryDetails]): List of QueryDetails instances to be stored.
-        """        
+        """
         qd_lod = []
         for qd in qd_list:
             qd_lod.append(asdict(qd))
@@ -691,23 +691,25 @@ class NamedQueryManager:
         for stats in stats_list:
             stats_lod.append(asdict(stats))
         self.store(lod=stats_lod, source_class=QueryStats)
-        
-    def store_graphs(self,gm:GraphManager=None):
+
+    def store_graphs(self, gm: GraphManager = None):
         """
-         Stores all graphs managed by the given GraphManager into my 
-         SQL database
+        Stores all graphs managed by the given GraphManager into my
+        SQL database
         """
         if gm is None:
-            gm=self.gm
-            
-        lod = [asdict(graph) for graph in gm]  # Convert each Graph instance to a dictionary using asdict()
+            gm = self.gm
 
-        self.store(lod=lod,source_class=Graph,with_create=True)
+        lod = [
+            asdict(graph) for graph in gm
+        ]  # Convert each Graph instance to a dictionary using asdict()
+
+        self.store(lod=lod, source_class=Graph, with_create=True)
 
     def store_endpoints(self, endpoints: Optional[Dict[str, Endpoint]] = None):
         """
         Stores the given endpoints or self.endpoints into the SQL database.
-    
+
         Args:
             endpoints (Optional[Dict[str, LODStorageEndpoint]]): A dictionary of endpoints to store.
                 If None, uses self.endpoints.
@@ -718,33 +720,33 @@ class NamedQueryManager:
         # and use our store mechanism to create SQL records
         if endpoints is None:
             endpoints = self.endpoints
-    
+
         endpoints_lod = []
         for endpoint_name, lod_endpoint in endpoints.items():
             # Create a dictionary with only the attributes that exist in lod_endpoint
             endpoint_dict = {
-                'name': endpoint_name,
-                'lang': getattr(lod_endpoint, 'lang', None),
-                'endpoint': getattr(lod_endpoint, 'endpoint', None),
-                'website': getattr(lod_endpoint, 'website', None),
-                'database': getattr(lod_endpoint, 'database', None),
-                'method': getattr(lod_endpoint, 'method', None),
-                'prefixes': getattr(lod_endpoint, 'prefixes', None),
-                'auth': getattr(lod_endpoint, 'auth', None),
-                'user': getattr(lod_endpoint, 'user', None),
-                'password': getattr(lod_endpoint, 'password', None)
+                "name": endpoint_name,
+                "lang": getattr(lod_endpoint, "lang", None),
+                "endpoint": getattr(lod_endpoint, "endpoint", None),
+                "website": getattr(lod_endpoint, "website", None),
+                "database": getattr(lod_endpoint, "database", None),
+                "method": getattr(lod_endpoint, "method", None),
+                "prefixes": getattr(lod_endpoint, "prefixes", None),
+                "auth": getattr(lod_endpoint, "auth", None),
+                "user": getattr(lod_endpoint, "user", None),
+                "password": getattr(lod_endpoint, "password", None),
             }
-    
+
             # Remove None values
             endpoint_dict = {k: v for k, v in endpoint_dict.items() if v is not None}
-    
+
             # Create SnapQueryEndpoint instance with only the available attributes
             snap_endpoint = SnapQueryEndpoint(**endpoint_dict)
             endpoints_lod.append(asdict(snap_endpoint))
-    
+
         # Store the list of dictionaries in the database
         self.store(lod=endpoints_lod, source_class=SnapQueryEndpoint, with_create=True)
-    
+
     def execute_query(
         self,
         named_query: NamedQuery,
@@ -815,7 +817,7 @@ class NamedQueryManager:
         self,
         lod: List[Dict[str, Any]],
         source_class: Type = NamedQuery,
-        with_create: bool=False,
+        with_create: bool = False,
     ) -> None:
         """
         Stores the given list of dictionaries in the database using entity information
@@ -831,10 +833,7 @@ class NamedQueryManager:
         """
         entity_info = self.get_entity_info(source_class)
         if with_create:
-            self.sql_db.createTable4EntityInfo(
-                entityInfo=entity_info,
-                withDrop=True
-            )
+            self.sql_db.createTable4EntityInfo(entityInfo=entity_info, withDrop=True)
         # Store the list of dictionaries in the database using the defined entity information
         self.sql_db.store(lod, entity_info, fixNone=True, replace=True)
 
@@ -971,7 +970,7 @@ WHERE
         """
         Retrieves all unique namespaces and the count of NamedQueries associated with each from the database,
         sorted by the count of queries from lowest to highest.
-    
+
         Returns:
             Dict[str, int]: A dictionary where keys are namespaces and values are the counts of associated queries, sorted by count.
         """
@@ -983,10 +982,11 @@ WHERE
         ORDER BY COUNT(*)
         """
         result = self.sql_db.query(query)
-        namespaces: Dict[str, int] = {row['namespace']: int(row['query_count']) for row in result}
+        namespaces: Dict[str, int] = {
+            row["namespace"]: int(row["query_count"]) for row in result
+        }
         return namespaces
 
-            
     def get_all_queries(
         self, namespace: str = "snapquery-examples"
     ) -> List[NamedQuery]:

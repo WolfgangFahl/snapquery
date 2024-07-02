@@ -23,6 +23,8 @@ dependencies = [
 	"ngwidgets>=0.15.6",
     # https://pypi.org/project/pyLodStorage/
     "pyLodStorage>=0.11.5",
+    # https://pypi.org/project/py-3rdparty-mediawiki/
+	"py-3rdparty-mediawiki>=0.11.3",
     "wikitextparser",
     "requests",
     # https://pypi.org/project/mwoauth/

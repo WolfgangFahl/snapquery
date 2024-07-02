@@ -33,7 +33,7 @@ class TestScholia(Basetest):
             limit = 10
         else:
             limit = None
-            #limit=10
+            # limit=10
 
         # Create a NamedQueryManager and ScholiaQueries instance
         nqm = NamedQueryManager.from_samples(db_path=db_path)
@@ -45,9 +45,11 @@ class TestScholia(Basetest):
         scholia_queries.save_to_json("/tmp/scholia.json")
 
         # Verify the data was stored
-        records = nqm.sql_db.query(f"""SELECT * 
+        records = nqm.sql_db.query(
+            f"""SELECT * 
 FROM NamedQuery 
 WHERE namespace='{scholia_queries.named_query_set.namespace}'
 AND domain='{scholia_queries.named_query_set.domain}'
-""")
+"""
+        )
         self.assertEqual(len(records), len(scholia_queries.named_query_set.queries))

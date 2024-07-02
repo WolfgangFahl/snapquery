@@ -127,9 +127,8 @@ SPARQL: {sparql}
         unique_names = set()
 
         nq_set = NamedQuerySet(
-            domain="wikidata.org",
-            namespace=namespace, 
-            target_graph_name="wikidata")
+            domain="wikidata.org", namespace=namespace, target_graph_name="wikidata"
+        )
         give_up = (
             count * 15
         )  # heuristic factor for probability that a short url points to a wikidata entry - 14 has worked so far

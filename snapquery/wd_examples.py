@@ -28,9 +28,7 @@ class WikidataExamples:
         """
         self.nqm = nqm
         self.named_query_list = NamedQuerySet(
-            domain="wikidata.org",
-            namespace="examples", 
-            target_graph_name="wikidata"
+            domain="wikidata.org", namespace="examples", target_graph_name="wikidata"
         )
 
     def get_examples_wikitext(self) -> str:

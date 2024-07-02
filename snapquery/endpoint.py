@@ -5,13 +5,16 @@ Created on 29.06.2024
 import os
 from dataclasses import field
 from typing import Dict, List, Optional
+
 from lodstorage.yamlable import lod_storable
+
 
 @lod_storable
 class Endpoint:
     """
     A query endpoint for SPARQL, SQL or other storage systems
     """
+
     name: str
     endpoint: str
     lang: str = "sparql"
@@ -58,12 +61,14 @@ class Endpoint:
         }
         return samples
 
+
 @lod_storable
 class EndpointManager:
     """
     Manages the storage and retrieval of
     Endpoint configurations.
     """
+
     endpoints: Dict[str, Endpoint] = field(default_factory=dict)
 
     @classmethod

@@ -41,7 +41,7 @@ class QueryImport:
         """
         nq_set = NamedQuerySet.load_from_json_file(json_file)
         iterable = (
-            tqdm(nq_set.queries, desc=f"Importing Namedspace {nq_set.namespace}")
+            tqdm(nq_set.queries, desc=f"Importing Namespace {nq_set.namespace}@{nq_set.domain}")
             if show_progress
             else nq_set.queries
         )

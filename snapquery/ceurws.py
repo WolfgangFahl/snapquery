@@ -2,8 +2,9 @@
 Created on 2024-07-02
 @author: wf
 """
-from wikibot.smw import SMWClient
-from wikibot.wikiclient import WikiClient
+
+from wikibot3rd.smw import SMWClient
+from wikibot3rd.wikiclient import WikiClient
 
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager, NamedQuerySet
 

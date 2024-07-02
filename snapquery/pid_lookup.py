@@ -51,6 +51,7 @@ class PersonLookup:
             qid_list += f"{delim}wd:{qid}"
             delim = " "
         named_query = NamedQuery(
+            domain="wikidata.org",
             namespace="pid-lookup",
             name="person-by-qid",
             title="Lookup persons with the given qids",

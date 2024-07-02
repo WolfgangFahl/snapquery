@@ -30,6 +30,7 @@ class DblpPersonLookup:
             List[Person]: A list of Person objects.
         """
         named_query = NamedQuery(
+            domain="dblp.org",
             namespace="pid-lookup",
             name="person-by-name-part",
             title="Lookup persons with a name matching a pattern",

@@ -47,9 +47,14 @@ class QueryImport:
         )
 
         for nq in iterable:
-            if not nq.sparql and nq.url.startswith("https://w.wiki/"):
-                short_url = ShortUrl(nq.url)
-                nq.sparql = short_url.read_query()
+            if not nq.sparql:
+                if nq.url and nq.url.startswith("https://w.wiki/"):
+                    short_url = ShortUrl(nq.url)
+                    nq.sparql = short_url.read_query()
+                else:
+                    raise Exception(f"invalid named query with no url: {nq}")
+                    # what now?
+                    continue    
             if with_store and self.nqm:
                 self.nqm.add_and_store(nq)
         return nq_set

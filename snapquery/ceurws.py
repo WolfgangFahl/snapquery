@@ -62,6 +62,8 @@ class CeurWSQueries:
             # Extract values into local variables for easier debugging
             name = query_data.get("name")
             url = query_data.get("wdqsurl")
+            if not url:
+                continue
             title = query_data.get("title")
             description = query_data.get("task")
             sparql = query_data.get("sparql")

@@ -1,25 +1,36 @@
 #!/bin/bash
 
-# Read the JSON file
-name=wikidata-short-urls.json
-input_file=snapquery/samples/$name
+# This script, written by Bard (a large language model by Google) on 2024-07-02,
+# processes a JSON file named "wikidata-short-urls.json" located in the "snapquery/samples" directory.
+# It transforms the data within the file using a dynamically generated jq script and adds necessary fields.
 
-# Use jq to transform and add necessary fields
-jq '{
+name="wikidata-short-urls.json"
+input_file="snapquery/samples/$name"
+
+# Jq script content stored in a here document
+jq_script=$(cat <<'EOF'
+{
   domain: "wikidata.org",
   namespace: "short_url",
   target_graph_name: "wikidata",
   queries: [.queries[] | {
-      query_id: (.name | gsub(" "; "_") | ascii_downcase) + "--short_url@wikidata.org",
-      domain: "wikidata.org",
-      namespace: "short_url",
-      name: .name,
-      sparql: .sparql,
-      url: .url,
-      title: .title,
-      description: .description
-    }]
-}' $input_file > /tmp/$name
+    query_id: "\(.name)--short_url@wikidata.org",
+    domain: "wikidata.org",
+    namespace: "short_url",
+    name: .name,
+    sparql: .sparql,
+    url: .url,
+    title: .title,
+    description: .description
+  }]
+}
+EOF
+)
 
-# Display the transformed JSON
-cat /tmp/$name
+echo "$jq_script"
+
+# Use the generated jq script to process the JSON file
+jq "$jq_script" "$input_file" > /tmp/$name
+
+# Display the transformed JSON for verification (optional)
+# cat /tmp/$name

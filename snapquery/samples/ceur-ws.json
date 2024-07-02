@@ -114,17 +114,6 @@
       "comment": null
     },
     {
-      "query_id": "Events and proceedings by Eventseries--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": "Events and proceedings by Eventseries",
-      "sparql": null,
-      "url": null,
-      "title": "Events [[Concept:Event|events]] and proceedings [[Concept:Proceedings|proceedings]] grouped by [[Concept:EventSeries|Event Series]]",
-      "description": "Task0",
-      "comment": null
-    },
-    {
       "query_id": "AllEditorsOfWorkshop--challenge@ceur-ws.org",
       "domain": "ceur-ws.org",
       "namespace": "challenge",
@@ -224,17 +213,6 @@
       "comment": "qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/qKaWxd"
     },
     {
-      "query_id": "AuthorsOfInvitedPapers--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": "AuthorsOfInvitedPapers",
-      "sparql": null,
-      "url": null,
-      "title": "Authors of invited papers",
-      "description": "Task1",
-      "comment": null
-    },
-    {
       "query_id": "None--challenge@ceur-ws.org",
       "domain": "ceur-ws.org",
       "namespace": "challenge",
@@ -255,17 +233,6 @@
       "title": "Change of Workshop title",
       "description": "Task1",
       "comment": "qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/a1sm2q"
-    },
-    {
-      "query_id": "None--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": null,
-      "sparql": null,
-      "url": null,
-      "title": "workshops that have died",
-      "description": "Task1",
-      "comment": null
     },
     {
       "query_id": "None--challenge@ceur-ws.org",
@@ -294,83 +261,6 @@
       "domain": "ceur-ws.org",
       "namespace": "challenge",
       "name": null,
-      "sparql": null,
-      "url": null,
-      "title": "Workshop with biggest percent of growth of number of papers",
-      "description": "Task1",
-      "comment": null
-    },
-    {
-      "query_id": "ColocationChange--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": "ColocationChange",
-      "sparql": null,
-      "url": null,
-      "title": "change of conference affiliation(Event,Year)",
-      "description": "Task1",
-      "comment": null
-    },
-    {
-      "query_id": "None--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": null,
-      "sparql": null,
-      "url": null,
-      "title": "change of workshop date",
-      "description": "Task1",
-      "comment": null
-    },
-    {
-      "query_id": "None--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": null,
-      "sparql": null,
-      "url": null,
-      "title": "institutional diversity and internationality of chairs",
-      "description": "Task1",
-      "comment": null
-    },
-    {
-      "query_id": "None--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": null,
-      "sparql": null,
-      "url": null,
-      "title": "continuity of authors",
-      "description": "Task1",
-      "comment": null
-    },
-    {
-      "query_id": "AuthorsOfPaper--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": "AuthorsOfPaper",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/Q115265833>\n\n# List of authors for a work\nSELECT DISTINCT\n  # Author order\n  ?order\n\n  ?academic_age\n\n  # Author item and label\n  ?author ?authorUrl ?authorDescription\n\nWHERE {\n  {\n    target: p:P50 ?author_statement .\n    ?author_statement ps:P50 ?author_ .\n    ?author_ rdfs:label ?author .\n    FILTER (LANG(?author) = 'en')\n    BIND(CONCAT(\"../author/\", SUBSTR(STR(?author_), 32)) AS ?authorUrl)\n    OPTIONAL {\n      ?author_statement pq:P1545 ?order_ .\n      BIND(xsd:integer(?order_) AS ?order)\n    }\n    OPTIONAL {\n      ?author_ schema:description ?authorDescription .\n      FILTER (LANG(?authorDescription) = \"en\")\n    }\n  }\n  UNION\n  {\n    target: p:P2093 ?authorstring_statement .\n    ?authorstring_statement ps:P2093 ?author_\n    BIND(CONCAT(?author_, \" \u2197\") AS ?author)\n    OPTIONAL {\n      ?authorstring_statement pq:P1545 ?order_ .\n      BIND(xsd:integer(?order_) AS ?order)\n    }\n    BIND(CONCAT(\"https://author-disambiguator.toolforge.org/names_oauth.php?doit=Look+for+author&name=\", ENCODE_FOR_URI(?author_)) AS ?authorUrl)\n  }\n  OPTIONAL {\n    SELECT ?author_ (MAX(?academic_age_) AS ?academic_age) {\n      target: wdt:P50 ?author_ ;\n                 wdt:P577 ?publication_date .\n      [] wdt:P31 / wdt:P279* wd:Q55915575 ;\n         wdt:P50 ?author_ ;\n         wdt:P577 ?other_publication_date .\n      BIND(YEAR(?publication_date) - YEAR(?other_publication_date) AS ?academic_age_)\n    }\n    GROUP BY ?author_\n  }\n}\nORDER BY ?order",
-      "url": null,
-      "title": "Affiliations of Authors (Paper X)",
-      "description": "Task2",
-      "comment": null
-    },
-    {
-      "query_id": "None--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": null,
-      "sparql": null,
-      "url": null,
-      "title": "Papers from country at Workshop",
-      "description": "Task2",
-      "comment": null
-    },
-    {
-      "query_id": "None--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": null,
       "sparql": "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX p: <http://www.wikidata.org/prop/>\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nSELECT DISTINCT ?citingPaper ?citingPaperLabel ?paper ?paperLabel \nWHERE{\n  #VALUES ?proceedings {\n  # wd:Q27230297\n  #}\n  VALUES ?paper {\n    wd:Q36198963\n  }\n  #?paper wdt:P1433 ?proceedings. \n  ?paper rdfs:label ?paperLabel. \n  FILTER(lang(?paperLabel)=\"en\")\n  # cites work\n  ?citingPaper wdt:P2860 ?paper.\n  ?citingPaper rdfs:label ?citingPaperLabel.\n  FILTER(lang(?citingPaperLabel)=\"en\")\n}",
       "url": "https://w.wiki/6UBC",
       "title": "Works cited by paper",
@@ -387,94 +277,6 @@
       "title": "Works cited by paper after year",
       "description": "Task2",
       "comment": "qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/Q32kCB"
-    },
-    {
-      "query_id": "None--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": null,
-      "sparql": null,
-      "url": null,
-      "title": "Journal papers cited by a paper",
-      "description": "Task2",
-      "comment": null
-    },
-    {
-      "query_id": "None--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": null,
-      "sparql": null,
-      "url": null,
-      "title": "grants for research in paper",
-      "description": "Task2",
-      "comment": null
-    },
-    {
-      "query_id": "None--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": null,
-      "sparql": null,
-      "url": null,
-      "title": "Funding agency for research of paper",
-      "description": "Task2",
-      "comment": null
-    },
-    {
-      "query_id": "None--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": null,
-      "sparql": null,
-      "url": null,
-      "title": "EU projects supporting research in paper",
-      "description": "Task2",
-      "comment": null
-    },
-    {
-      "query_id": "None--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": null,
-      "sparql": null,
-      "url": null,
-      "title": "Ontologies mentioned in abstract of paper",
-      "description": "Task2",
-      "comment": null
-    },
-    {
-      "query_id": "None--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": null,
-      "sparql": null,
-      "url": null,
-      "title": "Ontologies introduced in paper abstract",
-      "description": "Task2",
-      "comment": null
-    },
-    {
-      "query_id": "None--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": null,
-      "sparql": null,
-      "url": null,
-      "title": "Same entities within the CEUR-WS.org dataset",
-      "description": "Task3",
-      "comment": null
-    },
-    {
-      "query_id": "SamenEntitiesAcrossDifferentDatasets--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": "SamenEntitiesAcrossDifferentDatasets",
-      "sparql": null,
-      "url": null,
-      "title": "Same entities across different datasets",
-      "description": "Task3",
-      "comment": null
     },
     {
       "query_id": "WikiCfpLinksForWorkshops--challenge@ceur-ws.org",
@@ -499,17 +301,6 @@
       "comment": "qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/98pi38"
     },
     {
-      "query_id": "None--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": null,
-      "sparql": null,
-      "url": null,
-      "title": "Overall contribution to the conference",
-      "description": "Task3",
-      "comment": null
-    },
-    {
       "query_id": "AuthorActivityInYear--challenge@ceur-ws.org",
       "domain": "ceur-ws.org",
       "namespace": "challenge",
@@ -517,28 +308,6 @@
       "sparql": "#defaultView:Table\nPREFIX target: <http://www.wikidata.org/entity/Q27942628>\n\nSELECT\n  (MIN(?_year) as ?year)\n  (MIN(?dates) AS ?date)\n  ?work ?workLabel\n  (GROUP_CONCAT(DISTINCT ?type_label; separator=\", \") AS ?type)\n  (SAMPLE(?pages_) AS ?pages)\n  ?venue ?venueLabel\n  (GROUP_CONCAT(DISTINCT ?author_label; separator=\", \") AS ?authors)\nWHERE {\n  ?work wdt:P50 target: .\n  ?work wdt:P50 ?author .\n  OPTIONAL {\n    ?author rdfs:label ?author_label_ . FILTER (LANG(?author_label_) = 'en')\n  }\n  BIND(COALESCE(?author_label_, SUBSTR(STR(?author), 32)) AS ?author_label)\n  OPTIONAL { ?work wdt:P31 ?type_ . ?type_ rdfs:label ?type_label . FILTER (LANG(?type_label) = 'en') }\n  ?work wdt:P577 ?datetimes .\n  BIND(xsd:date(?datetimes) AS ?dates)\n  BIND(year(?dates) as ?_year)\n\n \n  OPTIONAL { ?work wdt:P1104 ?pages_ }\n  OPTIONAL { ?work wdt:P1433 ?venue }\n  ?work rdfs:label ?workLabel\n  FILTER(LANG(?workLabel)=\"en\")\n}\nGROUP BY ?work ?workLabel ?venue ?venueLabel\nORDER BY DESC(?date)",
       "url": "https://w.wiki/6UTP",
       "title": "Overall activity in a year",
-      "description": "Task3",
-      "comment": null
-    },
-    {
-      "query_id": "FullSeriesOfWorkhops--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": "FullSeriesOfWorkhops",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/Q116982161>\n\n# title: List of event and proceedings for a specific event series\nSELECT DISTINCT \n  (SAMPLE(?years) AS ?year)\n  (SAMPLE(?ordinal) AS ?ordinal)\n  (SAMPLE(?short_names) AS ?short_name)\n  ?event ?eventLabel (CONCAT(\"/event/\", SUBSTR(STR(?event), 32)) AS ?eventUrl)\n  ?proceedings ?proceedingsLabel (CONCAT(\"/venue/\", SUBSTR(STR(?proceedings), 32)) AS ?proceedingsUrl)\nWHERE {\n  {\n    ?event wdt:P179 | wdt:P31 target: .\n    ?event rdfs:label ?eventLabel.\n    FILTER(LANG(?eventLabel)=\"en\")\n    OPTIONAL {\n      ?event wdt:P585 | wdt:P580 ?datetime .\n      BIND(YEAR(?datetime) AS ?years)\n    }\n    OPTIONAL {\n      ?event wdt:P1813 ?short_names\n    }\n    OPTIONAL {\n      ?proceedings wdt:P4745 ?event\n    }\n    OPTIONAL{\n      ?event p:P179/pq:P1545 ?ordinal\n    }\n  }\n  UNION\n  {\n    # proceedings even if the event is not there!!!\n    ?proceedings ( wdt:P179 / wdt:P4745 ) target: .\n    ?proceedings rdfs:label ?proceedingsLabel.\n    FILTER(LANG(?proceedingsLabel)=\"en\")\n    OPTIONAL {\n      ?proceedings wdt:P577 ?datetime .\n      BIND(YEAR(?datetime) AS ?years)    \n    }\n  }\n  }\nGROUP BY ?event ?year ?eventLabel ?proceedings ?proceedingsLabel\nORDER BY DESC(?year)",
-      "url": null,
-      "title": "Full series of workshops",
-      "description": "Task3",
-      "comment": null
-    },
-    {
-      "query_id": "CoAuthorSPY--challenge@ceur-ws.org",
-      "domain": "ceur-ws.org",
-      "namespace": "challenge",
-      "name": "CoAuthorSPY",
-      "sparql": null,
-      "url": null,
-      "title": "Coauthorship(Scholar A, Paper P, Year Y)->Scholar",
       "description": "Task3",
       "comment": null
     }

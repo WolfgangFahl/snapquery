@@ -53,18 +53,21 @@ class TestImport(Basetest):
         qimport = QueryImport()
         # Create a temporary JSON file to test the import function
         sample_data = {
-            "namespace": "ceur-ws",
+            "domain": "ceur-ws.org",
+            "namespace": "challenge",
             "target_graph_name": "wikidata",
             "queries": [
                 {
-                    "namespace": "ceur-ws",
+                    "domain": "ceur-ws.org",
+                    "namespace": "challenge",
                     "name": "AllVolumes",
                     "title": "All [[Concept:Proceedings|proceedings]]",
                     "description": "List all proceedings",
                     "url": "https://w.wiki/6UCU",
                 },
                 {
-                    "namespace": "ceur-ws",
+                    "domain": "ceur-ws.org",
+                    "namespace": "challenge",
                     "name": "LocationOfEvents",
                     "title": "Locations of all CEUR-WS proceedings [[Concept:Proceedings|proceedings]] [[Concept:Event|events]]",
                     "description": "Map of all CEUR-WS event locations",

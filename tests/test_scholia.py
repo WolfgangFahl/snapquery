@@ -45,5 +45,9 @@ class TestScholia(Basetest):
         scholia_queries.save_to_json("/tmp/scholia.json")
 
         # Verify the data was stored
-        records = nqm.sql_db.query(f"SELECT * FROM NamedQuery WHERE namespace='{scholia_queries.named_query_set.namespace}'")
+        records = nqm.sql_db.query(f"""SELECT * 
+FROM NamedQuery 
+WHERE namespace='{scholia_queries.named_query_set.namespace}'
+AND domain='{scholia_queries.named_query_set.domain}'
+""")
         self.assertEqual(len(records), len(scholia_queries.named_query_set.queries))

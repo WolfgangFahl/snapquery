@@ -126,7 +126,10 @@ SPARQL: {sparql}
         unique_urls = set()
         unique_names = set()
 
-        nq_list = NamedQuerySet(namespace=name, target_graph_name="wikidata")
+        nq_set = NamedQuerySet(
+            domain="wikidata.org",
+            namespace=namespace, 
+            target_graph_name="wikidata")
         give_up = (
             count * 15
         )  # heuristic factor for probability that a short url points to a wikidata entry - 14 has worked so far
@@ -147,8 +150,9 @@ SPARQL: {sparql}
             short_url.read_query()
             if short_url.sparql and not short_url.error:
                 nq = NamedQuery(
+                    domain=nq_set.domain,
                     name=postfix,
-                    namespace="short_url",
+                    namespace=nq_set.namespace,
                     url=wd_short_url,
                     sparql=short_url.sparql,
                 )
@@ -173,14 +177,14 @@ SPARQL: {sparql}
                         if debug:
                             print(f"Failed to get LLM response: {str(ex)}")
                         continue
-                nq_list.queries.append(nq)
+                nq_set.queries.append(nq)
                 unique_urls.add(nq.url)
                 unique_names.add(nq.name)
                 if debug:
                     print(nq)
             else:
                 give_up -= 1
-        return nq_list
+        return nq_set
 
     def fetch_final_url(self):
         """

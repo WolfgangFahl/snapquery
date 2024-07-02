@@ -28,7 +28,8 @@ class ScholiaQueries:
         """
         self.nqm = nqm
         self.named_query_set = NamedQuerySet(
-            namespace="scholia.toolforge.org/named_queries",
+            domain="scholia.toolforge.org",
+            namespace="named_queries",
             target_graph_name="wikidata",
         )
         self.debug = debug
@@ -62,6 +63,7 @@ class ScholiaQueries:
             query_str = file_response.text
             name = file_name[:-7]
             return NamedQuery(
+                domain=self.named_query_set.domain,
                 namespace=self.named_query_set.namespace,
                 name=name,
                 url=file_info["download_url"],

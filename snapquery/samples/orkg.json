@@ -4,7 +4,7 @@
   "queries": [
     {
       "query_id": "orkg.org.examples.ComputerSciencePapers",
-      "namespace": "orkg.org/examples",
+      "namespace": "orkg.org.examples",
       "name": "ComputerSciencePapers",
       "sparql": "PREFIX orkgr: <http://orkg.org/orkg/resource/>\nPREFIX orkgc: <http://orkg.org/orkg/class/>\nPREFIX orkgp: <http://orkg.org/orkg/predicate/>\nSELECT ?paper ?paper_title ?doi\n  WHERE {\n    ?paper rdf:type orkgc:Paper ;\n           rdfs:label ?paper_title ;\n           orkgp:P30 orkgr:R132 \n    OPTIONAL { ?paper orkgp:P26 ?doi } .\n}\nLIMIT 5",
       "url": "https://orkg.org/sparql",
@@ -13,7 +13,7 @@
     },
     {
       "query_id": "orkg.org.examples.PaperMetadata",
-      "namespace": "orkg.org/examples",
+      "namespace": "orkg.org.examples",
       "name": "PaperMetadata",
       "sparql": "PREFIX orkgr: <http://orkg.org/orkg/resource/>\nPREFIX orkgc: <http://orkg.org/orkg/class/>\nPREFIX orkgp: <http://orkg.org/orkg/predicate/>\n    \nSELECT ?paper ?paper_title \n       ?url ?author\n       ?venue ?venue_label\n       ?doi ?publication_month ?publication_year\n       ?research_field ?research_field_label\n       ?contribution\nWHERE {\n    # comment out the BINDing line to get the metadata of all papers.\n    BIND(orkgr:R141003 AS ?paper)\n    \n    ?paper rdf:type orkgc:Paper;\n           rdfs:label ?paper_title ;\n           orkgp:hasAuthors ?authors ;\n           orkgp:P30 ?research_field .\n    \n    ?research_field rdfs:label ?research_field_label .\n    \n    ?authors ?seq_n ?author .\n    \n    OPTIONAL { ?paper orkgp:P26 ?doi } .\n    OPTIONAL { ?paper orkgp:url ?url } .\n    OPTIONAL { ?paper orkgp:P28 ?publication_month } .\n    OPTIONAL { ?paper orkgp:P29 ?publication_year } .\n    OPTIONAL { ?paper orkgp:HAS_VENUE ?venue .\n               ?venue rdfs:label ?venue_label } .\n    OPTIONAL { ?paper orkgp:P31 ?contribution } .\n    FILTER(REGEX(STR(?seq_n), CONCAT(STR(rdf:), \"_\\\\d+\")))\n}\nLIMIT 25",
       "url": "https://orkg.org/sparql",

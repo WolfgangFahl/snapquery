@@ -90,7 +90,8 @@ class QLever:
             NamedQuerySet: A set of named queries generated from the URLs.
         """
         named_query_set = NamedQuerySet(
-            namespace="qlever.cs.uni-freiburg.de/wikidata/tickets",
+            domain="qlever.cs.uni-freiburg.de",
+            namespace="issues.wikidata",
             target_graph_name="wikidata",
         )
         for ticket, urls in ticket_dict.items():
@@ -102,6 +103,7 @@ class QLever:
                 if short_url_handler.sparql:
                     # Example placeholder logic to create a NamedQuery for each URL
                     query = NamedQuery(
+                        domain=named_query_set.domain,
                         name=f"Ticket#{ticket.number}-query{i}",
                         namespace=named_query_set.namespace,
                         url=url,

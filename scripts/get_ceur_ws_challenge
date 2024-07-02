@@ -1,0 +1,96 @@
+#!/bin/bash
+
+# Title: CEUR-WS Challenge Query Extractor
+# Author: Claude (AI Assistant)
+# Date: 2024-07-02
+# Description: This script extracts query data from a MediaWiki using the wikiquery tool
+# and transforms it into a specific JSON format for the CEUR-WS challenge.
+#
+# Dependencies:
+# - wikiquery (https://wiki.bitplan.com/index.php/Py-3rdparty-mediawiki)
+# - jq
+#
+# Prompts for AI reproduction:
+# 1. Create a bash script to extract query data from a MediaWiki using wikiquery.
+# 2. Transform the extracted data into a specific JSON format using jq.
+# 3. Implement error handling and modular functions for each main task.
+# 4. Include proper documentation and usage instructions.
+
+# Function to execute the wikiquery command
+execute_wikiquery() {
+    local wiki_source="$1"
+    local query="$2"
+
+    wikiquery -s "$wiki_source" \
+              -q "$query" \
+              --format json \
+              --entityName "Query" \
+              --limit 200 \
+              --progress
+}
+
+# Function to transform the wikiquery output using jq
+transform_with_jq() {
+    jq '
+    {
+      domain: "ceur-ws.org",
+      namespace: "challenge",
+      target_graph_name: "wikidata",
+      queries: [
+        .Query[] | {
+          query_id: (.id + "--challenge@ceur-ws.org"),
+          domain: "ceur-ws.org",
+          namespace: "challenge",
+          name: .name,
+          sparql: .sparql,
+          url: .wdqsurl,
+          title: .title,
+          description: .description
+        }
+      ]
+    }
+    '
+}
+
+# Main function to orchestrate the script execution
+main() {
+    # Set the wiki source
+    local wiki_source="cr"
+
+    # Define the SMW ask query
+    local query="{{#ask: [[Concept:Query]]
+    |mainlabel=Query
+    |?Query id = id
+    |?Query name = name
+    |?Query title = title
+    |?Query tryiturl = tryiturl
+    |?Query wdqsurl = wdqsurl
+    |?Query scholia = scholia
+    |?Query relevance = relevance
+    |?Query task = task
+    |limit=200
+    |sort=Query task,Query id
+    |order=ascending
+    }}"
+
+    # Execute wikiquery and transform the output
+    execute_wikiquery "$wiki_source" "$query" | transform_with_jq
+
+    # Check for errors
+    if [ ${PIPESTATUS[0]} -ne 0 ]; then
+        echo "Error: wikiquery command failed" >&2
+        exit 1
+    elif [ ${PIPESTATUS[1]} -ne 0 ]; then
+        echo "Error: jq transformation failed" >&2
+        exit 1
+    fi
+}
+
+# Execute the main function
+main
+
+# Usage instructions
+# 1. Ensure wikiquery and jq are installed and in your PATH
+# 2. Make this script executable: chmod +x script_name.sh
+# 3. Run the script: ./script_name.sh
+# 4. To save the output to a file: ./script_name.sh > output.json

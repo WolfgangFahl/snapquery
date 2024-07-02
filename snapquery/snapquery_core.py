@@ -168,12 +168,13 @@ class NamedQuery:
         sparql (str): The SPARQL query string. This might be hidden in future to encapsulate query details.
         query_id (str): A unique identifier for the query, generated from namespace and name, used as a primary key.
     """
-
+    # query_id
     query_id: str = field(init=False)
-
+    # domain
+    domain: str
     # namespace
     namespace: str
-    # name/id
+    # name
     name: str
     # sparql query (to be hidden later)
     sparql: Optional[str] = None
@@ -190,7 +191,7 @@ class NamedQuery:
         Post-initialization processing to construct a unique identifier for the query
         based on its namespace and name.
         """
-        self.query_id = f"{self.namespace}.{self.name}"
+        self.query_id = f"{self.name}--{self.namespace}@{self.domain}"
 
     @classmethod
     def get_samples(cls) -> dict[str, "NamedQuery"]:
@@ -200,6 +201,7 @@ class NamedQuery:
         samples = {
             "snapquery-examples": [
                 NamedQuery(
+                    domain="wikidata.org",
                     namespace="snapquery-examples",
                     name="cats",
                     url="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples#Cats",
@@ -216,6 +218,22 @@ WHERE {
 """,
                 ),
                 NamedQuery(
+                    domain="wikidata.org",
+                    namespace="snapquery-examples",
+                    name="bands",
+                    title="Rock bands",
+                    description="",
+                    comment="",
+                    sparql="""SELECT ?band ?bandLabel
+WHERE {
+  ?band wdt:P31 wd:Q5741069.
+  ?band rdfs:label ?bandLabel.
+  FILTER(LANG(?bandLabel)="en").
+  FILTER(STRSTARTS(?bandLabel,"M")).
+}"""
+                    ),
+                NamedQuery(
+                    domain="wikidata.org",
                     namespace="snapquery-examples",
                     name="horses",
                     url="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples#Horses_(showing_some_info_about_them)",
@@ -374,8 +392,9 @@ class NamedQuerySet:
     """
     a list/set of named queries which defines a namespace
     """
-
+    domain: str # the domain of this NamedQuerySet
     namespace: str  # the namespace
+    
     target_graph_name: str  # the name of the target graph
     queries: List[NamedQuery] = field(default_factory=list)
 
@@ -812,8 +831,9 @@ class NamedQueryManager:
         """
         entity_info = self.get_entity_info(source_class)
         if with_create:
-            self.sql_db.createTable(
-                lod, source_class.__name__, withDrop=True
+            self.sql_db.createTable4EntityInfo(
+                entityInfo=entity_info,
+                withDrop=True
             )
         # Store the list of dictionaries in the database using the defined entity information
         self.sql_db.store(lod, entity_info, fixNone=True, replace=True)

@@ -63,7 +63,7 @@ SELECT * WHERE {
         else:
             ticket_iterator = enumerate(tickets)
 
-        for i, ticket in ticket_iterator:
+        for _i, ticket in ticket_iterator:
 
             found_urls = self.qlever.wd_urls_for_ticket(ticket)
             if found_urls:

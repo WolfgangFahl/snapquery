@@ -28,7 +28,9 @@ class WikidataExamples:
         """
         self.nqm = nqm
         self.named_query_list = NamedQuerySet(
-            namespace="wikidata.org/examples", target_graph_name="wikidata"
+            domain="wikidata.org",
+            namespace="examples", 
+            target_graph_name="wikidata"
         )
 
     def get_examples_wikitext(self) -> str:
@@ -62,7 +64,8 @@ class WikidataExamples:
             )
             desc = desc.replace(f"==  {title} ==", "").strip()
             named_query = NamedQuery(
-                namespace="wikidata-examples",
+                domain="wikidata.org",
+                namespace="examples",
                 name=title,
                 title=title,
                 description=desc,

@@ -1,10 +1,12 @@
 {
-  "namespace": "ceur-ws.org/challenge",
+  "domain": "ceur-ws.org",
+  "namespace": "challenge",
   "target_graph_name": "wikidata",
   "queries": [
     {
-      "query_id": "ceur-ws.AllVolumes",
-      "namespace": "ceur-ws.org/challenge",
+      "query_id": "AllVolumes--challenge@ceur-ws.org",
+      "domain": "ceur-ws.org",
+      "namespace": "challenge",
       "name": "AllVolumes",
       "sparql": "# Q0.1\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX p: <http://www.wikidata.org/prop/>\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nSELECT DISTINCT ?proceeding ?volumeNumber ?title \n  (SAMPLE(?_short_name) as ?short_name)\n  (SAMPLE(?_pubDate) as ?pubDate)\n  (SAMPLE(?_ceurwsUrl) as ?ceurwsUrl)\n  (SAMPLE(?_language_of_work_or_name) as ?language_of_work_or_name)\n  (SAMPLE(?_fullWorkUrl) as ?fullWorkUrl)\n  (SAMPLE(?_urn) as ?urn)\n  (SAMPLE(?_dblpPublicationId) as ?dblpPublicationId)\n  (SAMPLE(?_K10plus) as ?K10plus)\nWHERE{\n  ?proceeding wdt:P31 wd:Q1143604.\n  ?proceeding wdt:P179 wd:Q27230297.\n  ?proceeding p:P179/pq:P478 ?volumeNumber.\n  ?proceeding wdt:P1476 ?title. Filter(lang(?title)=\"en\")\n  OPTIONAL{?proceeding wdt:P1813 ?_short_name.}\n  OPTIONAL{?proceeding wdt:P577 ?_pubDate.}\n  OPTIONAL{?proceeding wdt:P973 ?_ceurwsUrl.}\n  OPTIONAL{?proceeding wdt:P407 ?_language_of_work_or_name.}\n  OPTIONAL{?proceeding wdt:953 ?_fullWorkUrl.}\n  OPTIONAL{?proceeding wdt:P4109 ?_urn.}\n  OPTIONAL{?proceeding wdt:P8978 ?_dblpPublicationId.}\n  OPTIONAL{?proceeding wdt:P6721 ?_K10plus.}\n} \nGROUP BY ?volumeNumber ?proceeding ?title\nORDER BY DESC(xsd:integer(?volumeNumber))",
       "url": "https://w.wiki/6UCU",
@@ -12,247 +14,14 @@
       "description": "List all proceedings"
     },
     {
-      "query_id": "ceur-ws.LocationOfEvents",
-      "namespace": "ceur-ws.org/challenge",
+      "query_id": "LocationOfEvents--challenge@ceur-ws.org",
+      "domain": "ceur-ws.org",
+      "namespace": "challenge",
       "name": "LocationOfEvents",
-      "sparql": "# Query 10 of Task 0\n# see https://cr.bitplan.com/index.php/Q0.10\n#defaultView:Map\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nPREFIX p: <http://www.wikidata.org/prop/>\nPREFIX schema: <http://schema.org/>\nPREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX wikibase: <http://wikiba.se/ontology#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT\n?event\n?title\n?url\n?coordinates\nWHERE {\n  # Instance of Proceedings\n  ?item wdt:P31 wd:Q1143604.\n  # Part of the series\n  ?item p:P179 ?partOfTheSeries.\n  ?item wdt:P953 ?url.\n  # CEUR Workshop proceedings\n  ?partOfTheSeries ps:P179 wd:Q27230297.\n  # Acronym\n  OPTIONAL {?item wdt:P1813 ?short_name.}\n\n  ?item wdt:P4745 ?event.\n  ?event wdt:P1476 ?title.\n  OPTIONAL{\n    ?event wdt:P276 ?location.\n    OPTIONAL{?location wdt:P625 ?coordinates}\n    ?location rdfs:label ?locationLabel.\n    FILTER(LANG(?locationLabel) = \"en\")\n  }\n}",
+      "sparql": "# Query 10 of Task 0\n# see https://cr.bitplan.com/index.php?title=Q0.10\n#defaultView:Map\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nPREFIX p: <http://www.wikidata.org/prop/>\nPREFIX schema: <http://schema.org/>\nPREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX wikibase: <http://wikiba.se/ontology#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT\n?event\n?title\n?url\n?coordinates\nWHERE {\n  # Instance of Proceedings\n  ?item wdt:P31 wd:Q1143604.\n  # Part of the series\n  ?item p:P179 ?partOfTheSeries.\n  ?item wdt:P953 ?url.\n  # CEUR Workshop proceedings\n  ?partOfTheSeries ps:P179 wd:Q27230297.\n  # Acronym\n  OPTIONAL {?item wdt:P1813 ?short_name.}\n\n  ?item wdt:P4745 ?event.\n  ?event wdt:P1476 ?title.\n  OPTIONAL{\n    ?event wdt:P276 ?location.\n    OPTIONAL{?location wdt:P625 ?coordinates}\n    ?location rdfs:label ?locationLabel.\n    FILTER(LANG(?locationLabel) = \"en\")\n  }\n}",
       "url": "https://w.wiki/8gRw",
       "title": "Locations of all CEUR-WS proceedings [[Concept:Proceedings|proceedings]] [[Concept:Event|events]]",
       "description": "Map of all CEUR-WS event locations"
-    },
-    {
-      "query_id": "ceur-ws.AllPapers",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "AllPapers",
-      "sparql": "# Q0.2 List of all papers\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX p: <http://www.wikidata.org/prop/>\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nSELECT DISTINCT ?paper ?title ?proceeding ?volumeNumber\n  (SAMPLE(?_url) as ?url)\n  (SAMPLE(?_event) as ?event)\n  (SAMPLE(?_language_of_work_or_name) as ?language_of_work_or_name)\n  (GROUP_CONCAT(?_author) as ?author)\n  (GROUP_CONCAT(?_authorName;SEPARATOR=\",\") as ?author_names)\n  (SAMPLE(?_pubDate) as ?pubDate)\n  (SAMPLE(?_dblpPublicationId) as ?dblpPublicationId)\nWHERE{\n  ?proceeding wdt:P31 wd:Q1143604.\n  ?proceeding wdt:P179 wd:Q27230297.\n  ?proceeding p:P179/pq:P478 ?volumeNumber.\n  ?paper wdt:P1433 ?proceeding.\n  ?paper wdt:P1476 ?title. Filter(lang(?title)=\"en\")\n  OPTIONAL{?paper wdt:P953  ?_url.}\n  \n  OPTIONAL{?paper wdt:P5072 ?_event.}\n  OPTIONAL{\n    ?paper wdt:P50 ?_author.\n    ?_author rdfs:label ?_authorName.\n    FILTER(LANG(?_authorName)=\"en\")\n  }\n  \n  OPTIONAL{?proceeding wdt:P407 ?_language_of_work_or_name.}\n  OPTIONAL{?proceeding wdt:P8978 ?_dblpPublicationId.}\n  OPTIONAL{?proceeding wdt:P577 ?_pubDate.}\n} GROUP BY ?paper ?title ?proceeding ?volumeNumber\nORDER BY DESC(?pubDate)\n",
-      "url": "https://w.wiki/6UJb",
-      "title": "All [[Concept:Paper|papers]]",
-      "description": "List all papers published via CEUR-WS"
-    },
-    {
-      "query_id": "ceur-ws.AllEvents",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "AllEvents",
-      "sparql": "SELECT DISTINCT ?event \n  (SAMPLE(?_title) as ?title)  \n  (SAMPLE(?_acronym) as ?acronym) \n  (SAMPLE(?_startTime) as ?startTime) \n  (SAMPLE(?_endTime) as ?endTime)\n  (SAMPLE(?_country) as ?country) \n  (SAMPLE(?_location) as ?location) \n  (SAMPLE(?_officialWebsite) as ?officialWebsite) \n  (SAMPLE(?_colocatedWith) as ?colocatedWith) \n  (SAMPLE(?_dblpEventId) as ?dblpEventId) \n  (SAMPLE(?_wikiCfpId) as ?wikiCfpId) \n  (SAMPLE(?_series) as ?series) \n  (SAMPLE(?_ordinal) as ?ordinal)\nWHERE{\n  ?proceeding wdt:P31 wd:Q1143604.\n  ?proceeding wdt:P179 wd:Q27230297.\n  ?proceeding p:P179/pq:P478 ?volumeNumber.\n  ?proceeding wdt:P4745 ?event.\n  OPTIONAL{?event wdt:P1476 ?_title. Filter(lang(?_title)=\"en\")} \n  OPTIONAL{?event wdt:P580 ?_startTime.} \n  OPTIONAL{?event wdt:P582 ?_endTime.} \n  OPTIONAL{?event wdt:P17 ?_country.} \n  OPTIONAL{?event wdt:location ?_location.} \n  OPTIONAL{?event wdt:P856 ?_officialWebsite.} \n  OPTIONAL{?event wdt:P31 ?_instanceOf.} \n  OPTIONAL{?event wdt:P1813 ?_acronym.} \n  OPTIONAL{?event wdt:P11633 ?_colocatedWith.} \n  OPTIONAL{?event wdt:P10692 ?_dblpEventId.} \n  OPTIONAL{?event wdt:P5124 ?_wikiCfpId.}\n  OPTIONAL{?event wdt:P179 ?_series.} \n  OPTIONAL{?event p:P179/pq:P1545 ?_ordinal.} \n}\nGROUP BY ?event\nORDER BY DESC(?startTime)",
-      "url": "https://w.wiki/6UKq",
-      "title": "All [[Concept:Event|events]]",
-      "description": "List all proceeding events for proceedings published via CEUR-WS"
-    },
-    {
-      "query_id": "ceur-ws.AllEventSeries",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "AllEventSeries",
-      "sparql": "# Q0.4 List all event series\nSELECT DISTINCT ?series \n  (SAMPLE(?_title) as ?title)  \n  (SAMPLE(?_acronym) as ?acronym) \n  (SAMPLE(?_officialWebsite) as ?officialWebsite) \n  (GROUP_CONCAT(?_instanceOf) as ?instanceOf) \n  (SAMPLE(?_dblpVenueId) as ?dblpVenueId) \n  (SAMPLE(?_wikiCfpSeriesId) as ?wikiCfpSeriesId)\nWHERE{\n  ?proceeding wdt:P31 wd:Q1143604.\n  ?proceeding wdt:P179 wd:Q27230297.\n  ?proceeding p:P179/pq:P478 ?volumeNumber.\n  ?proceeding wdt:P4745 ?event.\n  ?event wdt:P179 ?series.\n  OPTIONAL{?series wdt:P1476 ?_title. Filter(lang(?_title)=\"en\")} \n  OPTIONAL{?series wdt:P856 ?_officialWebsite.} \n  OPTIONAL{?series wdt:P31 ?_instanceOf.} \n  OPTIONAL{?series wdt:P1813 ?_acronym.} \n  OPTIONAL{?series wdt:P8926 ?_dblpVenueId.} \n  OPTIONAL{?series wdt:P5127 ?_wikiCfpSeriesId.} \n}\nGROUP BY ?series",
-      "url": "https://w.wiki/6UE4",
-      "title": "All [[Concept:EventSeries|event series]]",
-      "description": "List all event series that have at least one event whose proceedings have been published through CEUR-WS."
-    },
-    {
-      "query_id": "ceur-ws.AllScholars",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "AllScholars",
-      "sparql": "# Q0.5 List all scholars (authors and editors) of CEUR-Workshop proceedings\nSELECT DISTINCT \n  ?scholar \n  ?label\n  #(GROUP_CONCAT(?_givenNameLabel) as ?givenName) \n  #(GROUP_CONCAT(?_familyNameLabel) as ?familyName)\nWHERE{\n  # Proceeding\n  ?proceeding wdt:P31 wd:Q1143604.\n  # CEUR-WS\n  ?proceeding wdt:P179 wd:Q27230297.\n  {\n    # authors\n    # published in \n    ?paper wdt:P1433 ?proceeding.\n    # author\n    ?paper wdt:P50 ?scholar.\n  }UNION{\n    # editors\n    ?proceeding wdt:P98 ?scholar. \n  }\n  \n  ?scholar rdfs:label ?label. \n  FILTER(LANG(?label)=\"en\").\n  #OPTIONAL{\n  #  ?scholar wdt:P735 ?_givenName.\n  #  ?_givenName rdfs:label ?_givenNameLabel.\n  #   FILTER(LANG(?_givenNameLabel)=\"en\").\n  #} \n  \n  #OPTIONAL{\n  #  ?scholar wdt:P734 ?_familyName.\n  #  ?_familyName rdfs:label ?_familyNameLabel.\n  #  FILTER(LANG(?_familyNameLabel)=\"en\").\n  #} \n}\nGROUP BY ?scholar ?label",
-      "url": "https://w.wiki/6UT6",
-      "title": "All [[Concept:Scholar|scholars]]",
-      "description": "List all scholars that have at least once (co-)authored a paper or proceeding that has been published through CEUR-WS."
-    },
-    {
-      "query_id": "ceur-ws.AllInstitutions",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "AllInstitutions",
-      "sparql": "# Q0.6 List all institutions\nSELECT DISTINCT ?institution ?institutionLabel\n  (SAMPLE(?_logoImage) as ?logoImage) \n  (SAMPLE(?_shortName) as ?shortName) \n  (SAMPLE(?_country) as ?country) \n  (SAMPLE(?_coordinateLocation) as ?coordinateLocation) \n  (SAMPLE(?_officialWebsite) as ?officialWebsite)\n  (SAMPLE(?_gndId) as ?gndId)  \nWHERE{\n  ?proceeding wdt:P31 wd:Q1143604.\n  ?proceeding wdt:P179 wd:Q27230297.\n  {\n    # authors\n    ?paper wdt:P1433 ?proceeding.\n    ?paper p:P50/pq:P1416 ?institution.\n  }UNION{\n    # editors\n    ?proceeding p:P98/pq:P1416 ?institution.\n  }\n  \n  OPTIONAL{?institution rdfs:label ?institutionLabel. Filter(lang(?institutionLabel)=\"en\")} \n  OPTIONAL{?institution wdt:P154 ?_logoImage.} \n  OPTIONAL{?institution wdt:P1813 ?_shortName.} \n  OPTIONAL{?institution wdt:P17 ?_country.} \n  OPTIONAL{?institution wdt:P625 ?_coordinateLocation.} \n  OPTIONAL{?institution wdt:P856 ?_officialWebsite.}  \n  OPTIONAL{?institution wdt:P227 ?_gndId.} \n}\nGROUP BY ?institution ?institutionLabel",
-      "url": "https://w.wiki/6UKK",
-      "title": "All [[Concept:Institution|institutions]]",
-      "description": "List all institutions from which at least one scholar has once (co-)authored a paper or proceeding that has been published through CEUR-WS."
-    },
-    {
-      "query_id": "ceur-ws.AllAuthorsOfPapersOfProceedings",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "AllAuthorsOfPapersOfProceedings",
-      "sparql": "# authors of papers of proceedings\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX p: <http://www.wikidata.org/prop/>\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nSELECT DISTINCT \n  ?author \n  ?authorLabel\n  ?paper\n  ?paperLabel\n  ?proceedings\n  ?proceedingsLabel\n \nWHERE{\n  #VALUES ?volume_number {\n  #  \"3262\"\n  #}\n  # proceedings\n  ?proceedings wdt:P31 wd:Q1143604;\n               # CEUR-WS\n               wdt:P179 wd:Q27230297;\n               # Volume\n               p:P179/pq:P478 ?volume_number;\n               rdfs:label ?proceedingsLabel;\n               FILTER(lang(?proceedingsLabel)=\"en\")\n  # scholarly article\n  ?paper wdt:P31 wd:Q13442814.\n  \n  # published in\n  ?paper wdt:P1433 ?proceedings.\n  \n  ?paper rdfs:label ?paperLabel. \n  FILTER(lang(?paperLabel)=\"en\")\n  \n  # author\n  ?paper wdt:P50 ?author.\n  ?author rdfs:label ?authorLabel. \n  FILTER(lang(?authorLabel)=\"en\")\n}",
-      "url": "https://w.wiki/6UTH",
-      "title": "Authors of [[Concept:Paper|papers]] of [[Concept:Proceedings|proceedings]]",
-      "description": "List all authors of all papers of all proceedings"
-    },
-    {
-      "query_id": "ceur-ws.DuplicateAndEmptyURNs",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "DuplicateAndEmptyURNs",
-      "sparql": "# Query 8 of Task 0\n# see https://cr.bitplan.com/index.php?title=Q0.8\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nPREFIX p: <http://www.wikidata.org/prop/>\nPREFIX schema: <http://schema.org/>\nPREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX wikibase: <http://wikiba.se/ontology#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\nSELECT \n  ?urn \n  (COUNT(?proceeding) AS ?count)\n  (GROUP_CONCAT(DISTINCT CONCAT(\"https://ceur-ws.org/Vol-\", ?sVolume, \" - \", STR(?proceeding)); separator=\", \") AS ?volWithProceedings) \nWHERE {\n   # Instance of Proceedings\n   ?proceeding wdt:P31 wd:Q1143604.\n   # with english label\n   ?proceeding rdfs:label ?proceedingLabel.\n   FILTER(LANG(?proceedingLabel) = \"en\")\n   # Part of the series\n   ?proceeding p:P179 ?partOfTheSeries.\n   # Volumes via a a qualifier of the part of the series relation\n   OPTIONAL { ?partOfTheSeries pq:P478 ?sVolume. }\n   # CEUR Workshop proceedings\n   ?partOfTheSeries ps:P179 wd:Q27230297.\n   # URN-NBN\n   OPTIONAL { ?proceeding wdt:P4109 ?urn. }\n   #FILTER(BOUND(?urn))  # Ensure URN is available\n}\nGROUP BY ?urn\nHAVING (COUNT(?proceeding) > 1)  # Only select URNs that appear more than once\nORDER BY DESC(?count)\n",
-      "url": "https://w.wiki/8eaz",
-      "title": "Duplicate and Empty URNs of [[Concept:Proceedings|proceedings]]",
-      "description": "List all proceedings with duplicate URN ids"
-    },
-    {
-      "query_id": "ceur-ws.DuplicateVolumeNumbers",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "DuplicateVolumeNumbers",
-      "sparql": "# Query 9 of Task 0\n# see https://cr.bitplan.com/index.php?title=Q0.9\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nPREFIX p: <http://www.wikidata.org/prop/>\nPREFIX schema: <http://schema.org/>\nPREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX wikibase: <http://wikiba.se/ontology#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\nSELECT ?volume (COUNT(?proceeding) AS ?count) (GROUP_CONCAT(DISTINCT ?proceeding; separator=\", \") AS ?proceedings)\nWHERE {\n   # Instance of Proceedings\n   ?proceeding wdt:P31 wd:Q1143604.\n   # with english label\n   ?proceeding rdfs:label ?proceedingLabel.\n   FILTER(LANG(?proceedingLabel) = \"en\")\n   # Part of the series\n   ?proceeding p:P179 ?partOfTheSeries.\n   # CEUR Workshop proceedings\n   ?partOfTheSeries ps:P179 wd:Q27230297.\n   # Volumes via a qualifier of the part of the series relation\n   OPTIONAL { ?partOfTheSeries pq:P478 ?sVolume. }\n   # Volume via volume property\n   OPTIONAL { ?proceeding wdt:P478 ?volume. }\n\n   # Consolidate volume numbers into one variable\n   BIND(COALESCE(?sVolume, ?volume) AS ?volume)\n}\nGROUP BY ?volume\nHAVING(COUNT(?proceeding) > 1)\nORDER BY DESC(?count)\n",
-      "url": "https://w.wiki/8ea4",
-      "title": "Duplicate CEUR-WS Volume numbers of [[Concept:Proceedings|proceedings]]",
-      "description": "List all wikidata proceedings with duplicate Volume numbers"
-    },
-    {
-      "query_id": "ceur-ws.AllEditorsOfWorkshop",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "AllEditorsOfWorkshop",
-      "sparql": "SELECT ?proceedings ?editor ?editorLabel ?affiliation ?affiliationLabel WHERE {\n  VALUES ?volume_number {\n    \"3262\"\n  }\n  ?proceedings wdt:P31 wd:Q1143604;\n    wdt:P179 wd:Q27230297;\n    (p:P179/pq:P478) ?volume_number;\n    p:P98 _:b2.\n  _:b2 ps:P98 ?editor;\n    pq:P1416 ?affiliation.\n  ?editor rdfs:label ?editorLabel.\n  FILTER((LANG(?editorLabel)) = \"en\")\n  ?affiliation rdfs:label ?affiliationLabel.\n  FILTER((LANG(?affiliationLabel)) = \"en\")\n}",
-      "url": "https://w.wiki/6UAa",
-      "title": "All Editors of Workshop(Volume W)",
-      "description": "List the full names of all editors of the proceedings of workshop W."
-    },
-    {
-      "query_id": "ceur-ws.NumberOfEditionsOfWorkshopSeries",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "NumberOfEditionsOfWorkshopSeries",
-      "sparql": "# Q1.11\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX p: <http://www.wikidata.org/prop/>\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nSELECT DISTINCT ?series ?seriesLabel (Count(DISTINCT ?event2)as ?number_of_events)\nWHERE{\n  ?proceedings wdt:P31 wd:Q1143604;\n               wdt:P179 wd:Q27230297;\n               p:P179/pq:P478 ?volume_number;\n               wdt:P4745 ?event.\n  ?event wdt:P179 ?series.\n  ?event2 wdt:P179 ?series.\n  ?series rdfs:label ?seriesLabel. FILTER(lang(?seriesLabel)=\"en\")\n}\nGROUP BY ?series ?seriesLabel\nORDER BY DESC(?number_of_events)",
-      "url": "https://w.wiki/6UB4",
-      "title": "Number of Editions of workshop series",
-      "description": "Determine the number of editions that the workshop series titled T has had, regardless of whether published with CEUR-WS.org."
-    },
-    {
-      "query_id": "ceur-ws.ChangeOfWorkshopTitle",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "ChangeOfWorkshopTitle",
-      "sparql": "# Q1.12\nSELECT DISTINCT ?event ?eventLabel\nWHERE{\n  VALUES ?event_title {\"The Third Wikidata Workshop\"@en}\n  ?proceedings wdt:P31 wd:Q1143604;\n               wdt:P179 wd:Q27230297;\n               p:P179/pq:P478 ?volume_number;\n               wdt:P4745 ?e.\n  ?e wdt:P179 ?series;\n         wdt:P1476|rdfs:label ?event_title.\n  ?event p:P179 [\n                  ps:P179 ?series;\n                  pq:P1545 ?ordinal\n  ].\n  ?event rdfs:label ?eventLabel. FILTER(lang(?eventLabel)=\"en\")\n}\nORDER BY ?ordinal\nLIMIT 1\n",
-      "url": "https://w.wiki/6UB5",
-      "title": "Change of Workshop title",
-      "description": "(Change of workshop title) Determine the title (without year) that workshop W had in its first edition."
-    },
-    {
-      "query_id": "ceur-ws.JointlyPublishedPapers",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "JointlyPublishedPapers",
-      "sparql": "# Q1.14\nSELECT DISTINCT ?paper ?paperLabel ?proceedings\nWHERE{\n  VALUES ?event_title {\"1st International Workshop on Knowledge Graph Generation From Text\"@en}\n  ?proceedings wdt:P31 wd:Q1143604;\n               wdt:P179 wd:Q27230297;\n               p:P179/pq:P478 ?volume_number;\n               wdt:P4745 ?event.\n  ?event wdt:P1476|rdfs:label ?event_title.\n  ?paper wdt:P1433 ?proceedings;  # published in\n         wdt:P5072 ?event. # presented in\n  \n  ?paper rdfs:label ?paperLabel. FILTER(lang(?paperLabel)=\"en\")\n}\n",
-      "url": "https://w.wiki/6UBA",
-      "title": "Jointly published papers",
-      "description": "(Papers of a workshop published jointly with others) Identify the papers of the workshop titled T (which was published in a joint volume V with other workshops)."
-    },
-    {
-      "query_id": "ceur-ws.EditorsOfJointlyPublishedPapers",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "EditorsOfJointlyPublishedPapers",
-      "sparql": "# Q1.15\nSELECT DISTINCT ?proceedings ?event ?editor ?editorLabel\nWHERE{\n  VALUES ?event_title {\"1st International Workshop on Knowledge Graph Generation From Text\"@en}\n  ?proceedings wdt:P31 wd:Q1143604;\n               wdt:P179 wd:Q27230297;\n               p:P179/pq:P478 ?volume_number;\n               p:P4745 [\n                            ps:P4745 ?event;\n                            pq:P98 ?editor\n               ].\n  ?event wdt:P1476|rdfs:label ?event_title.\n  \n  ?editor rdfs:label ?editorLabel. FILTER(lang(?editorLabel)=\"en\")\n}",
-      "url": "https://w.wiki/6UBB",
-      "title": "Editors of jointly published papers",
-      "description": "(Editors of one workshop published jointly with others) List the full names of all editors of the proceedings of the workshop titled T (which was published in a joint volume V with other workshops)."
-    },
-    {
-      "query_id": "ceur-ws.NumberOfPapersInWorkshop",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "NumberOfPapersInWorkshop",
-      "sparql": "PREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX p: <http://www.wikidata.org/prop/>\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nSELECT ?proceedings (COUNT(DISTINCT ?paper) as ?number_of_papers)\nWHERE{\n  VALUES ?volume_number {\"3262\"}\n  ?proceedings wdt:P31 wd:Q1143604;\n               wdt:P179 wd:Q27230297;\n               p:P179/pq:P478 ?volume_number.\n  ?paper wdt:P31 wd:Q13442814;\n         wdt:P1433 ?proceedings.\n}\nGROUP BY ?proceedings",
-      "url": "https://w.wiki/6UAd",
-      "title": "Number of Papers in Workshop(Volume W)",
-      "description": "Count the number of papers in workshop W."
-    },
-    {
-      "query_id": "ceur-ws.AllAuthorsOfWorkshop",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "AllAuthorsOfWorkshop",
-      "sparql": "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX p: <http://www.wikidata.org/prop/>\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nSELECT DISTINCT ?proceedings ?author ?authorLabel\nWHERE{\n  VALUES ?volume_number {\"3262\"}\n  ?proceedings wdt:P31 wd:Q1143604;\n               wdt:P179 wd:Q27230297;\n               p:P179/pq:P478 ?volume_number.\n  ?paper wdt:P31 wd:Q13442814;\n         wdt:P1433 ?proceedings;\n         wdt:P50|wdt:P2093 ?author.\n  ?author rdfs:label ?authorLabel. FILTER(lang(?authorLabel)=\"en\")\n}",
-      "url": "https://w.wiki/6UAf",
-      "title": "All Authors of Workshop",
-      "description": "List the full names of all authors who have (co-)authored a paper in workshop W."
-    },
-    {
-      "query_id": "ceur-ws.AverageNoOfPagesInWorkshop",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "AverageNoOfPagesInWorkshop",
-      "sparql": "PREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX p: <http://www.wikidata.org/prop/>\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nSELECT DISTINCT ?proceedings (AVG(?number_of_pages) as ?avg_number_of_pages)\nWHERE{\n  VALUES ?volume_number {\"3262\"}\n  ?proceedings wdt:P31 wd:Q1143604;\n               wdt:P179 wd:Q27230297;\n               p:P179/pq:P478 ?volume_number.\n  ?paper wdt:P31 wd:Q13442814;\n         wdt:P1433 ?proceedings;\n         wdt:P1104 ?number_of_pages.\n}\nGROUP BY ?proceedings\n",
-      "url": "https://w.wiki/6UAX",
-      "title": "Average # of pages in workshop",
-      "description": "Compute the average length of a paper (in pages) in workshop W."
-    },
-    {
-      "query_id": "ceur-ws.PublicationTurnaround",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "PublicationTurnaround",
-      "sparql": "# Q1.5\nSELECT DISTINCT ?proceedings ?pub_date ?event ?start_date\nWHERE{\n  ?proceedings wdt:P31 wd:Q1143604;\n               wdt:P179 wd:Q27230297;\n               p:P179/pq:P478 ?volume_number;\n               wdt:P577 ?pub_date;\n               wdt:P4745 ?event.\n  ?event wdt:P580 ?start_date.\n  FILTER(?pub_date < ?start_date)\n}\n",
-      "url": "https://w.wiki/6UAk",
-      "title": "Publication turnaround",
-      "description": "Find out whether the proceedings of workshop W were published on CEUR-WS.org before the workshop took place.\n\nThis query lists all proceedings that were published before the event took place."
-    },
-    {
-      "query_id": "ceur-ws.PreviousEditionsOfAWorkshop",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "PreviousEditionsOfAWorkshop",
-      "sparql": "# Q1.6\nSELECT DISTINCT ?event ?ordinal ?proceedings ?volume_number\nWHERE{\n  VALUES ?series_title {\"Wikidata Workshop\"@en}\n  VALUES ?series_type{ wd:Q47459256 wd:Q47258130 }\n  ?series wdt:P31 ?series_type;\n          wdt:P1476|rdfs:label ?series_title.\n  ?event p:P179 [\n            ps:P179 ?series;\n            pq:P1545 ?ordinal\n          ].\n\n  ?proceedings wdt:P31 wd:Q1143604;\n               wdt:P179 wd:Q27230297;\n               p:P179/pq:P478 ?volume_number;\n               wdt:P4745 ?event.\n}\n",
-      "url": "https://w.wiki/6UAo",
-      "title": "Previous editions of a workshop",
-      "description": "(Previous editions of a workshop) Identify all editions that the workshop series titled T has published with CEUR-WS.org."
-    },
-    {
-      "query_id": "ceur-ws.ChairsOverTheHistoryOfAWorkshop",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "ChairsOverTheHistoryOfAWorkshop",
-      "sparql": "# Q1.7\nSELECT DISTINCT ?programm_commitee ?programm_commiteeLabel\nWHERE{\n  VALUES ?series_title {\"Wikidata Workshop\"@en}\n  VALUES ?series_type{ wd:Q47459256 wd:Q47258130 }\n  ?series wdt:P31 ?series_type;\n          wdt:P1476|rdfs:label ?series_title.\n  ?event p:P179 [\n            ps:P179 ?series;\n            pq:P1545 ?ordinal\n          ];\n         wdt:P5804 ?programm_commitee;\n         ^wdt:P4745/wdt:P179 wd:Q27230297.\n  {\n    SELECT (COUNT(DISTINCT ?event) as ?number_of_events)\n    WHERE{\n      VALUES ?series_title {\"Wikidata Workshop\"@en}\n      VALUES ?series_type{ wd:Q47459256 wd:Q47258130 }\n      ?series wdt:P31 ?series_type;\n          wdt:P1476|rdfs:label ?series_title.\n      ?event p:P179 [\n            ps:P179 ?series;\n            pq:P1545 ?ordinal\n          ];\n           wdt:P5804 ?programm_commitee;\n           ^wdt:P4745/wdt:P179 wd:Q27230297.\n      }\n    }\n\n  ?programm_commitee rdfs:label ?programm_commiteeLabel. FILTER(lang(?programm_commiteeLabel)=\"en\")\n}GROUP BY ?programm_commitee ?number_of_events ?programm_commiteeLabel\nHAVING (?number_of_events = COUNT(?programm_commitee))\n",
-      "url": "https://w.wiki/6UAu",
-      "title": "Chairs over the history of a workshop",
-      "description": "Identify the full names of those chairs of the workshop series titled T that have so far been a chair in every edition of the workshop published with CEUR-WS.org."
-    },
-    {
-      "query_id": "ceur-ws.WorkshopsOfConferenceInYear",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "WorkshopsOfConferenceInYear",
-      "sparql": "# Q1.8\nSELECT DISTINCT *\nWHERE{\n  VALUES ?conference_title {\"ESWC 2022\"@en}\n  ?proceedings wdt:P31 wd:Q1143604;\n               wdt:P179 wd:Q27230297;\n               p:P179/pq:P478 ?volume_number;\n               wdt:P577 ?pub_date;\n               wdt:P4745 ?workshop.\n  ?workshop wdt:P11633 ?conference.  # colocated with\n  ?conference wdt:P1476|rdfs:label ?conference_title.\n  \n FILTER(YEAR(?pub_date)= \"2022\"^^xsd:integer)\n}\n",
-      "url": "https://w.wiki/6UAw",
-      "title": "Workshops of Conference in Year",
-      "description": "Identify all CEUR-WS.org proceedings volumes in which workshops of conference C in year Y were published."
-    },
-    {
-      "query_id": "ceur-ws.ChairOfWorkshopAsCoauthor",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "ChairOfWorkshopAsCoauthor",
-      "sparql": "# Q1.9\nSELECT DISTINCT ?proceedings ?paper ?paperLabel ?event ?eventLabel ?author ?authorLabel\nWHERE{\n  #VALUES ?volume_number {\"3262\"}\n  ?proceedings wdt:P31 wd:Q1143604;\n               wdt:P179 wd:Q27230297;\n               p:P179/pq:P478 ?volume_number;\n               wdt:P4745 ?event.\n  \n  ?paper wdt:P31 wd:Q13442814;\n         wdt:P1433 ?proceedings;\n         wdt:P50|wdt:P2093 ?author.\n  ?event wdt:P5804 ?author.\n  \n  \n  ?author rdfs:label ?authorLabel. FILTER(lang(?authorLabel)=\"en\")\n  ?paper rdfs:label ?paperLabel. FILTER(lang(?paperLabel)=\"en\")\n  ?event rdfs:label ?eventLabel. FILTER(lang(?eventLabel)=\"en\")\n}\n",
-      "url": "https://w.wiki/6UA$",
-      "title": "Chair of Workshop as Coauthor",
-      "description": "Identify those papers of workshop W that were (co-)authored by at least one chair of the workshop."
-    },
-    {
-      "query_id": "ceur-ws.WorksCitedByPaper",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "WorksCitedByPaper",
-      "sparql": "# Q2.3\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX p: <http://www.wikidata.org/prop/>\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nSELECT DISTINCT ?citingPaper ?citingPaperLabel ?paper ?paperLabel \nWHERE{\n  #VALUES ?proceedings {\n  # wd:Q27230297\n  #}\n  VALUES ?paper {\n    wd:Q36198963\n  }\n  #?paper wdt:P1433 ?proceedings. \n  ?paper rdfs:label ?paperLabel. \n  FILTER(lang(?paperLabel)=\"en\")\n  # cites work\n  ?citingPaper wdt:P2860 ?paper.\n  ?citingPaper rdfs:label ?citingPaperLabel.\n  FILTER(lang(?citingPaperLabel)=\"en\")\n}",
-      "url": "https://w.wiki/6UBC",
-      "title": "Works cited by paper",
-      "description": "Identify all works cited by paper X."
-    },
-    {
-      "query_id": "ceur-ws.WorksCitedByPaperAfterYear",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "WorksCitedByPaperAfterYear",
-      "sparql": "# Q2.4\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX p: <http://www.wikidata.org/prop/>\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nSELECT DISTINCT ?citingPaper ?citingPaperLabel ?paper ?paperLabel ?publicationDate\nWHERE{\n  #VALUES ?proceedings {\n  # wd:Q27230297\n  #}\n  VALUES ?paper {\n    wd:Q36198963\n  }\n  #?paper wdt:P1433 ?proceedings. \n  ?paper rdfs:label ?paperLabel. \n  FILTER(lang(?paperLabel)=\"en\")\n  # cites work\n  ?citingPaper wdt:P2860 ?paper.\n  ?citingPaper rdfs:label ?citingPaperLabel.\n  FILTER(lang(?citingPaperLabel)=\"en\")\n  ?citingPaper wdt:P577 ?publicationDate\n  FILTER(year(?publicationDate)>2015)\n} \nORDER BY DESC(?publicationDate)",
-      "url": "https://w.wiki/6UBF",
-      "title": "Works cited by paper after year",
-      "description": "Identify all works cited by paper X and published after year Y."
-    },
-    {
-      "query_id": "ceur-ws.WikiCfpLinksForWorkshops",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "WikiCfpLinksForWorkshops",
-      "sparql": "SELECT DISTINCT ?event \n  (SAMPLE(?_title) as ?title)  \n  (SAMPLE(?_acronym) as ?acronym) \n  (SAMPLE(?_startTime) as ?startTime) \n  (SAMPLE(?_endTime) as ?endTime)\n  (SAMPLE(?_country) as ?country) \n  (SAMPLE(?_location) as ?location) \n  (SAMPLE(?_officialWebsite) as ?officialWebsite) \n  (SAMPLE(?_colocatedWith) as ?colocatedWith) \n  (SAMPLE(?_dblpEventId) as ?dblpEventId) \n  (SAMPLE(?_wikiCfpId) as ?wikiCfpId) \n  (SAMPLE(?_series) as ?series) \n  (SAMPLE(?_ordinal) as ?ordinal)\nWHERE{\n  ?proceeding wdt:P31 wd:Q1143604.\n  ?proceeding wdt:P179 wd:Q27230297.\n  ?proceeding p:P179/pq:P478 ?volumeNumber.\n  ?proceeding wdt:P4745 ?event.\n  OPTIONAL{?event wdt:P1476 ?_title. Filter(lang(?_title)=\"en\")} \n  OPTIONAL{?event wdt:P580 ?_startTime.} \n  OPTIONAL{?event wdt:P582 ?_endTime.} \n  OPTIONAL{?event wdt:P17 ?_country.} \n  OPTIONAL{?event wdt:location ?_location.} \n  OPTIONAL{?event wdt:P856 ?_officialWebsite.} \n  OPTIONAL{?event wdt:P31 ?_instanceOf.} \n  OPTIONAL{?event wdt:P1813 ?_acronym.} \n  OPTIONAL{?event wdt:P11633 ?_colocatedWith.} \n  OPTIONAL{?event wdt:P10692 ?_dblpEventId.} \n  ?event wdt:P5124 ?_wikiCfpId.\n  OPTIONAL{?event wdt:P179 ?_series.} \n  OPTIONAL{?event p:P179/pq:P1545 ?_ordinal.} \n}\nGROUP BY ?event\nORDER BY DESC(?startTime)",
-      "url": "https://w.wiki/6UKs",
-      "title": "Workshop call for papers",
-      "description": "Link a CEUR-WS.org workshop W to its call for papers announced on EventSeer and/or WikiCfP."
-    },
-    {
-      "query_id": "ceur-ws.WorkshopWebsites",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "WorkshopWebsites",
-      "sparql": "SELECT DISTINCT ?event \n  (SAMPLE(?_title) as ?title)  \n  (SAMPLE(?_acronym) as ?acronym) \n  (SAMPLE(?_startTime) as ?startTime) \n  (SAMPLE(?_endTime) as ?endTime)\n  (SAMPLE(?_country) as ?country) \n  (SAMPLE(?_location) as ?location) \n  (SAMPLE(?_officialWebsite) as ?officialWebsite) \n  (SAMPLE(?_colocatedWith) as ?colocatedWith) \n  (SAMPLE(?_dblpEventId) as ?dblpEventId) \n  (SAMPLE(?_wikiCfpId) as ?wikiCfpId) \n  (SAMPLE(?_series) as ?series) \n  (SAMPLE(?_ordinal) as ?ordinal)\nWHERE{\n  ?proceeding wdt:P31 wd:Q1143604.\n  ?proceeding wdt:P179 wd:Q27230297.\n  ?proceeding p:P179/pq:P478 ?volumeNumber.\n  ?proceeding wdt:P4745 ?event.\n  OPTIONAL{?event wdt:P1476 ?_title. Filter(lang(?_title)=\"en\")} \n  OPTIONAL{?event wdt:P580 ?_startTime.} \n  OPTIONAL{?event wdt:P582 ?_endTime.} \n  OPTIONAL{?event wdt:P17 ?_country.} \n  OPTIONAL{?event wdt:location ?_location.} \n  ?event wdt:P856 ?_officialWebsite.\n  OPTIONAL{?event wdt:P31 ?_instanceOf.} \n  OPTIONAL{?event wdt:P1813 ?_acronym.} \n  OPTIONAL{?event wdt:P11633 ?_colocatedWith.} \n  OPTIONAL{?event wdt:P10692 ?_dblpEventId.} \n  OPTIONAL{?event wdt:P5124 ?_wikiCfpId.}\n  OPTIONAL{?event wdt:P179 ?_series.} \n  OPTIONAL{?event p:P179/pq:P1545 ?_ordinal.} \n}\nGROUP BY ?event\nORDER BY DESC(?startTime)",
-      "url": "https://w.wiki/6ULB",
-      "title": "Workshop website",
-      "description": "Link a workshop or conference X that appears in the CEUR-WS.org dataset to the workshop's or conference's website URL."
-    },
-    {
-      "query_id": "ceur-ws.AuthorActivityInYear",
-      "namespace": "ceur-ws.org/challenge",
-      "name": "AuthorActivityInYear",
-      "sparql": "#defaultView:Table\nPREFIX target: <http://www.wikidata.org/entity/Q27942628>\n\nSELECT\n  (MIN(?_year) as ?year)\n  (MIN(?dates) AS ?date)\n  ?work ?workLabel\n  (GROUP_CONCAT(DISTINCT ?type_label; separator=\", \") AS ?type)\n  (SAMPLE(?pages_) AS ?pages)\n  ?venue ?venueLabel\n  (GROUP_CONCAT(DISTINCT ?author_label; separator=\", \") AS ?authors)\nWHERE {\n  ?work wdt:P50 target: .\n  ?work wdt:P50 ?author .\n  OPTIONAL {\n    ?author rdfs:label ?author_label_ . FILTER (LANG(?author_label_) = 'en')\n  }\n  BIND(COALESCE(?author_label_, SUBSTR(STR(?author), 32)) AS ?author_label)\n  OPTIONAL { ?work wdt:P31 ?type_ . ?type_ rdfs:label ?type_label . FILTER (LANG(?type_label) = 'en') }\n  ?work wdt:P577 ?datetimes .\n  BIND(xsd:date(?datetimes) AS ?dates)\n  BIND(year(?dates) as ?_year)\n\n \n  OPTIONAL { ?work wdt:P1104 ?pages_ }\n  OPTIONAL { ?work wdt:P1433 ?venue }\n  ?work rdfs:label ?workLabel\n  FILTER(LANG(?workLabel)=\"en\")\n}\nGROUP BY ?work ?workLabel ?venue ?venueLabel\nORDER BY DESC(?date)",
-      "url": "https://w.wiki/6UTP",
-      "title": "Overall activity in a year",
-      "description": "Identify for an author A of a CEUR-WS.org paper P all his/her activity in year Y."
     }
   ]
 }

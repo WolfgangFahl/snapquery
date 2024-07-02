@@ -1,52 +1,57 @@
 {
-	"namespace": "dblp.org/examples",
-	"target_graph_name": "dblp",
-	"queries": [
-		{
-			"query_id": "dblp.MostCitedPublicationsWithKeyword",
-			"namespace": "dblp.org/examples",
-			"name": "MostCitedPublicationsWithKeyword",
-			"sparql": "PREFIX dblp: <https://dblp.org/rdf/schema#>\nPREFIX cito: <http://purl.org/spar/cito/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX schema: <https://schema.org/>\nSELECT ?url ?publ ?label (COUNT(?citation) as ?cites) WHERE {\n  ?publ rdf:type dblp:Publication .\n  ?publ dblp:title ?title .\n  FILTER CONTAINS(?title, \"{{ keyword }}\") .\n  ?publ dblp:omid ?omid .\n  ?publ rdfs:label ?label .\n  ?citation rdf:type cito:Citation .\n  ?citation cito:hasCitedEntity ?omid .\n  ?omid schema:url ?url .\n}\nGROUP BY ?url ?publ ?label\nORDER BY DESC(?cites)\nLIMIT 10",
-			"url": "https://sparql.dblp.org/dblp/9062it",
-			"title": "Most cited publications with title keyword '{{ keyword }}'",
-			"description": "List the top 10 most cited publications with the keyword '{{ keyword }}' in the title."
-		},
-		{
-			"query_id": "dblp.PublicationTypes",
-			"namespace": "dblp.org/examples",
-			"name": "PublicationTypes",
-			"sparql": "PREFIX dblp: <https://dblp.org/rdf/schema#>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?type (COUNT(?type) AS ?count) WHERE {\n  ?subject rdf:type dblp:Publication .\n  ?subject rdf:type ?type .\n  FILTER( ?type != dblp:Publication )\n}\nGROUP BY ?type\nORDER BY DESC(?count)",
-			"url": "https://sparql.dblp.org/dblp/tLfR7u",
-			"title": "Publication Types",
-			"description": "Counts of different types of publications in the DBLP database."
-		},
-		{
-			"query_id": "dblp.CreatorTypes",
-			"namespace": "dblp.org/examples",
-			"name": "CreatorTypes",
-			"sparql": "PREFIX dblp: <https://dblp.org/rdf/schema#>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?type (COUNT(?type) AS ?count) WHERE {\n  ?subject rdf:type dblp:Creator .\n  ?subject rdf:type ?type .\n  FILTER( ?type != dblp:Creator )\n}\nGROUP BY ?type\nORDER BY DESC(?count)",
-			"url": "https://sparql.dblp.org/dblp/t4dF0g",
-			"title": "Creator Types",
-			"description": "Counts of different types of creators in the DBLP database."
-		},
-		{
-			"query_id": "dblp.CitationTypes",
-			"namespace": "dblp.org/examples",
-			"name": "CitationTypes",
-			"sparql": "PREFIX cito: <http://purl.org/spar/cito/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?type (COUNT(?type) AS ?count) WHERE {\n  ?subject rdf:type cito:Citation .\n  ?subject rdf:type ?type .\n}\nGROUP BY ?type\nORDER BY DESC(?count)",
-			"url": "https://sparql.dblp.org/dblp/1FF7rR",
-			"title": "Citation Types",
-			"description": "Counts of different types of citations in the DBLP+OCC database."
-		},
-		{
-			"query_id": "dblp.IDSchemes",
-			"namespace": "dblp.org/examples",
-			"name": "IDSchemes",
-			"sparql": "PREFIX datacite: <http://purl.org/spar/datacite/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?scheme ?type (COUNT(DISTINCT ?id) as ?count_scheme) WHERE {\n  ?item datacite:hasIdentifier ?id .\n  ?id datacite:usesIdentifierScheme ?scheme .\n  ?id rdf:type ?type .\n  FILTER (?scheme != datacite:dblp-record && ?scheme != datacite:dblp)\n}\nGROUP BY ?scheme ?type\nORDER BY DESC(?count_scheme)\nLIMIT 10",
-			"url": "https://sparql.dblp.org/dblp/tSkthy",
-			"title": "ID Schemes Linked",
-			"description": "Counts of different identifier schemes linked in the DBLP dataset, excluding dblp-record and dblp schemes."
-		}
-	]
+    "domain": "dblp.org",
+    "namespace": "examples",
+    "target_graph_name": "dblp",
+    "queries": [
+        {
+            "query_id": "MostCitedPublicationsWithKeyword--examples@dblp.org",
+            "domain": "dblp.org",
+            "namespace": "examples",
+            "name": "MostCitedPublicationsWithKeyword",
+            "sparql": "PREFIX dblp: <https://dblp.org/rdf/schema#>\nPREFIX cito: <http://purl.org/spar/cito/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX schema: <https://schema.org/>\nSELECT ?url ?publ ?label (COUNT(?citation) as ?cites) WHERE {\n  ?publ rdf:type dblp:Publication .\n  ?publ dblp:title ?title .\n  FILTER CONTAINS(?title, \"{{ keyword }}\") .\n  ?publ dblp:omid ?omid .\n  ?publ rdfs:label ?label .\n  ?citation rdf:type cito:Citation .\n  ?citation cito:hasCitedEntity ?omid .\n  ?omid schema:url ?url .\n}\nGROUP BY ?url ?publ ?label\nORDER BY DESC(?cites)\nLIMIT 10",
+            "url": "https://sparql.dblp.org/dblp/9062it",
+            "title": "Most cited publications with title keyword '{{ keyword }}'",
+            "description": "List the top 10 most cited publications with the keyword '{{ keyword }}' in the title."
+        },
+        {
+            "query_id": "PublicationTypes--examples@dblp.org",
+            "domain": "dblp.org",
+            "namespace": "examples",
+            "name": "PublicationTypes",
+            "sparql": "PREFIX dblp: <https://dblp.org/rdf/schema#>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?type (COUNT(?type) AS ?count) WHERE {\n  ?subject rdf:type dblp:Publication .\n  ?subject rdf:type ?type .\n  FILTER( ?type != dblp:Publication )\n}\nGROUP BY ?type\nORDER BY DESC(?count)",
+            "url": "https://sparql.dblp.org/dblp/tLfR7u",
+            "title": "Publication Types",
+            "description": "Counts of different types of publications in the DBLP database."
+        },
+        {
+            "query_id": "CreatorTypes--examples@dblp.org",
+            "domain": "dblp.org",
+            "namespace": "examples",
+            "name": "CreatorTypes",
+            "sparql": "PREFIX dblp: <https://dblp.org/rdf/schema#>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?type (COUNT(?type) AS ?count) WHERE {\n  ?subject rdf:type dblp:Creator .\n  ?subject rdf:type ?type .\n  FILTER( ?type != dblp:Creator )\n}\nGROUP BY ?type\nORDER BY DESC(?count)",
+            "url": "https://sparql.dblp.org/dblp/t4dF0g",
+            "title": "Creator Types",
+            "description": "Counts of different types of creators in the DBLP database."
+        },
+        {
+            "query_id": "CitationTypes--examples@dblp.org",
+            "domain": "dblp.org",
+            "namespace": "examples",
+            "name": "CitationTypes",
+            "sparql": "PREFIX cito: <http://purl.org/spar/cito/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?type (COUNT(?type) AS ?count) WHERE {\n  ?subject rdf:type cito:Citation .\n  ?subject rdf:type ?type .\n}\nGROUP BY ?type\nORDER BY DESC(?count)",
+            "url": "https://sparql.dblp.org/dblp/1FF7rR",
+            "title": "Citation Types",
+            "description": "Counts of different types of citations in the DBLP+OCC database."
+        },
+        {
+            "query_id": "IDSchemes--examples@dblp.org",
+            "domain": "dblp.org",
+            "namespace": "examples",
+            "name": "IDSchemes",
+            "sparql": "PREFIX datacite: <http://purl.org/spar/datacite/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT ?scheme ?type (COUNT(DISTINCT ?id) as ?count_scheme) WHERE {\n  ?item datacite:hasIdentifier ?id .\n  ?id datacite:usesIdentifierScheme ?scheme .\n  ?id rdf:type ?type .\n  FILTER (?scheme != datacite:dblp-record && ?scheme != datacite:dblp)\n}\nGROUP BY ?scheme ?type\nORDER BY DESC(?count_scheme)\nLIMIT 10",
+            "url": "https://sparql.dblp.org/dblp/tSkthy",
+            "title": "ID Schemes Linked",
+            "description": "Counts of different identifier schemes linked in the DBLP dataset, excluding dblp-record and dblp schemes."
+        }
+    ]
 }
-

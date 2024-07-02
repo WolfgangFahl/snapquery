@@ -279,6 +279,7 @@ ORDER BY ?horse
         from a dictionary record.
         """
         return cls(
+            domain=record["domain"],
             namespace=record["namespace"],
             name=record["name"],
             title=record.get("title"),

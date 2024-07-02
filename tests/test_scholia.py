@@ -3,7 +3,7 @@ Created on 2024-05-04
 
 @author: wf
 """
-
+import unittest
 import os
 
 from ngwidgets.basetest import Basetest
@@ -20,6 +20,7 @@ class TestScholia(Basetest):
     def setUp(self, debug=False, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
 
+    @unittest.skipIf(Basetest.inPublicCI(), "avoid github rate limit")
     def test_scholia_queries(self):
         """
         Test retrieving Scholia queries.

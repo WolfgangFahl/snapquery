@@ -33,9 +33,13 @@ class TestImport(Basetest):
             for json_file in glob.glob(os.path.join(nqm.samples_path, "*.json")):
                 with_store = True
                 show_progress = self.debug
-                nq_list = qimport.import_from_json_file(
-                    json_file, with_store, show_progress
-                )
+                try:
+                    nq_list = qimport.import_from_json_file(
+                        json_file, with_store, show_progress
+                    )
+                except Exception as ex:
+                    print(f"could not load json_file {json_file}")
+                    raise ex
                 if "ceur" in json_file:
                     json_file_name = os.path.basename(json_file)
                     output_path = os.path.join("/tmp", json_file_name)

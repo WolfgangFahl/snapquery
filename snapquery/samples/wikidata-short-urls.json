@@ -1,4 +1,5 @@
 {
+  "domain": "wikidata.org",
   "namespace": "short_url",
   "target_graph_name": "wikidata",
   "queries": [

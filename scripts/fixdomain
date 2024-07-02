@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Read the JSON file
+name=wikidata-short-urls.json
+input_file=snapquery/samples/$name
+
+# Use jq to transform and add necessary fields
+jq '{
+  domain: "wikidata.org",
+  namespace: "short_url",
+  target_graph_name: "wikidata",
+  queries: [.queries[] | {
+      query_id: (.name | gsub(" "; "_") | ascii_downcase) + "--short_url@wikidata.org",
+      domain: "wikidata.org",
+      namespace: "short_url",
+      name: .name,
+      sparql: .sparql,
+      url: .url,
+      title: .title,
+      description: .description
+    }]
+}' $input_file > /tmp/$name
+
+# Display the transformed JSON
+cat /tmp/$name

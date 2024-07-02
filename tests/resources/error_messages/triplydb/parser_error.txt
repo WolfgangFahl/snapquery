@@ -1,0 +1,4 @@
+QueryBadFormed: A bad request has been sent to the endpoint: probably the SPARQL query is badly formed.
+
+Response:
+b'{"message":"Invalid SPARQL query: Parser error on line 63:\\n\\n} AS %MOLS {\\n-----^"}'

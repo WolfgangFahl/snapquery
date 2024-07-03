@@ -46,7 +46,8 @@ class TestNamedQueryManager(Basetest):
         """
         with tempfile.NamedTemporaryFile() as tmpfile:
             nqm = NamedQueryManager.from_samples(db_path=tmpfile.name)
-            query_bundle = nqm.get_query(namespace="snapquery-examples", name="cats")
+            query_name=QueryName(namespace="snapquery-examples", name="cats")
+            query_bundle = nqm.get_query(query_name=query_name)
             lod, query_stats = query_bundle.get_lod_with_stats()
             self.assertEqual(query_bundle.named_query.query_id, query_stats.query_id)
             self.assertEqual(query_stats.endpoint_name, query_bundle.endpoint.name)
@@ -77,8 +78,7 @@ class TestNamedQueryManager(Basetest):
         for i, query_record in enumerate(query_records):
             named_query = NamedQuery.from_record(query_record)
             query_bundle = nqm.get_query(
-                named_query.name,
-                named_query.namespace,
+                query_name=named_query,
                 endpoint_name="wikidata-openlinksw",
             )
             if self.debug:

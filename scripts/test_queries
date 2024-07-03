@@ -14,10 +14,10 @@ run_snapquery() {
     # Ensure the log directory exists
     local log_dir="/tmp/query_test_log"
     mkdir -p "$log_dir"
-    local log="${log_dir}/${endpoint}-${sanitized_namespace}@{$domain}.log"
+    local log="${log_dir}/${endpoint}-${sanitized_namespace}@${domain}.log"
     local command="snapquery -d -tq -en '$endpoint' --context 'cmd_line_tests' --domain '$domain' --namespace '$namespace'"
     echo "Running $command..."
-    #nohup bash -c "$command" 2>&1 > "$log"  &
+    nohup bash -c "$command" 2>&1 > "$log"  &
     echo "... logged at $log"
 }
 
@@ -30,8 +30,8 @@ dblp_endpoints=("dblp" "dblp-qlever" "dblp-trier")
 
 # Process each line to extract domains, namespaces, and totals
 while IFS=':' read -r full_namespace count; do
-    domain="${full_namespace%%@*}"
-    namespace="${full_namespace#*@}"
+    namespace="${full_namespace%%@*}"
+    domain="${full_namespace#*@}"
     echo "Processing $domain/$namespace with total entries $count"
     case "$domain" in
         dblp.org)

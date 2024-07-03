@@ -20,7 +20,7 @@ from snapquery.namespace_stats_view import NamespaceStatsView
 from snapquery.orcid import OrcidAuth
 from snapquery.person_selector import PersonSelector, PersonView
 from snapquery.qimport_view import QueryImportView
-from snapquery.snapquery_core import NamedQueryManager, QueryBundle
+from snapquery.snapquery_core import QueryName, NamedQueryManager, QueryBundle
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.stats_view import QueryStatsView
 from snapquery.version import Version
@@ -174,7 +174,8 @@ class SnapQueryWebServer(InputWebserver):
             Raises:
                 HTTPException: If the query cannot be found or fails to execute.
             """
-            qb = self.nqm.get_query(domain=domain, namespace=namespace,name=name, endpoint_name=endpoint_name, limit=limit)
+            query_name=QueryName(domain=domain, namespace=namespace,name=name)
+            qb = self.nqm.get_query(query_name=query_name, endpoint_name=endpoint_name, limit=limit)
             sparql_query = qb.query.query
             return PlainTextResponse(sparql_query)
 
@@ -260,7 +261,8 @@ class SnapQueryWebServer(InputWebserver):
         try:
             # content negotiation
             name, r_format = self.get_r_format(name)
-            qb = self.nqm.get_query(name=name, namespace=namespace,domain=domain,endpoint_name=endpoint_name, limit=limit)
+            query_name=QueryName(domain=domain, namespace=namespace,name=name)
+            qb = self.nqm.get_query(query_name=query_name, endpoint_name=endpoint_name, limit=limit)
             (qlod, stats) = qb.get_lod_with_stats()
             self.nqm.store_stats([stats])
             content = qb.format_result(qlod, r_format)
@@ -447,9 +449,10 @@ class SnapQuerySolution(InputWebSolution):
         r_format_str: str = "html",
     ):
         def show():
-            query_bundle = self.nqm.get_query(name, namespace, endpoint_name, limit)
+            query_name=QueryName(domain=domain, namespace=namespace,name=name)
+            qb = self.nqm.get_query(query_name=query_name, endpoint_name=endpoint_name, limit=limit)
             self.named_query_view = NamedQueryView(
-                self, query_bundle=query_bundle, r_format_str=r_format_str
+                self, query_bundle=qb, r_format_str=r_format_str
             )
 
         await self.setup_content_div(show)

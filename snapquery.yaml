@@ -1,0 +1,138 @@
+id: https://snapquery.bitplan.com/linkml/
+name: snapquery
+prefixes:
+  linkml: https://w3id.org/linkml/
+  snapquery: https://snapquery.bitplan.com/linkml/
+imports:
+  - linkml:types
+default_range: string
+default_prefix: snapquery
+
+classes:
+
+  NamedQueryList:
+    attributes:
+      name:
+      queries:
+        range: NamedQuery
+        multivalued: true
+
+  NamedQuery:
+    attributes:
+      query_id:
+        identifier: true
+      namespace:
+        required: true
+      name:
+        required: true
+      sparql:
+      url:
+      title:
+      description:
+      comment:
+
+  QueryDetails:
+    attributes:
+      query_id:
+        required: true
+      params:
+        required: true
+      params_count:
+        required: true
+        range: integer
+      lines:
+        required: true
+        range: integer
+      size:
+        required: true
+        range: integer
+
+  QueryBundle:
+    attributes:
+      named_query:
+        range: NamedQuery
+      query:
+        range: Query
+      endpoint:
+        range: Endpoint
+
+  Query:
+    attributes:
+      name:
+        required: true
+      query:
+        required: true
+      lang:
+      endpoint:
+      database:
+      title:
+      description:
+      limit:
+        range: integer
+      prefixes:
+      tryItUrl:
+      formats:
+
+  Endpoint:
+    attributes:
+      name:
+        required: true
+      lang:
+        required: true
+      endpoint:
+        required: true
+        range: uri
+      website:
+        range: uri
+      database:
+      method:
+      prefixes:
+      auth:
+      user:
+      password:
+
+  NamedQueryManager:
+    attributes:
+      sql_db:
+      samples_path:
+      endpoints:
+        range: Endpoint
+        multivalued: true
+      primary_keys:
+      entity_infos:
+
+
+  QueryStatsList:
+    attributes:
+      name:
+      stats:
+        range: QueryStats
+        multivalued: true
+
+  QueryStats:
+    attributes:
+      stats_id:
+        identifier: true
+      query_id:
+        required: true
+      endpoint_name:
+        required: true
+      context:
+      records:
+        range: integer
+      time_stamp:
+        range: time
+      duration:
+        range: float
+      error_msg:
+      filtered_msg:
+
+  Params:
+    attributes:
+      illegal_chars:
+      query:
+      pattern:
+      params:
+      params_dict:
+      has_params:
+        range: boolean

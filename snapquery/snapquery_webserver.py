@@ -151,8 +151,9 @@ class SnapQueryWebServer(InputWebserver):
                 return HTMLResponse(content)
             return PlainTextResponse(content)
 
-        @app.get("/api/sparql/{namespace}/{name}")
+        @app.get("/api/sparql/{domain}/{namespace}/{name}")
         def sparql(
+            domain: str,
             namespace: str,
             name: str,
             endpoint_name: str = "wikidata",
@@ -162,6 +163,7 @@ class SnapQueryWebServer(InputWebserver):
             Gets a SPARQL query by name within a specified namespace
 
             Args:
+                domain (str): The domain identifying the domain of the query.
                 namespace (str): The namespace identifying the group or category of the query.
                 name (str): The specific name of the query to be executed.
                 endpoint_name(str): the name of the endpoint to use
@@ -172,12 +174,13 @@ class SnapQueryWebServer(InputWebserver):
             Raises:
                 HTTPException: If the query cannot be found or fails to execute.
             """
-            qb = self.nqm.get_query(name, namespace, endpoint_name, limit)
+            qb = self.nqm.get_query(domain=domain, namespace=namespace,name=name, endpoint_name=endpoint_name, limit=limit)
             sparql_query = qb.query.query
             return PlainTextResponse(sparql_query)
 
-        @app.get("/api/query/{namespace}/{name}")
+        @app.get("/api/query/{domain}/{namespace}/{name}")
         def query(
+            domain: str,
             namespace: str,
             name: str,
             endpoint_name: str = "wikidata",
@@ -187,6 +190,7 @@ class SnapQueryWebServer(InputWebserver):
             Executes a SPARQL query by name within a specified namespace, formats the results, and returns them as an HTML response.
 
             Args:
+                domain (str): The domain identifying the domain of the query.
                 namespace (str): The namespace identifying the group or category of the query.
                 name (str): The specific name of the query to be executed.
                 endpoint_name(str): the name of the endpoint to use
@@ -199,7 +203,11 @@ class SnapQueryWebServer(InputWebserver):
                 HTTPException: If the query cannot be found or fails to execute.
             """
             content = self.query(
-                namespace, name, endpoint_name=endpoint_name, limit=limit
+                name=name,
+                namespace=namespace,
+                domain=domain,
+                endpoint_name=endpoint_name, 
+                limit=limit
             )
             if not content:
                 raise HTTPException(status_code=500, detail="Could not create result")
@@ -230,8 +238,9 @@ class SnapQueryWebServer(InputWebserver):
 
     def query(
         self,
+        name: str,    
         namespace: str,
-        name: str,
+        domain: str,
         endpoint_name: str = "wikidata",
         limit: int = None,
     ) -> str:
@@ -239,8 +248,9 @@ class SnapQueryWebServer(InputWebserver):
         Queries an external API to retrieve data based on a given namespace and name.
 
         Args:
-            namespace (str): The namespace to which the query belongs. It helps in categorizing the data.
             name (str): The name identifier of the data to be queried.
+            namespace (str): The namespace to which the query belongs. It helps in categorizing the data.
+            domain (str): The domain identifying the domain of the query.
             endpoint_name (str): The name of the endpoint to be used for the query. Defaults to 'wikidata'.
             limit(int): the limit for the query default: None
 
@@ -250,7 +260,7 @@ class SnapQueryWebServer(InputWebserver):
         try:
             # content negotiation
             name, r_format = self.get_r_format(name)
-            qb = self.nqm.get_query(name, namespace, endpoint_name, limit)
+            qb = self.nqm.get_query(name=name, namespace=namespace,domain=domain,endpoint_name=endpoint_name, limit=limit)
             (qlod, stats) = qb.get_lod_with_stats()
             self.nqm.store_stats([stats])
             content = qb.format_result(qlod, r_format)

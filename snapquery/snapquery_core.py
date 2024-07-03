@@ -907,7 +907,7 @@ FROM
     NamedQuery 
 WHERE 
     query_id=?"""
-        query_records = self.sql_db.query(sql_query, (query_id))
+        query_records = self.sql_db.query(sql_query, (query_id,))
         if not query_records:
             msg = f"NamedQuery not found for the specified query '{query_id}'."
             raise ValueError(msg)

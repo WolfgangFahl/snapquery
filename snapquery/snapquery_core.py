@@ -182,6 +182,9 @@ class QueryName:
         """
         Generate a URL-friendly query_id
         """
+        # Convert None to empty string (or use any other default logic)
+        name, namespace, domain = (name or ''), (namespace or ''), (domain or '')
+
         encoded_name = urllib.parse.quote(name, safe='')
         encoded_namespace = urllib.parse.quote(namespace, safe='')
         encoded_domain = urllib.parse.quote(domain, safe='')

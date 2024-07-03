@@ -14,10 +14,10 @@ run_snapquery() {
     # Ensure the log directory exists
     local log_dir="/tmp/query_test_log"
     mkdir -p "$log_dir"
-    local log="${log_dir}/${endpoint}-${sanitized_namespace}.log"
+    local log="${log_dir}/${endpoint}-${sanitized_namespace}@{$domain}.log"
     local command="snapquery -d -tq -en '$endpoint' --context 'cmd_line_tests' --domain '$domain' --namespace '$namespace'"
     echo "Running $command..."
-    nohup bash -c "$command" 2>&1 > "$log"  &
+    #nohup bash -c "$command" 2>&1 > "$log"  &
     echo "... logged at $log"
 }
 
@@ -44,7 +44,7 @@ while IFS=':' read -r full_namespace count; do
             ;;
         *)
             for endpoint in "${wikidata_endpoints[@]}"; do
-                run_snapquery "$namespace" "$endpoint"
+                run_snapquery "$domain" "$namespace" "$endpoint"
             done
             ;;
     esac

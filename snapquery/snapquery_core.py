@@ -1032,19 +1032,24 @@ WHERE
         """
         # Multi-line SQL query for better readability
         query = """
-        SELECT namespace, COUNT(*) AS query_count
+        SELECT domain,namespace, COUNT(*) AS query_count
         FROM NamedQuery
-        GROUP BY namespace
+        GROUP BY domain,namespace
         ORDER BY COUNT(*)
         """
         result = self.sql_db.query(query)
-        namespaces: Dict[str, int] = {
-            row["namespace"]: int(row["query_count"]) for row in result
-        }
+        namespaces: Dict[str, int] = {}
+        for row in result:
+            domain=row["domain"]
+            namespace=row["namespace"]
+            count=int(row["query_count"]) 
+            namespaces[f"{namespace}@{domain}"]=count
         return namespaces
 
     def get_all_queries(
-        self, namespace: str = "snapquery-examples"
+        self,
+        namespace: str = "snapquery-examples",
+        domain:str="wikidata.org" 
     ) -> List[NamedQuery]:
         """
         Retrieves all named queries stored in the database.
@@ -1052,8 +1057,8 @@ WHERE
         Returns:
             List[NamedQuery]: A list of all NamedQuery instances in the database.
         """
-        sql_query = "SELECT * FROM NamedQuery WHERE namespace = ?"
-        query_records = self.sql_db.query(sql_query, (namespace,))
+        sql_query = "SELECT * FROM NamedQuery WHERE domain=? AND namespace = ?"
+        query_records = self.sql_db.query(sql_query, (domain,namespace,))
         named_queries = []
         for record in query_records:
             named_query = NamedQuery.from_record(record)

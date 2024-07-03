@@ -206,7 +206,7 @@ class SnapQueryCmd(WebserverCmd):
                 endpoint_names = [self.args.endpointName]
             else:
                 endpoint_names = list(nqm.endpoints.keys())
-            queries = self.nqm.get_all_queries(namespace=self.args.namespace)
+            queries = self.nqm.get_all_queries(domain=self.args.domain,namespace=self.args.namespace)
             for i, nq in enumerate(queries, start=1):
                 for endpoint_name in endpoint_names:
                     self.execute(

@@ -5,19 +5,17 @@
 
 # Function to execute snapquery in the background with feedback
 run_snapquery() {
-    local namespace="$1"
-    local endpoint="$2"
+    local domain="$1"
+    local namespace="$2"
+    local endpoint="$3"
     # Sanitize the namespace to be filesystem-friendly
     local sanitized_namespace="${namespace//\//-}"  # Replace slashes with hyphens
     sanitized_namespace="${sanitized_namespace//[^a-zA-Z0-9-_]/_}"  # Replace any non-alphanumeric characters with underscores
-
     # Ensure the log directory exists
     local log_dir="/tmp/query_test_log"
     mkdir -p "$log_dir"
-
     local log="${log_dir}/${endpoint}-${sanitized_namespace}.log"
-    local command="snapquery -d -tq -en '$endpoint' --context 'cmd_line_tests' --namespace '$namespace'"
-
+    local command="snapquery -d -tq -en '$endpoint' --context 'cmd_line_tests' --domain '$domain' --namespace '$namespace'"
     echo "Running $command..."
     nohup bash -c "$command" 2>&1 > "$log"  &
     echo "... logged at $log"
@@ -30,18 +28,19 @@ namespace_data=$(snapquery -ln)
 wikidata_endpoints=("wikidata" "wikidata-qlever" "wikidata-triply" "wikidata-openlinksw" "wikidata-scatter")
 dblp_endpoints=("dblp" "dblp-qlever" "dblp-trier")
 
-# Process each line to extract namespaces and totals
-while IFS=':' read -r namespace count; do
-    echo "Processing $namespace with total entries $count"
-
-    case "$namespace" in
-        dblp.org/examples*)
+# Process each line to extract domains, namespaces, and totals
+while IFS=':' read -r full_namespace count; do
+    domain="${full_namespace%%@*}"
+    namespace="${full_namespace#*@}"
+    echo "Processing $domain/$namespace with total entries $count"
+    case "$domain" in
+        dblp.org)
             for endpoint in "${dblp_endpoints[@]}"; do
-                run_snapquery "$namespace" "$endpoint"
+                run_snapquery "$domain" "$namespace" "$endpoint"
             done
             ;;
-        *bitplan.com/federated*)
-            run_snapquery "$namespace" "wikidata"
+        bitplan.com)
+            run_snapquery "$domain" "$namespace" "wikidata"
             ;;
         *)
             for endpoint in "${wikidata_endpoints[@]}"; do

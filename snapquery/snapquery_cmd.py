@@ -134,7 +134,7 @@ class SnapQueryCmd(WebserverCmd):
             pass
         return qd, params_dict
 
-    def execute(self, nq: NamedQuery, endpoint_name: str, title: str, context: str):
+    def execute(self, nq: NamedQuery, endpoint_name: str, title: str, context: str="test"):
         """
         execute the given named query
         """

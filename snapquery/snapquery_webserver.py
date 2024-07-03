@@ -96,9 +96,10 @@ class SnapQueryWebServer(InputWebserver):
         async def queries_by_namespace(client: Client):
             return await self.page(client, SnapQuerySolution.queries_by_namespace)
 
-        @ui.page("/query/{namespace}/{name}")
+        @ui.page("/query/{domain}/{namespace}/{name}")
         async def query_page(
             client: Client,
+            domain: str,
             namespace: str,
             name: str,
             endpoint_name: str = None,
@@ -113,6 +114,7 @@ class SnapQueryWebServer(InputWebserver):
             return await self.page(
                 client,
                 SnapQuerySolution.query_page,
+                domain=domain,
                 namespace=namespace,
                 name=name,
                 endpoint_name=endpoint_name,
@@ -427,6 +429,7 @@ class SnapQuerySolution(InputWebSolution):
 
     async def query_page(
         self,
+        domain:str, 
         namespace: str,
         name: str,
         endpoint_name: str = "wikidata",

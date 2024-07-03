@@ -57,57 +57,6 @@ class NamespaceStatsView:
         # Fetch and display data immediately upon UI setup
         ui.timer(0.0, self.on_fetch_lod, once=True)
 
-    def execute(self, nq: NamedQuery, endpoint_name: str, title: str):
-        """Execute the given named query with notification and progress bar updates."""
-        qd, params_dict = self.parameterize(nq)
-        with self.results_row:
-            msg = f"{title}: {nq.name} {qd} - via {endpoint_name}"
-            logger.info(msg)
-            # ui.notify(msg)
-
-        results, stats = self.nqm.execute_query(nq, params_dict, endpoint_name)
-        stats.context = "test"
-        self.nqm.store_stats([stats])
-
-        with self.results_row:
-            if not stats.records:
-                msg = f"{title} error: {stats.filtered_msg}"
-                logger.error(msg)
-            else:
-                msg = f"{title} executed: {stats.records} records found"
-                logger.info(msg)
-                # ui.notify(msg, kind="success")
-
-    def execute_queries(self, namespace: str, endpoint_name: str):
-        """execute queries with progress updates.
-
-        Args:
-            namespace (str): The namespace of the queries to execute.
-            endpoint_name (str): The endpoint name where the queries will be executed.
-        """
-        queries = self.nqm.get_all_queries(namespace=namespace)
-        total_queries = len(queries)
-        count = 0
-
-        self.progress_bar.total = total_queries
-        self.progress_bar.reset()
-
-        for i, nq in enumerate(queries, start=1):
-            count += 1
-            with self.progress_row:
-                self.progress_bar.update_value(count)
-                self.progress_bar.set_description(
-                    f"Executing {nq.name} on {endpoint_name}"
-                )
-                logger.debug(f"Executing {nq.name} on {endpoint_name}")
-                self.progress_row.update()
-            self.execute(
-                nq, endpoint_name, title=f"query {i}/{len(queries)}::{endpoint_name}"
-            )
-            with self.progress_row:
-                self.progress_bar.set_description(
-                    f"Completed {count} of {total_queries} queries"
-                )
 
     async def on_cell_clicked(self, event):
         """Handle cell click events to perform specific actions based on the cell content."""
@@ -159,49 +108,35 @@ class NamespaceStatsView:
         Returns:
             List[Dict[str, any]]: The processed list of dictionaries formatted for grid display.
         """
-        namespace_stats = defaultdict(lambda: defaultdict(lambda: [0, 0, 0]))
+        domain_namespace_stats = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: [0, 0, 0])))
         endpoints = list(self.nqm.endpoints.keys())
         total_queries = {}
-
+    
         for entry in raw_lod:
+            domain = entry["domain"]
             namespace = entry["namespace"]
             endpoint = entry["endpoint_name"]
             distinct_successful = entry.get("distinct_successful", 0)
             distinct_failed = entry.get("distinct_failed", 0)
             success_count = entry["success_count"]
-            total_queries[namespace] = entry["total"]
-            namespace_stats[namespace][endpoint] = [
+            total_queries[(domain, namespace)] = entry["total"]
+            domain_namespace_stats[domain][namespace][endpoint] = [
                 distinct_successful,
                 distinct_failed,
                 success_count,
             ]
-
+    
         processed_lod = []
-        for namespace, counts in namespace_stats.items():
-            row = {"namespace": namespace, "total": total_queries[namespace]}
-            for endpoint in endpoints:
-                success, fail, total = counts.get(endpoint, [0, 0, 0])
-                if success == 0 and fail == 0 and total == 0:
-                    row[endpoint] = ""
-                else:
-                    row[endpoint] = f"✅{success} ❌{fail} 🔄{total}"
-            processed_lod.append(row)
-
+        for domain, namespaces in domain_namespace_stats.items():
+            for namespace, counts in namespaces.items():
+                row = {"domain": domain, "namespace": namespace, "total": total_queries[(domain, namespace)]}
+                for endpoint in endpoints:
+                    success, fail, total = counts.get(endpoint, [0, 0, 0])
+                    if success == 0 and fail == 0 and total == 0:
+                        row[endpoint] = ""
+                    else:
+                        row[endpoint] = f"✅{success} ❌{fail} 🔄{total}"
+                processed_lod.append(row)
+    
         return processed_lod
-
-    def parameterize(self, nq: NamedQuery):
-        """
-        parameterize the given named query
-        ToDo: Find a better way to parameterize the given named query currently this function is used in snapquery_cmd.py, test_query_execution.py, and here
-
-        Args:
-            nq(NamedQuery): the query to parameterize
-        """
-        qd = QueryDetails.from_sparql(query_id=nq.query_id, sparql=nq.sparql)
-        # Execute the query
-        params_dict = {}
-        if qd.params == "q":
-            # use Tim Berners-Lee as a example
-            params_dict = {"q": "Q80"}
-            pass
-        return qd, params_dict
+    

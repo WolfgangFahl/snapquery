@@ -123,7 +123,7 @@ class QueryStats:
         samples = {
             "snapquery-examples": [
                 cls(
-                    query_id="snapquery-examples.horses",
+                    query_id="horses--snapquery-examples@wikidata.org",
                     endpoint_name="wikidata",
                     context="samples",
                     records=0,
@@ -132,7 +132,7 @@ class QueryStats:
                     error_category="Timeout",
                 ),
                 cls(
-                    query_id="snapquery-examples.cats",
+                    query_id="cats--snapquery-examples@wikidata.org",
                     endpoint_name="wikidata",
                     context="samples",
                     records=223,
@@ -192,8 +192,13 @@ class NamedQuery:
         Post-initialization processing to construct a unique identifier for the query
         based on its namespace and name.
         """
-        self.query_id = f"{self.name}--{self.namespace}@{self.domain}"
+        self.query_id = NamedQuery.get_query_id(name=self.name,namespace=self.namespace,domain=self.domain)
 
+    @classmethod
+    def get_query_id(cls,name:str,namespace:str,domain:str):
+        query_id = f"{name}--{namespace}@{domain}"
+        return query_id
+    
     @classmethod
     def get_samples(cls) -> dict[str, "NamedQuery"]:
         """
@@ -223,7 +228,8 @@ WHERE {
                     namespace="snapquery-examples",
                     name="bands",
                     title="Rock bands",
-                    description="",
+                    url="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples#Rock_bands_that_start_with_%22M%22",
+                    description="""Rock bands that start with "M" """,
                     comment="",
                     sparql="""SELECT ?band ?bandLabel
 WHERE {
@@ -266,7 +272,7 @@ ORDER BY ?horse
         """
         get me as a link
         """
-        url = f"/query/{self.namespace}/{self.name}"
+        url = f"/query/{self.domain}/{self.namespace}/{self.name}"
         text = self.name
         tooltip = "query details"
         link = Link.create(url, text, tooltip)
@@ -291,6 +297,7 @@ ORDER BY ?horse
     def as_record(self) -> Dict:
         record = {
             "query_id": self.query_id,
+            "domain": self.domain,
             "namespace": self.namespace,
             "name": self.name,
             "url": self.url,
@@ -306,8 +313,9 @@ ORDER BY ?horse
         """
         url_link = Link.create(self.url, self.url)
         return {
-            "name": self.as_link(),
+            "domain": self.domain,
             "namespace": self.namespace,
+            "name": self.as_link(),
             "title": self.title,
             "url": url_link,
         }
@@ -879,33 +887,34 @@ class NamedQueryManager:
 
         return list_of_records
 
-    def lookup(self, name: str, namespace: str, lenient: bool = True) -> NamedQuery:
+    def lookup(self, name:str, namespace: str, domain: str, lenient: bool = True) -> NamedQuery:
         """
-        lookup the named query for the given name and namespace
+        lookup the named query for the given name and namespace and domain
 
 
         Args:
             name (str): The name of the named query to execute.
             namespace (str): The namespace of the named query, default is 'wikidata-examples'.
+            domain(str): the domain to look for
             lenient(bool): if True handle errors as warnings
         Returns:
             NamedQuery: the named query
         """
+        query_id=NamedQuery.get_query_id(name, namespace, domain)
         sql_query = """SELECT 
     *
 FROM 
     NamedQuery 
 WHERE 
-    name = ? AND namespace = ?"""
-        query_records = self.sql_db.query(sql_query, (name, namespace))
-
+    query_id=?"""
+        query_records = self.sql_db.query(sql_query, (query_id))
         if not query_records:
-            msg = f"NamedQuery not found for the specified name '{name}' and namespace '{namespace}'."
+            msg = f"NamedQuery not found for the specified query '{query_id}'."
             raise ValueError(msg)
 
         query_count = len(query_records)
         if query_count != 1:
-            msg = f"multiple entries ({query_count}) for name '{name}' and namespace '{namespace}'"
+            msg = f"multiple entries ({query_count}) for query '{name}' namespace '{namespace} and domain '{domain}' the id '{query_id}' is not unique"
             if lenient:
                 print(f"warning: {msg}")
             else:
@@ -917,8 +926,9 @@ WHERE
 
     def get_query(
         self,
-        name: str,
-        namespace: str = "wikidata-examples",
+        name: str="cats",
+        namespace: str = "examples",
+        domain: str="wikidata.org",
         endpoint_name: str = "wikidata",
         limit: int = None,
     ) -> QueryBundle:
@@ -928,13 +938,14 @@ WHERE
         Args:
             name (str): The name of the named query to execute.
             namespace (str): The namespace of the named query, default is 'wikidata-examples'.
+            domain(str): the domain of the query
             endpoint_name (str): The name of the endpoint to send the SPARQL query to, default is 'wikidata'.
             limit (int): The query limit (if any).
 
         Returns:
             QueryBundle: named_query, query, and endpoint.
         """
-        named_query = self.lookup(name, namespace)
+        named_query = self.lookup(domain=domain,namespace=namespace,name=name)
         return self.as_query_bundle(named_query, endpoint_name, limit)
 
     def as_query_bundle(

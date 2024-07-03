@@ -87,9 +87,15 @@ class SnapQueryCmd(WebserverCmd):
             help="query parameters as Key-value pairs in the format key1=value1,key2=value2",
         )
         parser.add_argument(
+            "--domain",
+            type=str,
+            default="wikidata.org",
+            help="domain to filter queries",
+        )
+        parser.add_argument(
             "--namespace",
             type=str,
-            default="wikidata-examples",
+            default="examples",
             help="namespace to filter queries",
         )
         parser.add_argument("-f", "--format", type=Format, choices=list(Format))
@@ -206,13 +212,18 @@ class SnapQueryCmd(WebserverCmd):
                         title=f"query {i:3}/{len(queries)}::{endpoint_name}",
                     )
         elif self.args.queryName is not None:
+            domain = self.args.domain
             namespace = self.args.namespace
             name = self.args.queryName
             endpoint_name = self.args.endpointName
             r_format = self.args.format
             limit = self.args.limit
             qb = nqm.get_query(
-                name=name, namespace=namespace, endpoint_name=endpoint_name, limit=limit
+                name=name,
+                namespace=namespace,
+                domain=domain,
+                endpoint_name=endpoint_name, 
+                limit=limit
             )
             query = qb.query
             params = Params(query.query)

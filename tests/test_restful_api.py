@@ -82,7 +82,7 @@ class TestRestFulApi(WebserverTest):
             "wikidata-qlever"
             # "wikidata-scatter",
         ]:
-            path = f"/api/query/snapquery-examples/cats.json?endpoint_name={endpoint_name}&limit=3"
+            path = f"/api/query/wikidata.org/snapquery-examples/cats.json?endpoint_name={endpoint_name}&limit=3"
             result = self.getHtml(path)
             if debug:
                 print(result)

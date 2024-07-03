@@ -10,10 +10,10 @@ import logging
 import os
 import re
 import uuid
-from dataclasses import asdict, field, fields, is_dataclass
+from dataclasses import asdict, dataclass, field, fields, is_dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Type
-
+import urllib.parse
 import requests
 from lodstorage.lod_csv import CSV
 from lodstorage.params import Params
@@ -156,27 +156,85 @@ class QueryStats:
 
 
 @lod_storable
-class NamedQuery:
+class QueryName:
+    """
+    A structured query name with a fully qualifying query id that is URL-friendly
+    Attributes:
+        domain(str): the domain of the owner of this namespace
+        namespace (str): The namespace of the query, which helps in categorizing the query.
+        name (str): The unique name or identifier of the query within its namespace.
+        query_id(str): encoded id e.g. cats--examples@wikidata.org
+    """
+    # name
+    name: str
+    # namespace
+    namespace: str = "examples"
+    # domain
+    domain: str = "wikidata.org"
+    # query_id
+    query_id: str = field(init=False)
+
+    def __post_init__(self):
+        self.query_id = self.get_query_id(self.name, self.namespace, self.domain)
+
+    @classmethod
+    def get_query_id(cls, name: str, namespace: str, domain: str) -> str:
+        """
+        Generate a URL-friendly query_id
+        """
+        encoded_name = urllib.parse.quote(name, safe='')
+        encoded_namespace = urllib.parse.quote(namespace, safe='')
+        encoded_domain = urllib.parse.quote(domain, safe='')
+        query_id=f"{encoded_name}--{encoded_namespace}@{encoded_domain}"
+        #query_id=query_id.lower()
+        return query_id
+
+    @classmethod
+    def from_query_id(cls, query_id: str,
+                      namespace: str = "examples",  # default namespace
+                      domain: str = "wikidata.org"  # default domain
+                      ) -> "QueryName":
+        """
+        Parse a URL-friendly query_id string into a QueryName object.
+        Args:
+            query_id (str): The URL-friendly query_id string to parse.
+            namespace (str): Default namespace if not specified in query_id
+            domain (str): Default domain if not specified in query_id
+        Returns:
+            QueryName: A QueryName object containing name, namespace, and domain.
+        """
+        parts = query_id.split('--')
+        name = urllib.parse.unquote(parts[0])
+       
+        if len(parts) > 1:
+            ns_domain = parts[1].split('@')
+            namespace = urllib.parse.unquote(ns_domain[0])
+            if len(ns_domain) > 1:
+                domain = urllib.parse.unquote(ns_domain[1])
+        return cls(name=name, namespace=namespace, domain=domain)
+
+    def to_dict(self) -> dict:
+        """
+        Convert the QueryName object to a dictionary
+        """
+        return {
+            "name": self.name,
+            "namespace": self.namespace,
+            "domain": self.domain,
+            "query_id": self.query_id
+        }
+    
+@dataclass    
+class NamedQuery(QueryName):
     """
     A named query that encapsulates the details and SPARQL query for a specific purpose.
 
     Attributes:
-        namespace (str): The namespace of the query, which helps in categorizing the query.
-        name (str): The unique name or identifier of the query within its namespace.
         title (str): A brief one-line title that describes the query.
         description (str): A detailed multiline description of what the query does and the data it accesses.
         sparql (str): The SPARQL query string. This might be hidden in future to encapsulate query details.
         query_id (str): A unique identifier for the query, generated from namespace and name, used as a primary key.
     """
-
-    # query_id
-    query_id: str = field(init=False)
-    # domain
-    domain: str
-    # namespace
-    namespace: str
-    # name
-    name: str
     # sparql query (to be hidden later)
     sparql: Optional[str] = None
     # the url of the source code of the query
@@ -186,18 +244,6 @@ class NamedQuery:
     # multiline description
     description: Optional[str] = None
     comment: Optional[str] = None
-
-    def __post_init__(self):
-        """
-        Post-initialization processing to construct a unique identifier for the query
-        based on its namespace and name.
-        """
-        self.query_id = NamedQuery.get_query_id(name=self.name,namespace=self.namespace,domain=self.domain)
-
-    @classmethod
-    def get_query_id(cls,name:str,namespace:str,domain:str):
-        query_id = f"{name}--{namespace}@{domain}"
-        return query_id
     
     @classmethod
     def get_samples(cls) -> dict[str, "NamedQuery"]:
@@ -887,20 +933,19 @@ class NamedQueryManager:
 
         return list_of_records
 
-    def lookup(self, name:str, namespace: str, domain: str, lenient: bool = True) -> NamedQuery:
+    def lookup(self, query_name:QueryName, lenient: bool = True) -> NamedQuery:
         """
-        lookup the named query for the given name and namespace and domain
+        lookup the named query for the given structured query name
 
 
         Args:
-            name (str): The name of the named query to execute.
-            namespace (str): The namespace of the named query, default is 'wikidata-examples'.
-            domain(str): the domain to look for
+            query_name(QueryName): the structured query name
             lenient(bool): if True handle errors as warnings
         Returns:
             NamedQuery: the named query
         """
-        query_id=NamedQuery.get_query_id(name, namespace, domain)
+        qn=query_name
+        query_id=qn.query_id
         sql_query = """SELECT 
     *
 FROM 
@@ -914,7 +959,7 @@ WHERE
 
         query_count = len(query_records)
         if query_count != 1:
-            msg = f"multiple entries ({query_count}) for query '{name}' namespace '{namespace} and domain '{domain}' the id '{query_id}' is not unique"
+            msg = f"multiple entries ({query_count}) for query '{qn.name}' namespace '{qn.namespace} and domain '{qn.domain}' the id '{qn.query_id}' is not unique"
             if lenient:
                 print(f"warning: {msg}")
             else:
@@ -926,9 +971,7 @@ WHERE
 
     def get_query(
         self,
-        name: str="cats",
-        namespace: str = "examples",
-        domain: str="wikidata.org",
+        query_name:QueryName,
         endpoint_name: str = "wikidata",
         limit: int = None,
     ) -> QueryBundle:
@@ -936,16 +979,14 @@ WHERE
         Get the query for the given parameters.
 
         Args:
-            name (str): The name of the named query to execute.
-            namespace (str): The namespace of the named query, default is 'wikidata-examples'.
-            domain(str): the domain of the query
+            query_name: (QueryName):a structured query name
             endpoint_name (str): The name of the endpoint to send the SPARQL query to, default is 'wikidata'.
             limit (int): The query limit (if any).
 
         Returns:
             QueryBundle: named_query, query, and endpoint.
         """
-        named_query = self.lookup(domain=domain,namespace=namespace,name=name)
+        named_query = self.lookup(query_name=query_name)
         return self.as_query_bundle(named_query, endpoint_name, limit)
 
     def as_query_bundle(

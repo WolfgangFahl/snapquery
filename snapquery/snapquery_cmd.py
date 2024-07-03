@@ -13,7 +13,7 @@ from lodstorage.query import Format
 from ngwidgets.cmd import WebserverCmd
 
 from snapquery.qimport import QueryImport
-from snapquery.snapquery_core import NamedQuery, NamedQueryManager, QueryDetails
+from snapquery.snapquery_core import QueryName, NamedQuery, NamedQueryManager, QueryDetails
 from snapquery.snapquery_webserver import SnapQueryWebServer
 
 logger = logging.getLogger(__name__)
@@ -98,8 +98,13 @@ class SnapQueryCmd(WebserverCmd):
             default="examples",
             help="namespace to filter queries",
         )
-        parser.add_argument("-f", "--format", type=Format, choices=list(Format))
         parser.add_argument("-qn", "--queryName", help="run a named query")
+        parser.add_argument(
+            "query_id",
+            nargs="?",  # Make it optional
+            help="Query ID in the format 'name[--namespace[@domain]]'"
+        )
+        parser.add_argument("-f", "--format", type=Format, choices=list(Format))
         parser.add_argument(
             "--import",
             dest="import_file",
@@ -178,7 +183,6 @@ class SnapQueryCmd(WebserverCmd):
         self.nqm = nqm
         # Check args functions
         nqm = NamedQueryManager.from_samples(force_init=self.args.initDatabase)
-
         if self.args.listEndpoints:
             # List endpoints
             for endpoint in self.nqm.endpoints.values():
@@ -211,17 +215,18 @@ class SnapQueryCmd(WebserverCmd):
                         context=self.args.context,
                         title=f"query {i:3}/{len(queries)}::{endpoint_name}",
                     )
-        elif self.args.queryName is not None:
-            domain = self.args.domain
-            namespace = self.args.namespace
-            name = self.args.queryName
+        elif self.args.queryName is not None or self.args.query_id is not None:
+            if self.args.query_id is not None:
+                query_name = QueryName.from_query_id(self.args.query_id)
+            else:
+                query_name= QueryName(name=self.args.queryName,
+                    namespace = self.args.namespace,
+                    domain = self.args.domain)
             endpoint_name = self.args.endpointName
             r_format = self.args.format
             limit = self.args.limit
             qb = nqm.get_query(
-                name=name,
-                namespace=namespace,
-                domain=domain,
+                query_name=query_name,
                 endpoint_name=endpoint_name, 
                 limit=limit
             )

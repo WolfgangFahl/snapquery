@@ -8,7 +8,7 @@ import json
 import tempfile
 
 from ngwidgets.basetest import Basetest
-from snapquery.snapquery_core import NamedQuery,NamedQueryManager
+from snapquery.snapquery_core import QueryName,NamedQuery,NamedQueryManager
 
 class TestNamedQueryManager(Basetest):
     """
@@ -26,8 +26,9 @@ class TestNamedQueryManager(Basetest):
             nqm = NamedQueryManager.from_samples(db_path=tmpfile.name)
             for name, ex_count in [("x-invalid", -1), ("cats", 207)]:
                 try:
+                    query_name=QueryName(namespace="snapquery-examples", name=name)
                     query_bundle = nqm.get_query(
-                        namespace="snapquery-examples", name=name
+                        query_name=query_name
                     )
                     lod = query_bundle.get_lod()
                     if self.debug:

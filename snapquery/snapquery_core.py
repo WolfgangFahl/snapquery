@@ -943,7 +943,7 @@ class NamedQueryManager:
 
         Args:
             query_name(QueryName): the structured query name
-            lenient(bool): if True handle errors as warnings
+            lenient(bool): if True handle multiple entry errors as warnings
         Returns:
             NamedQuery: the named query
         """
@@ -957,7 +957,7 @@ WHERE
     query_id=?"""
         query_records = self.sql_db.query(sql_query, (query_id,))
         if not query_records:
-            msg = f"NamedQuery not found for the specified query '{query_id}'."
+            msg = f"NamedQuery not found for the specified query '{qn}'."
             raise ValueError(msg)
 
         query_count = len(query_records)

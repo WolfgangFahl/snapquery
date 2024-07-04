@@ -221,7 +221,7 @@
       PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 'wikidata-scatter':
   lang: sparql
-  endpoint: https://query-direct1.orbopengraph.com/bigdata/sparql/wdq/sparql
+  endpoint: https://query-direct2.orbopengraph.com/bigdata/namespace/wdq/sparql
   website: https://scatter.red/
   database: blazegraph
   method: GET

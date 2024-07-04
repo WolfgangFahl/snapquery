@@ -4,8 +4,6 @@ Created on 2024-05-03
 @author: wf
 """
 
-
-import asyncio
 import pandas as pd
 import plotly.express as px
 from lodstorage.params import Params
@@ -23,7 +21,6 @@ from snapquery.snapquery_core import (
     QueryBundle,
     QueryStats,
 )
-from typing import List
 
 
 class NamedQueryView:
@@ -38,6 +35,7 @@ class NamedQueryView:
         r_format_str: str = "html",
     ):
         self.solution = solution
+        self.endpoint_name="wikidata"
         self.nqm: NamedQueryManager = self.solution.nqm
         self.query_bundle = query_bundle
         self.r_format_str = r_format_str
@@ -66,10 +64,10 @@ class NamedQueryView:
                     endpoint_selector = ui.select(
                         list(self.nqm.endpoints.keys()),
                         value=self.solution.endpoint_name,
-                        label="default endpoint",
+                        label="endpoint",
                     )
                     endpoint_selector.bind_value(
-                        app.storage.user,
+                        self,
                         "endpoint_name",
                     )
                     endpoint_selector.classes("w-64")
@@ -188,6 +186,8 @@ class NamedQueryView:
             self.query_bundle.query.query = self.params.apply_parameters()
             self.params_view.close()
         self.query_bundle.set_limit(int(self.limit))
+        endpoint=self.nqm.endpoints[self.endpoint_name]
+        self.query_bundle.update_endpoint(endpoint)
         result = await run.io_bound(self.query_bundle.get_lod_with_stats)
         if not result:
             with self.solution.container:

@@ -53,12 +53,15 @@ class QuerySelector:
         self.update_ui()
         
         if self.on_change:
-            await self.on_change()      
+            await self.on_change()    
+            
+    def update_options(self,select_widget,options):  
+        select_widget.update_options(options)
      
     def update_ui(self):
         """
-        Update UI components based on filtered results
+        Update UI components based on filtered results using the custom update_options method for safe sorting.
         """
-        self.domain_select.update_options(sorted(self.qns.domains))
-        self.namespace_select.update_options(sorted(self.qns.namespaces))
-        self.name_select.update_options(sorted(self.qns.names))
+        self.update_options(self.domain_select, self.qns.domains)
+        self.update_options(self.namespace_select, self.qns.namespaces)
+        self.update_options(self.name_select, self.qns.names)

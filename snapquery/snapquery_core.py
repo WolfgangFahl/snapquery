@@ -1066,7 +1066,7 @@ WHERE
         """
         sql_query = """SELECT * FROM NamedQuery 
 WHERE domain LIKE ? AND namespace LIKE ?
-ORDER BY domain,namespace"""
+ORDER BY domain,namespace,name"""
         params = (f"{domain}%", f"{namespace}%")
         
         if limit is not None:

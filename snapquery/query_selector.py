@@ -35,7 +35,7 @@ class QuerySelector:
         """Create a ComboBox with the given label, options, and width."""
         return ComboBox(
             label=label,
-            options=sorted(options),
+            options=options,
             width_chars=width_chars,
             clearable=True,
             on_change=self.handle_change

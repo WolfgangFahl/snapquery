@@ -127,6 +127,16 @@
         AVG(size) AS avg_size
       FROM 
         QueryDetails;
+'domain_namespace_stats':
+  sql: |
+    SELECT 
+      domain,
+      namespace,
+      COUNT(*) AS query_count
+    FROM NamedQuery
+    WHERE domain LIKE ? AND namespace LIKE ?
+    GROUP BY domain, namespace
+    ORDER BY 3 DESC
 'all_endpoints':
     sql: |
         SELECT 

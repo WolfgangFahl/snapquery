@@ -1049,20 +1049,36 @@ WHERE
     def get_all_queries(
         self,
         namespace: str = "snapquery-examples",
-        domain:str="wikidata.org" 
+        domain: str = "wikidata.org",
+        limit: int = None  # Default limit is None, meaning no limit
     ) -> List[NamedQuery]:
         """
-        Retrieves all named queries stored in the database.
+        Retrieves named queries stored in the database, filtered by domain and namespace with pattern matching.
+        Optionally limits the number of results.
+
+        Args:
+            namespace (str): Namespace filter, supports wildcard '%', e.g., 'example%' for partial matches.
+            domain (str): Domain filter, supports wildcard '%', e.g., 'wikidata%' for partial matches.
+            limit (int): Maximum number of NamedQueries to retrieve, defaults to None for unlimited.
 
         Returns:
-            List[NamedQuery]: A list of all NamedQuery instances in the database.
+            List[NamedQuery]: A list of NamedQuery instances in the database.
         """
-        sql_query = "SELECT * FROM NamedQuery WHERE domain=? AND namespace = ?"
-        query_records = self.sql_db.query(sql_query, (domain,namespace,))
+        sql_query = """SELECT * FROM NamedQuery 
+WHERE domain LIKE ? AND namespace LIKE ?
+ORDER BY domain,namespace"""
+        params = (f"{domain}%", f"{namespace}%")
+        
+        if limit is not None:
+            sql_query += " LIMIT ?"
+            params += (limit,)
+
+        query_records = self.sql_db.query(sql_query, params)
         named_queries = []
         for record in query_records:
             named_query = NamedQuery.from_record(record)
             named_queries.append(named_query)
+
         return named_queries
 
     def get_query_stats(self, query_id: str) -> list[QueryStats]:
@@ -1086,3 +1102,64 @@ WHERE
                 query_stat = QueryStats.from_record(record)
                 stats.append(query_stat)
         return stats
+
+class QueryNameSet:
+    """
+    Manages a set of QueryNames filtered by domain and namespaces SQL like patterns 
+  
+    Attributes:
+        
+        nqm (NamedQueryManager): A manager to handle named queries and interactions with the database.
+        limit(int): the maximum number of names and top_queries
+        
+    Calculated on update:   
+        total (int): Total number of queries that match the current filter criteria.
+        domains (set): A set of domains that match the current filter criteria.
+        namespaces (set): A set of namespaces that match the current filter criteria.
+        names (set): A set of names that match the current filter criteria.
+        top_queries (list): List of top queries based on the specified limit.    
+    """
+    def __init__(self, nqm: "NamedQueryManager",limit:int=None):
+        self.nqm = nqm
+        self.limit=limit
+        self.total = 0
+        self.domains = set()
+        self.namespaces = set()
+        self.names = set()
+        self.update("", "")
+        
+    def __str__(self):
+        return (f"QueryNameSet(Total: {self.total}, Domains: {sorted(self.domains)}, "
+            f"Namespaces: {sorted(self.namespaces)}, Names: {sorted(self.names)}, "
+            f"Top Queries: [{', '.join(query.name for query in self.top_queries)}])")
+
+
+    def update(self, domain: str, namespace: str,limit:int=None):
+        """
+        update my attributes
+        
+        Args:
+            domain (str): The domain part of the filter, supports SQL-like wildcards.
+            namespace (str): The namespace part of the filter, supports SQL-like wildcards.
+            limit (int, optional): Maximum number of queries to fetch. If None, no limit is applied.
+
+        """
+        if limit is None:
+            limit=self.limit
+        query = self.nqm.meta_qm.queriesByName["domain_namespace_stats"]
+        params = (f"{domain}%", f"{namespace}%")
+        results = self.nqm.sql_db.query(query.query, params)
+
+        self.total = 0  # Reset total for each update call
+        self.domains.clear()  # Clear previous domains
+        self.namespaces.clear()  # Clear previous namespaces
+        self.names.clear()  # Clear previous names
+
+        for record in results:
+            self.domains.add(record['domain'])
+            self.namespaces.add(record['namespace'])
+            self.total += record['query_count']
+        self.top_queries = self.nqm.get_all_queries(namespace=namespace, domain=domain, limit=limit)
+        for query in self.top_queries:
+            self.names.add(query.name)
+            

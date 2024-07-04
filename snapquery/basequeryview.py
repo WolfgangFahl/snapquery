@@ -8,6 +8,7 @@ from nicegui import ui
 from ngwidgets.webserver import WebSolution
 from ngwidgets.lod_grid import ListOfDictsGrid
 from snapquery.snapquery_core import NamedQuery
+from snapquery.query_selector import QuerySelector
 from typing import List
 
 class BaseQueryView:
@@ -31,6 +32,9 @@ class BaseQueryView:
             with ui.column().classes("w-full"):
                 ui.label("Available Queries").classes("text-xl")
                 ui.label("select a query to view and execute").classes("text-slate-400")
+
+        with ui.row() as self.select_row:
+            self.query_selector=QuerySelector(self.solution)
 
         with ui.row() as self.search_row:
             self.domain_search_input = (

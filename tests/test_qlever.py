@@ -18,7 +18,7 @@ class TestQLever(Basetest):
     get QLever related example queries
     """
 
-    def setUp(self, debug=True, profile=True):
+    def setUp(self, debug=False, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
         self.qlever = QLever()
 
@@ -95,7 +95,7 @@ SELECT * WHERE {
                 "comment": "Conceptually requires a scan over all triples, but huge optimization potential"
             }
         }
-        named_query_set = self.qlever.named_queries_for_performance_evaluation(queries)
+        named_query_set = self.named_queries_for_performance_evaluation(queries)
         
         self.assertEqual(len(named_query_set.queries), len(queries), 
                          "Number of generated named queries doesn't match input queries")

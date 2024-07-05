@@ -33,7 +33,7 @@ select_endpoints() {
             echo "orkg"
             ;;
         bitplan.com)
-            echo "wikidata"
+            echo "wikidata wikidata-scatter"
             ;;
         *)
             case $namespace in

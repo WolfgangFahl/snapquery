@@ -142,10 +142,10 @@ SELECT * WHERE {
         # Conditionally use tqdm based on with_progress
         if self.qlever.with_progress:
             ticket_iterator = tqdm(
-                enumerate(tickets), desc="Processing tickets", unit="ticket"
+                enumerate(tickets,1), desc="Extracting github issues ", unit="ticket"
             )
         else:
-            ticket_iterator = enumerate(tickets)
+            ticket_iterator = enumerate(tickets,1)
 
         for _i, ticket in ticket_iterator:
 

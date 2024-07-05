@@ -94,7 +94,7 @@ class QLever:
             target_graph_name="wikidata",
         )
         for ticket, urls in ticket_dict.items():
-            for i, url in enumerate(urls):
+            for i, url in enumerate(urls,1):
                 # Assuming URLs are like 'https://qlever.cs.uni-freiburg.de/wikidata/iTzJwQ'
                 # Customizing ShortUrl instance for QLever specific URLs
                 short_url_handler = QLeverUrl(url)
@@ -103,7 +103,7 @@ class QLever:
                     # Example placeholder logic to create a NamedQuery for each URL
                     query = NamedQuery(
                         domain=named_query_set.domain,
-                        name=f"Ticket#{ticket.number}-query{i}",
+                        name=f"Issue{ticket.number}-query{i}",
                         namespace=named_query_set.namespace,
                         url=url,
                         sparql=short_url_handler.sparql,

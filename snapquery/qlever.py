@@ -9,7 +9,6 @@ from typing import List
 import requests
 from bs4 import BeautifulSoup
 from osprojects.osproject import OsProject, Ticket
-from tqdm import tqdm
 
 from snapquery.snapquery_core import NamedQuery, NamedQuerySet
 from snapquery.wd_short_url import ShortUrl

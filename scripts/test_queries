@@ -2,7 +2,6 @@
 # WF 2024-06-05
 # Enhanced script to handle snapquery calls efficiently and with feedback
 
-
 # Function to execute snapquery in the background with feedback
 run_snapquery() {
     local domain="$1"
@@ -21,31 +20,56 @@ run_snapquery() {
     echo "... logged at $log"
 }
 
-# Fetch namespaces and their totals dynamically from snapquery -ln command
-namespace_data=$(snapquery -ln)
-
-# Define list of endpoints
-wikidata_endpoints=("wikidata" "wikidata-qlever" "wikidata-triply" "wikidata-openlinksw" "wikidata-scatter")
-dblp_endpoints=("dblp" "dblp-qlever" "dblp-trier")
-
-# Process each line to extract domains, namespaces, and totals
-while IFS=':' read -r full_namespace count; do
-    namespace="${full_namespace%%@*}"
-    domain="${full_namespace#*@}"
-    echo "Processing $domain/$namespace with total entries $count"
+# Function to determine which endpoints to use based on the domain
+select_endpoints() {
+    local domain="$1"
+    local namespace="$2"
+    local dblp_endpoints="dblp dblp-qlever dblp-trier"
     case "$domain" in
         dblp.org)
-            for endpoint in "${dblp_endpoints[@]}"; do
-                run_snapquery "$domain" "$namespace" "$endpoint"
-            done
+            echo "$dblp_endpoints"
+            ;;
+        orkg.org)
+            echo "orkg"
             ;;
         bitplan.com)
-            run_snapquery "$domain" "$namespace" "wikidata"
+            echo "wikidata"
             ;;
         *)
-            for endpoint in "${wikidata_endpoints[@]}"; do
-                run_snapquery "$domain" "$namespace" "$endpoint"
-            done
+            case $namespace in
+              qlever.cs.uni-freiburg.de)
+                echo "$dblp_endpoints"
+                ;;
+              *)
+                echo "wikidata wikidata-qlever wikidata-triply wikidata-openlinksw wikidata-scatter"
+                ;;
+              esac
             ;;
     esac
-done <<< "$namespace_data"
+}
+
+# Function to loop over selected endpoints and execute queries
+execute_queries() {
+    local domain="$1"
+    local namespace="$2"
+    local endpoints=$(select_endpoints "$domain" "$namespace")
+    IFS=' ' read -ra endpoint_array <<< "$endpoints"
+    for endpoint in "${endpoint_array[@]}"; do
+        run_snapquery "$domain" "$namespace" "$endpoint"
+    done
+}
+
+# Main function to process namespace data
+process_namespace_data() {
+    local namespace_data=$(snapquery -ln) # Fetch namespaces and their totals dynamically
+
+    while IFS=':' read -r full_namespace count; do
+        local namespace="${full_namespace%%@*}"
+        local domain="${full_namespace#*@}"
+        echo "Processing $domain/$namespace with total entries $count"
+        execute_queries "$domain" "$namespace"
+    done <<< "$namespace_data"
+}
+
+# Run the main function
+process_namespace_data

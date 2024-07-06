@@ -65,7 +65,9 @@ class TestRestFulApi(WebserverTest):
         test the RESTFul Query API
         """
         for r_format in ["mediawiki", "github", "latex", "html", "json"]:
-            path = f"/api/query/wikidata.org/snapquery-examples/cats.{r_format}?limit=10"
+            path = (
+                f"/api/query/wikidata.org/snapquery-examples/cats.{r_format}?limit=10"
+            )
             result = self.getHtml(path)
             if self.debug:
                 print(result)

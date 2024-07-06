@@ -12,6 +12,7 @@ from ngwidgets.input_webserver import InputWebSolution
 from ngwidgets.lod_grid import ListOfDictsGrid
 from ngwidgets.widgets import Link
 from nicegui import app, background_tasks, run, ui
+
 from snapquery.basequeryview import BaseQueryView
 from snapquery.params_view import ParamsView
 from snapquery.query_annotate import SparqlQueryAnnotater
@@ -35,7 +36,7 @@ class NamedQueryView:
         r_format_str: str = "html",
     ):
         self.solution = solution
-        self.endpoint_name="wikidata"
+        self.endpoint_name = "wikidata"
         self.nqm: NamedQueryManager = self.solution.nqm
         self.query_bundle = query_bundle
         self.r_format_str = r_format_str
@@ -186,7 +187,7 @@ class NamedQueryView:
             self.query_bundle.query.query = self.params.apply_parameters()
             self.params_view.close()
         self.query_bundle.set_limit(int(self.limit))
-        endpoint=self.nqm.endpoints[self.endpoint_name]
+        endpoint = self.nqm.endpoints[self.endpoint_name]
         self.query_bundle.update_endpoint(endpoint)
         result = await run.io_bound(self.query_bundle.get_lod_with_stats)
         if not result:

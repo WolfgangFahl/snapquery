@@ -94,7 +94,7 @@ class QLever:
             target_graph_name="wikidata",
         )
         for ticket, urls in ticket_dict.items():
-            for i, url in enumerate(urls,1):
+            for i, url in enumerate(urls, 1):
                 # Assuming URLs are like 'https://qlever.cs.uni-freiburg.de/wikidata/iTzJwQ'
                 # Customizing ShortUrl instance for QLever specific URLs
                 short_url_handler = QLeverUrl(url)

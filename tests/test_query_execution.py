@@ -56,7 +56,11 @@ class TestEndpoints(Basetest):
         """
         test the execution of a named query on a certain endpoint
         """
-        nq = self.nqm.lookup(name="author_other-locations", domain="scholia.toolforge.org",namespace="named_queries")
+        nq = self.nqm.lookup(
+            name="author_other-locations",
+            domain="scholia.toolforge.org",
+            namespace="named_queries",
+        )
         self.execute(nq, endpoint_name="wikidata", title="query")
 
     @unittest.skipIf(Basetest.inPublicCI(), "needs import to run")

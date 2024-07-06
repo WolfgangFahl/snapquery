@@ -20,7 +20,7 @@ from snapquery.namespace_stats_view import NamespaceStatsView
 from snapquery.orcid import OrcidAuth
 from snapquery.person_selector import PersonSelector, PersonView
 from snapquery.qimport_view import QueryImportView
-from snapquery.snapquery_core import QueryName, NamedQueryManager, QueryBundle
+from snapquery.snapquery_core import NamedQueryManager, QueryBundle, QueryName
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.stats_view import QueryStatsView
 from snapquery.version import Version
@@ -174,8 +174,10 @@ class SnapQueryWebServer(InputWebserver):
             Raises:
                 HTTPException: If the query cannot be found or fails to execute.
             """
-            query_name=QueryName(domain=domain, namespace=namespace,name=name)
-            qb = self.nqm.get_query(query_name=query_name, endpoint_name=endpoint_name, limit=limit)
+            query_name = QueryName(domain=domain, namespace=namespace, name=name)
+            qb = self.nqm.get_query(
+                query_name=query_name, endpoint_name=endpoint_name, limit=limit
+            )
             sparql_query = qb.query.query
             return PlainTextResponse(sparql_query)
 
@@ -207,8 +209,8 @@ class SnapQueryWebServer(InputWebserver):
                 name=name,
                 namespace=namespace,
                 domain=domain,
-                endpoint_name=endpoint_name, 
-                limit=limit
+                endpoint_name=endpoint_name,
+                limit=limit,
             )
             if not content:
                 raise HTTPException(status_code=500, detail="Could not create result")
@@ -239,7 +241,7 @@ class SnapQueryWebServer(InputWebserver):
 
     def query(
         self,
-        name: str,    
+        name: str,
         namespace: str,
         domain: str,
         endpoint_name: str = "wikidata",
@@ -261,8 +263,10 @@ class SnapQueryWebServer(InputWebserver):
         try:
             # content negotiation
             name, r_format = self.get_r_format(name)
-            query_name=QueryName(domain=domain, namespace=namespace,name=name)
-            qb = self.nqm.get_query(query_name=query_name, endpoint_name=endpoint_name, limit=limit)
+            query_name = QueryName(domain=domain, namespace=namespace, name=name)
+            qb = self.nqm.get_query(
+                query_name=query_name, endpoint_name=endpoint_name, limit=limit
+            )
             (qlod, stats) = qb.get_lod_with_stats()
             self.nqm.store_stats([stats])
             content = qb.format_result(qlod, r_format)
@@ -441,7 +445,7 @@ class SnapQuerySolution(InputWebSolution):
 
     async def query_page(
         self,
-        domain:str, 
+        domain: str,
         namespace: str,
         name: str,
         endpoint_name: str = "wikidata",
@@ -449,8 +453,10 @@ class SnapQuerySolution(InputWebSolution):
         r_format_str: str = "html",
     ):
         def show():
-            query_name=QueryName(domain=domain, namespace=namespace,name=name)
-            qb = self.nqm.get_query(query_name=query_name, endpoint_name=endpoint_name, limit=limit)
+            query_name = QueryName(domain=domain, namespace=namespace, name=name)
+            qb = self.nqm.get_query(
+                query_name=query_name, endpoint_name=endpoint_name, limit=limit
+            )
             self.named_query_view = NamedQueryView(
                 self, query_bundle=qb, r_format_str=r_format_str
             )

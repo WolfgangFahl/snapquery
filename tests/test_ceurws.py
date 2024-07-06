@@ -53,4 +53,3 @@ class TestCeurWS(Basetest):
         """
         )
         self.assertEqual(len(records), len(ceurws_queries.named_query_set.queries))
-

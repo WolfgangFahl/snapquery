@@ -39,9 +39,9 @@ class CeurWSQueries:
             limit (int, optional): Limit the number of queries fetched. Defaults to None.
         """
         if limit:
-            limitclause=f"|limit={limit}"
+            limitclause = f"|limit={limit}"
         else:
-            limitclause=""
+            limitclause = ""
         ask_query = f"""{{{{#ask: [[Concept:Query]]
 |mainlabel=Query
 |?Query id=id
@@ -68,10 +68,10 @@ class CeurWSQueries:
             description = query_data.get("task")
             sparql = query_data.get("sparql")
             if url:
-                url=f"https://w.wiki/{url}"
+                url = f"https://w.wiki/{url}"
             tryiturl = query_data.get("tryiturl")
             if tryiturl:
-                tryiturl=f"https://qlever.cs.uni-freiburg.de/wikidata/{tryiturl}"
+                tryiturl = f"https://qlever.cs.uni-freiburg.de/wikidata/{tryiturl}"
             comment = f"qlever tryit url: {tryiturl}" if tryiturl else None
             named_query = NamedQuery(
                 domain=self.named_query_set.domain,

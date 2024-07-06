@@ -57,7 +57,6 @@ class NamespaceStatsView:
         # Fetch and display data immediately upon UI setup
         ui.timer(0.0, self.on_fetch_lod, once=True)
 
-
     async def on_cell_clicked(self, event):
         """Handle cell click events to perform specific actions based on the cell content."""
         # Retrieve details from the event object
@@ -108,10 +107,12 @@ class NamespaceStatsView:
         Returns:
             List[Dict[str, any]]: The processed list of dictionaries formatted for grid display.
         """
-        domain_namespace_stats = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: [0, 0, 0])))
+        domain_namespace_stats = defaultdict(
+            lambda: defaultdict(lambda: defaultdict(lambda: [0, 0, 0]))
+        )
         endpoints = list(self.nqm.endpoints.keys())
         total_queries = {}
-    
+
         for entry in raw_lod:
             domain = entry["domain"]
             namespace = entry["namespace"]
@@ -125,11 +126,15 @@ class NamespaceStatsView:
                 distinct_failed,
                 success_count,
             ]
-    
+
         processed_lod = []
         for domain, namespaces in domain_namespace_stats.items():
             for namespace, counts in namespaces.items():
-                row = {"domain": domain, "namespace": namespace, "total": total_queries[(domain, namespace)]}
+                row = {
+                    "domain": domain,
+                    "namespace": namespace,
+                    "total": total_queries[(domain, namespace)],
+                }
                 for endpoint in endpoints:
                     success, fail, total = counts.get(endpoint, [0, 0, 0])
                     if success == 0 and fail == 0 and total == 0:
@@ -137,6 +142,5 @@ class NamespaceStatsView:
                     else:
                         row[endpoint] = f"✅{success} ❌{fail} 🔄{total}"
                 processed_lod.append(row)
-    
+
         return processed_lod
-    

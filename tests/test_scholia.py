@@ -3,8 +3,8 @@ Created on 2024-05-04
 
 @author: wf
 """
-import unittest
 import os
+import unittest
 
 from ngwidgets.basetest import Basetest
 

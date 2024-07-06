@@ -6,6 +6,7 @@ Created on 2024-05-05
 import glob
 import json
 import os
+
 from tqdm import tqdm
 
 from snapquery.snapquery_core import NamedQueryManager, NamedQuerySet
@@ -26,16 +27,16 @@ class QueryImport:
         """
         self.nqm = nqm
         pass
-    
-    def import_samples(self,with_store:bool = True, show_progress:bool=False):
+
+    def import_samples(self, with_store: bool = True, show_progress: bool = False):
         """
         import all sample json files
-        
+
         Args:
             with_store(bool): if True store the result
             show_progress(bool): if True show a tqdm progress bar
         """
-        for json_file in glob.glob(os.path.join(self.nqm.samples_path, "*.json")):            
+        for json_file in glob.glob(os.path.join(self.nqm.samples_path, "*.json")):
             try:
                 nq_list = self.import_from_json_file(
                     json_file, with_store, show_progress
@@ -65,7 +66,10 @@ class QueryImport:
         """
         nq_set = NamedQuerySet.load_from_json_file(json_file)
         iterable = (
-            tqdm(nq_set.queries, desc=f"Importing Namespace {nq_set.namespace}@{nq_set.domain}")
+            tqdm(
+                nq_set.queries,
+                desc=f"Importing Namespace {nq_set.namespace}@{nq_set.domain}",
+            )
             if show_progress
             else nq_set.queries
         )
@@ -78,7 +82,7 @@ class QueryImport:
                 else:
                     raise Exception(f"invalid named query with no url: {nq}")
                     # what now?
-                    continue    
+                    continue
             if with_store and self.nqm:
                 self.nqm.add_and_store(nq)
         return nq_set

@@ -3,24 +3,23 @@ Created on 2024-05-05
 
 @author: wf
 """
+import json
 
 from ngwidgets.basetest import Basetest
 
 from snapquery.qimport import QueryImport
-
 from snapquery.wd_short_url import ShortUrl
 
 
 class TestImport(Basetest):
     """
     test importing  named queries
-    
+
     the samples import is now tested as part of  TestQueryName
     """
 
     def setUp(self, debug=True, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
-               
 
     def testImport(self):
         """

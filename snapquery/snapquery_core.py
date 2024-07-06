@@ -9,11 +9,12 @@ import json
 import logging
 import os
 import re
+import urllib.parse
 import uuid
 from dataclasses import asdict, dataclass, field, fields, is_dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Type
-import urllib.parse
+
 import requests
 from lodstorage.lod_csv import CSV
 from lodstorage.params import Params
@@ -165,6 +166,7 @@ class QueryName:
         name (str): The unique name or identifier of the query within its namespace.
         query_id(str): encoded id e.g. cats--examples@wikidata.org
     """
+
     # name
     name: str
     # namespace
@@ -183,20 +185,22 @@ class QueryName:
         Generate a URL-friendly query_id
         """
         # Convert None to empty string (or use any other default logic)
-        name, namespace, domain = (name or ''), (namespace or ''), (domain or '')
+        name, namespace, domain = (name or ""), (namespace or ""), (domain or "")
 
-        encoded_name = urllib.parse.quote(name, safe='')
-        encoded_namespace = urllib.parse.quote(namespace, safe='')
-        encoded_domain = urllib.parse.quote(domain, safe='')
-        query_id=f"{encoded_name}--{encoded_namespace}@{encoded_domain}"
-        #query_id=query_id.lower()
+        encoded_name = urllib.parse.quote(name, safe="")
+        encoded_namespace = urllib.parse.quote(namespace, safe="")
+        encoded_domain = urllib.parse.quote(domain, safe="")
+        query_id = f"{encoded_name}--{encoded_namespace}@{encoded_domain}"
+        # query_id=query_id.lower()
         return query_id
 
     @classmethod
-    def from_query_id(cls, query_id: str,
-                      namespace: str = "examples",  # default namespace
-                      domain: str = "wikidata.org"  # default domain
-                      ) -> "QueryName":
+    def from_query_id(
+        cls,
+        query_id: str,
+        namespace: str = "examples",  # default namespace
+        domain: str = "wikidata.org",  # default domain
+    ) -> "QueryName":
         """
         Parse a URL-friendly query_id string into a QueryName object.
         Args:
@@ -206,11 +210,11 @@ class QueryName:
         Returns:
             QueryName: A QueryName object containing name, namespace, and domain.
         """
-        parts = query_id.split('--')
+        parts = query_id.split("--")
         name = urllib.parse.unquote(parts[0])
-       
+
         if len(parts) > 1:
-            ns_domain = parts[1].split('@')
+            ns_domain = parts[1].split("@")
             namespace = urllib.parse.unquote(ns_domain[0])
             if len(ns_domain) > 1:
                 domain = urllib.parse.unquote(ns_domain[1])
@@ -224,10 +228,11 @@ class QueryName:
             "name": self.name,
             "namespace": self.namespace,
             "domain": self.domain,
-            "query_id": self.query_id
+            "query_id": self.query_id,
         }
-    
-@dataclass    
+
+
+@dataclass
 class NamedQuery(QueryName):
     """
     A named query that encapsulates the details and SPARQL query for a specific purpose.
@@ -238,6 +243,7 @@ class NamedQuery(QueryName):
         sparql (str): The SPARQL query string. This might be hidden in future to encapsulate query details.
         query_id (str): A unique identifier for the query, generated from namespace and name, used as a primary key.
     """
+
     # sparql query (to be hidden later)
     sparql: Optional[str] = None
     # the url of the source code of the query
@@ -247,7 +253,7 @@ class NamedQuery(QueryName):
     # multiline description
     description: Optional[str] = None
     comment: Optional[str] = None
-    
+
     @classmethod
     def get_samples(cls) -> dict[str, "NamedQuery"]:
         """
@@ -375,6 +381,7 @@ class QueryDetails:
     """
     Details for a named query
     """
+
     query_id: str
     params: str
     param_count: int
@@ -482,12 +489,12 @@ class QueryBundle:
         self.named_query = named_query
         self.query = query
         self.update_endpoint(endpoint)
- 
-    def update_endpoint(self,endpoint):
+
+    def update_endpoint(self, endpoint):
         self.endpoint = endpoint
         if endpoint:
             self.sparql = SPARQL(endpoint.endpoint, method=self.endpoint.method)
-       
+
     def raw_query(self, resultFormat, mime_type: str = None, timeout: float = 10.0):
         """
         returns raw result of the endpoint
@@ -938,7 +945,7 @@ class NamedQueryManager:
 
         return list_of_records
 
-    def lookup(self, query_name:QueryName, lenient: bool = True) -> NamedQuery:
+    def lookup(self, query_name: QueryName, lenient: bool = True) -> NamedQuery:
         """
         lookup the named query for the given structured query name
 
@@ -949,8 +956,8 @@ class NamedQueryManager:
         Returns:
             NamedQuery: the named query
         """
-        qn=query_name
-        query_id=qn.query_id
+        qn = query_name
+        query_id = qn.query_id
         sql_query = """SELECT 
     *
 FROM 
@@ -976,7 +983,7 @@ WHERE
 
     def get_query(
         self,
-        query_name:QueryName,
+        query_name: QueryName,
         endpoint_name: str = "wikidata",
         limit: int = None,
     ) -> QueryBundle:
@@ -1042,17 +1049,17 @@ WHERE
         result = self.sql_db.query(query)
         namespaces: Dict[str, int] = {}
         for row in result:
-            domain=row["domain"]
-            namespace=row["namespace"]
-            count=int(row["query_count"]) 
-            namespaces[f"{namespace}@{domain}"]=count
+            domain = row["domain"]
+            namespace = row["namespace"]
+            count = int(row["query_count"])
+            namespaces[f"{namespace}@{domain}"] = count
         return namespaces
 
     def get_all_queries(
         self,
         namespace: str = "snapquery-examples",
         domain: str = "wikidata.org",
-        limit: int = None  # Default limit is None, meaning no limit
+        limit: int = None,  # Default limit is None, meaning no limit
     ) -> List[NamedQuery]:
         """
         Retrieves named queries stored in the database, filtered by domain and namespace with pattern matching.
@@ -1070,7 +1077,7 @@ WHERE
 WHERE domain LIKE ? AND namespace LIKE ?
 ORDER BY domain,namespace,name"""
         params = (f"{domain}%", f"{namespace}%")
-        
+
         if limit is not None:
             sql_query += " LIMIT ?"
             params += (limit,)
@@ -1105,41 +1112,44 @@ ORDER BY domain,namespace,name"""
                 stats.append(query_stat)
         return stats
 
+
 class QueryNameSet:
     """
-    Manages a set of QueryNames filtered by domain and namespaces SQL like patterns 
-  
+    Manages a set of QueryNames filtered by domain and namespaces SQL like patterns
+
     Attributes:
-        
+
         nqm (NamedQueryManager): A manager to handle named queries and interactions with the database.
         limit(int): the maximum number of names and top_queries
-        
-    Calculated on update:   
+
+    Calculated on update:
         total (int): Total number of queries that match the current filter criteria.
         domains (set): A set of domains that match the current filter criteria.
         namespaces (set): A set of namespaces that match the current filter criteria.
         names (set): A set of names that match the current filter criteria.
-        top_queries (list): List of top queries based on the specified limit.    
+        top_queries (list): List of top queries based on the specified limit.
     """
-    def __init__(self, nqm: "NamedQueryManager",limit:int=None):
+
+    def __init__(self, nqm: "NamedQueryManager", limit: int = None):
         self.nqm = nqm
-        self.limit=limit
+        self.limit = limit
         self.total = 0
         self.domains = set()
         self.namespaces = set()
         self.names = set()
         self.update("", "")
-        
+
     def __str__(self):
-        return (f"QueryNameSet(Total: {self.total}, Domains: {sorted(self.domains)}, "
+        return (
+            f"QueryNameSet(Total: {self.total}, Domains: {sorted(self.domains)}, "
             f"Namespaces: {sorted(self.namespaces)}, Names: {sorted(self.names)}, "
-            f"Top Queries: [{', '.join(query.name for query in self.top_queries)}])")
+            f"Top Queries: [{', '.join(query.name for query in self.top_queries)}])"
+        )
 
-
-    def update(self, domain: str, namespace: str,limit:int=None):
+    def update(self, domain: str, namespace: str, limit: int = None):
         """
         update my attributes
-        
+
         Args:
             domain (str): The domain part of the filter, supports SQL-like wildcards.
             namespace (str): The namespace part of the filter, supports SQL-like wildcards.
@@ -1147,7 +1157,7 @@ class QueryNameSet:
 
         """
         if limit is None:
-            limit=self.limit
+            limit = self.limit
         query = self.nqm.meta_qm.queriesByName["domain_namespace_stats"]
         params = (f"{domain}%", f"{namespace}%")
         results = self.nqm.sql_db.query(query.query, params)
@@ -1158,10 +1168,11 @@ class QueryNameSet:
         self.names.clear()  # Clear previous names
 
         for record in results:
-            self.domains.add(record['domain'])
-            self.namespaces.add(record['namespace'])
-            self.total += record['query_count']
-        self.top_queries = self.nqm.get_all_queries(namespace=namespace, domain=domain, limit=limit)
+            self.domains.add(record["domain"])
+            self.namespaces.add(record["namespace"])
+            self.total += record["query_count"]
+        self.top_queries = self.nqm.get_all_queries(
+            namespace=namespace, domain=domain, limit=limit
+        )
         for query in self.top_queries:
             self.names.add(query.name)
-            

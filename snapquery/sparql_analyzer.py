@@ -4,11 +4,10 @@ import re
 from collections import Counter
 from typing import Iterable
 
+from jinja2 import Environment, Template, meta
 from rdflib.plugins.sparql import prepareQuery
 from rdflib.plugins.sparql.parser import parseQuery
 from rdflib.plugins.sparql.parserutils import CompValue
-from jinja2 import Template, Environment, meta
-
 
 logger = logging.getLogger(__name__)
 
@@ -19,6 +18,7 @@ class SparqlAnalyzer:
     """
 
     BLAZEGRAPH_NAMED_SUBQUERY_PATTERN = r"""WITH[\s\n]*(#[\w\s://\.\n,]+)?{(#[\w\s://\.\n,]+)?[\s\n](?P<subquery>[\n\r\b\w\d:\t\.";,\{\)\(\?\}\W#]*?)\s+[Aa][Ss]\s+%(?P<name>[A-Za-z\d_]+)"""
+
     @classmethod
     def get_prefix_luts(cls) -> dict[str, str]:
         return {
@@ -191,7 +191,7 @@ class SparqlAnalyzer:
             start_pos, end_pos = match.span()
             # check if Where mus be added
             select_part = query[:start_pos]
-            where_part = query[end_pos + 1:]
+            where_part = query[end_pos + 1 :]
             if cls.has_blazegraph_with_clause(where_part):
                 where_part = cls.transform_with_clause_to_subquery(where_part)
             if where_part.lower().strip().startswith("where"):

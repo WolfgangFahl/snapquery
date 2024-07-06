@@ -46,12 +46,16 @@ class TestSparqlAnalyzer(unittest.TestCase):
                     try:
                         fixed_query = SparqlAnalyzer.add_missing_prefixes(query.sparql)
                         if SparqlAnalyzer.has_parameter(fixed_query):
-                            fixed_query = SparqlAnalyzer.fill_with_sample_query_parameters(
-                                fixed_query
+                            fixed_query = (
+                                SparqlAnalyzer.fill_with_sample_query_parameters(
+                                    fixed_query
+                                )
                             )
                         if SparqlAnalyzer.has_blazegraph_with_clause(fixed_query):
-                            fixed_query = SparqlAnalyzer.transform_with_clause_to_subquery(
-                                fixed_query
+                            fixed_query = (
+                                SparqlAnalyzer.transform_with_clause_to_subquery(
+                                    fixed_query
+                                )
                             )
                         is_valid = SparqlAnalyzer.is_valid(fixed_query)
                         if not is_valid:
@@ -290,26 +294,31 @@ ORDER BY DESC (?count)
         is_valid = SparqlAnalyzer.is_valid(fixed_query)
         self.assertTrue(is_valid)
 
-
     def test_detect_undefined_prefixes(self):
         """
         Test detection for undefined prefixes.
         """
         query = "SELECT * WHERE {?work undefined:P2093 ?work . }"
-        with self.assertLogs(snapquery.sparql_analyzer.logger, level='INFO') as cm:
+        with self.assertLogs(snapquery.sparql_analyzer.logger, level="INFO") as cm:
             SparqlAnalyzer.add_missing_prefixes(query)
-            self.assertIn("ERROR:snapquery.sparql_analyzer:Prefix definitions missing for: {'undefined'} → Not all prefixes that are missing can be added", cm.output)
+            self.assertIn(
+                "ERROR:snapquery.sparql_analyzer:Prefix definitions missing for: {'undefined'} → Not all prefixes that are missing can be added",
+                cm.output,
+            )
 
     def test_add_missing_prefixes_on_incorreect_query(self):
         """
         Test add_missing_prefixes on query with syntax error making parsing impossible
         """
         query = "SELET * WHERE {??work undefined:P2093 ?work . }"
-        with self.assertLogs(snapquery.sparql_analyzer.logger, level=logging.DEBUG) as cm:
+        with self.assertLogs(
+            snapquery.sparql_analyzer.logger, level=logging.DEBUG
+        ) as cm:
             SparqlAnalyzer.add_missing_prefixes(query)
             self.assertIn(
                 "DEBUG:snapquery.sparql_analyzer:Adding missing prefixes to query failed → Unable to parse SPARQL query",
-                cm.output)
+                cm.output,
+            )
 
     def test_fill_with_sample_query_parameters_with_parameterless_query(self):
         """
@@ -318,6 +327,7 @@ ORDER BY DESC (?count)
         query = "SELECT * WHERE {?work undefined:P2093 ?work . }"
         filled_query = SparqlAnalyzer.fill_with_sample_query_parameters(query)
         self.assertEqual(filled_query, query)
+
 
 if __name__ == "__main__":
     unittest.main()

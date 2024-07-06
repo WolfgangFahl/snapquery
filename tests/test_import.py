@@ -3,48 +3,24 @@ Created on 2024-05-05
 
 @author: wf
 """
-import glob
-import json
-import os
-import tempfile
 
 from ngwidgets.basetest import Basetest
 
 from snapquery.qimport import QueryImport
-from snapquery.snapquery_core import NamedQueryManager
+
 from snapquery.wd_short_url import ShortUrl
 
 
 class TestImport(Basetest):
     """
     test importing  named queries
+    
+    the samples import is now tested as part of  TestQueryName
     """
 
-    def setUp(self, debug=False, profile=True):
+    def setUp(self, debug=True, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
-
-    def testSamplesImports(self):
-        """
-        test importing the samples
-        """
-        with tempfile.NamedTemporaryFile() as tmpfile:
-            nqm = NamedQueryManager.from_samples(db_path=tmpfile.name)
-            qimport = QueryImport(nqm=nqm)
-            for json_file in glob.glob(os.path.join(nqm.samples_path, "*.json")):
-                with_store = True
-                show_progress = self.debug
-                try:
-                    nq_list = qimport.import_from_json_file(
-                        json_file, with_store, show_progress
-                    )
-                except Exception as ex:
-                    print(f"could not load json_file {json_file}")
-                    raise ex
-                if "ceur" in json_file:
-                    json_file_name = os.path.basename(json_file)
-                    output_path = os.path.join("/tmp", json_file_name)
-                    nq_list.save_to_json_file(output_path, indent=2)
-                    pass
+               
 
     def testImport(self):
         """

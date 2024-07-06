@@ -375,7 +375,6 @@ class QueryDetails:
     """
     Details for a named query
     """
-
     query_id: str
     params: str
     param_count: int

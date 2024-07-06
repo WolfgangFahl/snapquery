@@ -3,7 +3,9 @@ Created on 2024-05-05
 
 @author: wf
 """
-
+import glob
+import json
+import os
 from tqdm import tqdm
 
 from snapquery.snapquery_core import NamedQueryManager, NamedQuerySet
@@ -24,6 +26,28 @@ class QueryImport:
         """
         self.nqm = nqm
         pass
+    
+    def import_samples(self,with_store:bool = True, show_progress:bool=False):
+        """
+        import all sample json files
+        
+        Args:
+            with_store(bool): if True store the result
+            show_progress(bool): if True show a tqdm progress bar
+        """
+        for json_file in glob.glob(os.path.join(self.nqm.samples_path, "*.json")):            
+            try:
+                nq_list = self.import_from_json_file(
+                    json_file, with_store, show_progress
+                )
+            except Exception as ex:
+                print(f"could not load json_file {json_file}")
+                raise ex
+            if "ceur" in json_file:
+                json_file_name = os.path.basename(json_file)
+                output_path = os.path.join("/tmp", json_file_name)
+                nq_list.save_to_json_file(output_path, indent=2)
+                pass
 
     def import_from_json_file(
         self, json_file: str, with_store: bool = False, show_progress: bool = False

@@ -29,13 +29,31 @@ class TestScholiaQ(Basetest):
         """
         limit = 5
         llm = LLM(model="gpt-4o")
-        namespace = "scholia"
+        domain="scholia.toolforge.org"
+        namespace = "named_queries"
+        params=(domain,namespace,)
+        names=["authors_co-author",
+               "organization-topic_authors",
+               "use-curation_missing-author-items"]
+        query_ids=""
+        delim=""
+        for i,name in enumerate(names,start=1):
+            query_id=f"{name}--named_queries@scholia.toolforge.org"
+            query_ids+=f"{delim}'{query_id}'"
+            delim=","
+            
+        params=(query_ids,)
         records = self.nqm.sql_db.query(
-            f"SELECT * FROM NamedQuery WHERE namespace='{namespace}'"
+            f"""SELECT * FROM NamedQuery 
+            WHERE query_id in ({query_ids})
+            """
         )
+        
+        count=0
         for i, record in enumerate(records, start=1):
-            name = record["name"]
+            query_id = record["query_id"]
             if self.debug:
+                print(f"{i:2}:{query_id}")
                 print(json.dumps(record, indent=2))
             sparql = record["sparql"]
             params = Params(sparql)
@@ -52,7 +70,8 @@ class TestScholiaQ(Basetest):
                     llm_response = llm.ask(prompt)
                     if llm_response:
                         print(llm_response)
+                    count+=1
                 except Exception as ex:
                     print(f"guess {i} failed with exception {str(ex)}")
-            if i > limit:
-                break
+                if count > limit:
+                    break

@@ -46,6 +46,7 @@ class NamespaceStatsView:
             self.progress_bar = NiceguiProgressbar(
                 desc="Query Progress", total=100, unit="queries"
             )
+            self.progress_bar.progress.classes("rounded")
         with ui.row() as self.results_row:
             ui.label(
                 "Legend: ✅ Distinct Successful Queries  ❌ Distinct Failed Queries  🔄 Total Successful Runs"
@@ -64,12 +65,14 @@ class NamespaceStatsView:
         row_data = event.args["data"]
         endpoint_name = event.args["colId"]
         namespace = row_data["namespace"]
+        domain = row_data["domain"]
         if endpoint_name in self.nqm.endpoints.keys():
             if self.solution.webserver.authenticated():
                 await run.io_bound(
                     self.execute_queries,
                     namespace=namespace,
                     endpoint_name=endpoint_name,
+                    domain=domain,
                 )
             else:
                 ui.notify("you must be admin to run queries via the web interface")
@@ -144,3 +147,60 @@ class NamespaceStatsView:
                 processed_lod.append(row)
 
         return processed_lod
+
+    def execute(self, nq: NamedQuery, endpoint_name: str, title: str):
+        """Execute the given named query with notification and progress bar updates."""
+        qd, params_dict = self.parameterize(nq)
+        with self.results_row:
+            msg = f"{title}: {nq.name} {qd} - via {endpoint_name}"
+            logger.info(msg)
+            # ui.notify(msg)
+        results, stats = self.nqm.execute_query(nq, params_dict, endpoint_name)
+        stats.context = "test"
+        self.nqm.store_stats([stats])
+
+        if not stats.records:
+            msg = f"{title} error: {stats.filtered_msg}"
+            logger.error(msg)
+        else:
+            msg = f"{title} executed: {stats.records} records found"
+            logger.info(msg)
+
+    def execute_queries(self, namespace: str, endpoint_name: str, domain: str):
+        """execute queries with progress updates.
+        Args:
+            namespace (str): The namespace of the queries to execute.
+            endpoint_name (str): The endpoint name where the queries will be executed.
+            domain: domain name
+        """
+        queries = self.nqm.get_all_queries(namespace=namespace, domain=domain)
+        total_queries = len(queries)
+
+        self.progress_bar.total = total_queries
+        self.progress_bar.reset()
+
+        for i, nq in enumerate(queries, start=1):
+            with self.progress_row:
+                self.progress_bar.update_value(i)
+                self.progress_bar.set_description(f"Executing {nq.name} on {endpoint_name}")
+                logger.debug(f"Executing {nq.name} on {endpoint_name}")
+            self.execute(nq, endpoint_name, title=f"query {i}/{len(queries)}::{endpoint_name}")
+        with self.progress_row:
+            ui.timer(0.1, self.on_fetch_lod, once=True)
+            ui.notify(f"finished {total_queries} queries for namespace: {namespace} with domain: {domain}", type="positive")
+
+    def parameterize(self, nq: NamedQuery):
+        """
+        parameterize the given named query
+        ToDo: Find a better way to parameterize the given named query currently this function is used in snapquery_cmd.py, test_query_execution.py, and here
+        Args:
+            nq(NamedQuery): the query to parameterize
+        """
+        qd = QueryDetails.from_sparql(query_id=nq.query_id, sparql=nq.sparql)
+        # Execute the query
+        params_dict = {}
+        if qd.params == "q":
+            # use Tim Berners-Lee as a example
+            params_dict = {"q": "Q80"}
+            pass
+        return qd, params_dict

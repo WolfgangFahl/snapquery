@@ -1,4 +1,5 @@
 import logging
+import pprint
 import sys
 import unittest
 
@@ -327,6 +328,31 @@ ORDER BY DESC (?count)
         query = "SELECT * WHERE {?work undefined:P2093 ?work . }"
         filled_query = SparqlAnalyzer.fill_with_sample_query_parameters(query)
         self.assertEqual(filled_query, query)
+
+    @unittest.skip("Only for manual inspection of the parameter name distribution")
+    def test_scholia_param_name_distro(self):
+        """
+        Extract the distribution of scholia param names
+        """
+        nqm = NamedQueryManager()
+        namespaces = [
+            ("scholia.toolforge.org", "named_queries")  # all queries works except one which expects a datetime parameter which is not detected
+        ]
+        params: dict[str, int] = dict()
+        params["Has no parameter"] = 0
+        for domain, namespace in namespaces:
+            queries = nqm.get_all_queries(namespace=namespace, domain=domain)
+            for query in queries:
+                query_params = SparqlAnalyzer.get_query_parameter(query.sparql)
+                if query_params:
+                    for param in query_params:
+                        if param in params:
+                            params[param] += 1
+                        else:
+                            params[param] = 1
+                else:
+                    params["Has no parameter"] += 1
+        pprint.pprint(params)
 
 
 if __name__ == "__main__":

@@ -20,7 +20,7 @@ from snapquery.namespace_stats_view import NamespaceStatsView
 from snapquery.orcid import OrcidAuth
 from snapquery.person_selector import PersonSelector, PersonView
 from snapquery.qimport_view import QueryImportView
-from snapquery.snapquery_core import NamedQueryManager, QueryBundle, QueryName
+from snapquery.snapquery_core import NamedQueryManager, QueryBundle, QueryName, QueryPrefixMerger
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.stats_view import QueryStatsView
 from snapquery.version import Version
@@ -315,6 +315,13 @@ class SnapQuerySolution(InputWebSolution):
             app.storage.user,
             "endpoint_name",
         )
+        self.add_select(
+                "prefix merger",
+                list(QueryPrefixMerger),
+                value=QueryPrefixMerger.default_merger()
+        ).bind_value(
+                app.storage.user, "prefix_merger",
+        )
 
     def setup_menu(self, detailed: bool = True):
         """
@@ -455,7 +462,8 @@ class SnapQuerySolution(InputWebSolution):
         def show():
             query_name = QueryName(domain=domain, namespace=namespace, name=name)
             qb = self.nqm.get_query(
-                query_name=query_name, endpoint_name=endpoint_name, limit=limit
+                query_name=query_name, endpoint_name=endpoint_name, limit=limit,
+                prefix_merger=self.get_user_prefix_merger()
             )
             self.named_query_view = NamedQueryView(
                 self, query_bundle=qb, r_format_str=r_format_str
@@ -470,3 +478,11 @@ class SnapQuerySolution(InputWebSolution):
         """
         endpoint = app.storage.user.get("endpoint_name", "wikidata")
         return endpoint
+
+    @staticmethod
+    def get_user_prefix_merger() -> QueryPrefixMerger:
+        """
+        Get the prefix merger selected by the user. If no merger is selected the default merger Simple merger is used
+        """
+        merger = app.storage.user.get("prefix_merger", None)
+        return QueryPrefixMerger(merger)

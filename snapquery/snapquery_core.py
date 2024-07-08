@@ -12,8 +12,9 @@ import re
 import urllib.parse
 import uuid
 from dataclasses import asdict, dataclass, field, fields, is_dataclass
+from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Type
+from typing import Any, Dict, List, Optional, Type, Union
 
 import requests
 from lodstorage.lod_csv import CSV
@@ -23,6 +24,7 @@ from lodstorage.sparql import SPARQL
 from lodstorage.sql import SQLDB, EntityInfo
 from lodstorage.yamlable import lod_storable
 from ngwidgets.widgets import Link
+from snapquery.sparql_analyzer import SparqlAnalyzer
 
 from snapquery.endpoint import Endpoint as SnapQueryEndpoint
 from snapquery.error_filter import ErrorFilter
@@ -609,6 +611,76 @@ class QueryBundle:
             self.query.query = sparql_query
 
 
+class QueryPrefixMerger(Enum):
+    """
+    SPARQL Query prefix merger
+    """
+    RAW = "raw"
+    SIMPLE_MERGER = "simple merger"
+    ANALYSIS_MERGER = "analysis merger"
+
+    @classmethod
+    def _missing_(cls, key):
+        return cls.default_merger()
+
+    @classmethod
+    def default_merger(cls) -> "QueryPrefixMerger":
+        return cls.SIMPLE_MERGER
+
+    @classmethod
+    def merge_prefixes(cls, named_query: NamedQuery, query: Query, endpoint: Endpoint,
+                       merger: "QueryPrefixMerger") -> str:
+        """
+        Merge prefixes with the given merger
+        Args:
+            named_query:
+            query:
+            endpoint:
+            merger:
+
+        Returns:
+            merged query
+        """
+        if merger == QueryPrefixMerger.RAW:
+            return query.query
+        elif merger == QueryPrefixMerger.SIMPLE_MERGER:
+            return cls.simple_prefix_merger(query.query, endpoint)
+        elif merger == QueryPrefixMerger.ANALYSIS_MERGER:
+            return cls.analysis_prefix_merger(query.query)
+        else:
+            return query.query
+
+    @classmethod
+    def simple_prefix_merger(cls, query_str: str, endpoint: Endpoint) -> str:
+        """
+        Simple prefix merger
+        Args:
+            query_str:
+            endpoint:
+
+        Returns:
+            merged query
+        """
+        prefixes = endpoint.prefixes if hasattr(endpoint, "prefixes") else None
+        merged_query = query_str
+        if prefixes:
+            merged_query = f"{prefixes}\n{merged_query}"
+        return merged_query
+
+    @classmethod
+    def analysis_prefix_merger(cls, query_str: str) -> str:
+        """
+        Analysis prefix merger
+        Args:
+            query_str
+
+        Returns:
+            merged query
+        """
+        merged_query = SparqlAnalyzer.add_missing_prefixes(query_str)
+        return merged_query
+
+
 class NamedQueryManager:
     """
     Manages the storage, retrieval, and execution of named SPARQL queries.
@@ -821,6 +893,7 @@ class NamedQueryManager:
         endpoint_name: str = "wikidata",
         limit: int = None,
         with_stats: bool = True,
+        prefix_merger: QueryPrefixMerger = QueryPrefixMerger.SIMPLE_MERGER
     ):
         """
         execute the given named_query
@@ -831,9 +904,10 @@ class NamedQueryManager:
             endpoint_name(str): the endpoint where to the excute the query
             limit(int): the record limit for the results (if any)
             with_stats(bool): if True run the stats
+            prefix_merger: prefix merger to use
         """
         # Assemble the query bundle using the named query, endpoint, and limit
-        query_bundle = self.as_query_bundle(named_query, endpoint_name, limit)
+        query_bundle = self.as_query_bundle(named_query, endpoint_name, limit, prefix_merger)
         params = Params(query_bundle.query.query)
         if params.has_params:
             params.set(params_dict)
@@ -986,6 +1060,7 @@ WHERE
         query_name: QueryName,
         endpoint_name: str = "wikidata",
         limit: int = None,
+        prefix_merger: QueryPrefixMerger = QueryPrefixMerger.SIMPLE_MERGER
     ) -> QueryBundle:
         """
         Get the query for the given parameters.
@@ -994,15 +1069,15 @@ WHERE
             query_name: (QueryName):a structured query name
             endpoint_name (str): The name of the endpoint to send the SPARQL query to, default is 'wikidata'.
             limit (int): The query limit (if any).
-
+            prefix_merger: Prefix merger to use
         Returns:
             QueryBundle: named_query, query, and endpoint.
         """
         named_query = self.lookup(query_name=query_name)
-        return self.as_query_bundle(named_query, endpoint_name, limit)
+        return self.as_query_bundle(named_query, endpoint_name, limit, prefix_merger)
 
     def as_query_bundle(
-        self, named_query: NamedQuery, endpoint_name: str, limit: int = None
+        self, named_query: NamedQuery, endpoint_name: str, limit: int = None, prefix_merger: QueryPrefixMerger = QueryPrefixMerger.SIMPLE_MERGER
     ) -> QueryBundle:
         """
         Assembles a QueryBundle from a NamedQuery, endpoint name, and optional limit.
@@ -1026,7 +1101,7 @@ WHERE
             endpoint=endpoint.endpoint,
             limit=limit,
         )
-        query.query = f"{endpoint.prefixes}\n{query.query}"
+        query.query = QueryPrefixMerger.merge_prefixes(named_query, query, endpoint, prefix_merger)
         if limit:
             query.query += f"\nLIMIT {limit}"
         return QueryBundle(named_query=named_query, query=query, endpoint=endpoint)

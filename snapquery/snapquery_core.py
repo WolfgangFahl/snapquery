@@ -628,6 +628,14 @@ class QueryPrefixMerger(Enum):
         return cls.SIMPLE_MERGER
 
     @classmethod
+    def get_by_name(cls, name: str) -> "QueryPrefixMerger":
+        merger_map = {merger.name: merger.value for merger in QueryPrefixMerger}
+        merger_value = merger_map.get(name, None)
+        merger = QueryPrefixMerger(merger_value)
+        return merger
+
+
+    @classmethod
     def merge_prefixes(cls, named_query: NamedQuery, query: Query, endpoint: Endpoint,
                        merger: "QueryPrefixMerger") -> str:
         """

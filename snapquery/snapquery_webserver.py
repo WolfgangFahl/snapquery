@@ -485,7 +485,7 @@ class SnapQuerySolution(InputWebSolution):
         Get the prefix merger selected by the user. If no merger is selected the default merger Simple merger is used
         """
         merger_name = app.storage.user.get("prefix_merger", None)
-        merger = QueryPrefixMerger(merger_name)
+        merger = QueryPrefixMerger.get_by_name(merger_name)
         if merger_name is None:
             app.storage.user["prefix_merger"] = merger.name
         return merger

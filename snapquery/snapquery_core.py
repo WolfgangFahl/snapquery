@@ -634,7 +634,6 @@ class QueryPrefixMerger(Enum):
         merger = QueryPrefixMerger(merger_value)
         return merger
 
-
     @classmethod
     def merge_prefixes(cls, named_query: NamedQuery, query: Query, endpoint: Endpoint,
                        merger: "QueryPrefixMerger") -> str:
@@ -649,9 +648,7 @@ class QueryPrefixMerger(Enum):
         Returns:
             merged query
         """
-        if merger == QueryPrefixMerger.RAW:
-            return query.query
-        elif merger == QueryPrefixMerger.SIMPLE_MERGER:
+        if merger == QueryPrefixMerger.SIMPLE_MERGER:
             return cls.simple_prefix_merger(query.query, endpoint)
         elif merger == QueryPrefixMerger.ANALYSIS_MERGER:
             return cls.analysis_prefix_merger(query.query)

@@ -317,8 +317,8 @@ class SnapQuerySolution(InputWebSolution):
         )
         self.add_select(
                 "prefix merger",
-                list(QueryPrefixMerger),
-                value=QueryPrefixMerger.default_merger()
+                {merger.name: merger.value for merger in QueryPrefixMerger},
+                value=self.get_user_prefix_merger().name
         ).bind_value(
                 app.storage.user, "prefix_merger",
         )
@@ -484,5 +484,8 @@ class SnapQuerySolution(InputWebSolution):
         """
         Get the prefix merger selected by the user. If no merger is selected the default merger Simple merger is used
         """
-        merger = app.storage.user.get("prefix_merger", None)
-        return QueryPrefixMerger(merger)
+        merger_name = app.storage.user.get("prefix_merger", None)
+        merger = QueryPrefixMerger(merger_name)
+        if merger_name is None:
+            app.storage.user["prefix_merger"] = merger.name
+        return merger

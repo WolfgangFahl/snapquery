@@ -12,7 +12,7 @@ from ngwidgets.lod_grid import GridConfig, ListOfDictsGrid
 from ngwidgets.progress import NiceguiProgressbar
 from ngwidgets.webserver import WebSolution
 from nicegui import run, ui
-
+from snapquery.execution import Execution
 from snapquery.snapquery_core import NamedQuery, QueryDetails
 
 logger = logging.getLogger(__name__)
@@ -142,24 +142,6 @@ class NamespaceStatsView:
 
         return processed_lod
 
-    def execute(self, nq: NamedQuery, endpoint_name: str, title: str):
-        """Execute the given named query with notification and progress bar updates."""
-        qd, params_dict = self.parameterize(nq)
-        with self.results_row:
-            msg = f"{title}: {nq.name} {qd} - via {endpoint_name}"
-            logger.info(msg)
-            # ui.notify(msg)
-        results, stats = self.nqm.execute_query(nq, params_dict, endpoint_name)
-        stats.context = "test"
-        self.nqm.store_stats([stats])
-
-        if not stats.records:
-            msg = f"{title} error: {stats.filtered_msg}"
-            logger.error(msg)
-        else:
-            msg = f"{title} executed: {stats.records} records found"
-            logger.info(msg)
-
     def execute_queries(self, namespace: str, endpoint_name: str, domain: str):
         """execute queries with progress updates.
         Args:
@@ -172,16 +154,17 @@ class NamespaceStatsView:
 
         self.progress_bar.total = total_queries
         self.progress_bar.reset()
-
+        execution=Execution(self.nqm)
         for i, nq in enumerate(queries, start=1):
             with self.progress_row:
                 self.progress_bar.update_value(i)
                 self.progress_bar.set_description(f"Executing {nq.name} on {endpoint_name}")
                 logger.debug(f"Executing {nq.name} on {endpoint_name}")
-            self.execute(
+            execution.execute(
                 nq,
                 endpoint_name,
                 title=f"query {i}/{len(queries)}::{endpoint_name}",
+                context="web-test"
             )
         with self.progress_row:
             ui.timer(0.1, self.on_fetch_lod, once=True)
@@ -189,19 +172,3 @@ class NamespaceStatsView:
                 f"finished {total_queries} queries for namespace: {namespace} with domain: {domain}",
                 type="positive",
             )
-
-    def parameterize(self, nq: NamedQuery):
-        """
-        parameterize the given named query
-        ToDo: Find a better way to parameterize the given named query currently this function is used in snapquery_cmd.py, test_query_execution.py, and here
-        Args:
-            nq(NamedQuery): the query to parameterize
-        """
-        qd = QueryDetails.from_sparql(query_id=nq.query_id, sparql=nq.sparql)
-        # Execute the query
-        params_dict = {}
-        if qd.params == "q":
-            # use Tim Berners-Lee as a example
-            params_dict = {"q": "Q80"}
-            pass
-        return qd, params_dict

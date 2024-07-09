@@ -13,10 +13,9 @@ from lodstorage.query import Format
 from ngwidgets.cmd import WebserverCmd
 
 from snapquery.qimport import QueryImport
+from snapquery.execution import Execution
 from snapquery.snapquery_core import (
-    NamedQuery,
     NamedQueryManager,
-    QueryDetails,
     QueryName,
 )
 from snapquery.snapquery_webserver import SnapQueryWebServer
@@ -123,43 +122,6 @@ class SnapQueryCmd(WebserverCmd):
         )
         return parser
 
-    def parameterize(self, nq: NamedQuery):
-        """
-        parameterize the given named query
-
-        Args:
-            nq(NamedQuery): the query to parameterize
-        """
-        qd = QueryDetails.from_sparql(query_id=nq.query_id, sparql=nq.sparql)
-        # Execute the query
-        params_dict = {}
-        if qd.params == "q":
-            # use Tim Berners-Lee as a example
-            params_dict = {"q": "Q80"}
-            pass
-        return qd, params_dict
-
-    def execute(
-        self, nq: NamedQuery, endpoint_name: str, title: str, context: str = "test"
-    ):
-        """
-        execute the given named query
-        """
-        qd, params_dict = self.parameterize(nq)
-        logger.debug(f"{title}: {nq.name} {qd} - via {endpoint_name}")
-        _results, stats = self.nqm.execute_query(
-            nq,
-            params_dict=params_dict,
-            endpoint_name=endpoint_name,
-        )
-        stats.context = context
-        self.nqm.store_stats([stats])
-        msg = f"{title} executed:"
-        if not stats.records:
-            msg += f"error {stats.filtered_msg}"
-        else:
-            msg += f"{stats.records} records found"
-        logger.debug(msg)
 
     def cmd_parse(self, argv: Optional[list] = None):
         """
@@ -216,9 +178,10 @@ class SnapQueryCmd(WebserverCmd):
             queries = self.nqm.get_all_queries(
                 domain=self.args.domain, namespace=self.args.namespace
             )
+            execution=Execution(self.nqm,debug=self.args.debug)
             for i, nq in enumerate(queries, start=1):
                 for endpoint_name in endpoint_names:
-                    self.execute(
+                    execution.execute(
                         nq,
                         endpoint_name=endpoint_name,
                         context=self.args.context,

@@ -385,7 +385,9 @@ class QueryDetails:
     """
 
     query_id: str
-    params: str
+    params: str # e.g. q - q1,q2, 
+    default_params: str # e.g. Q80 - Q58631663, Q125422124  
+    default_param_types: str # e.g. Q5 - Q191067,Q43229
     param_count: int
     lines: int
     size: int
@@ -433,7 +435,13 @@ class QueryDetails:
         samples = {
             "snapquery-examples": [
                 QueryDetails(
-                    query_id="scholia.test", params="q", param_count=1, lines=1, size=50
+                    query_id="scholia.test", 
+                    params="q", 
+                    default_params="Q80",
+                    default_param_types="Q5",
+                    param_count=1, 
+                    lines=1, 
+                    size=50
                 )
             ]
         }

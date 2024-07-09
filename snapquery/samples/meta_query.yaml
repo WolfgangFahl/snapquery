@@ -147,3 +147,18 @@
             database,
             method
         FROM Endpoint
+'scholia_jinja_for_loops':
+    sql: |
+        SELECT
+          count(*),
+          substr(
+            sparql,
+            instr(sparql, '{% for') + length('{% for'),  -- Start position right after "{% for"
+            instr(substr(sparql, instr(sparql, '{% for')), '%}') - length('{% for')  -- Length of substring
+          ) as for_loop_content
+        FROM
+          NamedQuery
+        WHERE
+          sparql LIKE '%{% for%' ESCAPE '\' and for_loop_content like "%in%"
+        group by for_loop_content
+        order by 1 desc

@@ -417,11 +417,15 @@ class QueryDetails:
         )  # Assuming Params is a class that can parse SPARQL queries to extract parameters
         params = ",".join(sparql_params.params) if sparql_params.params else None
         param_count = len(sparql_params.params)
-
+        # @TODO get parameters        
+        default_params=None
+        default_param_types=None
         # Create and return the QueryDetails instance
         return cls(
             query_id=query_id,
             params=params,
+            default_params=default_params,
+            default_param_types=default_param_types,
             param_count=param_count,
             lines=lines,
             size=size,

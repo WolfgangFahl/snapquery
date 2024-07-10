@@ -2,9 +2,8 @@ from unittest import TestCase
 
 from lodstorage.query import Query
 
-from snapquery.snapquery_core import NamedQuery, NamedQueryManager
+from snapquery.snapquery_core import NamedQuery, NamedQueryManager, QueryPrefixMerger
 
-from snapquery_core import QueryPrefixMerger
 
 
 class TestQueryPrefixMerger(TestCase):

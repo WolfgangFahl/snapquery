@@ -8,12 +8,11 @@ import logging
 from collections import defaultdict
 from typing import Dict, List, Optional
 
-from ngwidgets.lod_grid import GridConfig, ListOfDictsGrid
+from ngwidgets.lod_grid import ListOfDictsGrid
 from ngwidgets.progress import NiceguiProgressbar
 from ngwidgets.webserver import WebSolution
 from nicegui import run, ui
 from snapquery.execution import Execution
-from snapquery.snapquery_core import NamedQuery, QueryDetails
 
 logger = logging.getLogger(__name__)
 
@@ -154,18 +153,13 @@ class NamespaceStatsView:
 
         self.progress_bar.total = total_queries
         self.progress_bar.reset()
-        execution=Execution(self.nqm)
+        execution = Execution(self.nqm)
         for i, nq in enumerate(queries, start=1):
             with self.progress_row:
                 self.progress_bar.update_value(i)
                 self.progress_bar.set_description(f"Executing {nq.name} on {endpoint_name}")
                 logger.debug(f"Executing {nq.name} on {endpoint_name}")
-            execution.execute(
-                nq,
-                endpoint_name,
-                title=f"query {i}/{len(queries)}::{endpoint_name}",
-                context="web-test"
-            )
+            execution.execute(nq, endpoint_name, title=f"query {i}/{len(queries)}::{endpoint_name}", context="web-test")
         with self.progress_row:
             ui.timer(0.1, self.on_fetch_lod, once=True)
             ui.notify(

@@ -14,6 +14,60 @@
         WHERE records>0
         GROUP BY endpoint_name
         ORDER BY 1 DESC
+'query_failures_by_category':
+    sql: |
+        SELECT 
+        count(*) as count,
+        nq.domain,
+        nq.namespace,
+        error_category
+        FROM QueryStats qs
+        JOIN NamedQuery nq
+        ON qs.query_id=nq.query_id
+        WHERE error_category IS NOT NULL 
+        
+        GROUP BY error_category,nq.namespace,nq.domain
+        ORDER BY 1 DESC
+'query_failures_by_category_grouped':
+    sql: |
+        SELECT 
+          count(*) AS count,
+          GROUP_CONCAT(DISTINCT nq.domain) AS domains,
+          GROUP_CONCAT(DISTINCT nq.namespace) AS namespaces,
+          error_category
+        FROM QueryStats qs
+        JOIN NamedQuery nq ON qs.query_id = nq.query_id
+        WHERE error_category IS NOT NULL
+        GROUP BY error_category
+        ORDER BY  count DESC;
+'query_failures_by_category_grouped_counted':
+    sql: |
+        SELECT 
+          error_category,
+          SUM(entry_count) AS total_count,
+          GROUP_CONCAT(DISTINCT domain_counts ORDER BY domain_count DESC) AS domain_counts,
+          GROUP_CONCAT(DISTINCT namespace_counts ORDER BY namespace_count DESC) AS namespace_counts,
+          GROUP_CONCAT(DISTINCT endpoint_counts ORDER BY endpoint_count DESC) AS endpoint_counts
+        FROM (
+          SELECT 
+            error_category,
+            domain,
+            namespace,
+            endpoint_name,
+            COUNT(*) AS entry_count,
+            domain || ' (' || SUM(COUNT(*)) OVER (PARTITION BY error_category, domain) || ')' AS domain_counts,
+            namespace || ' (' || SUM(COUNT(*)) OVER (PARTITION BY error_category, namespace) || ')' AS namespace_counts,
+            endpoint_name || ' (' || SUM(COUNT(*)) OVER (PARTITION BY error_category, endpoint_name) || ')' AS endpoint_counts,
+            SUM(COUNT(*)) OVER (PARTITION BY error_category, domain) AS domain_count,
+            SUM(COUNT(*)) OVER (PARTITION BY error_category, namespace) AS namespace_count,
+            SUM(COUNT(*)) OVER (PARTITION BY error_category, endpoint_name) AS endpoint_count
+          FROM QueryStats qs
+          JOIN NamedQuery nq ON qs.query_id = nq.query_id
+          WHERE error_category IS NOT NULL
+          GROUP BY error_category, domain, namespace, endpoint_name
+        ) sub
+        GROUP BY error_category
+        ORDER BY total_count DESC;
 'query_failures_by_database_count':
     sql: |
         SELECT

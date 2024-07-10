@@ -99,7 +99,7 @@ These are the planned features
 ## User stories
 
 * as a user I want to know in advance if the query is returning what I expect
-* as a user I want to find all the bands in Wikidata without having to know how it is modeled
+* as a user I want to [find all the rock bands starting with 'M'](http://snapquery.bitplan.com/query/wikidata.org/snapquery-examples/bands) in Wikidata without having to know how it is modeled
 * as a user I want pay someone to help me get the information from Wikidata that I need
 * as a user I want to know how a query performed in the past so I can trust that the underlying model is stable and I
   get the expected results

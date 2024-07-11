@@ -37,3 +37,15 @@ class TestShortUrl(Basetest):
         )
         nq_set.save_to_json_file("/tmp/wikidata-short-urls.json", indent=2)
         self.assertEqual(count, len(nq_set.queries))
+        
+    def test_short_url(self):
+        """
+        test short url reading
+        """
+        for short_id in ["5aTp","5aHL","5b3r"]:
+            short_url=ShortUrl(short_url=f"https://w.wiki/{short_id}")
+            short_url.read_query()
+            debug=self.debug
+            debug=True
+            if debug:
+                print(short_url.sparql)

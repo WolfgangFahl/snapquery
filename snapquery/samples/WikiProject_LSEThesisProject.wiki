@@ -1,0 +1,109 @@
+== '''Background''' ==
+
+
+In 2020 the Library of the London School of Economics began adding metadata for LSE doctoral theses to Wikidata. 
+This is an organising page for our ongoing project work with doctoral theses.  Thesis data has been added up to 2021. The [[Wikidata:WikiProject_Wikidata_Thesis_Toolkit | Wikidata Thesis Toolkit]], co-authored with the University of York, has been an additional output of our Wikidata Thesis Project.
+
+
+== '''Project dashboards''' ==
+
+*[https://outreachdashboard.wmflabs.org/courses/London_School_of_Economics_and_Political_Science/LSE_Thesis_Wikidata_Dashboard Project outreach dashboard counting edits]
+
+* [[Wikidata:WikiProject_LSEThesisProjectDashboard | LSEThesisProject Wikidata dashboard for theses]] - displays properties of Wikidata thesis items
+
+* [[Wikidata:WikiProject_LSEThesisProjectDashboard_People | LSEThesisProject Wikidata dashboard for people]] - displays properties of people (authors and supervisors) related to the project.
+
+* [[Wikidata:WikiProject_LSEThesisProjectDashboard_People_all_theses | LSEThesisProject Wikidata dashboard for theses that people in this project have in other institutions around the world]]
+
+There is also a Scholia page for the project here https://scholia.toolforge.org/wikiproject/Q112895606
+
+== '''Data visualisations via SPARQL''' ==
+
+''The first 2 links draw on the complete set of digitised doctoral and MPhil metadata at LSE from 1926-2021.'' 
+
+* LSE doctoral theses 1926-2021 with author links to Wikipedia pages where available https://w.wiki/5aHL
+* Chains of doctoral students/advisors in the project (as of August 2022 the longest is 4) https://w.wiki/5b4L
+
+
+''All the visualisations below link LSE thesis metadata with other data available in Wikidata, and so are not necessarily complete datasets.  Wikidata evolves continually and so these datasets will change over time - please re-visit periodically to see if further relationships and connections have been exposed!'' 
+
+=== ''' Relational data''' ===
+* Relationships between thesis supervisors and authors.  https://w.wiki/5WYp Extends beyond LSE's digitised theses by drawing on Wikidata statements for people educated at or employed by LSE with a doctoral student/supervisor relationship. This is such a large dataset it will be a little slow to open
+* Relationships between notable thesis authors and supervisors where both have a Wikipedia page. Shown in list format https://w.wiki/63Jh and in graph format https://w.wiki/7p8V
+
+=== ''' Awards and Archives data''' ===
+* Table of awards won by LSE thesis authors and supervisors https://w.wiki/5aMU
+* Graph, with images where available, of awards won by LSE thesis authors and supervisors https://w.wiki/5djt
+
+* Other institutions holding archives about LSE thesis authors and supervisors https://w.wiki/5aLx
+* Graph, with images where available, showing relationships between LSE thesis authors and supervisors and archive-holding institutions https://w.wiki/5d66
+
+=== ''' Subject data''' === 
+In progress with data added up to 1996 so far
+* Bubble chart showing main subjects of the thesis set https://w.wiki/5aG5  
+* Bubble chart showing types of main subjects (depicts what the main subject is an instance of) https://w.wiki/7Kiz
+* Map of places that have been the subject of an LSE thesis (relies on that place having coordinates in Wikidata) https://w.wiki/7Kj6. Table of place data available at https://w.wiki/7KjB
+
+=== ''' Employment and Educational data''' ===
+* Map showing employer location of LSE thesis authors and supervisors https://w.wiki/5b3Y
+* Table of employers of LSE thesis authors and supervisors https://w.wiki/5b3r
+* Table of LSE thesis authors who have subsequently been employed by LSE (and any additional employers for those individuals) https://w.wiki/5bhs 
+* Bubble chart showing occupations of LSE thesis authors https://w.wiki/5buq
+* Bubble chart showing field of work for LSE thesis authors and supervisors https://w.wiki/5but
+
+* Map showing location of other educational institutions attended by LSE thesis authors and supervisors https://w.wiki/5b43 
+* Table of educational institutions attended by LSE thesis authors and supervisors https://w.wiki/5b49
+
+=== ''' Other person related data''' ===
+
+* Table of ORCIDs for LSE thesis authors and supervisors https://w.wiki/5beu
+
+* Table of LSE thesis authors and supervisors with a Wikipedia page https://w.wiki/5bhz
+
+=== ''' Images and Timelines''' ===
+
+* Image grid of authors and supervisors in the LSEThesisProject, where available in Wikimedia Commons https://w.wiki/5aTp
+
+* [https://js.histropedia.com/apps/query-timeline/index.html?q=%23People%20in%20the%20LSE%20Thesis%20Project%0ASELECT%20?person%20?personLabel%20?birthDate%20?birthPrecision%20?deathDate%20?deathPrecision%20?image%20?place_of_birth%20?occupation%20?country_of_birth%20?rank%0AWHERE%20%7B%0A%7B%0ASELECT%20?person%20?birthDate%20?birthPrecision%20?birthPlaceItem%20?occupationItem%20?birthCountryItem%0A(SAMPLE(?deathDate)%20as%20?deathDate)%0A(SAMPLE(?deathPrecision)%20as%20?deathPrecision)%0A(SAMPLE(?image)%20as%20?image)%0A(COUNT(DISTINCT%20?article)%20as%20?rank)%0AWHERE%20%7B%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%0A?person%20wdt:P5008%20wd:Q112895606%20.%0A?person%20wdt:P31%20wd:Q5%20.%0A?person%20p:P569/psv:P569%20?birthDateNode%20.%0A?birthDateNode%20wikibase:timeValue%20?birthDate%20.%0A?birthDateNode%20wikibase:timePrecision%20?birthPrecision%20.%0AOPTIONAL%20%7B?person%20p:P570/psv:P570%20?deathDateNode%20.%0A?deathDateNode%20wikibase:timeValue%20?deathDate%20.%0A?deathDateNode%20wikibase:timePrecision%20?deathPrecision%20.%0A%7D%0AOPTIONAL%20%7B?person%20wdt:P18%20?image%20%7D%20%0AOPTIONAL%20%7B?person%20wdt:P19%20?birthPlaceItem%20.%20OPTIONAL%20%7B?birthPlaceItem%20wdt:P17%20?birthCountryItem%20%7D%20%7D%20%0AOPTIONAL%20%7B?person%20wdt:P106%20?occupationItem%20%7D%20%0AOPTIONAL%20%7B?article%20schema:about%20?person%20%7D%0A%7D%20GROUP%20BY%20?person%20?birthDate%20?birthPrecision%20?birthPlaceItem%20?occupationItem%20?birthCountryItem%0A%0A%7D%0ASERVICE%20wikibase:label%20%7B%0Abd:serviceParam%20wikibase:language%20'en'%20.%0A?person%20rdfs:label%20?personLabel%20.%0A?birthPlaceItem%20rdfs:label%20?place_of_birth%20.%0A?occupationItem%20rdfs:label%20?occupation%20.%0A?birthCountryItem%20rdfs:label%20?country_of_birth%20.%0A%7D%0A%7D%20ORDER%20BY%20DESC%20(?rank)&md=true&g=person&l=person&t=personLabel&s=birthDate&sp=birthPrecision&e=deathDate&ep=deathPrecision&i=image&r=rank&d=2&c=country_of_birth,place_of_birth&f=occupation,citizenship,country_of_birth&v=t Histropedia timeline] of people who are part of the LSEThesisProject, where birth date is available 
+
+* [https://js.histropedia.com/apps/query-timeline/index.html?q=SELECT%20?thesis%20?thesisLabel%20?thesisDate%20(9%20as%20?thesisDatePrecision)%20?person%20?personLabel%20?image%20WHERE%20%7B%0A%20%20%0A%20%20%0A%20%20?thesis%20wdt:P5008%20wd:Q112895606%20.%0A%20%20?thesis%20wdt:P31/wdt:P279*%20wd:Q1266946%20.%20%0A%20%20?thesis%20wdt:P50%20?person%20.%0A%20%20%0A%20%20%23%20Simple%20date%20(always%20precise%20to%20a%20single%20day)%0A%20%20%23%20?thesis%20wdt:P577%20?thesisDate%20.%0A%20%20%0A%20%20%23%20Date%20%22value%20node%22%20-%20use%20to%20access%20related%20information%20about%20the%20date,%20e.g.%20precision%20and%20calendar%20model%0A%20%20?thesis%20p:P577/psv:P577%20?dateValueNode%20.%0A%20%20?dateValueNode%20wikibase:timeValue%20?thesisDate%20.%0A%20%20?dateValueNode%20wikibase:timePrecision%20?thesisDatePrecision%20.%0A%20%20%0A%20%20OPTIONAL%20%7B%20?person%20wdt:P18%20?image%20%7D%0A%20%20%0A%20%20%20%20SERVICE%20wikibase:label%20%7B%20bd:serviceParam%20wikibase:language%20%22%5BAUTO_LANGUAGE%5D,en%22.%20%7D%0A%7D%0A%0AORDER%20by%20(?thesisYear)&g=item&l=item&t=thesisLabel&s=thesisDate&sp=thesisDatePrecision&i=image&d=0&c=thesisDate&v=t Histropedia timeline of theses by year]  Because all the theses have the same date, results are stacked for each year, and it is less easy to see individual titles, but the timeline is a good way to see how many theses are available for each year, and to see titles for pre 1990 theses
+
+* Try using the [https://www.entitree.com/ EntiTree tool] and selecting doctoral student to see visualisations of student/supervisor relationships. The longest chain we have found so far [https://www.entitree.com/en/doctoral_student/Q7518974?0u0=u&0u0u0=u&0u0u0u0=u&0u0u0u0u0=u&0u0u0u0u0u0=u&0u0u0u0u0u0u0=u&0u0u0u0u0u1=u&0u0u0u0u0u1u1=u&0u0u0u0u0u1u1u0=u&0u0u0u0u0u1u0=u&0u0u0u0u0u0u0u0=u&0u0u0u0u0u0u0u0u0=u&0u0u0u0u0u0u0u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u1=u&0u0u0u0u0u0u0u0u0u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u0u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u1=u&0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u1=u&0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u1u0=u&0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u1u0u0=u&0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u1u0u1=u&0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u1u0u1u0=u&0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u0u1u0u1u1=u&0u0u0u0u0u1u0u0=u&0u0u0u0u0u1u0u0u0=u&0u0u0u0u0u1u0u0u0u0=u&0u0u0u0u0u1u0u0u0u1=u&0u0u0u0u0u1u0u0u0u1u0=u&0u0u0u0u0u1u0u0u0u1u0u0=u&0u0u0u0u0u1u0u0u0u1u0u0u0=u&0u0u0u0u0u1u0u0u0u2=u&0u0u0u0u0u0u0u0u0u0u0u2=u&0u0u0u0u0u0u0u0u0u0u0u2u0=u&0u0u0u0u0u0u0u0u0u0u0u2u0u1=u&0u0u0u0u0u0u0u0u0u0u0u2u0u0=u&0u0u0u0u0u0u0u0u0u0u0u2u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u2u0u1u0=u&0u0u0u0u0u0u0u0u0u0u0u2u0u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u2u0u1u0u0=u&0u0u0u0u0u0u0u0u0u0u0u0u1=u&0u0u0u0u0u0u0u0u0u0u0u0u1u0=u&0u0u0u0u0u0u0u0u0u0u0u0u1u0u0=u&0u0u0u0u0u0u0u0u0u0u0u0u1u0u1=u&0u0u0u0u0u0u0u0u0u0u0u0u1u0u1u0=u&0u0u0u0u0u0u0u0u0u0u0u0u1u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u0u1u0u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u0u1u0u1u0u0=u&0u0u0u0u0u0u0u0u0u0u0u1u0=u&0u0u0u0u0u0u0u0u0u0u0u1u0u0=u&0u0u0u0u0u0u0u0u0u0u0u1u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u1u0u0u1=u&0u0u0u0u0u0u0u0u0u0u0u1u0u0u1u0=u&0u0u0u0u0u0u0u0u0u0u0u1u0u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u1u0u0u0u0u0=u&0u0u0u0u0u0u0u0u0u0u0u1u0u0u1u0u0=u dates back to the 1500s]!
+
+=== ''' Citation data''' ===
+* An experimental query listing works cited by LSE theses. This is not metadata we hold, but Wikidata may make some interesting connections for us - as of May 2023 there are 5 results!  https://w.wiki/5ckW
+
+* Similarly this experimental query looks for connections Wikidata could make, this time seeking works citing an LSE thesis - as of September 2022 we have our first 16 results! https://w.wiki/5eTJ
+
+== '''Cross-over with other thesis projects ''' ==
+
+The [[Wikidata:WikiProject_Wikidata_Thesis_Toolkit | Wikidata Thesis Toolkit]], has been co-authored by LSE and the University of York to reduce the development burden for other universities wanting to carry out a Wikidata thesis project.  
+
+We have had lots of discussion with the [[Wikidata:WikiProject_NZThesisProject | New Zealand Thesis Project]] and this query  https://w.wiki/5d55 shows items on the focus list of both our projects.  
+
+We are also aware of thesis projects at 
+* [[Wikidata:WikiProject_Stanford_Libraries/Theses | Stanford University]]
+* [[Wikidata:WikiProject_PCC_Wikidata_Pilot/TexasA%26MLibraries | Texas A&M University Libraries]]
+* [[Wikidata:WikiProject_PCC_Wikidata_Pilot/University_of_Washington | University of Washington]]
+* [[Wikidata:GLAM/Oxford#Other_data_sets | Oxford University]]
+
+
+
+== '''Related content ''' ==
+
+* SourceMetaData [[Wikidata:WikiProject Source MetaData/Theses by institution|thesis by institution dashboard]]
+* Count of doctoral theses by institution https://w.wiki/jwZ
+* LSEThesisProject represented on Scholia https://scholia.toolforge.org/wikiproject/Q112895606
+
+== '''Data quality ''' ==
+
+* This query will show any missing reciprocal links between doctoral students and advisors https://w.wiki/5bgK  As of September 2022 all students and supervisors are linked, but if any duplicate records are merged, the links need to be re-created, so this query should be periodically checked to maintain data quality
+
+
+== ''' Project participants ''' ==
+
+* [[User:HelsKRW|Helen Williams]] Project lead
+* [[User:GemRD|Gemma Read]] Project Participant
+* [[User:Kermoder|Ryan Kermode]] Project participant
+
+[[Category:Wikidata thesis project]]

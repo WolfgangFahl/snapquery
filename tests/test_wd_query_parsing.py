@@ -26,6 +26,7 @@ class TestWikipediaQueryParsing(Basetest):
                 namespace="lsethesis",
                 target_graph_name="wikidata",
                 template_name=None,
+                debug=self.debug
             )
             self.wikidata_example_extractor = WikipediaQueryExtractor(
                 nqm=self.nqm,
@@ -33,6 +34,7 @@ class TestWikipediaQueryParsing(Basetest):
                 domain="wikidata.org",
                 namespace="examples",
                 target_graph_name="wikidata",
+                debug=self.debug
             )
 
     def test_query_extraction(self):
@@ -41,7 +43,7 @@ class TestWikipediaQueryParsing(Basetest):
         """
         # Test Wikidata examples page and LSE example
         wikidata_examples = [
-            # (self.wikidata_example_extractor,200),
+            (self.wikidata_example_extractor,300), # 302 as of 2024-07-11
             (self.lse_extractor, 10),  # actually we expect 19 ...
         ]
         for extractor, expected in wikidata_examples:
@@ -59,6 +61,15 @@ class TestWikipediaQueryParsing(Basetest):
         extractor.extract_queries(wikitext=markup)
         if self.debug:
             extractor.show_queries()
+        expected=23
+        self.assertGreaterEqual(
+            len(extractor.named_query_list.queries), expected, f"To few queries extracted from {extractor.base_url}"
+        )
+        # New assertion to check for errors during extraction
+        self.assertEqual(len(extractor.errors), 0, 
+            f"Errors occurred during extraction: {', '.join(extractor.errors)}")
+       
+        
 
     def _test_extractor(self, extractor, expected: int):
         """
@@ -69,6 +80,7 @@ class TestWikipediaQueryParsing(Basetest):
         extractor.extract_queries()
         if self.debug:
             extractor.show_queries()
+            extractor.show_errors()
         for query in extractor.named_query_list.queries:
             for prop in ["name", "description", "title"]:
                 value = getattr(query, prop)
@@ -82,3 +94,7 @@ class TestWikipediaQueryParsing(Basetest):
         self.assertGreaterEqual(
             len(extractor.named_query_list.queries), expected, f"No queries extracted from {extractor.base_url}"
         )
+        # New assertion to check for errors during extraction
+        self.assertEqual(len(extractor.errors), 0, 
+            f"Errors occurred during extraction: {', '.join(extractor.errors)}")
+        

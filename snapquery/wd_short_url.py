@@ -9,7 +9,7 @@ import urllib.parse
 
 import requests
 from ngwidgets.llm import LLM
-
+from ratelimit import limits, sleep_and_retry
 from snapquery.snapquery_core import NamedQuery, NamedQuerySet
 
 
@@ -59,7 +59,10 @@ class ShortUrl:
     Handles operations related to wikidata and similar short URLs such as QLever.
     see https://meta.wikimedia.org/wiki/Wikimedia_URL_Shortener for
     """
-
+    # see https://stackoverflow.com/questions/62396801/how-to-handle-too-many-requests-on-wikidata-using-sparqlwrapper
+    CALLS_PER_MINUTE = 30
+    ONE_MINUTE = 60
+    
     def __init__(self, short_url: str, scheme: str = "https", netloc: str = "query.wikidata.org"):
         """
         Constructor
@@ -195,10 +198,12 @@ SPARQL: {sparql}
                 give_up -= 1
         return nq_set
 
+    @sleep_and_retry
+    @limits(calls=CALLS_PER_MINUTE, period=ONE_MINUTE)
     def fetch_final_url(self):
         """
-        Follow the redirection to get the final URL.
-
+        Follow the redirection to get the final URL with rate limiting.
+    
         Returns:
             str: The final URL after redirection.
         """

@@ -29,6 +29,8 @@ dependencies = [
     "requests",
     # https://pypi.org/project/python-slugify/
 	"python-slugify>=8.0.4",
+	# https://pypi.org/project/ratelimit/
+	"ratelimit>=2.2.1",
     # https://pypi.org/project/mwoauth/
     "mwoauth>=0.4.0",
     #"mwoauth@git+https://github.com/mediawiki-utilities/python-mwoauth"

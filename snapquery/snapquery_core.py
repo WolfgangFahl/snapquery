@@ -479,7 +479,20 @@ class NamedQuerySet:
 
     def __len__(self):
         return len(self.queries)
-
+    
+    def __post_init__(self):
+        """
+        Initialize the dictionary after the object is created
+        """
+        self._query_dict = {query.queriy_id: query for query in self.queries}
+    
+    def add(self, query: NamedQuery):
+        """
+        Add a query to both the list and dictionary
+        """
+        if query.query_id not in self._query_dict:
+            self.queries.append(query)
+            self._query_dict[query.query_id] = query
 
 class QueryBundle:
     """

@@ -80,6 +80,7 @@ class WikipediaQueryExtractor:
         if desc:
             # Remove section headers
             desc = re.sub(r"\n*={2,4}.*?={2,4}\n*", "", desc)
+            desc = desc.strip()
         title = self.sanitize_text(title)    
         named_query = NamedQuery(
                 domain=self.domain,

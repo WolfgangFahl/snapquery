@@ -484,7 +484,7 @@ class NamedQuerySet:
         """
         Initialize the dictionary after the object is created
         """
-        self._query_dict = {query.queriy_id: query for query in self.queries}
+        self._query_dict = {query.query_id: query for query in self.queries}
     
     def add(self, query: NamedQuery):
         """

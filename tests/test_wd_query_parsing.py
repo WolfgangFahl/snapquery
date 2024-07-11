@@ -38,11 +38,12 @@ class TestWikipediaQueryParsing(Basetest):
         """    
         # Test Wikidata examples page and LSE example
         wikidata_examples = [
+            (self.wikidata_example_extractor,200),
             (self.lse_extractor,15), # actually we expect 19 ...
-            (self.wikidata_example_extractor,200)
         ]
         for extractor,expected in wikidata_examples:
-            self._test_extractor(extractor,expected)
+            with self.subTest(extractor=extractor):
+                self._test_extractor(extractor,expected)
             
     def test_wikidata_thesis_toolkit(self):
         """
@@ -63,6 +64,11 @@ class TestWikipediaQueryParsing(Basetest):
         extractor.extract_queries()
         if self.debug:
             extractor.show_queries()
+        for query in extractor.named_query_list.queries:
+            for prop in ["name","description","title"]:
+                value=getattr(query,prop)
+                self.assertNotIn('<translate>', value, f"<translate> tag found in {prop} for {query.query_id}")
+      
         extractor.store_queries()
         json_filename=f"wikidata-{extractor.namespace}.json"
         extractor.save_to_json(f"/tmp/{json_filename}")

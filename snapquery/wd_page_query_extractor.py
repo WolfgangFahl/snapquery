@@ -62,7 +62,7 @@ class WikipediaQueryExtractor:
             str: The sanitized text.
         """
         # Remove <translate>...</translate> tags
-        text = re.sub(r"<translate>(.*?)<\/translate>", r"\1", text)
+        text = re.sub(r"<translate>(.*?)<\/translate>", r"\1", text, flags=re.DOTALL)
         # Remove <!--T:...--> tags
         text = re.sub(r"<!--T:\d+-->", "", text)
         # Strip whitespace that might be left at the beginning and end
@@ -130,7 +130,7 @@ class WikipediaQueryExtractor:
             if template:
                 sparql=template.arguments[0].value
                 if sparql:
-                    query=self.get_query_from_wiki_markup(section.title,markup=section.plain_text(),sparql=sparql)
+                    query=self.extract_query_from_wiki_markup(section.title,markup=section.plain_text(),sparql=sparql)
                     named_queries.append(query)
         else:
             markup = section.plain_text()

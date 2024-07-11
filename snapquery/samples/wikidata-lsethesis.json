@@ -125,25 +125,25 @@
       "comment": null
     },
     {
-      "name": "5eTJ",
+      "name": "5aTp",
       "namespace": "lsethesis",
       "domain": "wikidata.org",
-      "query_id": "5etj--lsethesis@wikidata.org",
-      "sparql": "SELECT ?item ?itemLabel ?cites_thesis ?cites_thesisLabel WHERE {\n  \n \n ?item wdt:P2860 ?cites_thesis .\n ?cites_thesis wdt:P5008 wd:Q112895606 .\n        \n\n  \n    SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\n\n\n",
+      "query_id": "5atp--lsethesis@wikidata.org",
+      "sparql": "#defaultView:ImageGrid\nSELECT  ?image\nWHERE {\n  ?item wdt:P5008 wd:Q112895606;\n        wdt:P31 wd:Q5.\n\n\n { ?item wdt:P18 ?image .}\n  }",
       "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
-      "title": "5eTJ",
-      "description": "* Similarly this experimental query looks for connections Wikidata could make, this time seeking works citing an LSE thesis - as of September 2022 we have our first 16 results!",
+      "title": "5aTp",
+      "description": "* Image grid of authors and supervisors in the LSEThesisProject, where available in Wikimedia Commons",
       "comment": null
     },
     {
-      "name": "5aLx",
+      "name": "5djt",
       "namespace": "lsethesis",
       "domain": "wikidata.org",
-      "query_id": "5alx--lsethesis@wikidata.org",
-      "sparql": "SELECT DISTINCT ?author ?authorLabel ?archives_at ?archives_atLabel WHERE {\n  ?author wdt:P5008 wd:Q112895606;\n    wdt:P31 wd:Q5.\n\n { ?author wdt:P485 ?archives_at. }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n\n}",
+      "query_id": "5djt--lsethesis@wikidata.org",
+      "sparql": "#defaultView:Graph\nSELECT DISTINCT ?author ?authorLabel ?author_image ?award ?awardLabel ?award_image WHERE {\n  ?author wdt:P5008 wd:Q112895606;\n    wdt:P31 wd:Q5.\n  \n    OPTIONAL { ?author wdt:P18 ?author_image }\n\n  ?author wdt:P166 ?award. \n  \n  OPTIONAL { ?award wdt:P18 ?award_image }\n\n  \n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n\n}",
       "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
-      "title": "5aLx",
-      "description": "* Other institutions holding archives about LSE thesis authors and supervisors",
+      "title": "5djt",
+      "description": "* Graph, with images where available, of awards won by LSE thesis authors and supervisors",
       "comment": null
     },
     {

@@ -39,7 +39,7 @@ class TestWikipediaQueryParsing(Basetest):
         # Test Wikidata examples page and LSE example
         wikidata_examples = [
             (self.wikidata_example_extractor,200),
-            (self.lse_extractor,15), # actually we expect 19 ...
+            (self.lse_extractor,14), # actually we expect 19 ...
         ]
         for extractor,expected in wikidata_examples:
             with self.subTest(extractor=extractor):

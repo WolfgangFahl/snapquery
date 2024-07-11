@@ -16,12 +16,7 @@ from nicegui import app, background_tasks, run, ui
 from snapquery.basequeryview import BaseQueryView
 from snapquery.params_view import ParamsView
 from snapquery.query_annotate import SparqlQueryAnnotater
-from snapquery.snapquery_core import (
-    NamedQuery,
-    NamedQueryManager,
-    QueryBundle,
-    QueryStats,
-)
+from snapquery.snapquery_core import NamedQuery, NamedQueryManager, QueryBundle, QueryStats
 
 
 class NamedQueryView:
@@ -83,29 +78,19 @@ class NamedQueryView:
                     ui.button(icon="play_arrow", on_click=self.run_query)
                     self.stats_html = ui.html()
                 with ui.row():
-                    with ui.expansion("Show Query", icon="manage_search").classes(
-                        "w-full"
-                    ):
-                        query_syntax_highlight = QuerySyntaxHighlight(
-                            self.query_bundle.query
-                        )
-                        syntax_highlight_css = (
-                            query_syntax_highlight.formatter.get_style_defs()
-                        )
+                    with ui.expansion("Show Query", icon="manage_search").classes("w-full"):
+                        query_syntax_highlight = QuerySyntaxHighlight(self.query_bundle.query)
+                        syntax_highlight_css = query_syntax_highlight.formatter.get_style_defs()
                         annotated_query = SparqlQueryAnnotater(self.query_bundle.query)
                         ui.add_css(syntax_highlight_css)
                         # ui.html(query_syntax_highlight.highlight())
                         ui.html(annotated_query.annotate())
                 if self.solution.webserver.authenticated():
                     with ui.row().classes("w-full"):
-                        with ui.expansion(
-                            "Show Query Stats", icon="query_stats"
-                        ) as self.stats_container:
+                        with ui.expansion("Show Query Stats", icon="query_stats") as self.stats_container:
                             self.stats_container.classes("w-full")
                             self.load_stats()
-                self.grid_row = ui.expansion(
-                    "Query Results", icon="table_rows", value=True
-                )
+                self.grid_row = ui.expansion("Query Results", icon="table_rows", value=True)
                 self.grid_row.classes("w-full")
                 with self.grid_row:
                     ui.label("Not yet executed ")
@@ -159,9 +144,7 @@ class NamedQueryView:
                 else:
                     record["error_msg"] = "<unkown>"
             error_df = pd.DataFrame.from_records(error_records)
-            error_df_grouped = error_df.groupby(
-                ["endpoint_name", "error_msg"], as_index=False
-            ).count()
+            error_df_grouped = error_df.groupby(["endpoint_name", "error_msg"], as_index=False).count()
             error_fig = px.bar(
                 error_df_grouped,
                 x="endpoint_name",

@@ -21,9 +21,7 @@ class TestOAuthLogin(Basetest):
         """
         if not self.inPublicCI():
             return
-            print(
-                "Hint: Obtain the Consumer Key and Secret from your MediaWiki instance's OAuth management page."
-            )
+            print("Hint: Obtain the Consumer Key and Secret from your MediaWiki instance's OAuth management page.")
             url = "https://meta.wikimedia.org/wiki/Special:OAuthConsumerRegistration"
             webbrowser.open(url)
 

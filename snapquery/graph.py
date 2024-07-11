@@ -65,9 +65,7 @@ class GraphManager:
 
     @classmethod
     def get_yaml_path(cls) -> str:
-        samples_path = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), "samples"
-        )
+        samples_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "samples")
         yaml_path = os.path.join(samples_path, "graphs.yaml")
         return yaml_path
 

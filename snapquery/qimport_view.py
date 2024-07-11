@@ -47,25 +47,15 @@ class QueryImportView:
         with self.solution.container:
             with ui.row() as self.input_row:
                 self.input_row.classes("h-full")
-                ui.input(
-                    label="namespace", placeholder="e.g. wikidata-examples"
-                ).bind_value(self, "namespace")
-                with ui.input(
-                    label="name", placeholder="e.g. all proceedings of CEUR-WS"
-                ).bind_value(self, "name"):
-                    ui.tooltip(
-                        "short name for query; needs to be unique within the namespace"
-                    )
-                ui.input(label="url", placeholder="e.g. short url to the query").props(
-                    "size=80"
-                ).bind_value(self, "url")
-                if self.allow_importing_from_url:
-                    ui.button(
-                        icon="input", text="Import Query", on_click=self.on_input_button
-                    )
-                ui.button(
-                    icon="publish", text="Publish Query", on_click=self.on_import_button
+                ui.input(label="namespace", placeholder="e.g. wikidata-examples").bind_value(self, "namespace")
+                with ui.input(label="name", placeholder="e.g. all proceedings of CEUR-WS").bind_value(self, "name"):
+                    ui.tooltip("short name for query; needs to be unique within the namespace")
+                ui.input(label="url", placeholder="e.g. short url to the query").props("size=80").bind_value(
+                    self, "url"
                 )
+                if self.allow_importing_from_url:
+                    ui.button(icon="input", text="Import Query", on_click=self.on_input_button)
+                ui.button(icon="publish", text="Publish Query", on_click=self.on_import_button)
                 with ui.input(label="title").props("size=80").bind_value(self, "title"):
                     ui.tooltip("Descriptive title of the query")
             self.query_row = ui.row().classes("w-full h-full flex ")
@@ -75,9 +65,9 @@ class QueryImportView:
                 )
             with ui.row() as self.details_row:
                 self.details_row.classes("flex")
-                ui.textarea(label="description").bind_value(
-                    self, "description"
-                ).classes("w-1/2 border-solid m-5 border-gray-dark border-2 rounded-md")
+                ui.textarea(label="description").bind_value(self, "description").classes(
+                    "w-1/2 border-solid m-5 border-gray-dark border-2 rounded-md"
+                )
                 ui.textarea(label="comment").bind_value(self, "comment").classes(
                     "w-2/5 border-solid m-5 border-gray-dark border-2 rounded-md"
                 )
@@ -125,9 +115,7 @@ class QueryImportView:
         with self.query_row:
             ui.notify(f"importing named query from {self.url}")
             sparql_query = self.qimport.read_from_short_url(self.url)
-            self.query = Query(
-                name=self.name, title=self.title, lang="sparql", query=sparql_query
-            )
+            self.query = Query(name=self.name, title=self.title, lang="sparql", query=sparql_query)
             query_syntax_highlight = QuerySyntaxHighlight(self.query)
             syntax_highlight_css = query_syntax_highlight.formatter.get_style_defs()
             ui.add_css(syntax_highlight_css)

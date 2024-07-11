@@ -32,9 +32,7 @@ class Login:
         """
         redirect, self.request_token = self.handshaker.initiate()
         webbrowser.open(redirect)
-        print(
-            "Browser opened to MediaWiki login page. Please authorize the application."
-        )
+        print("Browser opened to MediaWiki login page. Please authorize the application.")
 
     def complete_login(self, response_qs):
         """
@@ -51,6 +49,4 @@ class Login:
             identity = self.handshaker.identify(self.access_token)
             print(f"Identified as {identity['username']}.")
         else:
-            print(
-                "Access token is not available. Please complete the login process first."
-            )
+            print("Access token is not available. Please complete the login process first.")

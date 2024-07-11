@@ -32,14 +32,10 @@ class QuerySelector:
         """
         with ui.row() as self.select_row:
             self.domain_select = self.create_combobox("Domain", self.qns.domains, 25)
-            self.namespace_select = self.create_combobox(
-                "Namespace", self.qns.namespaces, 40
-            )
+            self.namespace_select = self.create_combobox("Namespace", self.qns.namespaces, 40)
             self.name_select = self.create_combobox("Name", self.qns.names, 80)
 
-    def create_combobox(
-        self, label: str, options: List[str], width_chars: int
-    ) -> ComboBox:
+    def create_combobox(self, label: str, options: List[str], width_chars: int) -> ComboBox:
         """Create a ComboBox with the given label, options, and width."""
         return ComboBox(
             label=label,

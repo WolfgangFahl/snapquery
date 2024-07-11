@@ -5,7 +5,6 @@ from lodstorage.query import Query
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager, QueryPrefixMerger
 
 
-
 class TestQueryPrefixMerger(TestCase):
     """
     test TestQueryPrefixMerger

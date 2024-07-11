@@ -37,10 +37,7 @@ class QueryStatsView:
         show entity usage in the queries
         """
         stats = QUERY_ITEM_STATS.get_entity_stats()
-        records = [
-            {"name": stat.label, "count": stat.count, "id": stat.identifier}
-            for stat in stats
-        ]
+        records = [{"name": stat.label, "count": stat.count, "id": stat.identifier} for stat in stats]
         df = DataFrame.from_records(records).sort_values(by="count", ascending=False)
         fig = px.bar(df, x="name", y="count", title="Entity usage in queries")
         with self.input_row:

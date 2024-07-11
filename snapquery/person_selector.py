@@ -37,9 +37,7 @@ class PersonView(Element):
                     with ui.row():
                         self.person_label = ui.label(self.person.label)
                     with ui.row():
-                        self.person_name = ui.label(
-                            f"{self.person.given_name} {self.person.family_name}"
-                        )
+                        self.person_name = ui.label(f"{self.person.given_name} {self.person.family_name}")
                     with ui.row():
                         self._show_identifier()
 
@@ -148,15 +146,11 @@ class PersonSelector:
                                 value=person.wikidata_id,
                             ).props("size=20")
                         # if self.selection_btn is None:
-                        self.selection_btn = ui.button(
-                            text="Continue", on_click=self.btn_selection_callback
-                        )
+                        self.selection_btn = ui.button(text="Continue", on_click=self.btn_selection_callback)
                         self.selection_btn.disable()
             with splitter.after:
                 with ui.element("column").classes(" w-full h-full gap-2"):
-                    self.suggestion_view = ui.column().classes(
-                        "rounded-md border-2 p-3"
-                    )
+                    self.suggestion_view = ui.column().classes("rounded-md border-2 p-3")
 
     async def btn_selection_callback(self):
         person = Person()
@@ -186,9 +180,7 @@ class PersonSelector:
         Use debouncer to
         suggest potential persons based on the input.
         """
-        await self.debouncer_ui.debounce(
-            self.load_person_suggestions, self.name_input.value
-        )
+        await self.debouncer_ui.debounce(self.load_person_suggestions, self.name_input.value)
 
     async def load_person_suggestions(self, search_name: str):
         """
@@ -203,15 +195,9 @@ class PersonSelector:
         try:
             self.clear_suggested_persons()
             tasks = [
-                asyncio.to_thread(
-                    self.person_lookup.suggest_from_wikidata, search_name, self.limit
-                ),
-                asyncio.to_thread(
-                    self.person_lookup.suggest_from_orcid, search_name, self.limit
-                ),
-                asyncio.to_thread(
-                    self.person_lookup.suggest_from_dblp, search_name, self.limit
-                ),
+                asyncio.to_thread(self.person_lookup.suggest_from_wikidata, search_name, self.limit),
+                asyncio.to_thread(self.person_lookup.suggest_from_orcid, search_name, self.limit),
+                asyncio.to_thread(self.person_lookup.suggest_from_dblp, search_name, self.limit),
             ]
             for future in asyncio.as_completed(tasks):
                 new_persons = await future
@@ -249,9 +235,7 @@ class PersonSelector:
                     ui.item_label("Suggestions").props("header").classes("text-bold")
                     ui.separator()
                     for person in self.suggested_persons[: self.limit]:
-                        PersonSuggestion(
-                            person=person, on_select=self.selection_callback
-                        )
+                        PersonSuggestion(person=person, on_select=self.selection_callback)
 
                     if len(self.suggested_persons) > self.limit:
                         with ui.item():

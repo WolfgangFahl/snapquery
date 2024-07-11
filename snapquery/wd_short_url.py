@@ -60,9 +60,7 @@ class ShortUrl:
     see https://meta.wikimedia.org/wiki/Wikimedia_URL_Shortener for
     """
 
-    def __init__(
-        self, short_url: str, scheme: str = "https", netloc: str = "query.wikidata.org"
-    ):
+    def __init__(self, short_url: str, scheme: str = "https", netloc: str = "query.wikidata.org"):
         """
         Constructor
 
@@ -77,7 +75,7 @@ class ShortUrl:
         self.url = None
         self.sparql = None
         self.error = None
-        
+
     @property
     def name(self):
         """
@@ -88,7 +86,7 @@ class ShortUrl:
         """
         # Assuming the short URL ends with the name part after the last '/'
         if self.short_url:
-            name_part = self.short_url.rsplit('/', 1)[-1]
+            name_part = self.short_url.rsplit("/", 1)[-1]
             return name_part
         return None
 
@@ -140,9 +138,7 @@ SPARQL: {sparql}
         unique_urls = set()
         unique_names = set()
 
-        nq_set = NamedQuerySet(
-            domain="wikidata.org", namespace=namespace, target_graph_name="wikidata"
-        )
+        nq_set = NamedQuerySet(domain="wikidata.org", namespace=namespace, target_graph_name="wikidata")
         give_up = (
             count * 15
         )  # heuristic factor for probability that a short url points to a wikidata entry - 14 has worked so far

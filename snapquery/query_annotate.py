@@ -108,6 +108,4 @@ class NamespaceStat:
     count: int = 0
 
 
-QUERY_ITEM_STATS: Stats = Stats.load_from_yaml_file(
-    Path(__file__).parent.joinpath("samples", "query_stats.yaml")
-)
+QUERY_ITEM_STATS: Stats = Stats.load_from_yaml_file(Path(__file__).parent.joinpath("samples", "query_stats.yaml"))

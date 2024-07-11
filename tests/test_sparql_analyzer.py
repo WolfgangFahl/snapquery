@@ -47,17 +47,9 @@ class TestSparqlAnalyzer(unittest.TestCase):
                     try:
                         fixed_query = SparqlAnalyzer.add_missing_prefixes(query.sparql)
                         if SparqlAnalyzer.has_parameter(fixed_query):
-                            fixed_query = (
-                                SparqlAnalyzer.fill_with_sample_query_parameters(
-                                    fixed_query
-                                )
-                            )
+                            fixed_query = SparqlAnalyzer.fill_with_sample_query_parameters(fixed_query)
                         if SparqlAnalyzer.has_blazegraph_with_clause(fixed_query):
-                            fixed_query = (
-                                SparqlAnalyzer.transform_with_clause_to_subquery(
-                                    fixed_query
-                                )
-                            )
+                            fixed_query = SparqlAnalyzer.transform_with_clause_to_subquery(fixed_query)
                         is_valid = SparqlAnalyzer.is_valid(fixed_query)
                         if not is_valid:
                             print(query.query_id)
@@ -312,9 +304,7 @@ ORDER BY DESC (?count)
         Test add_missing_prefixes on query with syntax error making parsing impossible
         """
         query = "SELET * WHERE {??work undefined:P2093 ?work . }"
-        with self.assertLogs(
-            snapquery.sparql_analyzer.logger, level=logging.DEBUG
-        ) as cm:
+        with self.assertLogs(snapquery.sparql_analyzer.logger, level=logging.DEBUG) as cm:
             SparqlAnalyzer.add_missing_prefixes(query)
             self.assertIn(
                 "DEBUG:snapquery.sparql_analyzer:Adding missing prefixes to query failed → Unable to parse SPARQL query",
@@ -336,7 +326,10 @@ ORDER BY DESC (?count)
         """
         nqm = NamedQueryManager()
         namespaces = [
-            ("scholia.toolforge.org", "named_queries")  # all queries works except one which expects a datetime parameter which is not detected
+            (
+                "scholia.toolforge.org",
+                "named_queries",
+            )  # all queries works except one which expects a datetime parameter which is not detected
         ]
         params: dict[str, int] = dict()
         params["Has no parameter"] = 0

@@ -5,7 +5,8 @@ Created on 2024-07-09
 """
 
 import logging
-from snapquery.snapquery_core import NamedQueryManager, NamedQuery, QueryDetails, QueryPrefixMerger
+
+from snapquery.snapquery_core import NamedQuery, NamedQueryManager, QueryDetails, QueryPrefixMerger
 
 
 class Execution:

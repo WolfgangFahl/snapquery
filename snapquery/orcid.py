@@ -57,9 +57,7 @@ class OrcidAuth:
         orcid_token_record = app.storage.user.get("orcid_token", None)
         orcid_token = None
         if orcid_token_record:
-            orcid_token: OrcidAccessToken = OrcidAccessToken.from_dict2(
-                orcid_token_record
-            )
+            orcid_token: OrcidAccessToken = OrcidAccessToken.from_dict2(orcid_token_record)
         return orcid_token
 
     def _check_access_token(self, orcid_token: "OrcidAccessToken") -> bool:

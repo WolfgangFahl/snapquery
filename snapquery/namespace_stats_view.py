@@ -12,6 +12,7 @@ from ngwidgets.lod_grid import ListOfDictsGrid
 from ngwidgets.progress import NiceguiProgressbar
 from ngwidgets.webserver import WebSolution
 from nicegui import run, ui
+
 from snapquery.execution import Execution
 
 logger = logging.getLogger(__name__)

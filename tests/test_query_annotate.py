@@ -5,12 +5,7 @@ from lodstorage.query import Query
 from lodstorage.sparql import SPARQL
 from ngwidgets.basetest import Basetest
 
-from snapquery.query_annotate import (
-    QUERY_ITEM_STATS,
-    ItemStat,
-    SparqlQueryAnnotater,
-    Stats,
-)
+from snapquery.query_annotate import QUERY_ITEM_STATS, ItemStat, SparqlQueryAnnotater, Stats
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager
 
 
@@ -77,9 +72,7 @@ class TestSparqlQueryAnnotater(Basetest):
         props = annotated_query.get_used_properties()
         self.assertEqual(1, len(props))
 
-    @unittest.skipIf(
-        Basetest.inPublicCI(), "Only required to regenerate the query_stats.yaml"
-    )
+    @unittest.skipIf(Basetest.inPublicCI(), "Only required to regenerate the query_stats.yaml")
     def test_property_usage(self):
         """
         Tests property_usage over all queries
@@ -89,9 +82,7 @@ class TestSparqlQueryAnnotater(Basetest):
         properties = []
         for query_record in nqm.sql_db.queryGen(query):
             named_query = NamedQuery.from_record(record=query_record)
-            annotated_query = SparqlQueryAnnotater(
-                Query(named_query.query_id, named_query.sparql)
-            )
+            annotated_query = SparqlQueryAnnotater(Query(named_query.query_id, named_query.sparql))
             props = annotated_query.get_used_properties()
             properties.extend(props)
             print(f"{named_query.query_id}: {len(props)}")

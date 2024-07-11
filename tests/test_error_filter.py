@@ -148,7 +148,9 @@ class TestErrorFilter(Basetest):
         """
         error_msg = """QueryBadFormed: A bad request has been sent to the endpoint: probably the SPARQL query is badly formed. Response: b'Virtuoso 37000 Error SP030: SPARQL compiler, line 0: Bad character \'%\' (0x25) in SPARQL expression at \'%\'\n\nSPARQL query:\n#output-format:application/sparql-results+json\n#\nPREFIX biopax: <http://www.biopax.org/release/biopax-level3.owl#>"""
         error_filter = ErrorFilter(error_msg)
-        expected_filtered_error = "Virtuoso 37000 Error SP030: SPARQL compiler, line 0: Bad character '%' (0x25) in SPARQL expression at '%'"
+        expected_filtered_error = (
+            "Virtuoso 37000 Error SP030: SPARQL compiler, line 0: Bad character '%' (0x25) in SPARQL expression at '%'"
+        )
         self.assertEqual(expected_filtered_error, error_filter.filtered_message)
 
     def test__blazegraph_error(self):

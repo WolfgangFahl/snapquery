@@ -52,9 +52,7 @@ class QLever:
         self.url = "https://github.com/ad-freiburg/qlever"
         self.with_progress = with_progress
         # Regex pattern to find URLs starting with the specified prefix
-        self.wd_url_pattern = re.compile(
-            r"https://qlever\.cs\.uni-freiburg\.de/wikidata/[A-Za-z0-9]+"
-        )
+        self.wd_url_pattern = re.compile(r"https://qlever\.cs\.uni-freiburg\.de/wikidata/[A-Za-z0-9]+")
         self.osproject = OsProject.fromUrl(self.url)
 
     def wd_urls_for_ticket(self, ticket: Ticket) -> List[str]:
@@ -69,9 +67,7 @@ class QLever:
             extracted_urls.extend(found_urls)
 
         # Fetch and extract URLs from comments
-        comments = self.osproject.ticketSystem.getComments(
-            self.osproject, ticket.number
-        )
+        comments = self.osproject.ticketSystem.getComments(self.osproject, ticket.number)
         for comment in comments:
             found_urls = self.wd_url_pattern.findall(comment["body"])
             extracted_urls.extend(found_urls)

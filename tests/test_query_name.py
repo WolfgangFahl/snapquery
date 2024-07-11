@@ -27,9 +27,7 @@ class TestQueryName(Basetest):
             nqm = NamedQueryManager.from_samples(db_path=tmpfile.name)
             qimport = QueryImport(nqm=nqm)
             qimport.import_samples(with_store=True, show_progress=self.debug)
-            qns = QueryNameSet(
-                nqm, limit=10
-            )  # Assume a limit is meaningful for the test context
+            qns = QueryNameSet(nqm, limit=10)  # Assume a limit is meaningful for the test context
             test_cases = [
                 (("", ""), (977, 6, 6, 10)),  # Assume maximum values for names as well
                 (
@@ -109,14 +107,8 @@ class TestQueryName(Basetest):
         """
         test URL-friendly encoding and decoding
         """
-        qn = QueryName(
-            name="query with spaces", 
-            namespace="test-namespace", 
-            domain="example.com"
-        )
-        self.assertEqual(
-            qn.query_id, "query-with-spaces--test-namespace@example.com"
-        )
+        qn = QueryName(name="query with spaces", namespace="test-namespace", domain="example.com")
+        self.assertEqual(qn.query_id, "query-with-spaces--test-namespace@example.com")
 
         decoded = QueryName.from_query_id(qn.query_id)
         self.assertEqual(decoded.name, "query-with-spaces")
@@ -127,9 +119,7 @@ class TestQueryName(Basetest):
         """
         test roundtrip conversion
         """
-        original = QueryName(
-            name="test-query", namespace="test-ns", domain="example.com"
-        )
+        original = QueryName(name="test-query", namespace="test-ns", domain="example.com")
         roundtrip = QueryName.from_query_id(original.query_id)
         self.assertEqual(original.to_dict(), roundtrip.to_dict())
 

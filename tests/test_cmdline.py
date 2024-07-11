@@ -72,9 +72,7 @@ class TestCommandLine(Basetest):
         # Parse the JSON output
         result = json.loads(output)
         # Check that the result has exactly 10 entries
-        self.assertEqual(
-            len(result), limit, "The number of results should be exactly 10."
-        )
+        self.assertEqual(len(result), limit, "The number of results should be exactly 10.")
 
         # Check that each entry has 'item' and 'itemLabel'
         for entry in result:

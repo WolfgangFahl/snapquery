@@ -110,15 +110,17 @@ class TestQueryName(Basetest):
         test URL-friendly encoding and decoding
         """
         qn = QueryName(
-            name="query with spaces", namespace="test/namespace", domain="example.com"
+            name="query with spaces", 
+            namespace="test-namespace", 
+            domain="example.com"
         )
         self.assertEqual(
-            qn.query_id, "query%20with%20spaces--test%2Fnamespace@example.com"
+            qn.query_id, "query-with-spaces--test-namespace@example.com"
         )
 
         decoded = QueryName.from_query_id(qn.query_id)
-        self.assertEqual(decoded.name, "query with spaces")
-        self.assertEqual(decoded.namespace, "test/namespace")
+        self.assertEqual(decoded.name, "query-with-spaces")
+        self.assertEqual(decoded.namespace, "test-namespace")
         self.assertEqual(decoded.domain, "example.com")
 
     def test_roundtrip(self):
@@ -126,7 +128,7 @@ class TestQueryName(Basetest):
         test roundtrip conversion
         """
         original = QueryName(
-            name="test query", namespace="test/ns", domain="example.com"
+            name="test-query", namespace="test-ns", domain="example.com"
         )
         roundtrip = QueryName.from_query_id(original.query_id)
         self.assertEqual(original.to_dict(), roundtrip.to_dict())

@@ -77,6 +77,20 @@ class ShortUrl:
         self.url = None
         self.sparql = None
         self.error = None
+        
+    @property
+    def name(self):
+        """
+        Extracts and returns the name part of the short URL.
+
+        Returns:
+            str: The name part of the short URL.
+        """
+        # Assuming the short URL ends with the name part after the last '/'
+        if self.short_url:
+            name_part = self.short_url.rsplit('/', 1)[-1]
+            return name_part
+        return None
 
     @classmethod
     def get_prompt_text(cls, sparql: str) -> str:

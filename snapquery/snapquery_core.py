@@ -3,7 +3,7 @@ Created on 2024-05-03
 
 @author: wf
 """
-
+from slugify import slugify
 import datetime
 import json
 import logging
@@ -189,11 +189,12 @@ class QueryName:
         # Convert None to empty string (or use any other default logic)
         name, namespace, domain = (name or ""), (namespace or ""), (domain or "")
 
-        encoded_name = urllib.parse.quote(name, safe="")
-        encoded_namespace = urllib.parse.quote(namespace, safe="")
-        encoded_domain = urllib.parse.quote(domain, safe="")
-        query_id = f"{encoded_name}--{encoded_namespace}@{encoded_domain}"
-        # query_id=query_id.lower()
+        # Apply slugify with Unicode support and basic cleanup
+        encoded_name = slugify(name, allow_unicode=True)
+    
+        # Create a combined query_id
+        query_id = f"{encoded_name}--{namespace}@{domain}"
+        
         return query_id
 
     @classmethod

@@ -1,0 +1,183 @@
+{
+  "domain": "wikidata.org",
+  "namespace": "lsethesis",
+  "target_graph_name": "wikidata",
+  "queries": [
+    {
+      "name": "5aHL",
+      "namespace": "lsethesis",
+      "domain": "wikidata.org",
+      "query_id": "5ahl--lsethesis@wikidata.org",
+      "sparql": "SELECT ?thesis ?thesisDescription ?thesisLabel ?authorLabel ?authorwp ?lse_url WHERE {\n  ?thesis wdt:P31/wdt:P279* wd:Q1266946 ;\n    wdt:P953 ?lse_url.\n  OPTIONAL {\n    ?thesis wdt:P50 ?author.\n    OPTIONAL {\n      ?authorwp schema:about ?author;\n        schema:isPartOf <https://en.wikipedia.org/>.\n    }\n  }\n  FILTER(STRSTARTS(STR(?lse_url), \"http://etheses.lse.ac.uk\"))\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n}\n\nORDER BY (?thesisDescription)\n\n",
+      "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
+      "title": "5aHL",
+      "description": "* LSE doctoral theses 1926-2021 with author links to Wikipedia pages where available",
+      "comment": null
+    },
+    {
+      "name": "5b4L",
+      "namespace": "lsethesis",
+      "domain": "wikidata.org",
+      "query_id": "5b4l--lsethesis@wikidata.org",
+      "sparql": "SELECT ?person ?personLabel ?person2 ?person2Label ?person3 ?person3Label ?person4 ?person4Label ?person5 ?person5Label WHERE {\n  \n  ?person wdt:P5008 wd:Q112895606 .\n  ?person wdt:P31 wd:Q5 .\n  ?person wdt:P184 ?person2 . ?person2 wdt:P5008 wd:Q112895606 .\n  OPTIONAL {?person2 wdt:P184 ?person3 . ?person3 wdt:P5008 wd:Q112895606 .\n  OPTIONAL {?person3 wdt:P184 ?person4 . ?person4 wdt:P5008 wd:Q112895606 .\n  OPTIONAL {?person4 wdt:P184 ?person5 . ?person5 wdt:P5008 wd:Q112895606 . }}}\n  \n\n  \n    SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\n\nORDER BY DESC(?person5) desc(?person4) desc(?person3) desc(?person2) desc(?person)\n",
+      "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
+      "title": "5b4L",
+      "description": "* Chains of doctoral students/advisors in the project (as of August 2022 the longest is 4)",
+      "comment": null
+    },
+    {
+      "name": "5WYp",
+      "namespace": "lsethesis",
+      "domain": "wikidata.org",
+      "query_id": "5wyp--lsethesis@wikidata.org",
+      "sparql": "#defaultView:Graph\nSELECT ?author1 ?author1Label ?rgb ?author2 ?author2Label \nWITH {\n  SELECT ?author1 ?author2 ?rgb WHERE {\n    { ?author1 wdt:P108 wd:Q174570 . } union { ?author1 wdt:P1416 [ wdt:P361* wd:Q174570 ] .  } union  { ?author1 wdt:P69 wd:Q174570 . }\n    { ?author2 wdt:P108 wd:Q174570 . } union { ?author2 wdt:P1416 [ wdt:P361* wd:Q174570 ] .  } union  { ?author1 wdt:P69 wd:Q174570 . }\n    {?author1 wdt:P184 ?author2 }\n    UNION\n    {?author2 wdt:P185 ?author1 }\n    \n    OPTIONAL\n    {?author1 wdt:P21 ?gender1 .\n     ?author2 wdt:P21 ?gender1 .\n    BIND ( IF(?gender1 = wd:Q6581097, \"3182BD\", \"E6550D\") AS ?rgb) }\n  }\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,da,de,es,fr,jp,sv,ru,zh\".\n  }\n}\n",
+      "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
+      "title": "5WYp",
+      "description": "* Relationships between thesis supervisors and authors. Extends beyond LSE's digitised theses by drawing on Wikidata statements for people educated at or employed by LSE with a doctoral student/supervisor relationship. This is such a large dataset it will be a little slow to open",
+      "comment": null
+    },
+    {
+      "name": "63Jh",
+      "namespace": "lsethesis",
+      "domain": "wikidata.org",
+      "query_id": "63jh--lsethesis@wikidata.org",
+      "sparql": "SELECT DISTINCT ?person1 ?person2 ?person1Label ?person2Label ?person1wp ?person2wp WHERE {\n  \n  ?person1 wdt:P5008 wd:Q112895606 . #person1 is in LSEThesisProject and has enWp page\n  ?person1 wdt:P31 wd:Q5 . \n  ?person1wp schema:about ?person1;\n        schema:isPartOf <https://en.wikipedia.org/>.\n  \n  ?person2 wdt:P31 wd:Q5 .  #person2 is human and has enWp page\n  ?person2wp schema:about ?person2;\n             schema:isPartOf <https://en.wikipedia.org/>.\n   \n    {?person1 wdt:P184 ?person2 } #person1 is doctoral advisor of person2\n    UNION\n    {?person2 wdt:P184 ?person1 } #person2 is doctoral advisor of person1\n\n  \n    SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\n\nORDER BY (?person1Label)",
+      "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
+      "title": "63Jh",
+      "description": "* Relationships between notable thesis authors and supervisors where both have a Wikipedia page. Shown in list format and in graph format https://w.wiki/7p8V",
+      "comment": null
+    },
+    {
+      "name": "5aMU",
+      "namespace": "lsethesis",
+      "domain": "wikidata.org",
+      "query_id": "5amu--lsethesis@wikidata.org",
+      "sparql": "SELECT DISTINCT ?author ?authorLabel ?award ?awardLabel WHERE {\n  ?author wdt:P5008 wd:Q112895606;\n    wdt:P31 wd:Q5.\n\n { ?author wdt:P166 ?award. }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n\n}\n\nORDER BY (?awardLabel)",
+      "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
+      "title": "5aMU",
+      "description": "* Table of awards won by LSE thesis authors and supervisors",
+      "comment": null
+    },
+    {
+      "name": "5djt",
+      "namespace": "lsethesis",
+      "domain": "wikidata.org",
+      "query_id": "5djt--lsethesis@wikidata.org",
+      "sparql": "#defaultView:Graph\nSELECT DISTINCT ?author ?authorLabel ?author_image ?award ?awardLabel ?award_image WHERE {\n  ?author wdt:P5008 wd:Q112895606;\n    wdt:P31 wd:Q5.\n  \n    OPTIONAL { ?author wdt:P18 ?author_image }\n\n  ?author wdt:P166 ?award. \n  \n  OPTIONAL { ?award wdt:P18 ?award_image }\n\n  \n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n\n}",
+      "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
+      "title": "5djt",
+      "description": "* Graph, with images where available, of awards won by LSE thesis authors and supervisors",
+      "comment": null
+    },
+    {
+      "name": "5aLx",
+      "namespace": "lsethesis",
+      "domain": "wikidata.org",
+      "query_id": "5alx--lsethesis@wikidata.org",
+      "sparql": "SELECT DISTINCT ?author ?authorLabel ?archives_at ?archives_atLabel WHERE {\n  ?author wdt:P5008 wd:Q112895606;\n    wdt:P31 wd:Q5.\n\n { ?author wdt:P485 ?archives_at. }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n\n}",
+      "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
+      "title": "5aLx",
+      "description": "* Other institutions holding archives about LSE thesis authors and supervisors",
+      "comment": null
+    },
+    {
+      "name": "5d66",
+      "namespace": "lsethesis",
+      "domain": "wikidata.org",
+      "query_id": "5d66--lsethesis@wikidata.org",
+      "sparql": "#defaultView:Graph\nSELECT DISTINCT ?author ?authorLabel ?author_image ?archives_at ?archives_atLabel ?archives_image WHERE {\n  ?author wdt:P5008 wd:Q112895606 . \n  ?author wdt:P31 wd:Q5.\n  \n  OPTIONAL { ?author wdt:P18 ?author_image }\n\n ?author wdt:P485 ?archives_at. \n  \n   OPTIONAL { ?archives_at wdt:P18 ?archives_image }\n   \n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n\n}",
+      "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
+      "title": "5d66",
+      "description": "* Graph, with images where available, showing relationships between LSE thesis authors and supervisors and archive-holding institutions",
+      "comment": null
+    },
+    {
+      "name": "5aG5",
+      "namespace": "lsethesis",
+      "domain": "wikidata.org",
+      "query_id": "5ag5--lsethesis@wikidata.org",
+      "sparql": "#defaultView:BubbleChart\nSELECT DISTINCT ?valueLabel (count(?valueLabel) as ?count)\nWHERE \n{  \n  ?entity wdt:P5008 wd:Q112895606; wdt:P31/wdt:P279* wd:Q1266946 .  \n       ?entity p:P921 ?prop . OPTIONAL { ?prop ps:P921 ?value }  \n       SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n      }\nGROUP BY ?valueLabel\nORDER BY DESC(?count)\n\n",
+      "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
+      "title": "5aG5",
+      "description": "* Bubble chart showing main subjects of the thesis set",
+      "comment": null
+    },
+    {
+      "name": "7Kiz",
+      "namespace": "lsethesis",
+      "domain": "wikidata.org",
+      "query_id": "7kiz--lsethesis@wikidata.org",
+      "sparql": "#defaultView:BubbleChart\nSELECT DISTINCT ?instanceLabel (count(?instanceLabel) as ?count)\nWHERE \n{  \n  ?entity wdt:P5008 wd:Q112895606; wdt:P31/wdt:P279* wd:Q1266946 .  \n       ?entity p:P921 ?prop . \n  OPTIONAL { ?prop ps:P921 ?value } \n  OPTIONAL { ?value wdt:P31 ?instance }\n       SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n      }\nGROUP BY ?instanceLabel\nORDER BY DESC(?count)\n\n",
+      "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
+      "title": "7Kiz",
+      "description": "* Bubble chart showing types of main subjects (depicts what the main subject is an instance of)",
+      "comment": null
+    },
+    {
+      "name": "5but",
+      "namespace": "lsethesis",
+      "domain": "wikidata.org",
+      "query_id": "5but--lsethesis@wikidata.org",
+      "sparql": "#defaultView:BubbleChart\nSELECT DISTINCT ?valueLabel (count(?valueLabel) as ?count)\nWHERE \n{  \n    ?entity wdt:P5008 wd:Q112895606 .\n    ?entity wdt:P31 wd:Q5 . \n   \n  \n       ?entity p:P101 ?prop . OPTIONAL { ?prop ps:P101 ?value }  \n       SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n      }\nGROUP BY ?valueLabel\nORDER BY DESC(?count)",
+      "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
+      "title": "5but",
+      "description": "* Bubble chart showing field of work for LSE thesis authors and supervisors",
+      "comment": null
+    },
+    {
+      "name": "5eTJ",
+      "namespace": "lsethesis",
+      "domain": "wikidata.org",
+      "query_id": "5etj--lsethesis@wikidata.org",
+      "sparql": "SELECT ?item ?itemLabel ?cites_thesis ?cites_thesisLabel WHERE {\n  \n \n ?item wdt:P2860 ?cites_thesis .\n ?cites_thesis wdt:P5008 wd:Q112895606 .\n        \n\n  \n    SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\n\n\n",
+      "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
+      "title": "5eTJ",
+      "description": "* Similarly this experimental query looks for connections Wikidata could make, this time seeking works citing an LSE thesis - as of September 2022 we have our first 16 results!",
+      "comment": null
+    },
+    {
+      "name": "5aLx",
+      "namespace": "lsethesis",
+      "domain": "wikidata.org",
+      "query_id": "5alx--lsethesis@wikidata.org",
+      "sparql": "SELECT DISTINCT ?author ?authorLabel ?archives_at ?archives_atLabel WHERE {\n  ?author wdt:P5008 wd:Q112895606;\n    wdt:P31 wd:Q5.\n\n { ?author wdt:P485 ?archives_at. }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n\n}",
+      "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
+      "title": "5aLx",
+      "description": "* Other institutions holding archives about LSE thesis authors and supervisors",
+      "comment": null
+    },
+    {
+      "name": "5b3r",
+      "namespace": "lsethesis",
+      "domain": "wikidata.org",
+      "query_id": "5b3r--lsethesis@wikidata.org",
+      "sparql": "#defaultView:Table\nSELECT ?person ?personLabel ?employer ?employerLabel WHERE {\n  \n  ?person wdt:P5008 wd:Q112895606 .\n  ?person wdt:P108 ?employer .\n  \n  \n    SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n  \n}\n\nORDER BY ?employerLabel",
+      "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
+      "title": "5b3r",
+      "description": "* Table of employers of LSE thesis authors and supervisors",
+      "comment": null
+    },
+    {
+      "name": "5b49",
+      "namespace": "lsethesis",
+      "domain": "wikidata.org",
+      "query_id": "5b49--lsethesis@wikidata.org",
+      "sparql": "  #defaultView:Table\n\n\nSELECT DISTINCT ?person ?personLabel ?educated_at ?educated_atLabel WHERE {\n  \n   ?person wdt:P5008 wd:Q112895606.\n   ?person wdt:P69 ?educated_at . \n   \n  \n    SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\n  \n  ORDER BY ?educated_atLabel\n\n\n\n",
+      "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
+      "title": "5b49",
+      "description": "* Table of educational institutions attended by LSE thesis authors and supervisors",
+      "comment": null
+    },
+    {
+      "name": "5eTJ",
+      "namespace": "lsethesis",
+      "domain": "wikidata.org",
+      "query_id": "5etj--lsethesis@wikidata.org",
+      "sparql": "SELECT ?item ?itemLabel ?cites_thesis ?cites_thesisLabel WHERE {\n  \n \n ?item wdt:P2860 ?cites_thesis .\n ?cites_thesis wdt:P5008 wd:Q112895606 .\n        \n\n  \n    SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\n\n\n",
+      "url": "https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
+      "title": "5eTJ",
+      "description": "* Similarly this experimental query looks for connections Wikidata could make, this time seeking works citing an LSE thesis - as of September 2022 we have our first 16 results!",
+      "comment": null
+    }
+  ]
+}

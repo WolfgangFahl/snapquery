@@ -6,10 +6,10 @@ Created on 2024-05-12
 import json
 import random
 import urllib.parse
-
+from snapquery.version import Version
 import requests
 from ngwidgets.llm import LLM
-
+from ratelimit import limits, sleep_and_retry
 from snapquery.snapquery_core import NamedQuery, NamedQuerySet
 
 
@@ -59,10 +59,11 @@ class ShortUrl:
     Handles operations related to wikidata and similar short URLs such as QLever.
     see https://meta.wikimedia.org/wiki/Wikimedia_URL_Shortener for
     """
-
-    def __init__(
-        self, short_url: str, scheme: str = "https", netloc: str = "query.wikidata.org"
-    ):
+    # see https://stackoverflow.com/questions/62396801/how-to-handle-too-many-requests-on-wikidata-using-sparqlwrapper
+    CALLS_PER_MINUTE = 30
+    ONE_MINUTE = 60
+    
+    def __init__(self, short_url: str, scheme: str = "https", netloc: str = "query.wikidata.org"):
         """
         Constructor
 
@@ -71,12 +72,34 @@ class ShortUrl:
             scheme (str): URL scheme to be used (e.g., 'https' or 'http') for validating URL format.
             netloc (str): Network location part of the URL, typically the domain name, to be used for validating URL format.
         """
+        
         self.short_url = short_url
         self.scheme = scheme
         self.netloc = netloc
         self.url = None
         self.sparql = None
         self.error = None
+        self.user_agent = self.get_user_agent()
+
+    @staticmethod
+    def get_user_agent():
+        version = Version()
+        return f"{version.name}/{version.version} ({version.cm_url}; {version.authors}) Python-requests/{requests.__version__}"
+
+
+    @property
+    def name(self):
+        """
+        Extracts and returns the name part of the short URL.
+
+        Returns:
+            str: The name part of the short URL.
+        """
+        # Assuming the short URL ends with the name part after the last '/'
+        if self.short_url:
+            name_part = self.short_url.rsplit("/", 1)[-1]
+            return name_part
+        return None
 
     @classmethod
     def get_prompt_text(cls, sparql: str) -> str:
@@ -126,9 +149,7 @@ SPARQL: {sparql}
         unique_urls = set()
         unique_names = set()
 
-        nq_set = NamedQuerySet(
-            domain="wikidata.org", namespace=namespace, target_graph_name="wikidata"
-        )
+        nq_set = NamedQuerySet(domain="wikidata.org", namespace=namespace, target_graph_name="wikidata")
         give_up = (
             count * 15
         )  # heuristic factor for probability that a short url points to a wikidata entry - 14 has worked so far
@@ -185,15 +206,18 @@ SPARQL: {sparql}
                 give_up -= 1
         return nq_set
 
+    @sleep_and_retry
+    @limits(calls=CALLS_PER_MINUTE, period=ONE_MINUTE)
     def fetch_final_url(self):
         """
-        Follow the redirection to get the final URL.
-
+        Follow the redirection to get the final URL with rate limiting.
+    
         Returns:
             str: The final URL after redirection.
         """
         try:
-            response = requests.get(self.short_url, allow_redirects=True)
+            headers = {'User-Agent': self.user_agent}
+            response = requests.get(self.short_url, headers=headers, allow_redirects=True)
             response.raise_for_status()
             self.url = response.url
         except Exception as ex:

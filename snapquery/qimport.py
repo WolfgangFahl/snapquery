@@ -38,9 +38,7 @@ class QueryImport:
         """
         for json_file in glob.glob(os.path.join(self.nqm.samples_path, "*.json")):
             try:
-                nq_list = self.import_from_json_file(
-                    json_file, with_store, show_progress
-                )
+                nq_list = self.import_from_json_file(json_file, with_store, show_progress)
             except Exception as ex:
                 print(f"could not load json_file {json_file}")
                 raise ex

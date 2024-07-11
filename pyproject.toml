@@ -27,6 +27,10 @@ dependencies = [
 	"py-3rdparty-mediawiki>=0.11.3",
     "wikitextparser",
     "requests",
+    # https://pypi.org/project/python-slugify/
+	"python-slugify>=8.0.4",
+	# https://pypi.org/project/ratelimit/
+	"ratelimit>=2.2.1",
     # https://pypi.org/project/mwoauth/
     "mwoauth>=0.4.0",
     #"mwoauth@git+https://github.com/mediawiki-utilities/python-mwoauth"

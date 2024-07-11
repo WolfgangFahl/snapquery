@@ -12,9 +12,9 @@ from lodstorage.params import Params, StoreDictKeyPair
 from lodstorage.query import Format
 from ngwidgets.cmd import WebserverCmd
 
-from snapquery.qimport import QueryImport
 from snapquery.execution import Execution
-from snapquery.snapquery_core import (NamedQueryManager, QueryName, QueryPrefixMerger, )
+from snapquery.qimport import QueryImport
+from snapquery.snapquery_core import NamedQueryManager, QueryName, QueryPrefixMerger
 from snapquery.snapquery_webserver import SnapQueryWebServer
 
 logger = logging.getLogger(__name__)
@@ -80,9 +80,7 @@ class SnapQueryCmd(WebserverCmd):
             action="store_true",
             help="test run the queries",
         )
-        parser.add_argument(
-            "--limit", type=int, default=None, help="set limit parameter of query"
-        )
+        parser.add_argument("--limit", type=int, default=None, help="set limit parameter of query")
         parser.add_argument(
             "--params",
             action=StoreDictKeyPair,
@@ -179,10 +177,8 @@ class SnapQueryCmd(WebserverCmd):
                 endpoint_names = [self.args.endpointName]
             else:
                 endpoint_names = list(nqm.endpoints.keys())
-            queries = self.nqm.get_all_queries(
-                domain=self.args.domain, namespace=self.args.namespace
-            )
-            execution=Execution(self.nqm,debug=self.args.debug)
+            queries = self.nqm.get_all_queries(domain=self.args.domain, namespace=self.args.namespace)
+            execution = Execution(self.nqm, debug=self.args.debug)
             for i, nq in enumerate(queries, start=1):
                 for endpoint_name in endpoint_names:
                     execution.execute(
@@ -204,9 +200,7 @@ class SnapQueryCmd(WebserverCmd):
             endpoint_name = self.args.endpointName
             r_format = self.args.format
             limit = self.args.limit
-            qb = nqm.get_query(
-                query_name=query_name, endpoint_name=endpoint_name, limit=limit
-            )
+            qb = nqm.get_query(query_name=query_name, endpoint_name=endpoint_name, limit=limit)
             query = qb.query
             params = Params(query.query)
             if params.has_params:
@@ -235,9 +229,7 @@ class SnapQueryCmd(WebserverCmd):
         """
         nqm = NamedQueryManager.from_samples()
         qimport = QueryImport(nqm=nqm)
-        nq_list = qimport.import_from_json_file(
-            json_file, with_store=True, show_progress=True
-        )
+        nq_list = qimport.import_from_json_file(json_file, with_store=True, show_progress=True)
         print(f"Imported {len(nq_list.queries)} named queries from {json_file}.")
 
 

@@ -124,9 +124,7 @@ SELECT * WHERE {
         json_file = "/tmp/qlever_performance.json"
         named_query_set.save_to_json_file(json_file, indent=2)
 
-        self.assertTrue(
-            os.path.exists(json_file), f"JSON file {json_file} was not created"
-        )
+        self.assertTrue(os.path.exists(json_file), f"JSON file {json_file} was not created")
 
         if self.debug:
             print(f"Created JSON file: {json_file}")
@@ -155,9 +153,7 @@ SELECT * WHERE {
         count = 0
         # Conditionally use tqdm based on with_progress
         if self.qlever.with_progress:
-            ticket_iterator = tqdm(
-                enumerate(tickets, 1), desc="Extracting github issues ", unit="ticket"
-            )
+            ticket_iterator = tqdm(enumerate(tickets, 1), desc="Extracting github issues ", unit="ticket")
         else:
             ticket_iterator = enumerate(tickets, 1)
 
@@ -175,9 +171,7 @@ SELECT * WHERE {
                 for url in urls:
                     print(f"\t{url}")
             # Assertion to ensure that at least one URL was found in any ticket
-        self.assertTrue(
-            wd_urls_4tickets, "No URLs matching the specified pattern were found."
-        )
+        self.assertTrue(wd_urls_4tickets, "No URLs matching the specified pattern were found.")
 
         nq_list = self.qlever.named_queries_for_tickets(wd_urls_4tickets)
         nq_list.save_to_json_file("/tmp/qlever.json", indent=2)

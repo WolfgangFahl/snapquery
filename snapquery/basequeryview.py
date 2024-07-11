@@ -34,9 +34,7 @@ class BaseQueryView:
 
         self.query_selector = QuerySelector(self.solution, self.on_search_change)
         self.search_result_row = ui.row()
-        self.debouncer = DebouncerUI(
-            parent=self.search_result_row, delay=0.65, debug=self.debug
-        )
+        self.debouncer = DebouncerUI(parent=self.search_result_row, delay=0.65, debug=self.debug)
 
         ui.timer(0.0, self.on_search_change, once=True)
 
@@ -62,9 +60,7 @@ class BaseQueryView:
                 name LIKE ? 
                 AND namespace LIKE ? 
                 AND domain LIKE ?"""
-            self.q_lod = self.nqm.sql_db.query(
-                sql_query, (name_like, namespace_like, domain_like)
-            )
+            self.q_lod = self.nqm.sql_db.query(sql_query, (name_like, namespace_like, domain_like))
             self.show_lod(self.q_lod)
         except Exception as ex:
             self.solution.handle_exception(ex)

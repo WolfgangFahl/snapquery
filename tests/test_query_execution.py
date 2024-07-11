@@ -7,8 +7,9 @@ import unittest
 
 from ngwidgets.basetest import Basetest
 
-from snapquery.snapquery_core import  QueryName,NamedQueryManager
 from snapquery.execution import Execution
+from snapquery.snapquery_core import NamedQueryManager, QueryName
+
 
 class TestEndpoints(Basetest):
     """
@@ -18,17 +19,14 @@ class TestEndpoints(Basetest):
     def setUp(self, debug=True, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
         self.nqm = NamedQueryManager()
-        self.execution=Execution(self.nqm)
-    
+        self.execution = Execution(self.nqm)
 
     @unittest.skipIf(Basetest.inPublicCI(), "needs import to run")
     def testQueryExecution(self):
         """
         test the execution of a named query on a certain endpoint
         """
-        q_name=QueryName(name="author_other-locations",
-            domain="scholia.toolforge.org",
-            namespace="named_queries")
+        q_name = QueryName(name="author_other-locations", domain="scholia.toolforge.org", namespace="named_queries")
         nq = self.nqm.lookup(q_name)
         self.execution.execute(nq, endpoint_name="wikidata", title="query")
 
@@ -50,9 +48,7 @@ class TestEndpoints(Basetest):
             if i > limit:
                 break
             try:
-                for (
-                    endpoint_name
-                ) in endpoint_names:  # Specify the default endpoint to test against
+                for endpoint_name in endpoint_names:  # Specify the default endpoint to test against
                     self.execution.execute(nq, endpoint_name=endpoint_name, title=f"query {i:3}")
             except Exception as ex:
                 ex_id = f"{endpoint_name}::{nq.query_id}"

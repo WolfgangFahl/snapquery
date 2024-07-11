@@ -91,9 +91,7 @@ class CeurWSQueries:
                     print(f"{len(self.named_query_set.queries)}")
 
         if self.debug:
-            print(
-                f"\nFound {len(self.named_query_set.queries)} CEUR-WS challenge queries"
-            )
+            print(f"\nFound {len(self.named_query_set.queries)} CEUR-WS challenge queries")
 
     def save_to_json(self, file_path: str = "/tmp/ceurws-queries.json"):
         """

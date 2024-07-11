@@ -14,9 +14,7 @@ class ScholiaQueries:
     A class to handle the extraction and management of Scholia queries.
     """
 
-    repository_url = (
-        "https://api.github.com/repos/WDscholia/scholia/contents/scholia/app/templates"
-    )
+    repository_url = "https://api.github.com/repos/WDscholia/scholia/contents/scholia/app/templates"
 
     def __init__(self, nqm: NamedQueryManager, debug: bool = False):
         """

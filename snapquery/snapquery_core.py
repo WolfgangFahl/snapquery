@@ -3,7 +3,6 @@ Created on 2024-05-03
 
 @author: wf
 """
-
 import datetime
 import json
 import logging
@@ -24,11 +23,12 @@ from lodstorage.sparql import SPARQL
 from lodstorage.sql import SQLDB, EntityInfo
 from lodstorage.yamlable import lod_storable
 from ngwidgets.widgets import Link
-from snapquery.sparql_analyzer import SparqlAnalyzer
+from slugify import slugify
 
 from snapquery.endpoint import Endpoint as SnapQueryEndpoint
 from snapquery.error_filter import ErrorFilter
 from snapquery.graph import Graph, GraphManager
+from snapquery.sparql_analyzer import SparqlAnalyzer
 
 logger = logging.getLogger(__name__)
 
@@ -191,11 +191,12 @@ class QueryName:
         # Convert None to empty string (or use any other default logic)
         name, namespace, domain = (name or ""), (namespace or ""), (domain or "")
 
-        encoded_name = urllib.parse.quote(name, safe="")
-        encoded_namespace = urllib.parse.quote(namespace, safe="")
-        encoded_domain = urllib.parse.quote(domain, safe="")
-        query_id = f"{encoded_name}--{encoded_namespace}@{encoded_domain}"
-        # query_id=query_id.lower()
+        # Apply slugify with Unicode support and basic cleanup
+        encoded_name = slugify(name, allow_unicode=True)
+
+        # Create a combined query_id
+        query_id = f"{encoded_name}--{namespace}@{domain}"
+
         return query_id
 
     @classmethod
@@ -387,9 +388,9 @@ class QueryDetails:
     """
 
     query_id: str
-    params: str # e.g. q - q1,q2, 
-    default_params: str # e.g. Q80 - Q58631663, Q125422124  
-    default_param_types: str # e.g. Q5 - Q191067,Q43229
+    params: str  # e.g. q - q1,q2,
+    default_params: str  # e.g. Q80 - Q58631663, Q125422124
+    default_param_types: str  # e.g. Q5 - Q191067,Q43229
     param_count: int
     lines: int
     size: int
@@ -419,9 +420,9 @@ class QueryDetails:
         )  # Assuming Params is a class that can parse SPARQL queries to extract parameters
         params = ",".join(sparql_params.params) if sparql_params.params else None
         param_count = len(sparql_params.params)
-        # @TODO get parameters        
-        default_params=None
-        default_param_types=None
+        # @TODO get parameters
+        default_params = None
+        default_param_types = None
         # Create and return the QueryDetails instance
         return cls(
             query_id=query_id,
@@ -441,13 +442,13 @@ class QueryDetails:
         samples = {
             "snapquery-examples": [
                 QueryDetails(
-                    query_id="scholia.test", 
-                    params="q", 
+                    query_id="scholia.test",
+                    params="q",
                     default_params="Q80",
                     default_param_types="Q5",
-                    param_count=1, 
-                    lines=1, 
-                    size=50
+                    param_count=1,
+                    lines=1,
+                    size=50,
                 )
             ]
         }
@@ -478,7 +479,20 @@ class NamedQuerySet:
 
     def __len__(self):
         return len(self.queries)
-
+    
+    def __post_init__(self):
+        """
+        Initialize the dictionary after the object is created
+        """
+        self._query_dict = {query.query_id: query for query in self.queries}
+    
+    def add(self, query: NamedQuery):
+        """
+        Add a query to both the list and dictionary
+        """
+        if query.query_id not in self._query_dict:
+            self.queries.append(query)
+            self._query_dict[query.query_id] = query
 
 class QueryBundle:
     """
@@ -491,9 +505,7 @@ class QueryBundle:
         sparql (SPARQL): A SPARQL service object initialized with the endpoint URL.
     """
 
-    def __init__(
-        self, named_query: NamedQuery, query: Query, endpoint: Endpoint = None
-    ):
+    def __init__(self, named_query: NamedQuery, query: Query, endpoint: Endpoint = None):
         """
         Initializes a new instance of the QueryBundle class.
 
@@ -559,9 +571,7 @@ class QueryBundle:
             List[dict]: A list where each dictionary represents a row of results from the SPARQL query.
         """
         logger.info(f"Querying {self.endpoint.name} with query {self.named_query.name}")
-        query_stat = QueryStats(
-            query_id=self.named_query.query_id, endpoint_name=self.endpoint.name
-        )
+        query_stat = QueryStats(query_id=self.named_query.query_id, endpoint_name=self.endpoint.name)
         try:
             lod = self.sparql.queryAsListOfDicts(self.query.query)
             query_stat.records = len(lod) if lod else -1
@@ -596,9 +606,7 @@ class QueryBundle:
             csv_output = CSV.toCSV(qlod)
             return csv_output
         elif r_format in [Format.latex, Format.github, Format.mediawiki, Format.html]:
-            doc = self.query.documentQueryResult(
-                qlod, tablefmt=str(r_format), floatfmt=".1f"
-            )
+            doc = self.query.documentQueryResult(qlod, tablefmt=str(r_format), floatfmt=".1f")
             return doc.asText()
         elif r_format == Format.json:
             return json.dumps(qlod, indent=2, sort_keys=True, default=str)
@@ -617,9 +625,7 @@ class QueryBundle:
             # there are SPARQL elements hat have a "limit" in the name e.g. "height_limit"
             # or if there is a LIMIT in a subquery
             if "limit" in sparql_query or "LIMIT" in sparql_query:
-                sparql_query = re.sub(
-                    r"(limit|LIMIT)\s+(\d+)", f"LIMIT {limit}", sparql_query
-                )
+                sparql_query = re.sub(r"(limit|LIMIT)\s+(\d+)", f"LIMIT {limit}", sparql_query)
             else:
                 sparql_query += f"\nLIMIT {limit}"
             self.query.query = sparql_query
@@ -629,6 +635,7 @@ class QueryPrefixMerger(Enum):
     """
     SPARQL Query prefix merger
     """
+
     RAW = "raw"
     SIMPLE_MERGER = "simple merger"
     ANALYSIS_MERGER = "analysis merger"
@@ -649,8 +656,9 @@ class QueryPrefixMerger(Enum):
         return merger
 
     @classmethod
-    def merge_prefixes(cls, named_query: NamedQuery, query: Query, endpoint: Endpoint,
-                       merger: "QueryPrefixMerger") -> str:
+    def merge_prefixes(
+        cls, named_query: NamedQuery, query: Query, endpoint: Endpoint, merger: "QueryPrefixMerger"
+    ) -> str:
         """
         Merge prefixes with the given merger
         Args:
@@ -723,17 +731,11 @@ class NamedQueryManager:
         self.debug = debug
         self.sql_db = SQLDB(dbname=db_path, check_same_thread=False, debug=debug)
         # Get the path of the yaml_file relative to the current Python module
-        self.samples_path = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), "samples"
-        )
+        self.samples_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "samples")
         endpoints_path = os.path.join(self.samples_path, "endpoints.yaml")
-        self.endpoints = EndpointManager.getEndpoints(
-            endpointPath=endpoints_path, lang="sparql", with_default=False
-        )
+        self.endpoints = EndpointManager.getEndpoints(endpointPath=endpoints_path, lang="sparql", with_default=False)
         yaml_path = os.path.join(self.samples_path, "meta_query.yaml")
-        self.meta_qm = QueryManager(
-            queriesPath=yaml_path, with_default=False, lang="sql"
-        )
+        self.meta_qm = QueryManager(queriesPath=yaml_path, with_default=False, lang="sql")
         # Graph Manager
         gm_yaml_path = GraphManager.get_yaml_path()
         self.gm = GraphManager.load_from_yaml_file(gm_yaml_path)
@@ -784,9 +786,7 @@ class NamedQueryManager:
         if force_init and path_obj.exists():
             if with_backup:
                 timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")
-                backup_path = path_obj.with_name(
-                    f"{path_obj.stem}-{timestamp}{path_obj.suffix}"
-                )
+                backup_path = path_obj.with_name(f"{path_obj.stem}-{timestamp}{path_obj.suffix}")
                 path_obj.rename(backup_path)  # Move the existing file to backup
 
         nqm = NamedQueryManager(db_path=db_path, debug=debug)
@@ -800,14 +800,10 @@ class NamedQueryManager:
                 sample_records = cls.get_sample_records(source_class=source_class)
 
                 # Define entity information dynamically based on the class and primary key
-                entityInfo = EntityInfo(
-                    sample_records, name=source_class.__name__, primaryKey=pk
-                )
+                entityInfo = EntityInfo(sample_records, name=source_class.__name__, primaryKey=pk)
 
                 # Create and populate the table specific to each class
-                nqm.sql_db.createTable(
-                    sample_records, source_class.__name__, withDrop=True
-                )
+                nqm.sql_db.createTable(sample_records, source_class.__name__, withDrop=True)
                 nqm.sql_db.store(sample_records, entityInfo, fixNone=True, replace=True)
             # store yaml defined entities to SQL database
             nqm.store_endpoints()
@@ -858,9 +854,7 @@ class NamedQueryManager:
         if gm is None:
             gm = self.gm
 
-        lod = [
-            asdict(graph) for graph in gm
-        ]  # Convert each Graph instance to a dictionary using asdict()
+        lod = [asdict(graph) for graph in gm]  # Convert each Graph instance to a dictionary using asdict()
 
         self.store(lod=lod, source_class=Graph, with_create=True)
 
@@ -912,7 +906,7 @@ class NamedQueryManager:
         endpoint_name: str = "wikidata",
         limit: int = None,
         with_stats: bool = True,
-        prefix_merger: QueryPrefixMerger = QueryPrefixMerger.SIMPLE_MERGER
+        prefix_merger: QueryPrefixMerger = QueryPrefixMerger.SIMPLE_MERGER,
     ):
         """
         execute the given named_query
@@ -1017,9 +1011,7 @@ class NamedQueryManager:
             AttributeError: If the source_class does not have a `get_samples` method.
         """
         if not hasattr(source_class, "get_samples"):
-            raise AttributeError(
-                f"The class {source_class.__name__} must have a 'get_samples' method."
-            )
+            raise AttributeError(f"The class {source_class.__name__} must have a 'get_samples' method.")
 
         sample_instances = source_class.get_samples()
         list_of_records = []
@@ -1032,9 +1024,7 @@ class NamedQueryManager:
                     record = asdict(instance)
                     list_of_records.append(record)
                 else:
-                    raise ValueError(
-                        f"The instance of class {source_class.__name__} is not a dataclass instance"
-                    )
+                    raise ValueError(f"The instance of class {source_class.__name__} is not a dataclass instance")
 
         return list_of_records
 
@@ -1079,7 +1069,7 @@ WHERE
         query_name: QueryName,
         endpoint_name: str = "wikidata",
         limit: int = None,
-        prefix_merger: QueryPrefixMerger = QueryPrefixMerger.SIMPLE_MERGER
+        prefix_merger: QueryPrefixMerger = QueryPrefixMerger.SIMPLE_MERGER,
     ) -> QueryBundle:
         """
         Get the query for the given parameters.
@@ -1096,7 +1086,11 @@ WHERE
         return self.as_query_bundle(named_query, endpoint_name, limit, prefix_merger)
 
     def as_query_bundle(
-        self, named_query: NamedQuery, endpoint_name: str, limit: int = None, prefix_merger: QueryPrefixMerger = QueryPrefixMerger.SIMPLE_MERGER
+        self,
+        named_query: NamedQuery,
+        endpoint_name: str,
+        limit: int = None,
+        prefix_merger: QueryPrefixMerger = QueryPrefixMerger.SIMPLE_MERGER,
     ) -> QueryBundle:
         """
         Assembles a QueryBundle from a NamedQuery, endpoint name, and optional limit.
@@ -1224,6 +1218,7 @@ ORDER BY domain,namespace,name"""
         stats = [QueryStats.from_record(record) for record in query_records]
         return stats
 
+
 class QueryNameSet:
     """
     Manages a set of QueryNames filtered by domain and namespaces SQL like patterns
@@ -1282,8 +1277,6 @@ class QueryNameSet:
             self.domains.add(record["domain"])
             self.namespaces.add(record["namespace"])
             self.total += record["query_count"]
-        self.top_queries = self.nqm.get_all_queries(
-            namespace=namespace, domain=domain, limit=limit
-        )
+        self.top_queries = self.nqm.get_all_queries(namespace=namespace, domain=domain, limit=limit)
         for query in self.top_queries:
             self.names.add(query.name)

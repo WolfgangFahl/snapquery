@@ -137,9 +137,7 @@ class SnapQueryWebServer(InputWebserver):
             """
             name, r_format = self.get_r_format(name, "json")
             if name not in self.nqm.meta_qm.queriesByName:
-                raise HTTPException(
-                    status_code=404, detail=f"meta query {name} not known"
-                )
+                raise HTTPException(status_code=404, detail=f"meta query {name} not known")
             query = self.nqm.meta_qm.queriesByName[name]
             qb = QueryBundle(named_query=None, query=query)
             qlod = self.nqm.sql_db.query(query.query)
@@ -175,9 +173,7 @@ class SnapQueryWebServer(InputWebserver):
                 HTTPException: If the query cannot be found or fails to execute.
             """
             query_name = QueryName(domain=domain, namespace=namespace, name=name)
-            qb = self.nqm.get_query(
-                query_name=query_name, endpoint_name=endpoint_name, limit=limit
-            )
+            qb = self.nqm.get_query(query_name=query_name, endpoint_name=endpoint_name, limit=limit)
             sparql_query = qb.query.query
             return PlainTextResponse(sparql_query)
 
@@ -264,9 +260,7 @@ class SnapQueryWebServer(InputWebserver):
             # content negotiation
             name, r_format = self.get_r_format(name)
             query_name = QueryName(domain=domain, namespace=namespace, name=name)
-            qb = self.nqm.get_query(
-                query_name=query_name, endpoint_name=endpoint_name, limit=limit
-            )
+            qb = self.nqm.get_query(query_name=query_name, endpoint_name=endpoint_name, limit=limit)
             (qlod, stats) = qb.get_lod_with_stats()
             self.nqm.store_stats([stats])
             content = qb.format_result(qlod, r_format)
@@ -307,20 +301,17 @@ class SnapQuerySolution(InputWebSolution):
         """
         add additional settings
         """
-        self.add_select(
-            "default Endpoint",
-            list(self.nqm.endpoints.keys()),
-            value=self.endpoint_name,
-        ).bind_value(
+        self.add_select("default Endpoint", list(self.nqm.endpoints.keys()), value=self.endpoint_name,).bind_value(
             app.storage.user,
             "endpoint_name",
         )
         self.add_select(
-                "prefix merger",
-                {merger.name: merger.value for merger in QueryPrefixMerger},
-                value=self.get_user_prefix_merger().name
+            "prefix merger",
+            {merger.name: merger.value for merger in QueryPrefixMerger},
+            value=self.get_user_prefix_merger().name,
         ).bind_value(
-                app.storage.user, "prefix_merger",
+            app.storage.user,
+            "prefix_merger",
         )
 
     def setup_menu(self, detailed: bool = True):
@@ -342,24 +333,18 @@ class SnapQuerySolution(InputWebSolution):
             if self.webserver.authenticated():
                 self.link_button("logout", "/logout", "logout", new_tab=False)
                 if self.webserver.login.authenticated():
-                    self.link_button(
-                        "admin", "/admin", "supervisor_account", new_tab=False
-                    )
-                self.link_button(
-                    "stats", "/stats", icon_name="query_stats", new_tab=False
-                )
+                    self.link_button("admin", "/admin", "supervisor_account", new_tab=False)
+                self.link_button("stats", "/stats", icon_name="query_stats", new_tab=False)
             else:
                 self.link_button("login", "/login", "login", new_tab=False)
                 if self.webserver.orcid_auth.available():
                     redirect_url = self.webserver.orcid_auth.authenticate_url()
-                    self.link_button(
-                        "login with orcid", redirect_url, "login", new_tab=False
-                    )
+                    self.link_button("login with orcid", redirect_url, "login", new_tab=False)
             if self.webserver.orcid_auth.authenticated():
                 orcid_token = self.webserver.orcid_auth.get_cached_user_access_token()
-                ui.markdown(
-                    f"*logged in as* **{orcid_token.name} ({orcid_token.orcid})**"
-                ).props("flat color=white icon=folder").classes("ml-auto")
+                ui.markdown(f"*logged in as* **{orcid_token.name} ({orcid_token.orcid})**").props(
+                    "flat color=white icon=folder"
+                ).classes("ml-auto")
 
     async def nominate_ui(self):
         """
@@ -384,9 +369,7 @@ class SnapQuerySolution(InputWebSolution):
                             )
                         PersonView(person).classes("ml-auto bg-slate-100 rounded-md")
                 with ui.row().classes("w-full"):
-                    self.query_import_view = QueryImportView(
-                        self, allow_importing_from_url=False, person=person
-                    )
+                    self.query_import_view = QueryImportView(self, allow_importing_from_url=False, person=person)
 
             with ui.column():
                 ui.label(text="Nominate your Query").classes("text-xl")
@@ -395,12 +378,8 @@ class SnapQuerySolution(InputWebSolution):
                     new_tab=True,
                     target="https://wiki.bitplan.com/index.php/Snapquery#nominate",
                 )
-                ui.label(
-                    "Please identify yourself by entering or looking up a valid PID(Wikidata ID, ORCID, dblp)."
-                )
-                self.person_selector = PersonSelector(
-                    solution=self, selection_callback=selection_callback
-                )
+                ui.label("Please identify yourself by entering or looking up a valid PID(Wikidata ID, ORCID, dblp).")
+                self.person_selector = PersonSelector(solution=self, selection_callback=selection_callback)
 
         await self.setup_content_div(show)
 
@@ -462,12 +441,12 @@ class SnapQuerySolution(InputWebSolution):
         def show():
             query_name = QueryName(domain=domain, namespace=namespace, name=name)
             qb = self.nqm.get_query(
-                query_name=query_name, endpoint_name=endpoint_name, limit=limit,
-                prefix_merger=self.get_user_prefix_merger()
+                query_name=query_name,
+                endpoint_name=endpoint_name,
+                limit=limit,
+                prefix_merger=self.get_user_prefix_merger(),
             )
-            self.named_query_view = NamedQueryView(
-                self, query_bundle=qb, r_format_str=r_format_str
-            )
+            self.named_query_view = NamedQueryView(self, query_bundle=qb, r_format_str=r_format_str)
 
         await self.setup_content_div(show)
 

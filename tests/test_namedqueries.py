@@ -71,9 +71,7 @@ class TestNamedQueryManager(Basetest):
         limit = 1
         if self.inPublicCI():
             limit = 2
-        query_records = nqm.sql_db.query(
-            f"SELECT * FROM NamedQuery WHERE namespace='snapquery-examples' LIMIT {limit}"
-        )
+        query_records = nqm.sql_db.query(f"SELECT * FROM NamedQuery WHERE namespace='snapquery-examples' LIMIT {limit}")
         query_stats_list = []
         for i, query_record in enumerate(query_records):
             named_query = NamedQuery.from_record(query_record)

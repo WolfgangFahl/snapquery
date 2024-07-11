@@ -112,9 +112,7 @@ WHERE
         orcid = OrcidAuth()
         persons = []
         if orcid.available():
-            persons = orcid.search(
-                OrcidSearchParams(family_name=search_name), limit=limit
-            )
+            persons = orcid.search(OrcidSearchParams(family_name=search_name), limit=limit)
         return persons
 
     def suggest_from_dblp(self, search_name: str, limit: int = 10) -> List[Person]:

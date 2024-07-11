@@ -74,3 +74,7 @@ class TestQueryPrefixMerger(TestCase):
         )
         actual_query = QueryPrefixMerger.analysis_prefix_merger(query)
         self.assertEqual(expected_query, actual_query)
+
+    def test_get_by_name(self):
+        for merger in QueryPrefixMerger:
+            self.assertEqual(merger.get_by_name(merger.name), merger)

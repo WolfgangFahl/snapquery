@@ -100,6 +100,8 @@ class QueryStats:
             endpoint_name=record.get("endpoint_name", None),
             records=record.get("records", None),
             error_msg=record.get("error_msg", None),
+            error_category=record.get("error_category", None),
+            filtered_msg=record.get("filtered_msg", None),
         )
         stat.stats_id = record.get("stats_id", stat.stats_id)
         stat.time_stamp = record.get("time_stamp", stat.time_stamp)
@@ -647,7 +649,6 @@ class QueryPrefixMerger(Enum):
         merger = QueryPrefixMerger(merger_value)
         return merger
 
-
     @classmethod
     def merge_prefixes(cls, named_query: NamedQuery, query: Query, endpoint: Endpoint,
                        merger: "QueryPrefixMerger") -> str:
@@ -662,9 +663,7 @@ class QueryPrefixMerger(Enum):
         Returns:
             merged query
         """
-        if merger == QueryPrefixMerger.RAW:
-            return query.query
-        elif merger == QueryPrefixMerger.SIMPLE_MERGER:
+        if merger == QueryPrefixMerger.SIMPLE_MERGER:
             return cls.simple_prefix_merger(query.query, endpoint)
         elif merger == QueryPrefixMerger.ANALYSIS_MERGER:
             return cls.analysis_prefix_merger(query.query)
@@ -1208,6 +1207,23 @@ ORDER BY domain,namespace,name"""
                 stats.append(query_stat)
         return stats
 
+    def get_query_stats_by_context(self, context: str) -> list[QueryStats]:
+        """
+        Get query stats for the given query name
+        Args:
+            query_id: id of the query
+
+        Returns:
+            list of query stats
+        """
+        sql_query = """
+        SELECT *
+        FROM QueryStats
+        WHERE context = ?
+        """
+        query_records = self.sql_db.query(sql_query, (context,))
+        stats = [QueryStats.from_record(record) for record in query_records]
+        return stats
 
 class QueryNameSet:
     """

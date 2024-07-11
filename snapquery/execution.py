@@ -1,24 +1,24 @@
-'''
+"""
 Created on 2024-07-09
 
 @author: wf
-'''
+"""
+
 import logging
-from snapquery.snapquery_core import NamedQueryManager,NamedQuery, QueryDetails
+from snapquery.snapquery_core import NamedQueryManager, NamedQuery, QueryDetails, QueryPrefixMerger
+
 
 class Execution:
     """
     supports execution of named queries
     """
-    
-    def __init__(self, nqm:NamedQueryManager,debug:bool=False):
-        """
-        """
-        self.nqm=nqm
-        self.debug=debug
+
+    def __init__(self, nqm: NamedQueryManager, debug: bool = False):
+        """ """
+        self.nqm = nqm
+        self.debug = debug
         self.logger = logging.getLogger("snapquery.execution.Execution")
 
-    
     def parameterize(self, nq: NamedQuery):
         qd = QueryDetails.from_sparql(query_id=nq.query_id, sparql=nq.sparql)
         # Execute the query
@@ -30,11 +30,12 @@ class Execution:
         return qd, params_dict
 
     def execute(
-        self, 
-        nq: NamedQuery, 
-        endpoint_name: str, 
-        title: str, 
-        context: str = "test"
+        self,
+        nq: NamedQuery,
+        endpoint_name: str,
+        title: str,
+        context: str = "test",
+        prefix_merger: QueryPrefixMerger = QueryPrefixMerger.SIMPLE_MERGER,
     ):
         """
         execute the given named query
@@ -42,9 +43,7 @@ class Execution:
         qd, params_dict = self.parameterize(nq)
         self.logger.debug(f"{title}: {nq.name} {qd} - via {endpoint_name}")
         _results, stats = self.nqm.execute_query(
-            nq,
-            params_dict=params_dict,
-            endpoint_name=endpoint_name,
+            nq, params_dict=params_dict, endpoint_name=endpoint_name, prefix_merger=prefix_merger
         )
         stats.context = context
         self.nqm.store_stats([stats])

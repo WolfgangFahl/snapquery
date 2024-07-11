@@ -14,10 +14,7 @@ from ngwidgets.cmd import WebserverCmd
 
 from snapquery.qimport import QueryImport
 from snapquery.execution import Execution
-from snapquery.snapquery_core import (
-    NamedQueryManager,
-    QueryName,
-)
+from snapquery.snapquery_core import (NamedQueryManager, QueryName, QueryPrefixMerger, )
 from snapquery.snapquery_webserver import SnapQueryWebServer
 
 logger = logging.getLogger(__name__)
@@ -44,6 +41,7 @@ class SnapQueryCmd(WebserverCmd):
             "-en",
             "--endpointName",
             default="wikidata",
+            choices=list(NamedQueryManager.from_samples().endpoints.keys()),
             help="Name of the endpoint to use for queries - use --listEndpoints to list available endpoints",
         )
         parser.add_argument(
@@ -120,8 +118,14 @@ class SnapQueryCmd(WebserverCmd):
             default="test",
             help="context name to store the execution statistics with",
         )
+        parser.add_argument(
+            "--prefix_merger",
+            type=str,
+            default=QueryPrefixMerger.default_merger().name,
+            choices=[merger.name for merger in QueryPrefixMerger],
+            help="query prefix merger to use",
+        )
         return parser
-
 
     def cmd_parse(self, argv: Optional[list] = None):
         """
@@ -186,6 +190,7 @@ class SnapQueryCmd(WebserverCmd):
                         endpoint_name=endpoint_name,
                         context=self.args.context,
                         title=f"query {i:3}/{len(queries)}::{endpoint_name}",
+                        prefix_merger=QueryPrefixMerger.get_by_name(self.args.prefix_merger),
                     )
         elif self.args.queryName is not None or self.args.query_id is not None:
             if self.args.query_id is not None:

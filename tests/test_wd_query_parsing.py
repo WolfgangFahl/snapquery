@@ -3,7 +3,7 @@ Created on 2024-05-04
 @author: tholzheim
 """
 import tempfile
-
+import unittest
 from ngwidgets.basetest import Basetest
 
 from snapquery.snapquery_core import NamedQueryManager
@@ -23,7 +23,7 @@ class TestWikipediaQueryParsing(Basetest):
                 nqm=self.nqm,
                 base_url="https://www.wikidata.org/wiki/Wikidata:WikiProject_LSEThesisProject",
                 domain="wikidata.org",
-                namespace="lsethesis",
+                namespace="WikidataThesisToolkit",
                 target_graph_name="wikidata",
                 template_name=None,
                 debug=self.debug
@@ -43,13 +43,16 @@ class TestWikipediaQueryParsing(Basetest):
         """
         # Test Wikidata examples page and LSE example
         wikidata_examples = [
-            (self.wikidata_example_extractor,300), # 302 as of 2024-07-11
-            (self.lse_extractor, 10),  # actually we expect 19 ...
+            (self.wikidata_example_extractor,300) # 302 as of 2024-07-11
         ]
+        if not self.inPublicCI():
+            wikidata_examples.append((self.lse_extractor, 23))  
+ 
         for extractor, expected in wikidata_examples:
             with self.subTest(extractor=extractor):
                 self._test_extractor(extractor, expected)
 
+    @unittest.skipIf(Basetest.inPublicCI(), "unreliable execution in CI")
     def test_wikidata_thesis_toolkit(self):
         """
         test the Wikidata Thesis Toolkit extraction

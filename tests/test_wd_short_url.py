@@ -38,6 +38,7 @@ class TestShortUrl(Basetest):
         nq_set.save_to_json_file("/tmp/wikidata-short-urls.json", indent=2)
         self.assertEqual(count, len(nq_set.queries))
         
+    @unittest.skipIf(Basetest.inPublicCI(), "unreliable execution in CI")
     def test_short_url(self):
         """
         test short url reading

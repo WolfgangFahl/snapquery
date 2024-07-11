@@ -6,7 +6,7 @@ Created on 2024-05-12
 import json
 import random
 import urllib.parse
-
+from snapquery.version import Version
 import requests
 from ngwidgets.llm import LLM
 from ratelimit import limits, sleep_and_retry
@@ -72,12 +72,20 @@ class ShortUrl:
             scheme (str): URL scheme to be used (e.g., 'https' or 'http') for validating URL format.
             netloc (str): Network location part of the URL, typically the domain name, to be used for validating URL format.
         """
+        
         self.short_url = short_url
         self.scheme = scheme
         self.netloc = netloc
         self.url = None
         self.sparql = None
         self.error = None
+        self.user_agent = self.get_user_agent()
+
+    @staticmethod
+    def get_user_agent():
+        version = Version()
+        return f"{version.name}/{version.version} ({version.cm_url}; {version.authors}) Python-requests/{requests.__version__}"
+
 
     @property
     def name(self):
@@ -208,7 +216,8 @@ SPARQL: {sparql}
             str: The final URL after redirection.
         """
         try:
-            response = requests.get(self.short_url, allow_redirects=True)
+            headers = {'User-Agent': self.user_agent}
+            response = requests.get(self.short_url, headers=headers, allow_redirects=True)
             response.raise_for_status()
             self.url = response.url
         except Exception as ex:

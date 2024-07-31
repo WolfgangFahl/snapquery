@@ -1,9 +1,9 @@
 # snapQuery
-Just query wikidata by name of query ... 
-<pre>snapquery cats</pre> is all you need 
+Just query wikidata by name of query ...
+<pre>snapquery cats</pre> is all you need
 
-This endpoint and query detail independent style of querying wikidata and ther SPARQL services 
-makes your queries future proof. No worries about blazegraph being replaced, the graph being split or timeouts haunting you. snapquery introduces named queries and named query middleware to wikidata and other SPARQL endpoints 
+This endpoint and query detail independent style of querying wikidata and ther SPARQL services
+makes your queries future proof. No worries about blazegraph being replaced, the graph being split or timeouts haunting you. snapquery introduces named queries and named query middleware to wikidata and other SPARQL endpoints
 
 snapquery is a tool that simplifies the process of previewing, annotating, rating, commenting, running, and exploring Wikidata
 queries across different SPARQL backends. It enhances user experience by storing query results and allowing easy
@@ -17,9 +17,9 @@ over time. Developers and data consumers can access data conveniently through AP
 [![Github Actions Build](https://github.com/WolfgangFahl/snapquery/actions/workflows/build.yml/badge.svg)](https://github.com/WolfgangFahl/snapquery/actions/workflows/build.yml)
 [![PyPI Status](https://img.shields.io/pypi/v/snapquery.svg)](https://pypi.python.org/pypi/snapquery/)
 [![GitHub issues](https://img.shields.io/github/issues/WolfgangFahl/snapquery.svg)](https://github.com/WolfgangFahl/snapquery/issues)
-[![GitHub issues](https://img.shields.io/github/issues-closed/WolfgangFahl/snapquery.svg)](https://github.com/WolfgangFahl/snapquery/issues/?q=is%3Aissue+is%3Aclosed)
-[![GitHub](https://img.shields.io/github/license/WolfgangFahl/snapquery)](https://www.apache.org/licenses/LICENSE-2.0)
-
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/WolfgangFahl/snapquery.svg)](https://github.com/WolfgangFahl/snapquery/issues/?q=is%3Aissue+is%3Aclosed)
+[![API Docs](https://img.shields.io/badge/API-Documentation-blue)](https://WolfgangFahl.github.io/snapquery/)
+[![License](https://img.shields.io/github/license/WolfgangFahl/snapquery.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 ## Demos
 
 * [wikimedia toolhub](https://toolhub.wikimedia.org/tools/snapquery)

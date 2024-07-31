@@ -18375,7 +18375,7 @@ Uses a single change handler to update selections dynamically.</p>
                     <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Horses on Wikidata&quot;</span><span class="p">,</span>
                     <span class="n">description</span><span class="o">=</span><span class="s2">&quot;This query retrieves information about horses, including parents, gender, and approximate birth and death years.&quot;</span><span class="p">,</span>
                     <span class="n">sparql</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;# snapquery example horses</span>
-<span class="s2">SELECT DISTINCT ?horse ?horseLabel ?mother ?motherLabel ?father ?fatherLabel </span>
+<span class="s2">SELECT DISTINCT ?horse ?horseLabel ?mother ?motherLabel ?father ?fatherLabel</span>
 <span class="s2">(year(?birthdate) as ?birthyear) (year(?deathdate) as ?deathyear) ?genderLabel</span>
 <span class="s2">WHERE {</span>
 <span class="s2">  ?horse wdt:P31/wdt:P279* wd:Q726 .     # Instance and subclasses of horse (Q726)</span>
@@ -18733,7 +18733,7 @@ from a dictionary record.</p>
                     <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Horses on Wikidata&quot;</span><span class="p">,</span>
                     <span class="n">description</span><span class="o">=</span><span class="s2">&quot;This query retrieves information about horses, including parents, gender, and approximate birth and death years.&quot;</span><span class="p">,</span>
                     <span class="n">sparql</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;# snapquery example horses</span>
-<span class="s2">SELECT DISTINCT ?horse ?horseLabel ?mother ?motherLabel ?father ?fatherLabel </span>
+<span class="s2">SELECT DISTINCT ?horse ?horseLabel ?mother ?motherLabel ?father ?fatherLabel</span>
 <span class="s2">(year(?birthdate) as ?birthyear) (year(?deathdate) as ?deathyear) ?genderLabel</span>
 <span class="s2">WHERE {</span>
 <span class="s2">  ?horse wdt:P31/wdt:P279* wd:Q726 .     # Instance and subclasses of horse (Q726)</span>
@@ -19626,11 +19626,11 @@ from a dictionary record.</p>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">qn</span> <span class="o">=</span> <span class="n">query_name</span>
         <span class="n">query_id</span> <span class="o">=</span> <span class="n">qn</span><span class="o">.</span><span class="n">query_id</span>
-        <span class="n">sql_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT </span>
+        <span class="n">sql_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT</span>
 <span class="s2">    *</span>
-<span class="s2">FROM </span>
-<span class="s2">    NamedQuery </span>
-<span class="s2">WHERE </span>
+<span class="s2">FROM</span>
+<span class="s2">    NamedQuery</span>
+<span class="s2">WHERE</span>
 <span class="s2">    query_id=?&quot;&quot;&quot;</span>
         <span class="n">query_records</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sql_db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql_query</span><span class="p">,</span> <span class="p">(</span><span class="n">query_id</span><span class="p">,))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">query_records</span><span class="p">:</span>
@@ -19746,7 +19746,7 @@ from a dictionary record.</p>
 <span class="sd">        Returns:</span>
 <span class="sd">            List[NamedQuery]: A list of NamedQuery instances in the database.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">sql_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT * FROM NamedQuery </span>
+        <span class="n">sql_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT * FROM NamedQuery</span>
 <span class="s2">WHERE domain LIKE ? AND namespace LIKE ?</span>
 <span class="s2">ORDER BY domain,namespace,name&quot;&quot;&quot;</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">namespace</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
@@ -20797,7 +20797,7 @@ Optionally limits the number of results.</p>
 <span class="sd">        Returns:</span>
 <span class="sd">            List[NamedQuery]: A list of NamedQuery instances in the database.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">sql_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT * FROM NamedQuery </span>
+        <span class="n">sql_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT * FROM NamedQuery</span>
 <span class="s2">WHERE domain LIKE ? AND namespace LIKE ?</span>
 <span class="s2">ORDER BY domain,namespace,name&quot;&quot;&quot;</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">domain</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">namespace</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
@@ -21537,11 +21537,11 @@ is a record that corresponds to a sample instance from the source class.</p>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">qn</span> <span class="o">=</span> <span class="n">query_name</span>
         <span class="n">query_id</span> <span class="o">=</span> <span class="n">qn</span><span class="o">.</span><span class="n">query_id</span>
-        <span class="n">sql_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT </span>
+        <span class="n">sql_query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;SELECT</span>
 <span class="s2">    *</span>
-<span class="s2">FROM </span>
-<span class="s2">    NamedQuery </span>
-<span class="s2">WHERE </span>
+<span class="s2">FROM</span>
+<span class="s2">    NamedQuery</span>
+<span class="s2">WHERE</span>
 <span class="s2">    query_id=?&quot;&quot;&quot;</span>
         <span class="n">query_records</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sql_db</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">sql_query</span><span class="p">,</span> <span class="p">(</span><span class="n">query_id</span><span class="p">,))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">query_records</span><span class="p">:</span>
@@ -22450,9 +22450,9 @@ derived from the QueryDetails class.</p>
 <span class="sd">        returns raw result of the endpoint</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            resultFormat(str): format of the result</span>
-<span class="sd">            mime_type(str): mime_type to use (if any)</span>
-<span class="sd">            timeout(float): timeout in seconds</span>
+<span class="sd">            resultFormat (str): format of the result</span>
+<span class="sd">            mime_type (str): mime_type to use (if any)</span>
+<span class="sd">            timeout (float): timeout in seconds</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            raw result of the query</span>
@@ -22515,7 +22515,7 @@ derived from the QueryDetails class.</p>
 <span class="sd">        Args:</span>
 <span class="sd">            qlod (List[Dict[str, Any]]): The list of dictionaries that represent the query results.</span>
 <span class="sd">            query (Query): The query object which contains details like the endpoint and the database.</span>
-<span class="sd">            r_format(Format): The format in which to print the results.</span>
+<span class="sd">            r_format (Format): The format in which to print the results.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Optional[str]: The formatted string representation of the query results, or None if printed directly.</span>
@@ -22721,8 +22721,9 @@ derived from the QueryDetails class.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>r_format(Format)</code></td>
+            <td><code>r_format</code></td>
             <td>
+                  <code><span title="lodstorage.query.Format">Format</span></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -22730,7 +22731,7 @@ derived from the QueryDetails class.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                  <code><span title="lodstorage.query.Format.json">json</span></code>
             </td>
           </tr>
       </tbody>
@@ -22800,7 +22801,7 @@ derived from the QueryDetails class.</p>
 <span class="sd">    Args:</span>
 <span class="sd">        qlod (List[Dict[str, Any]]): The list of dictionaries that represent the query results.</span>
 <span class="sd">        query (Query): The query object which contains details like the endpoint and the database.</span>
-<span class="sd">        r_format(Format): The format in which to print the results.</span>
+<span class="sd">        r_format (Format): The format in which to print the results.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Optional[str]: The formatted string representation of the query results, or None if printed directly.</span>
@@ -22990,8 +22991,9 @@ derived from the QueryDetails class.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>resultFormat(str)</code></td>
+            <td><code>resultFormat</code></td>
             <td>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -23003,8 +23005,9 @@ derived from the QueryDetails class.</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>mime_type(str)</code></td>
+            <td><code>mime_type</code></td>
             <td>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -23012,12 +23015,13 @@ derived from the QueryDetails class.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>timeout(float)</code></td>
+            <td><code>timeout</code></td>
             <td>
+                  <code>float</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -23025,7 +23029,7 @@ derived from the QueryDetails class.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                  <code>10.0</code>
             </td>
           </tr>
       </tbody>
@@ -23088,9 +23092,9 @@ derived from the QueryDetails class.</p>
 <span class="sd">    returns raw result of the endpoint</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        resultFormat(str): format of the result</span>
-<span class="sd">        mime_type(str): mime_type to use (if any)</span>
-<span class="sd">        timeout(float): timeout in seconds</span>
+<span class="sd">        resultFormat (str): format of the result</span>
+<span class="sd">        mime_type (str): mime_type to use (if any)</span>
+<span class="sd">        timeout (float): timeout in seconds</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        raw result of the query</span>
@@ -24424,10 +24428,10 @@ top_queries (list): List of top queries based on the specified limit.</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Merge prefixes with the given merger</span>
 <span class="sd">        Args:</span>
-<span class="sd">            named_query:</span>
-<span class="sd">            query:</span>
-<span class="sd">            endpoint:</span>
-<span class="sd">            merger:</span>
+<span class="sd">            named_query (NamedQuery):</span>
+<span class="sd">            query (Query):</span>
+<span class="sd">            endpoint (Endpoint):</span>
+<span class="sd">            merger (QueryPrefixMerger):</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            merged query</span>
@@ -24444,8 +24448,8 @@ top_queries (list): List of top queries based on the specified limit.</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Simple prefix merger</span>
 <span class="sd">        Args:</span>
-<span class="sd">            query_str:</span>
-<span class="sd">            endpoint:</span>
+<span class="sd">            query_str (str): the query string</span>
+<span class="sd">            endpoint (Endpoint): the endpoint</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            merged query</span>
@@ -24573,10 +24577,10 @@ Args:
 
       <p>Merge prefixes with the given merger
 Args:
-    named_query:
-    query:
-    endpoint:
-    merger:</p>
+    named_query (NamedQuery):
+    query (Query):
+    endpoint (Endpoint):
+    merger (QueryPrefixMerger):</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -24630,10 +24634,10 @@ Args:
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Merge prefixes with the given merger</span>
 <span class="sd">    Args:</span>
-<span class="sd">        named_query:</span>
-<span class="sd">        query:</span>
-<span class="sd">        endpoint:</span>
-<span class="sd">        merger:</span>
+<span class="sd">        named_query (NamedQuery):</span>
+<span class="sd">        query (Query):</span>
+<span class="sd">        endpoint (Endpoint):</span>
+<span class="sd">        merger (QueryPrefixMerger):</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        merged query</span>
@@ -24667,8 +24671,8 @@ Args:
 
       <p>Simple prefix merger
 Args:
-    query_str:
-    endpoint:</p>
+    query_str (str): the query string
+    endpoint (Endpoint): the endpoint</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -24715,8 +24719,8 @@ Args:
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simple prefix merger</span>
 <span class="sd">    Args:</span>
-<span class="sd">        query_str:</span>
-<span class="sd">        endpoint:</span>
+<span class="sd">        query_str (str): the query string</span>
+<span class="sd">        endpoint (Endpoint): the endpoint</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        merged query</span>
@@ -27922,8 +27926,8 @@ Args:
 <span class="sd">                domain (str): The domain identifying the domain of the query.</span>
 <span class="sd">                namespace (str): The namespace identifying the group or category of the query.</span>
 <span class="sd">                name (str): The specific name of the query to be executed.</span>
-<span class="sd">                endpoint_name(str): the name of the endpoint to use</span>
-<span class="sd">                limit(int): a limit to set, default=None</span>
+<span class="sd">                endpoint_name (str): the name of the endpoint to use</span>
+<span class="sd">                limit (int): a limit to set, default=None</span>
 <span class="sd">            Returns:</span>
 <span class="sd">                HTMLResponse: The plain text SPARQL code</span>
 
@@ -27950,7 +27954,7 @@ Args:
 <span class="sd">                domain (str): The domain identifying the domain of the query.</span>
 <span class="sd">                namespace (str): The namespace identifying the group or category of the query.</span>
 <span class="sd">                name (str): The specific name of the query to be executed.</span>
-<span class="sd">                endpoint_name(str): the name of the endpoint to use</span>
+<span class="sd">                endpoint_name (str): the name of the endpoint to use</span>
 <span class="sd">                limit(int): a limit to set, default=None</span>
 
 <span class="sd">            Returns:</span>
@@ -27979,8 +27983,8 @@ Args:
 <span class="sd">        e.g. cats.json will ask for the json result format</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            name(str): the name of the query/meta query</span>
-<span class="sd">            default_format_str(str): the name of the default format to use</span>
+<span class="sd">            name (str): the name of the query/meta query</span>
+<span class="sd">            default_format_str (str): the name of the default format to use</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Format: the result format</span>
@@ -28009,7 +28013,7 @@ Args:
 <span class="sd">            namespace (str): The namespace to which the query belongs. It helps in categorizing the data.</span>
 <span class="sd">            domain (str): The domain identifying the domain of the query.</span>
 <span class="sd">            endpoint_name (str): The name of the endpoint to be used for the query. Defaults to &#39;wikidata&#39;.</span>
-<span class="sd">            limit(int): the limit for the query default: None</span>
+<span class="sd">            limit (int): the limit for the query default: None</span>
 
 <span class="sd">            Returns:</span>
 <span class="sd">                str: the content retrieved</span>
@@ -28344,8 +28348,8 @@ Args:
 <span class="sd">            domain (str): The domain identifying the domain of the query.</span>
 <span class="sd">            namespace (str): The namespace identifying the group or category of the query.</span>
 <span class="sd">            name (str): The specific name of the query to be executed.</span>
-<span class="sd">            endpoint_name(str): the name of the endpoint to use</span>
-<span class="sd">            limit(int): a limit to set, default=None</span>
+<span class="sd">            endpoint_name (str): the name of the endpoint to use</span>
+<span class="sd">            limit (int): a limit to set, default=None</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            HTMLResponse: The plain text SPARQL code</span>
 
@@ -28372,7 +28376,7 @@ Args:
 <span class="sd">            domain (str): The domain identifying the domain of the query.</span>
 <span class="sd">            namespace (str): The namespace identifying the group or category of the query.</span>
 <span class="sd">            name (str): The specific name of the query to be executed.</span>
-<span class="sd">            endpoint_name(str): the name of the endpoint to use</span>
+<span class="sd">            endpoint_name (str): the name of the endpoint to use</span>
 <span class="sd">            limit(int): a limit to set, default=None</span>
 
 <span class="sd">        Returns:</span>
@@ -28519,8 +28523,9 @@ e.g. cats.json will ask for the json result format</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-            <td><code>name(str)</code></td>
+            <td><code>name</code></td>
             <td>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -28532,8 +28537,9 @@ e.g. cats.json will ask for the json result format</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>default_format_str(str)</code></td>
+            <td><code>default_format_str</code></td>
             <td>
+                  <code>str</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -28541,7 +28547,7 @@ e.g. cats.json will ask for the json result format</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                  <code>&#39;html&#39;</code>
             </td>
           </tr>
       </tbody>
@@ -28598,8 +28604,8 @@ e.g. cats.json will ask for the json result format</p>
 <span class="sd">    e.g. cats.json will ask for the json result format</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        name(str): the name of the query/meta query</span>
-<span class="sd">        default_format_str(str): the name of the default format to use</span>
+<span class="sd">        name (str): the name of the query/meta query</span>
+<span class="sd">        default_format_str (str): the name of the default format to use</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Format: the result format</span>
@@ -28699,8 +28705,9 @@ e.g. cats.json will ask for the json result format</p>
             </td>
           </tr>
           <tr class="doc-section-item">
-            <td><code>limit(int)</code></td>
+            <td><code>limit</code></td>
             <td>
+                  <code>int</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -28708,7 +28715,7 @@ e.g. cats.json will ask for the json result format</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                  <code>None</code>
             </td>
           </tr>
           <tr class="doc-section-item">
@@ -28777,7 +28784,7 @@ e.g. cats.json will ask for the json result format</p>
 <span class="sd">        namespace (str): The namespace to which the query belongs. It helps in categorizing the data.</span>
 <span class="sd">        domain (str): The domain identifying the domain of the query.</span>
 <span class="sd">        endpoint_name (str): The name of the endpoint to be used for the query. Defaults to &#39;wikidata&#39;.</span>
-<span class="sd">        limit(int): the limit for the query default: None</span>
+<span class="sd">        limit (int): the limit for the query default: None</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            str: the content retrieved</span>

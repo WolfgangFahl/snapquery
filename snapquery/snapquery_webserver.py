@@ -164,8 +164,8 @@ class SnapQueryWebServer(InputWebserver):
                 domain (str): The domain identifying the domain of the query.
                 namespace (str): The namespace identifying the group or category of the query.
                 name (str): The specific name of the query to be executed.
-                endpoint_name(str): the name of the endpoint to use
-                limit(int): a limit to set, default=None
+                endpoint_name (str): the name of the endpoint to use
+                limit (int): a limit to set, default=None
             Returns:
                 HTMLResponse: The plain text SPARQL code
 
@@ -192,7 +192,7 @@ class SnapQueryWebServer(InputWebserver):
                 domain (str): The domain identifying the domain of the query.
                 namespace (str): The namespace identifying the group or category of the query.
                 name (str): The specific name of the query to be executed.
-                endpoint_name(str): the name of the endpoint to use
+                endpoint_name (str): the name of the endpoint to use
                 limit(int): a limit to set, default=None
 
             Returns:
@@ -221,8 +221,8 @@ class SnapQueryWebServer(InputWebserver):
         e.g. cats.json will ask for the json result format
 
         Args:
-            name(str): the name of the query/meta query
-            default_format_str(str): the name of the default format to use
+            name (str): the name of the query/meta query
+            default_format_str (str): the name of the default format to use
 
         Returns:
             Format: the result format
@@ -251,7 +251,7 @@ class SnapQueryWebServer(InputWebserver):
             namespace (str): The namespace to which the query belongs. It helps in categorizing the data.
             domain (str): The domain identifying the domain of the query.
             endpoint_name (str): The name of the endpoint to be used for the query. Defaults to 'wikidata'.
-            limit(int): the limit for the query default: None
+            limit (int): the limit for the query default: None
 
             Returns:
                 str: the content retrieved

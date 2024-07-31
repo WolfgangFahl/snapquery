@@ -307,7 +307,7 @@ WHERE {
                     title="Horses on Wikidata",
                     description="This query retrieves information about horses, including parents, gender, and approximate birth and death years.",
                     sparql="""# snapquery example horses
-SELECT DISTINCT ?horse ?horseLabel ?mother ?motherLabel ?father ?fatherLabel 
+SELECT DISTINCT ?horse ?horseLabel ?mother ?motherLabel ?father ?fatherLabel
 (year(?birthdate) as ?birthyear) (year(?deathdate) as ?deathyear) ?genderLabel
 WHERE {
   ?horse wdt:P31/wdt:P279* wd:Q726 .     # Instance and subclasses of horse (Q726)
@@ -479,13 +479,13 @@ class NamedQuerySet:
 
     def __len__(self):
         return len(self.queries)
-    
+
     def __post_init__(self):
         """
         Initialize the dictionary after the object is created
         """
         self._query_dict = {query.query_id: query for query in self.queries}
-    
+
     def add(self, query: NamedQuery):
         """
         Add a query to both the list and dictionary
@@ -528,9 +528,9 @@ class QueryBundle:
         returns raw result of the endpoint
 
         Args:
-            resultFormat(str): format of the result
-            mime_type(str): mime_type to use (if any)
-            timeout(float): timeout in seconds
+            resultFormat (str): format of the result
+            mime_type (str): mime_type to use (if any)
+            timeout (float): timeout in seconds
 
         Returns:
             raw result of the query
@@ -593,7 +593,7 @@ class QueryBundle:
         Args:
             qlod (List[Dict[str, Any]]): The list of dictionaries that represent the query results.
             query (Query): The query object which contains details like the endpoint and the database.
-            r_format(Format): The format in which to print the results.
+            r_format (Format): The format in which to print the results.
 
         Returns:
             Optional[str]: The formatted string representation of the query results, or None if printed directly.
@@ -662,10 +662,10 @@ class QueryPrefixMerger(Enum):
         """
         Merge prefixes with the given merger
         Args:
-            named_query:
-            query:
-            endpoint:
-            merger:
+            named_query (NamedQuery):
+            query (Query):
+            endpoint (Endpoint):
+            merger (QueryPrefixMerger):
 
         Returns:
             merged query
@@ -682,8 +682,8 @@ class QueryPrefixMerger(Enum):
         """
         Simple prefix merger
         Args:
-            query_str:
-            endpoint:
+            query_str (str): the query string
+            endpoint (Endpoint): the endpoint
 
         Returns:
             merged query
@@ -1041,11 +1041,11 @@ class NamedQueryManager:
         """
         qn = query_name
         query_id = qn.query_id
-        sql_query = """SELECT 
+        sql_query = """SELECT
     *
-FROM 
-    NamedQuery 
-WHERE 
+FROM
+    NamedQuery
+WHERE
     query_id=?"""
         query_records = self.sql_db.query(sql_query, (query_id,))
         if not query_records:
@@ -1161,7 +1161,7 @@ WHERE
         Returns:
             List[NamedQuery]: A list of NamedQuery instances in the database.
         """
-        sql_query = """SELECT * FROM NamedQuery 
+        sql_query = """SELECT * FROM NamedQuery
 WHERE domain LIKE ? AND namespace LIKE ?
 ORDER BY domain,namespace,name"""
         params = (f"{domain}%", f"{namespace}%")

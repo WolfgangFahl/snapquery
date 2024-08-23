@@ -20,11 +20,11 @@ license = {text = "Apache-2.0"}
 
 dependencies = [
 	# https://github.com/WolfgangFahl/nicegui_widgets
-	"ngwidgets>=0.15.10",
+	"ngwidgets>=0.17.2",
     # https://pypi.org/project/pyLodStorage/
-    "pyLodStorage>=0.11.7",
+    "pyLodStorage>=0.12.2",
     # https://pypi.org/project/py-3rdparty-mediawiki/
-	"py-3rdparty-mediawiki>=0.11.3",
+    "py-3rdparty-mediawiki>=0.12.1",
     "wikitextparser",
     "requests",
     # https://pypi.org/project/python-slugify/
@@ -37,7 +37,7 @@ dependencies = [
     #https://pypi.org/project/tqdm/
     "tqdm>=4.66.4",
     "nicegui[plotly]",
-    # py_ez_wikidata 
+    # py_ez_wikidata
     # https://github.com/WolfgangFahl/py_ez_wikidata
     "py_ez_wikidata>=0.2.2",
     # https://pypi.org/project/nameparser/

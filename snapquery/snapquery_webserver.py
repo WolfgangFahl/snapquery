@@ -5,6 +5,7 @@ Created on 2024-05-03
 
 from pathlib import Path
 
+import fastapi
 from fastapi import HTTPException
 from fastapi.responses import HTMLResponse, PlainTextResponse
 from lodstorage.query import Format
@@ -179,6 +180,7 @@ class SnapQueryWebServer(InputWebserver):
 
         @app.get("/api/query/{domain}/{namespace}/{name}")
         def query(
+            request: fastapi.Request,
             domain: str,
             namespace: str,
             name: str,
@@ -207,6 +209,7 @@ class SnapQueryWebServer(InputWebserver):
                 domain=domain,
                 endpoint_name=endpoint_name,
                 limit=limit,
+                param_dict=request.query_params,
             )
             if not content:
                 raise HTTPException(status_code=500, detail="Could not create result")

@@ -208,7 +208,6 @@ class SnapQueryWebServer(InputWebserver):
                 raise HTTPException(status_code=500, detail="Could not create result")
 
             if format == Format.json:
-                print(content)
                 return JSONResponse(json.loads(content))
 
             return content

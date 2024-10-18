@@ -242,6 +242,7 @@ class SnapQueryWebServer(InputWebserver):
         domain: str,
         endpoint_name: str = "wikidata",
         limit: int = None,
+        param_dict=None,
     ) -> str:
         """
         Queries an external API to retrieve data based on a given namespace and name.
@@ -261,7 +262,7 @@ class SnapQueryWebServer(InputWebserver):
             name, r_format = self.get_r_format(name)
             query_name = QueryName(domain=domain, namespace=namespace, name=name)
             qb = self.nqm.get_query(query_name=query_name, endpoint_name=endpoint_name, limit=limit)
-            (qlod, stats) = qb.get_lod_with_stats()
+            (qlod, stats) = qb.get_lod_with_stats(param_dict=param_dict)
             self.nqm.store_stats([stats])
             content = qb.format_result(qlod, r_format)
             return content

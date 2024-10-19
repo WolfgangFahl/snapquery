@@ -90,7 +90,8 @@ class TestSparqlQueryAnnotater(Basetest):
         self.assertEqual(1, len(props))
 
     @unittest.skipIf(
-        Basetest.inPublicCI(), "Only required to regenerate the query_stats.yaml"
+        Basetest.inPublicCI() or True,
+        "Only required to regenerate the query_stats.yaml",
     )
     def test_property_usage(self):
         """

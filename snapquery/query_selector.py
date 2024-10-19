@@ -22,6 +22,7 @@ class QuerySelector:
         self.nqm = self.solution.nqm
         self.qns = QueryNameSet(self.nqm)  # Initialize QueryNameSet
         self.qn = QueryName(domain="", namespace="", name="")  # Current selection state
+        self.like = True
         self.qns.update(domain=self.qn.domain, namespace=self.qn.namespace)
         self.on_change = on_change
         self.setup_ui()
@@ -34,6 +35,7 @@ class QuerySelector:
             self.domain_select = self.create_combobox("Domain", self.qns.domains, 25)
             self.namespace_select = self.create_combobox("Namespace", self.qns.namespaces, 40)
             self.name_select = self.create_combobox("Name", self.qns.names, 80)
+            ui.checkbox("prefix").tooltip("prefix search").bind_value(self, 'like').on('change', self.handle_change)
 
     def create_combobox(self, label: str, options: List[str], width_chars: int) -> ComboBox:
         """Create a ComboBox with the given label, options, and width."""

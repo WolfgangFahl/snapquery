@@ -46,21 +46,34 @@ class BaseQueryView:
 
     async def perform_search(self):
         """
-        Performs the search based on the current QuerySelector values.
+        Performs the search based on the current
+        QuerySelector values qn (query_name) and like (LIKE or =) comparison
+
         """
         try:
             qn = self.query_selector.qn
-            name_like = f"{qn.name}%"
-            namespace_like = f"{qn.namespace}%"
-            domain_like = f"{qn.domain}%"
-            sql_query = """SELECT 
-            * 
-            FROM NamedQuery 
-            WHERE 
-                name LIKE ? 
-                AND namespace LIKE ? 
-                AND domain LIKE ?"""
-            self.q_lod = self.nqm.sql_db.query(sql_query, (name_like, namespace_like, domain_like))
+            like = self.query_selector.like
+
+            if like:
+                name_pattern = f"{qn.name}%"
+                namespace_pattern = f"{qn.namespace}%"
+                domain_pattern = f"{qn.domain}%"
+                comparison_operator = "LIKE"
+            else:
+                name_pattern = qn.name
+                namespace_pattern = qn.namespace
+                domain_pattern = qn.domain
+                comparison_operator = "="
+
+            sql_query = f"""SELECT
+                *
+                FROM NamedQuery
+                WHERE
+                name {comparison_operator} ?
+                AND namespace {comparison_operator} ?
+                AND domain {comparison_operator} ?"""
+
+            self.q_lod = self.nqm.sql_db.query(sql_query, (name_pattern, namespace_pattern, domain_pattern))
             self.show_lod(self.q_lod)
         except Exception as ex:
             self.solution.handle_exception(ex)

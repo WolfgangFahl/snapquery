@@ -574,14 +574,14 @@ class QueryBundle:
         Returns:
             List[dict]: A list where each dictionary represents a row of results from the SPARQL query.
         """
-        logger.info(
-            f"Querying {self.endpoint.prefix} with query {self.named_query.name}"
-        )
+        logger.info(f"Querying {self.endpoint.name} with query {self.named_query.name}")
         query_stat = QueryStats(
             query_id=self.named_query.query_id, endpoint_name=self.endpoint.prefix
         )
         try:
-            lod = self.sparql.queryAsListOfDicts(self.query.query, param_dict=param_dict)
+            lod = self.sparql.queryAsListOfDicts(
+                self.query.query, param_dict=param_dict
+            )
             query_stat.records = len(lod) if lod else -1
             query_stat.done()
         except Exception as ex:

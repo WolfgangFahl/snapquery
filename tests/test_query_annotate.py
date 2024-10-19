@@ -16,7 +16,7 @@ from snapquery.query_annotate import (
     Stats,
 )
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager
-from sparql_analyzer import SparqlAnalyzer
+from snapquery.sparql_analyzer import SparqlAnalyzer
 
 
 class TestSparqlQueryAnnotater(Basetest):

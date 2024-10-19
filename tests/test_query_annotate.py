@@ -1,12 +1,22 @@
 import unittest
+from collections import Counter
 from pathlib import Path
 
 from lodstorage.query import Query
 from lodstorage.sparql import SPARQL
 from ngwidgets.basetest import Basetest
 
-from snapquery.query_annotate import QUERY_ITEM_STATS, ItemStat, SparqlQueryAnnotater, Stats
+from snapquery.query_annotate import (
+    FunctionStat,
+    KeywordStat,
+    NamespaceStat,
+    QUERY_ITEM_STATS,
+    ItemStat,
+    SparqlQueryAnnotater,
+    Stats,
+)
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager
+from sparql_analyzer import SparqlAnalyzer
 
 
 class TestSparqlQueryAnnotater(Basetest):
@@ -14,11 +24,12 @@ class TestSparqlQueryAnnotater(Basetest):
     Tests SparqlQueryAnnotater
     """
 
-    def test_get_used_properties(self):
-        """
-        Tests get_used_properties
-        """
-        query_str = """
+    def setUp(self, debug=False, profile=True):
+        super().setUp(debug=debug, profile=profile)
+        self.example_query_raw = """
+        PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX wd:  <http://www.wikidata.org/entity/>
+        PREFIX wdt: <http://www.wikidata.org/prop/direct/>
         SELECT DISTINCT ?horse ?horseLabel ?mother ?motherLabel ?father ?fatherLabel 
         (year(?birthdate) as ?birthyear) (year(?deathdate) as ?deathyear) ?genderLabel
         WHERE {
@@ -35,7 +46,13 @@ class TestSparqlQueryAnnotater(Basetest):
         }
         ORDER BY ?horse
         """
-        query = Query("horse", query_str)
+        self.query = Query("horse", self.example_query_raw)
+
+    def test_get_used_properties(self):
+        """
+        Tests get_used_properties
+        """
+        query = self.query
         annotated_query = SparqlQueryAnnotater(query)
         props = annotated_query.get_used_properties()
         self.assertEqual(len(props), 12)
@@ -72,19 +89,35 @@ class TestSparqlQueryAnnotater(Basetest):
         props = annotated_query.get_used_properties()
         self.assertEqual(1, len(props))
 
-    @unittest.skipIf(Basetest.inPublicCI(), "Only required to regenerate the query_stats.yaml")
+    @unittest.skipIf(
+        Basetest.inPublicCI(), "Only required to regenerate the query_stats.yaml"
+    )
     def test_property_usage(self):
         """
         Tests property_usage over all queries
         """
         nqm = NamedQueryManager.from_samples()
+        sparql_analyzer = SparqlAnalyzer()
         query = "SELECT * FROM NamedQuery"
         properties = []
+        namespace_iris = []
+        keywords = []
+        functions = []
+        prefixes = []
         for query_record in nqm.sql_db.queryGen(query):
             named_query = NamedQuery.from_record(record=query_record)
-            annotated_query = SparqlQueryAnnotater(Query(named_query.query_id, named_query.sparql))
+            sparql_prefix_fixed = sparql_analyzer.add_missing_prefixes(
+                named_query.sparql
+            )
+            annotated_query = SparqlQueryAnnotater(
+                Query(named_query.query_id, sparql_prefix_fixed)
+            )
             props = annotated_query.get_used_properties()
             properties.extend(props)
+            namespace_iris.extend(annotated_query.get_namespace_iris())
+            keywords.extend(annotated_query.get_normalized_keywords())
+            functions.extend(annotated_query.get_normalized_functions())
+            prefixes.extend(annotated_query.get_used_prefixes())
             print(f"{named_query.query_id}: {len(props)}")
         print(len(properties))
         label_lut = self.get_label_lut(properties)
@@ -104,6 +137,18 @@ class TestSparqlQueryAnnotater(Basetest):
                 stats.item_stats.append(item_stat)
             item_stat.count += 1
             item_stat.increment_namespace_count(namespace)
+        # add keyword stats
+        for keyword, count in Counter(keywords).items():
+            stats.keyword_stats.append(KeywordStat(keyword, count))
+        # add function stats
+        for name, count in Counter(functions).items():
+            stats.function_stats.append(FunctionStat(name, count))
+        # add namespace stats
+        for prefix, count in Counter(prefixes).items():
+            iri = sparql_analyzer.get_prefix_iri(prefix)
+            if isinstance(count, int):
+                count -= 1
+            stats.namespace_stats.append(NamespaceStat(prefix, iri, count))
         target_path = Path("/tmp/query_stats.yaml")
         stats.save_to_yaml_file(target_path)
 
@@ -132,3 +177,60 @@ class TestSparqlQueryAnnotater(Basetest):
         Tests plot_property_usage over all queries
         """
         stats = QUERY_ITEM_STATS
+
+    def test_keyword_extraction(self):
+        """
+        test extracting keywords from a sparql query
+        """
+        query = self.query
+        annotated_query = SparqlQueryAnnotater(query)
+        used_keywords = annotated_query.get_used_keywords()
+        expected_keywords = [
+            "PREFIX",
+            "PREFIX",
+            "PREFIX",
+            "SELECT",
+            "DISTINCT",
+            "as",
+            "as",
+            "WHERE",
+            "OPTIONAL",
+            "OPTIONAL",
+            "OPTIONAL",
+            "OPTIONAL",
+            "OPTIONAL",
+            "OPTIONAL",
+            "FILTER",
+            "OPTIONAL",
+            "FILTER",
+            "OPTIONAL",
+            "FILTER",
+            "OPTIONAL",
+            "FILTER",
+            "ORDER BY",
+        ]
+        self.assertEqual(used_keywords, expected_keywords)
+
+    def test_namespace_iri_extraction(self):
+        """
+        test extracting keywords from a sparql query
+        """
+        query = self.query
+        annotated_query = SparqlQueryAnnotater(query)
+        used_namespace_iris = annotated_query.get_namespace_iris()
+        expected_namespace_iris = [
+            "http://www.w3.org/2000/01/rdf-schema#",
+            "http://www.wikidata.org/entity/",
+            "http://www.wikidata.org/prop/direct/",
+        ]
+        self.assertEqual(used_namespace_iris, expected_namespace_iris)
+
+    def test_function_extraction(self):
+        """
+        test extraction of SPARQL functions
+        """
+        query = self.query
+        annotated_query = SparqlQueryAnnotater(query)
+        used_namespace_iris = annotated_query.get_used_functions()
+        expected_namespace_iris = ["year", "year", "lang", "lang", "lang", "lang"]
+        self.assertEqual(used_namespace_iris, expected_namespace_iris)

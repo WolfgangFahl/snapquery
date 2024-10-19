@@ -576,7 +576,7 @@ class QueryBundle:
         """
         logger.info(f"Querying {self.endpoint.name} with query {self.named_query.name}")
         query_stat = QueryStats(
-            query_id=self.named_query.query_id, endpoint_name=self.endpoint.prefix
+            query_id=self.named_query.query_id, endpoint_name=self.endpoint.name
         )
         try:
             lod = self.sparql.queryAsListOfDicts(

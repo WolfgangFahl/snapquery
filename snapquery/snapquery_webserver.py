@@ -3,8 +3,10 @@ Created on 2024-05-03
 @author: wf
 """
 
+import json
 from pathlib import Path
 
+import fastapi
 from fastapi import HTTPException
 from fastapi.responses import HTMLResponse, PlainTextResponse
 from lodstorage.query import Format
@@ -13,7 +15,7 @@ from ngwidgets.login import Login
 from ngwidgets.users import Users
 from nicegui import app, ui
 from nicegui.client import Client
-from starlette.responses import RedirectResponse
+from starlette.responses import RedirectResponse, JSONResponse
 
 from snapquery.models.person import Person
 from snapquery.namespace_stats_view import NamespaceStatsView
@@ -179,24 +181,16 @@ class SnapQueryWebServer(InputWebserver):
 
         @app.get("/api/query/{domain}/{namespace}/{name}")
         def query(
-            domain: str,
-            namespace: str,
-            name: str,
-            endpoint_name: str = "wikidata",
-            limit: int = None,
-        ) -> HTMLResponse:
+            request: fastapi.Request,
+            domain: str = fastapi.Path(description="The domain identifying the domain of the query", examples=["wikidata.org"]),
+            namespace: str = fastapi.Path(description="The namespace identifying the group or category of the query.", examples=['snapquery-examples']),
+            name: str = fastapi.Path(description="The specific name of the query to be executed.", examples=['cats']),
+            endpoint_name: str = fastapi.Query(default="wikidata", examples=sorted(self.nqm.endpoints)),
+            limit: int | None = fastapi.Query(default=None),
+            format: Format | None = fastapi.Query(default=Format.html, exampes=[f.name for f in Format])
+        ):
             """
             Executes a SPARQL query by name within a specified namespace, formats the results, and returns them as an HTML response.
-
-            Args:
-                domain (str): The domain identifying the domain of the query.
-                namespace (str): The namespace identifying the group or category of the query.
-                name (str): The specific name of the query to be executed.
-                endpoint_name (str): the name of the endpoint to use
-                limit(int): a limit to set, default=None
-
-            Returns:
-                HTMLResponse: The HTML formatted response containing the results of the query execution.
 
             Raises:
                 HTTPException: If the query cannot be found or fails to execute.
@@ -207,12 +201,16 @@ class SnapQueryWebServer(InputWebserver):
                 domain=domain,
                 endpoint_name=endpoint_name,
                 limit=limit,
+                param_dict=request.query_params,
+                format=format,
             )
             if not content:
                 raise HTTPException(status_code=500, detail="Could not create result")
 
-            # Return the content as an HTML response
-            return HTMLResponse(content)
+            if format == Format.json:
+                return JSONResponse(json.loads(content))
+
+            return content
 
     def get_r_format(self, name: str, default_format_str: str = "html") -> Format:
         """
@@ -242,6 +240,8 @@ class SnapQueryWebServer(InputWebserver):
         domain: str,
         endpoint_name: str = "wikidata",
         limit: int = None,
+        param_dict=None,
+        format=None,
     ) -> str:
         """
         Queries an external API to retrieve data based on a given namespace and name.
@@ -259,9 +259,11 @@ class SnapQueryWebServer(InputWebserver):
         try:
             # content negotiation
             name, r_format = self.get_r_format(name)
+            if format:
+                r_format = format
             query_name = QueryName(domain=domain, namespace=namespace, name=name)
             qb = self.nqm.get_query(query_name=query_name, endpoint_name=endpoint_name, limit=limit)
-            (qlod, stats) = qb.get_lod_with_stats()
+            (qlod, stats) = qb.get_lod_with_stats(param_dict=param_dict)
             self.nqm.store_stats([stats])
             content = qb.format_result(qlod, r_format)
             return content

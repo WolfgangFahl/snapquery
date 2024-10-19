@@ -43,10 +43,14 @@ class NamespaceStatsView:
     def setup_ui(self):
         """Sets up the user interface for displaying SPARQL query statistics."""
         with ui.row() as self.progress_row:
-            self.progress_bar = NiceguiProgressbar(desc="Query Progress", total=100, unit="queries")
+            self.progress_bar = NiceguiProgressbar(
+                desc="Query Progress", total=100, unit="queries"
+            )
             self.progress_bar.progress.classes("rounded")
         with ui.row() as self.results_row:
-            ui.label("Legend: ✅ Distinct Successful Queries  ❌ Distinct Failed Queries  🔄 Total Successful Runs")
+            ui.label(
+                "Legend: ✅ Distinct Successful Queries  ❌ Distinct Failed Queries  🔄 Total Successful Runs"
+            )
             self.lod_grid = ListOfDictsGrid()
             # Set up a click event handler for the grid
             self.lod_grid.ag_grid.on("cellClicked", self.on_cell_clicked)
@@ -106,7 +110,9 @@ class NamespaceStatsView:
         Returns:
             List[Dict[str, any]]: The processed list of dictionaries formatted for grid display.
         """
-        domain_namespace_stats = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: [0, 0, 0])))
+        domain_namespace_stats = defaultdict(
+            lambda: defaultdict(lambda: defaultdict(lambda: [0, 0, 0]))
+        )
         endpoints = list(self.nqm.endpoints.keys())
         total_queries = {}
 
@@ -158,9 +164,16 @@ class NamespaceStatsView:
         for i, nq in enumerate(queries, start=1):
             with self.progress_row:
                 self.progress_bar.update_value(i)
-                self.progress_bar.set_description(f"Executing {nq.name} on {endpoint_name}")
-                logger.debug(f"Executing {nq.name} on {endpoint_name}")
-            execution.execute(nq, endpoint_name, title=f"query {i}/{len(queries)}::{endpoint_name}", context="web-test")
+                self.progress_bar.set_description(
+                    f"Executing {nq.prefix} on {endpoint_name}"
+                )
+                logger.debug(f"Executing {nq.prefix} on {endpoint_name}")
+            execution.execute(
+                nq,
+                endpoint_name,
+                title=f"query {i}/{len(queries)}::{endpoint_name}",
+                context="web-test",
+            )
         with self.progress_row:
             ui.timer(0.1, self.on_fetch_lod, once=True)
             ui.notify(

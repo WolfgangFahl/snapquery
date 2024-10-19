@@ -3,6 +3,7 @@ Created on 2024-05-03
 
 @author: wf
 """
+
 import datetime
 import json
 import logging
@@ -13,7 +14,7 @@ import uuid
 from dataclasses import asdict, dataclass, field, fields, is_dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Type, Union
+from typing import Any, Dict, List, Optional, Type
 
 import requests
 from lodstorage.lod_csv import CSV
@@ -494,6 +495,7 @@ class NamedQuerySet:
             self.queries.append(query)
             self._query_dict[query.query_id] = query
 
+
 class QueryBundle:
     """
     Bundles a named query, a query, and an endpoint into a single manageable object, facilitating the execution of SPARQL queries.
@@ -505,7 +507,9 @@ class QueryBundle:
         sparql (SPARQL): A SPARQL service object initialized with the endpoint URL.
     """
 
-    def __init__(self, named_query: NamedQuery, query: Query, endpoint: Endpoint = None):
+    def __init__(
+        self, named_query: NamedQuery, query: Query, endpoint: Endpoint = None
+    ):
         """
         Initializes a new instance of the QueryBundle class.
 
@@ -553,17 +557,17 @@ class QueryBundle:
         )
         return response.text
 
-    def get_lod(self) -> List[dict]:
+    def get_lod(self, *, param_dict=None) -> List[dict]:
         """
         Executes the stored query using the SPARQL service and returns the results as a list of dictionaries.
 
         Returns:
             List[dict]: A list where each dictionary represents a row of results from the SPARQL query.
         """
-        lod = self.sparql.queryAsListOfDicts(self.query.query)
+        lod = self.sparql.queryAsListOfDicts(self.query.query, param_dict=param_dict)
         return lod
 
-    def get_lod_with_stats(self) -> tuple[list[dict], QueryStats]:
+    def get_lod_with_stats(self, *, param_dict=None) -> tuple[list[dict], QueryStats]:
         """
         Executes the stored query using the SPARQL service and returns the results as a list of dictionaries.
 
@@ -571,9 +575,13 @@ class QueryBundle:
             List[dict]: A list where each dictionary represents a row of results from the SPARQL query.
         """
         logger.info(f"Querying {self.endpoint.name} with query {self.named_query.name}")
-        query_stat = QueryStats(query_id=self.named_query.query_id, endpoint_name=self.endpoint.name)
+        query_stat = QueryStats(
+            query_id=self.named_query.query_id, endpoint_name=self.endpoint.name
+        )
         try:
-            lod = self.sparql.queryAsListOfDicts(self.query.query)
+            lod = self.sparql.queryAsListOfDicts(
+                self.query.query, param_dict=param_dict
+            )
             query_stat.records = len(lod) if lod else -1
             query_stat.done()
         except Exception as ex:
@@ -606,7 +614,9 @@ class QueryBundle:
             csv_output = CSV.toCSV(qlod)
             return csv_output
         elif r_format in [Format.latex, Format.github, Format.mediawiki, Format.html]:
-            doc = self.query.documentQueryResult(qlod, tablefmt=str(r_format), floatfmt=".1f")
+            doc = self.query.documentQueryResult(
+                qlod, tablefmt=str(r_format), floatfmt=".1f"
+            )
             return doc.asText()
         elif r_format == Format.json:
             return json.dumps(qlod, indent=2, sort_keys=True, default=str)
@@ -625,7 +635,9 @@ class QueryBundle:
             # there are SPARQL elements hat have a "limit" in the name e.g. "height_limit"
             # or if there is a LIMIT in a subquery
             if "limit" in sparql_query or "LIMIT" in sparql_query:
-                sparql_query = re.sub(r"(limit|LIMIT)\s+(\d+)", f"LIMIT {limit}", sparql_query)
+                sparql_query = re.sub(
+                    r"(limit|LIMIT)\s+(\d+)", f"LIMIT {limit}", sparql_query
+                )
             else:
                 sparql_query += f"\nLIMIT {limit}"
             self.query.query = sparql_query
@@ -657,7 +669,11 @@ class QueryPrefixMerger(Enum):
 
     @classmethod
     def merge_prefixes(
-        cls, named_query: NamedQuery, query: Query, endpoint: Endpoint, merger: "QueryPrefixMerger"
+        cls,
+        named_query: NamedQuery,
+        query: Query,
+        endpoint: Endpoint,
+        merger: "QueryPrefixMerger",
     ) -> str:
         """
         Merge prefixes with the given merger
@@ -731,11 +747,17 @@ class NamedQueryManager:
         self.debug = debug
         self.sql_db = SQLDB(dbname=db_path, check_same_thread=False, debug=debug)
         # Get the path of the yaml_file relative to the current Python module
-        self.samples_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "samples")
+        self.samples_path = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "samples"
+        )
         endpoints_path = os.path.join(self.samples_path, "endpoints.yaml")
-        self.endpoints = EndpointManager.getEndpoints(endpointPath=endpoints_path, lang="sparql", with_default=False)
+        self.endpoints = EndpointManager.getEndpoints(
+            endpointPath=endpoints_path, lang="sparql", with_default=False
+        )
         yaml_path = os.path.join(self.samples_path, "meta_query.yaml")
-        self.meta_qm = QueryManager(queriesPath=yaml_path, with_default=False, lang="sql")
+        self.meta_qm = QueryManager(
+            queriesPath=yaml_path, with_default=False, lang="sql"
+        )
         # Graph Manager
         gm_yaml_path = GraphManager.get_yaml_path()
         self.gm = GraphManager.load_from_yaml_file(gm_yaml_path)
@@ -786,7 +808,9 @@ class NamedQueryManager:
         if force_init and path_obj.exists():
             if with_backup:
                 timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")
-                backup_path = path_obj.with_name(f"{path_obj.stem}-{timestamp}{path_obj.suffix}")
+                backup_path = path_obj.with_name(
+                    f"{path_obj.stem}-{timestamp}{path_obj.suffix}"
+                )
                 path_obj.rename(backup_path)  # Move the existing file to backup
 
         nqm = NamedQueryManager(db_path=db_path, debug=debug)
@@ -800,10 +824,14 @@ class NamedQueryManager:
                 sample_records = cls.get_sample_records(source_class=source_class)
 
                 # Define entity information dynamically based on the class and primary key
-                entityInfo = EntityInfo(sample_records, name=source_class.__name__, primaryKey=pk)
+                entityInfo = EntityInfo(
+                    sample_records, name=source_class.__name__, primaryKey=pk
+                )
 
                 # Create and populate the table specific to each class
-                nqm.sql_db.createTable(sample_records, source_class.__name__, withDrop=True)
+                nqm.sql_db.createTable(
+                    sample_records, source_class.__name__, withDrop=True
+                )
                 nqm.sql_db.store(sample_records, entityInfo, fixNone=True, replace=True)
             # store yaml defined entities to SQL database
             nqm.store_endpoints()
@@ -854,7 +882,9 @@ class NamedQueryManager:
         if gm is None:
             gm = self.gm
 
-        lod = [asdict(graph) for graph in gm]  # Convert each Graph instance to a dictionary using asdict()
+        lod = [
+            asdict(graph) for graph in gm
+        ]  # Convert each Graph instance to a dictionary using asdict()
 
         self.store(lod=lod, source_class=Graph, with_create=True)
 
@@ -920,7 +950,9 @@ class NamedQueryManager:
             prefix_merger: prefix merger to use
         """
         # Assemble the query bundle using the named query, endpoint, and limit
-        query_bundle = self.as_query_bundle(named_query, endpoint_name, limit, prefix_merger)
+        query_bundle = self.as_query_bundle(
+            named_query, endpoint_name, limit, prefix_merger
+        )
         params = Params(query_bundle.query.query)
         if params.has_params:
             params.set(params_dict)
@@ -1011,7 +1043,9 @@ class NamedQueryManager:
             AttributeError: If the source_class does not have a `get_samples` method.
         """
         if not hasattr(source_class, "get_samples"):
-            raise AttributeError(f"The class {source_class.__name__} must have a 'get_samples' method.")
+            raise AttributeError(
+                f"The class {source_class.__name__} must have a 'get_samples' method."
+            )
 
         sample_instances = source_class.get_samples()
         list_of_records = []
@@ -1024,7 +1058,9 @@ class NamedQueryManager:
                     record = asdict(instance)
                     list_of_records.append(record)
                 else:
-                    raise ValueError(f"The instance of class {source_class.__name__} is not a dataclass instance")
+                    raise ValueError(
+                        f"The instance of class {source_class.__name__} is not a dataclass instance"
+                    )
 
         return list_of_records
 
@@ -1114,7 +1150,9 @@ WHERE
             endpoint=endpoint.endpoint,
             limit=limit,
         )
-        query.query = QueryPrefixMerger.merge_prefixes(named_query, query, endpoint, prefix_merger)
+        query.query = QueryPrefixMerger.merge_prefixes(
+            named_query, query, endpoint, prefix_merger
+        )
         if limit:
             query.query += f"\nLIMIT {limit}"
         return QueryBundle(named_query=named_query, query=query, endpoint=endpoint)
@@ -1277,6 +1315,8 @@ class QueryNameSet:
             self.domains.add(record["domain"])
             self.namespaces.add(record["namespace"])
             self.total += record["query_count"]
-        self.top_queries = self.nqm.get_all_queries(namespace=namespace, domain=domain, limit=limit)
+        self.top_queries = self.nqm.get_all_queries(
+            namespace=namespace, domain=domain, limit=limit
+        )
         for query in self.top_queries:
             self.names.add(query.name)

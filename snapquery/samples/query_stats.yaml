@@ -2,4813 +2,7330 @@ name: items_used_in_queries
 item_stats:
 - identifier: P31
   label: instance of
-  count: 445
+  count: 737
   namespace_stats:
-  - name: wdt
-    count: 424
-  - name: p
-    count: 10
-  - name: ps
-    count: 11
+  - prefix: wdt
+    count: 709
+  - prefix: orkgp
+    count: 1
+  - prefix: p
+    count: 13
+  - prefix: ps
+    count: 14
 - identifier: Q146
   label: house cat
-  count: 4
+  count: 6
   namespace_stats:
-  - name: wd
-    count: 4
+  - prefix: wd
+    count: 6
 - identifier: rdfs:label
   label: rdfs:label
-  count: 287
+  count: 454
   namespace_stats:
-  - name: rdfs
-    count: 287
+  - prefix: rdfs
+    count: 454
+- identifier: Q5741069
+  label: rock band
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
 - identifier: P279
   label: subclass of
-  count: 191
+  count: 306
   namespace_stats:
-  - name: wdt
-    count: 189
-  - name: p
+  - prefix: wdt
+    count: 304
+  - prefix: p
     count: 1
-  - name: ps
+  - prefix: ps
     count: 1
 - identifier: Q726
   label: horse
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P25
   label: mother
-  count: 2
+  count: 3
   namespace_stats:
-  - name: wdt
-    count: 2
+  - prefix: wdt
+    count: 3
 - identifier: P22
   label: father
   count: 4
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 4
 - identifier: P569
   label: date of birth
-  count: 12
+  count: 27
   namespace_stats:
-  - name: wdt
-    count: 10
-  - name: p
+  - prefix: wdt
+    count: 25
+  - prefix: p
     count: 1
-  - name: psv
+  - prefix: psv
     count: 1
 - identifier: P570
   label: date of death
-  count: 16
+  count: 23
   namespace_stats:
-  - name: wdt
-    count: 14
-  - name: p
+  - prefix: wdt
+    count: 21
+  - prefix: p
     count: 1
-  - name: psv
+  - prefix: psv
     count: 1
 - identifier: P21
   label: sex or gender
-  count: 24
+  count: 34
   namespace_stats:
-  - name: wdt
-    count: 24
-- identifier: wikibase:mwapi
-  label: wikibase:mwapi
-  count: 12
+  - prefix: wdt
+    count: 34
+- identifier: rdf:type
+  label: rdf:type
+  count: 39
   namespace_stats:
-  - name: wikibase
-    count: 12
-- identifier: bd:serviceParam
-  label: bd:serviceParam
-  count: 560
+  - prefix: rdf
+    count: 39
+- identifier: Paper
+  label: orkgc:Paper
+  count: 2
   namespace_stats:
-  - name: bd
-    count: 560
-- identifier: wikibase:endpoint
-  label: wikibase:endpoint
-  count: 12
+  - prefix: orkgc
+    count: 2
+- identifier: P30
+  label: continent
+  count: 8
   namespace_stats:
-  - name: wikibase
-    count: 12
-- identifier: wikibase:api
-  label: wikibase:api
-  count: 12
+  - prefix: orkgp
+    count: 2
+  - prefix: wdt
+    count: 6
+- identifier: orkgr:R132
+  label: orkgr:R132
+  count: 1
   namespace_stats:
-  - name: wikibase
-    count: 12
-- identifier: mwapi:srsearch
-  label: mwapi:srsearch
+  - prefix: orkgr
+    count: 1
+- identifier: P26
+  label: spouse
+  count: 5
+  namespace_stats:
+  - prefix: orkgp
+    count: 2
+  - prefix: p
+    count: 1
+  - prefix: ps
+    count: 1
+  - prefix: wdt
+    count: 1
+- identifier: orkgr:R141003
+  label: orkgr:R141003
+  count: 1
+  namespace_stats:
+  - prefix: orkgr
+    count: 1
+- identifier: orkgp:hasAuthors
+  label: orkgp:hasAuthors
+  count: 1
+  namespace_stats:
+  - prefix: orkgp
+    count: 1
+- identifier: orkgp:url
+  label: orkgp:url
+  count: 1
+  namespace_stats:
+  - prefix: orkgp
+    count: 1
+- identifier: P28
+  label: orkgp:P28
+  count: 1
+  namespace_stats:
+  - prefix: orkgp
+    count: 1
+- identifier: P29
+  label: orkgp:P29
+  count: 1
+  namespace_stats:
+  - prefix: orkgp
+    count: 1
+- identifier: orkgp:HAS_VENUE
+  label: orkgp:HAS_VENUE
+  count: 1
+  namespace_stats:
+  - prefix: orkgp
+    count: 1
+- identifier: Publication
+  label: dblp:Publication
   count: 3
   namespace_stats:
-  - name: mwapi
+  - prefix: dblp
     count: 3
+- identifier: dblp:title
+  label: dblp:title
+  count: 5
+  namespace_stats:
+  - prefix: dblp
+    count: 5
+- identifier: dblp:omid
+  label: dblp:omid
+  count: 1
+  namespace_stats:
+  - prefix: dblp
+    count: 1
+- identifier: cito:Citation
+  label: cito:Citation
+  count: 2
+  namespace_stats:
+  - prefix: cito
+    count: 2
+- identifier: cito:hasCitedEntity
+  label: cito:hasCitedEntity
+  count: 1
+  namespace_stats:
+  - prefix: cito
+    count: 1
+- identifier: schema:url
+  label: schema:url
+  count: 1
+  namespace_stats:
+  - prefix: schema
+    count: 1
+- identifier: dblp:Creator
+  label: dblp:Creator
+  count: 2
+  namespace_stats:
+  - prefix: dblp
+    count: 2
+- identifier: datacite:hasIdentifier
+  label: datacite:hasIdentifier
+  count: 2
+  namespace_stats:
+  - prefix: datacite
+    count: 2
+- identifier: datacite:usesIdentifierScheme
+  label: datacite:usesIdentifierScheme
+  count: 2
+  namespace_stats:
+  - prefix: datacite
+    count: 2
+- identifier: datacite:dblp-record
+  label: datacite:dblp-record
+  count: 1
+  namespace_stats:
+  - prefix: datacite
+    count: 1
+- identifier: datacite:dblp
+  label: datacite:dblp
+  count: 1
+  namespace_stats:
+  - prefix: datacite
+    count: 1
+- identifier: Query
+  label: hint:Query
+  count: 17
+  namespace_stats:
+  - prefix: hint
+    count: 17
+- identifier: hint:optimizer
+  label: hint:optimizer
+  count: 17
+  namespace_stats:
+  - prefix: hint
+    count: 17
+- identifier: lgdo:Bank
+  label: lgdo:Bank
+  count: 2
+  namespace_stats:
+  - prefix: lgdo
+    count: 2
+- identifier: lgdo:atm
+  label: lgdo:atm
+  count: 2
+  namespace_stats:
+  - prefix: lgdo
+    count: 2
+- identifier: lgdo:Atm
+  label: lgdo:Atm
+  count: 2
+  namespace_stats:
+  - prefix: lgdo
+    count: 2
+- identifier: geom:geometry
+  label: geom:geometry
+  count: 2
+  namespace_stats:
+  - prefix: geom
+    count: 2
+- identifier: geo:asWKT
+  label: geo:asWKT
+  count: 2
+  namespace_stats:
+  - prefix: geo
+    count: 2
+- identifier: lgdo:operator
+  label: lgdo:operator
+  count: 2
+  namespace_stats:
+  - prefix: lgdo
+    count: 2
+- identifier: bif:st_intersects
+  label: bif:st_intersects
+  count: 2
+  namespace_stats:
+  - prefix: bif
+    count: 2
+- identifier: bif:st_point
+  label: bif:st_point
+  count: 2
+  namespace_stats:
+  - prefix: bif
+    count: 2
+- identifier: P527
+  label: has part(s)
+  count: 30
+  namespace_stats:
+  - prefix: wdt
+    count: 28
+  - prefix: p
+    count: 1
+  - prefix: ps
+    count: 1
+- identifier: Q806724
+  label: Bankcard-Servicenetz
+  count: 4
+  namespace_stats:
+  - prefix: wd
+    count: 4
+- identifier: P1454
+  label: legal form
+  count: 2
+  namespace_stats:
+  - prefix: wdt
+    count: 2
+- identifier: Q5349747
+  label: Eingetragene Genossenschaft
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: P3113
+  label: does not have part
+  count: 2
+  namespace_stats:
+  - prefix: wdt
+    count: 2
+- identifier: P2410
+  label: WikiPathways ID
+  count: 20
+  namespace_stats:
+  - prefix: wdt
+    count: 20
+- identifier: P2888
+  label: exact match
+  count: 13
+  namespace_stats:
+  - prefix: wdt
+    count: 13
+- identifier: P1117
+  label: pKa
+  count: 8
+  namespace_stats:
+  - prefix: wdt
+    count: 6
+  - prefix: p
+    count: 1
+  - prefix: ps
+    count: 1
+- identifier: wp:bdbWikidata
+  label: wp:bdbWikidata
+  count: 4
+  namespace_stats:
+  - prefix: wp
+    count: 4
+- identifier: dcterms:isPartOf
+  label: dcterms:isPartOf
+  count: 5
+  namespace_stats:
+  - prefix: dcterms
+    count: 5
+- identifier: wp:Interaction
+  label: wp:Interaction
+  count: 4
+  namespace_stats:
+  - prefix: wp
+    count: 4
+- identifier: dct:isPartOf
+  label: dct:isPartOf
+  count: 3
+  namespace_stats:
+  - prefix: dct
+    count: 3
+- identifier: wikibase:label
+  label: wikibase:label
+  count: 669
+  namespace_stats:
+  - prefix: wikibase
+    count: 669
+- identifier: bd:serviceParam
+  label: bd:serviceParam
+  count: 707
+  namespace_stats:
+  - prefix: bd
+    count: 707
+- identifier: wikibase:language
+  label: wikibase:language
+  count: 669
+  namespace_stats:
+  - prefix: wikibase
+    count: 669
+- identifier: Q420633
+  label: phosphoribosyl pyrophosphate
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q27125809
+  label: 5-formamido-1-(5-phospho-D-ribosyl)imidazole-4-carboxamide(2-)
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q422462
+  label: guanosine
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q11173
+  label: chemical compound
+  count: 6
+  namespace_stats:
+  - prefix: wd
+    count: 6
+- identifier: P638
+  label: PDB structure ID
+  count: 6
+  namespace_stats:
+  - prefix: wdt
+    count: 6
+- identifier: Q8054
+  label: protein
+  count: 4
+  namespace_stats:
+  - prefix: wd
+    count: 4
+- identifier: P702
+  label: encoded by
+  count: 3
+  namespace_stats:
+  - prefix: wdt
+    count: 3
+- identifier: P703
+  label: found in taxon
+  count: 22
+  namespace_stats:
+  - prefix: wdt
+    count: 16
+  - prefix: p
+    count: 3
+  - prefix: ps
+    count: 3
+- identifier: Q15978631
+  label: Homo sapiens
+  count: 7
+  namespace_stats:
+  - prefix: wd
+    count: 7
+- identifier: Pathway
+  label: wp:Pathway
+  count: 2
+  namespace_stats:
+  - prefix: wp
+    count: 2
+- identifier: wp:organismName
+  label: wp:organismName
+  count: 2
+  namespace_stats:
+  - prefix: wp
+    count: 2
+- identifier: dc:identifier
+  label: dc:identifier
+  count: 6
+  namespace_stats:
+  - prefix: dc
+    count: 6
+- identifier: dc:title
+  label: dc:title
+  count: 2
+  namespace_stats:
+  - prefix: dc
+    count: 2
+- identifier: Protein
+  label: wp:Protein
+  count: 2
+  namespace_stats:
+  - prefix: wp
+    count: 2
+- identifier: wp:bdbEntrezGene
+  label: wp:bdbEntrezGene
+  count: 2
+  namespace_stats:
+  - prefix: wp
+    count: 2
+- identifier: wp:participants
+  label: wp:participants
+  count: 2
+  namespace_stats:
+  - prefix: wp
+    count: 2
+- identifier: wp:ontologyTag
+  label: wp:ontologyTag
+  count: 2
+  namespace_stats:
+  - prefix: wp
+    count: 2
+- identifier: Q3918
+  label: university
+  count: 5
+  namespace_stats:
+  - prefix: wd
+    count: 5
+- identifier: vrank:hasRank
+  label: vrank:hasRank
+  count: 2
+  namespace_stats:
+  - prefix: vrank
+    count: 2
+- identifier: vrank:rankValue
+  label: vrank:rankValue
+  count: 2
+  namespace_stats:
+  - prefix: vrank
+    count: 2
+- identifier: Q113544723
+  label: Proceedings of the 5th Workshop on Ontology and Semantic Web Patterns
+  count: 3
+  namespace_stats:
+  - prefix: wd
+    count: 2
+  - prefix: dbr
+    count: 1
+- identifier: P179
+  label: part of the series
+  count: 139
+  namespace_stats:
+  - prefix: wdt
+    count: 85
+  - prefix: p
+    count: 41
+  - prefix: ps
+    count: 13
+- identifier: schema:name
+  label: schema:name
+  count: 14
+  namespace_stats:
+  - prefix: schema
+    count: 14
+- identifier: Person
+  label: dblp:Person
+  count: 3
+  namespace_stats:
+  - prefix: dblp
+    count: 3
+- identifier: dblp:wikidata
+  label: dblp:wikidata
+  count: 4
+  namespace_stats:
+  - prefix: dblp
+    count: 4
+- identifier: dblp:authoredBy
+  label: dblp:authoredBy
+  count: 5
+  namespace_stats:
+  - prefix: dblp
+    count: 5
+- identifier: ql:contains-entity
+  label: ql:contains-entity
+  count: 4
+  namespace_stats:
+  - prefix: ql
+    count: 4
+- identifier: ql:contains-word
+  label: ql:contains-word
+  count: 4
+  namespace_stats:
+  - prefix: ql
+    count: 4
+- identifier: P2456
+  label: DBLP author ID
+  count: 3
+  namespace_stats:
+  - prefix: wdt
+    count: 3
+- identifier: P19
+  label: place of birth
+  count: 16
+  namespace_stats:
+  - prefix: wdt
+    count: 16
+- identifier: P625
+  label: coordinate location
+  count: 159
+  namespace_stats:
+  - prefix: wdt
+    count: 123
+  - prefix: pq
+    count: 3
+  - prefix: p
+    count: 14
+  - prefix: ps
+    count: 5
+  - prefix: psv
+    count: 12
+  - prefix: pqv
+    count: 2
+- identifier: dblp:publishedIn
+  label: dblp:publishedIn
+  count: 5
+  namespace_stats:
+  - prefix: dblp
+    count: 5
+- identifier: P108
+  label: employer
+  count: 60
+  namespace_stats:
+  - prefix: wdt
+    count: 58
+  - prefix: p
+    count: 1
+  - prefix: ps
+    count: 1
+- identifier: orkgr:R599385
+  label: orkgr:R599385
+  count: 2
+  namespace_stats:
+  - prefix: orkgr
+    count: 2
+- identifier: orkgp:HAS_ORCID
+  label: orkgp:HAS_ORCID
+  count: 1
+  namespace_stats:
+  - prefix: orkgp
+    count: 1
+- identifier: datacite:orcid
+  label: datacite:orcid
+  count: 1
+  namespace_stats:
+  - prefix: datacite
+    count: 1
+- identifier: litre:hasLiteralValue
+  label: litre:hasLiteralValue
+  count: 1
+  namespace_stats:
+  - prefix: litre
+    count: 1
+- identifier: PersonalIdentifier
+  label: datacite:PersonalIdentifier
+  count: 1
+  namespace_stats:
+  - prefix: datacite
+    count: 1
+- identifier: Q1266946
+  label: thesis
+  count: 12
+  namespace_stats:
+  - prefix: wd
+    count: 12
+- identifier: P953
+  label: full work available at URL
+  count: 15
+  namespace_stats:
+  - prefix: wdt
+    count: 15
+- identifier: P50
+  label: author
+  count: 189
+  namespace_stats:
+  - prefix: wdt
+    count: 174
+  - prefix: ps
+    count: 8
+  - prefix: p
+    count: 7
+- identifier: schema:about
+  label: schema:about
+  count: 81
+  namespace_stats:
+  - prefix: schema
+    count: 81
+- identifier: schema:isPartOf
+  label: schema:isPartOf
+  count: 59
+  namespace_stats:
+  - prefix: schema
+    count: 59
+- identifier: P5008
+  label: on focus list of Wikimedia project
+  count: 72
+  namespace_stats:
+  - prefix: wdt
+    count: 72
+- identifier: Q112895606
+  label: LSEThesisProject
+  count: 58
+  namespace_stats:
+  - prefix: wd
+    count: 58
+- identifier: Q5
+  label: human
+  count: 96
+  namespace_stats:
+  - prefix: wd
+    count: 96
+- identifier: P184
+  label: doctoral advisor
+  count: 25
+  namespace_stats:
+  - prefix: wdt
+    count: 25
+- identifier: Q174570
+  label: London School of Economics and Political Science
+  count: 19
+  namespace_stats:
+  - prefix: wd
+    count: 19
+- identifier: P1416
+  label: affiliation
+  count: 54
+  namespace_stats:
+  - prefix: wdt
+    count: 47
+  - prefix: p
+    count: 2
+  - prefix: ps
+    count: 2
+  - prefix: pq
+    count: 3
+- identifier: P361
+  label: part of
+  count: 88
+  namespace_stats:
+  - prefix: wdt
+    count: 86
+  - prefix: p
+    count: 1
+  - prefix: ps
+    count: 1
+- identifier: P69
+  label: educated at
+  count: 15
+  namespace_stats:
+  - prefix: wdt
+    count: 11
+  - prefix: p
+    count: 2
+  - prefix: ps
+    count: 2
+- identifier: P185
+  label: doctoral student
+  count: 9
+  namespace_stats:
+  - prefix: wdt
+    count: 9
+- identifier: Q6581097
+  label: male
+  count: 8
+  namespace_stats:
+  - prefix: wd
+    count: 8
+- identifier: P18
+  label: image
+  count: 117
+  namespace_stats:
+  - prefix: wdt
+    count: 117
+- identifier: P166
+  label: award received
+  count: 43
+  namespace_stats:
+  - prefix: wdt
+    count: 23
+  - prefix: p
+    count: 10
+  - prefix: ps
+    count: 10
+- identifier: P485
+  label: archives at
+  count: 4
+  namespace_stats:
+  - prefix: wdt
+    count: 4
+- identifier: P921
+  label: main subject
+  count: 199
+  namespace_stats:
+  - prefix: p
+    count: 14
+  - prefix: ps
+    count: 5
+  - prefix: wdt
+    count: 180
+- identifier: P1026
+  label: academic thesis
+  count: 4
+  namespace_stats:
+  - prefix: p
+    count: 4
+- identifier: P4101
+  label: thesis submitted to
+  count: 7
+  namespace_stats:
+  - prefix: pq
+    count: 4
+  - prefix: wdt
+    count: 3
+- identifier: P106
+  label: occupation
+  count: 57
+  namespace_stats:
+  - prefix: p
+    count: 3
+  - prefix: ps
+    count: 3
+  - prefix: wdt
+    count: 51
+- identifier: P101
+  label: field of work
+  count: 11
+  namespace_stats:
+  - prefix: p
+    count: 2
+  - prefix: ps
+    count: 2
+  - prefix: wdt
+    count: 7
+- identifier: P496
+  label: ORCID iD
+  count: 12
+  namespace_stats:
+  - prefix: wdt
+    count: 12
+- identifier: P2860
+  label: cites work
+  count: 148
+  namespace_stats:
+  - prefix: wdt
+    count: 104
+  - prefix: ps
+    count: 18
+  - prefix: p
+    count: 26
+- identifier: Q111645234
+  label: NZThesisProject
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q187685
+  label: doctoral thesis
+  count: 3
+  namespace_stats:
+  - prefix: wd
+    count: 3
+- identifier: wikibase:mwapi
+  label: wikibase:mwapi
+  count: 18
+  namespace_stats:
+  - prefix: wikibase
+    count: 18
+- identifier: wikibase:endpoint
+  label: wikibase:endpoint
+  count: 18
+  namespace_stats:
+  - prefix: wikibase
+    count: 18
+- identifier: wikibase:api
+  label: wikibase:api
+  count: 18
+  namespace_stats:
+  - prefix: wikibase
+    count: 18
+- identifier: mwapi:srsearch
+  label: mwapi:srsearch
+  count: 8
+  namespace_stats:
+  - prefix: mwapi
+    count: 8
 - identifier: mwapi:srlimit
   label: mwapi:srlimit
   count: 3
   namespace_stats:
-  - name: mwapi
+  - prefix: mwapi
     count: 3
 - identifier: wikibase:apiOutputItem
   label: wikibase:apiOutputItem
-  count: 11
+  count: 12
   namespace_stats:
-  - name: wikibase
-    count: 11
+  - prefix: wikibase
+    count: 12
 - identifier: mwapi:title
   label: mwapi:title
-  count: 11
+  count: 17
   namespace_stats:
-  - name: mwapi
-    count: 11
+  - prefix: mwapi
+    count: 17
 - identifier: P235
   label: InChIKey
   count: 6
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 6
 - identifier: P231
   label: CAS Registry Number
   count: 8
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 8
 - identifier: P661
   label: ChemSpider ID
   count: 4
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 4
 - identifier: P662
   label: PubChem CID
   count: 5
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 5
-- identifier: wikibase:label
-  label: wikibase:label
-  count: 530
-  namespace_stats:
-  - name: wikibase
-    count: 530
-- identifier: wikibase:language
-  label: wikibase:language
-  count: 530
-  namespace_stats:
-  - name: wikibase
-    count: 530
 - identifier: P3712
   label: has goal
   count: 30
   namespace_stats:
-  - name: pq
+  - prefix: pq
     count: 30
 - identifier: Q96471816
   label: citation intent
   count: 22
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 22
-- identifier: P2860
-  label: cites work
-  count: 142
-  namespace_stats:
-  - name: ps
-    count: 18
-  - name: wdt
-    count: 98
-  - name: p
-    count: 26
 - identifier: P1433
   label: published in
-  count: 86
+  count: 94
   namespace_stats:
-  - name: wdt
-    count: 86
+  - prefix: wdt
+    count: 94
 - identifier: P373
   label: Commons category
-  count: 3
+  count: 5
   namespace_stats:
-  - name: wdt
-    count: 3
+  - prefix: wdt
+    count: 5
 - identifier: skos:altLabel
   label: skos:altLabel
-  count: 4
+  count: 5
   namespace_stats:
-  - name: skos
-    count: 4
-- identifier: P50
-  label: author
-  count: 182
-  namespace_stats:
-  - name: ps
-    count: 8
-  - name: wdt
-    count: 167
-  - name: p
-    count: 7
+  - prefix: skos
+    count: 5
 - identifier: P1932
   label: object named as
   count: 2
   namespace_stats:
-  - name: pq
+  - prefix: pq
     count: 2
 - identifier: P2093
   label: author name string
-  count: 32
+  count: 33
   namespace_stats:
-  - name: wdt
-    count: 23
-  - name: p
+  - prefix: wdt
+    count: 24
+  - prefix: p
     count: 5
-  - name: ps
+  - prefix: ps
     count: 4
-- identifier: P921
-  label: main subject
-  count: 170
-  namespace_stats:
-  - name: wdt
-    count: 170
 - identifier: prov:wasDerivedFrom
   label: prov:wasDerivedFrom
-  count: 35
+  count: 43
   namespace_stats:
-  - name: prov
-    count: 35
+  - prefix: prov
+    count: 43
 - identifier: P248
   label: stated in
   count: 23
   namespace_stats:
-  - name: pr
+  - prefix: pr
     count: 23
 - identifier: P4510
   label: describes a project that uses
   count: 37
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 37
 - identifier: P577
   label: publication date
-  count: 129
+  count: 139
   namespace_stats:
-  - name: wdt
-    count: 124
-  - name: p
+  - prefix: wdt
+    count: 134
+  - prefix: p
     count: 2
-  - name: psv
+  - prefix: psv
     count: 2
-  - name: pq
+  - prefix: pq
     count: 1
 - identifier: xsd:date
   label: xsd:date
-  count: 50
+  count: 52
   namespace_stats:
-  - name: xsd
-    count: 50
+  - prefix: xsd
+    count: 52
 - identifier: gas:service
   label: gas:service
-  count: 9
+  count: 10
   namespace_stats:
-  - name: gas
-    count: 9
+  - prefix: gas
+    count: 10
 - identifier: gas:program
   label: gas:program
-  count: 9
+  count: 10
   namespace_stats:
-  - name: gas
-    count: 9
+  - prefix: gas
+    count: 10
 - identifier: gas:gasClass
   label: gas:gasClass
-  count: 9
+  count: 10
   namespace_stats:
-  - name: gas
-    count: 9
+  - prefix: gas
+    count: 10
 - identifier: gas:in
   label: gas:in
-  count: 9
+  count: 10
   namespace_stats:
-  - name: gas
-    count: 9
+  - prefix: gas
+    count: 10
 - identifier: gas:traversalDirection
   label: gas:traversalDirection
-  count: 9
+  count: 10
   namespace_stats:
-  - name: gas
-    count: 9
+  - prefix: gas
+    count: 10
 - identifier: gas:out
   label: gas:out
-  count: 9
+  count: 10
   namespace_stats:
-  - name: gas
-    count: 9
+  - prefix: gas
+    count: 10
 - identifier: gas:out1
   label: gas:out1
-  count: 8
+  count: 9
   namespace_stats:
-  - name: gas
-    count: 8
+  - prefix: gas
+    count: 9
 - identifier: gas:out2
   label: gas:out2
   count: 6
   namespace_stats:
-  - name: gas
+  - prefix: gas
     count: 6
 - identifier: gas:linkType
   label: gas:linkType
-  count: 9
+  count: 10
   namespace_stats:
-  - name: gas
-    count: 9
-- identifier: P185
-  label: doctoral student
-  count: 3
-  namespace_stats:
-  - name: wdt
-    count: 3
-- identifier: P184
-  label: doctoral advisor
-  count: 3
-  namespace_stats:
-  - name: wdt
-    count: 3
-- identifier: P18
-  label: image
-  count: 60
-  namespace_stats:
-  - name: wdt
-    count: 60
+  - prefix: gas
+    count: 10
 - identifier: P1889
   label: different from
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
-- identifier: Q5
-  label: human
-  count: 30
-  namespace_stats:
-  - name: wd
-    count: 30
-- identifier: P108
-  label: employer
-  count: 45
-  namespace_stats:
-  - name: wdt
-    count: 43
-  - name: p
-    count: 1
-  - name: ps
-    count: 1
 - identifier: P463
   label: member of
-  count: 30
+  count: 32
   namespace_stats:
-  - name: wdt
-    count: 28
-  - name: p
+  - prefix: wdt
+    count: 30
+  - prefix: p
     count: 1
-  - name: ps
+  - prefix: ps
     count: 1
-- identifier: P1416
-  label: affiliation
-  count: 48
-  namespace_stats:
-  - name: wdt
-    count: 43
-  - name: p
-    count: 1
-  - name: ps
-    count: 1
-  - name: pq
-    count: 3
-- identifier: P361
-  label: part of
-  count: 74
-  namespace_stats:
-  - name: wdt
-    count: 74
-- identifier: P625
-  label: coordinate location
-  count: 101
-  namespace_stats:
-  - name: wdt
-    count: 84
-  - name: pq
-    count: 3
-  - name: p
-    count: 6
-  - name: ps
-    count: 2
-  - name: psv
-    count: 6
 - identifier: P276
   label: location
-  count: 17
+  count: 21
   namespace_stats:
-  - name: wdt
-    count: 16
-  - name: wd
+  - prefix: wdt
+    count: 20
+  - prefix: wd
     count: 1
 - identifier: P159
   label: headquarters location
-  count: 12
+  count: 13
   namespace_stats:
-  - name: wdt
-    count: 9
-  - name: p
+  - prefix: wdt
+    count: 10
+  - prefix: p
     count: 3
-- identifier: Q6581097
-  label: male
-  count: 5
-  namespace_stats:
-  - name: wd
-    count: 5
 - identifier: P823
   label: speaker
   count: 14
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 14
 - identifier: P664
   label: organizer
   count: 12
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 12
 - identifier: P1344
   label: participant in
-  count: 20
+  count: 24
   namespace_stats:
-  - name: wdt
-    count: 20
+  - prefix: wdt
+    count: 24
 - identifier: P710
   label: participant
   count: 17
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 17
 - identifier: P98
   label: editor
   count: 14
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 10
-  - name: p
+  - prefix: p
     count: 2
-  - name: ps
+  - prefix: ps
     count: 1
-  - name: pq
+  - prefix: pq
     count: 1
 - identifier: P4745
   label: is proceedings from
-  count: 39
+  count: 55
   namespace_stats:
-  - name: wdt
-    count: 37
-  - name: p
+  - prefix: wdt
+    count: 53
+  - prefix: p
     count: 1
-  - name: ps
+  - prefix: ps
     count: 1
 - identifier: P5804
   label: has program committee member
   count: 13
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 13
 - identifier: P580
   label: start time
-  count: 32
+  count: 42
   namespace_stats:
-  - name: wdt
-    count: 24
-  - name: pq
-    count: 8
+  - prefix: wdt
+    count: 32
+  - prefix: pq
+    count: 10
 - identifier: P585
   label: point in time
-  count: 40
+  count: 57
   namespace_stats:
-  - name: wdt
-    count: 25
-  - name: pq
-    count: 13
-  - name: p
+  - prefix: wdt
+    count: 31
+  - prefix: pq
+    count: 24
+  - prefix: p
     count: 1
-  - name: ps
+  - prefix: ps
     count: 1
 - identifier: P1104
   label: number of pages
   count: 5
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 5
-- identifier: P496
-  label: ORCID iD
-  count: 10
-  namespace_stats:
-  - name: wdt
-    count: 10
 - identifier: wikibase:directClaim
   label: wikibase:directClaim
-  count: 24
+  count: 35
   namespace_stats:
-  - name: wikibase
-    count: 24
+  - prefix: wikibase
+    count: 35
 - identifier: Q577
   label: year
   count: 12
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 12
 - identifier: P1545
   label: series ordinal
-  count: 28
+  count: 33
   namespace_stats:
-  - name: pq
-    count: 27
-  - name: wdt
-    count: 1
+  - prefix: pq
+    count: 31
+  - prefix: wdt
+    count: 2
 - identifier: xsd:integer
   label: xsd:integer
-  count: 21
+  count: 28
   namespace_stats:
-  - name: xsd
-    count: 21
+  - prefix: xsd
+    count: 28
 - identifier: P4032
   label: reviewed by
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
-- identifier: P179
-  label: part of the series
-  count: 116
-  namespace_stats:
-  - name: wdt
-    count: 71
-  - name: p
-    count: 35
-  - name: ps
-    count: 10
 - identifier: P1813
   label: short name
-  count: 22
+  count: 34
   namespace_stats:
-  - name: wdt
-    count: 22
-- identifier: P69
-  label: educated at
-  count: 5
-  namespace_stats:
-  - name: p
-    count: 2
-  - name: ps
-    count: 2
-  - name: wdt
-    count: 1
+  - prefix: wdt
+    count: 34
 - identifier: P582
   label: end time
-  count: 20
+  count: 33
   namespace_stats:
-  - name: pq
-    count: 9
-  - name: wdt
-    count: 11
+  - prefix: pq
+    count: 14
+  - prefix: wdt
+    count: 19
 - identifier: P512
   label: academic degree
   count: 3
   namespace_stats:
-  - name: pq
+  - prefix: pq
     count: 3
-- identifier: P166
-  label: award received
-  count: 36
-  namespace_stats:
-  - name: p
-    count: 9
-  - name: ps
-    count: 9
-  - name: wdt
-    count: 18
-- identifier: P101
-  label: field of work
-  count: 5
-  namespace_stats:
-  - name: wdt
-    count: 5
-- identifier: Query
-  label: hint:Query
-  count: 11
-  namespace_stats:
-  - name: hint
-    count: 11
-- identifier: hint:optimizer
-  label: hint:optimizer
-  count: 11
-  namespace_stats:
-  - name: hint
-    count: 11
 - identifier: gas:target
   label: gas:target
   count: 1
   namespace_stats:
-  - name: gas
+  - prefix: gas
     count: 1
 - identifier: gas:maxVisited
   label: gas:maxVisited
   count: 1
   namespace_stats:
-  - name: gas
+  - prefix: gas
     count: 1
 - identifier: Q11448906
   label: science award
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q6581072
   label: female
-  count: 7
+  count: 11
   namespace_stats:
-  - name: wd
-    count: 7
+  - prefix: wd
+    count: 11
 - identifier: Q10578722
   label: maximum
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P972
   label: catalog
-  count: 4
+  count: 5
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
+    count: 2
+  - prefix: p
     count: 1
-  - name: p
+  - prefix: ps
     count: 1
-  - name: ps
-    count: 1
-  - name: pq
+  - prefix: pq
     count: 1
 - identifier: P528
   label: catalog code
   count: 3
   namespace_stats:
-  - name: pq
+  - prefix: pq
     count: 1
-  - name: p
+  - prefix: p
     count: 1
-  - name: ps
+  - prefix: ps
     count: 1
 - identifier: Q15711994
   label: group of isomeric entities
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q17339814
   label: group or class of chemical substances
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q47154513
   label: structural class of chemical entities
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q55640599
   label: group of chemical entities
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q56256173
   label: class of chemical entities with similar applications or functions
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q56256178
   label: class of chemical entities with similar source or occurrence
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q55662456
   label: group of ortho, meta, para isomers
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q59199015
   label: group of stereoisomers
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: Q72070508
   label: group or class of chemical entities
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q74892521
   label: imprecise class of chemical entities
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Prior
   label: hint:Prior
   count: 20
   namespace_stats:
-  - name: hint
+  - prefix: hint
     count: 20
 - identifier: hint:runFirst
   label: hint:runFirst
   count: 3
   namespace_stats:
-  - name: hint
+  - prefix: hint
     count: 3
-- identifier: P703
-  label: found in taxon
-  count: 21
-  namespace_stats:
-  - name: p
-    count: 3
-  - name: ps
-    count: 3
-  - name: wdt
-    count: 15
 - identifier: Q19833835
   label: Wikidata property to identify substances
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: P1630
   label: formatter URL
   count: 13
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 13
 - identifier: P1269
   label: facet of
   count: 39
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 39
 - identifier: wikibase:BestRank
   label: wikibase:BestRank
-  count: 24
+  count: 26
   namespace_stats:
-  - name: wikibase
-    count: 24
+  - prefix: wikibase
+    count: 26
 - identifier: Q113145171
   label: type of chemical entity
   count: 15
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 15
 - identifier: mwapi:generator
   label: mwapi:generator
-  count: 9
+  count: 10
   namespace_stats:
-  - name: mwapi
-    count: 9
+  - prefix: mwapi
+    count: 10
 - identifier: mwapi:gsrsearch
   label: mwapi:gsrsearch
-  count: 9
+  count: 10
   namespace_stats:
-  - name: mwapi
-    count: 9
+  - prefix: mwapi
+    count: 10
 - identifier: mwapi:gsrlimit
   label: mwapi:gsrlimit
-  count: 9
+  count: 10
   namespace_stats:
-  - name: mwapi
-    count: 9
+  - prefix: mwapi
+    count: 10
 - identifier: P1476
   label: title
-  count: 27
+  count: 39
   namespace_stats:
-  - name: wdt
-    count: 27
+  - prefix: wdt
+    count: 39
 - identifier: P2177
   label: solubility
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: P2102
   label: boiling point
   count: 5
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
-  - name: p
+  - prefix: p
     count: 1
-  - name: ps
+  - prefix: ps
     count: 1
-  - name: psv
+  - prefix: psv
     count: 1
 - identifier: P2101
   label: melting point
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: wdt:p3078
   label: wdt:p3078
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P2119
   label: vapor pressure
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: P3071
   label: standard molar entropy
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: P2054
   label: density
   count: 5
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
-  - name: p
+  - prefix: p
     count: 2
-  - name: psv
+  - prefix: psv
     count: 1
 - identifier: P2128
   label: flash point
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
-- identifier: P1117
-  label: pKa
-  count: 6
-  namespace_stats:
-  - name: wdt
-    count: 4
-  - name: p
-    count: 1
-  - name: ps
-    count: 1
 - identifier: P1629
   label: Wikidata item of this property
   count: 3
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
 - identifier: Q21198401
   label: allotrope
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P642
   label: of
   count: 10
   namespace_stats:
-  - name: pq
+  - prefix: pq
     count: 10
 - identifier: wikibase:quantityAmount
   label: wikibase:quantityAmount
-  count: 17
+  count: 27
   namespace_stats:
-  - name: wikibase
-    count: 17
+  - prefix: wikibase
+    count: 27
 - identifier: wikibase:quantityUnit
   label: wikibase:quantityUnit
   count: 13
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 13
 - identifier: P138
   label: named after
   count: 5
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 5
 - identifier: P61
   label: discoverer or inventor
   count: 4
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 4
 - identifier: P1121
   label: oxidation state
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P8000
   label: electron configuration
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P1086
   label: atomic number
-  count: 1
+  count: 2
   namespace_stats:
-  - name: wdt
-    count: 1
+  - prefix: wdt
+    count: 2
 - identifier: P1148
   label: neutron number
-  count: 1
+  count: 2
   namespace_stats:
-  - name: wdt
-    count: 1
+  - prefix: wdt
+    count: 2
 - identifier: P2067
   label: mass
   count: 7
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 3
-  - name: psv
+  - prefix: psv
     count: 1
-  - name: wdt
+  - prefix: wdt
     count: 1
-  - name: psn
+  - prefix: psn
     count: 1
-  - name: ps
+  - prefix: ps
     count: 1
 - identifier: P2114
   label: half-life
   count: 2
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 1
-  - name: psv
-    count: 1
-- identifier: P527
-  label: has part(s)
-  count: 25
-  namespace_stats:
-  - name: wdt
-    count: 23
-  - name: p
-    count: 1
-  - name: ps
+  - prefix: psv
     count: 1
 - identifier: wikibase:sitelinks
   label: wikibase:sitelinks
-  count: 25
+  count: 44
   namespace_stats:
-  - name: wikibase
-    count: 25
+  - prefix: wikibase
+    count: 44
 - identifier: hint:rangeSafe
   label: hint:rangeSafe
   count: 15
   namespace_stats:
-  - name: hint
+  - prefix: hint
     count: 15
 - identifier: P2113
   label: sublimation temperature
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P274
   label: chemical formula
   count: 15
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 15
 - identifier: P117
   label: chemical structure
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: P2117
   label: combustion enthalpy
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P3078
   label: standard enthalpy of formation
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P2129
   label: immediately dangerous to life or health
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: wikibase:limit
   label: wikibase:limit
   count: 1
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 1
 - identifier: wikibase:apiOutput
   label: wikibase:apiOutput
-  count: 6
+  count: 11
   namespace_stats:
-  - name: wikibase
-    count: 6
+  - prefix: wikibase
+    count: 11
 - identifier: P356
   label: DOI
   count: 16
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 12
-  - name: pr
+  - prefix: pr
     count: 2
-  - name: p
+  - prefix: p
     count: 1
-  - name: ps
+  - prefix: ps
     count: 1
 - identifier: P233
   label: canonical SMILES
   count: 5
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 4
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P234
   label: InChI
   count: 13
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 12
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P2017
   label: isomeric SMILES
   count: 5
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 4
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: wikibase:claim
   label: wikibase:claim
-  count: 5
+  count: 8
   namespace_stats:
-  - name: wikibase
-    count: 5
+  - prefix: wikibase
+    count: 8
 - identifier: wikibase:statementValue
   label: wikibase:statementValue
   count: 3
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 3
 - identifier: Q21077852
   label: Wikidata property for physical quantities
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: wikibase:qualifier
   label: wikibase:qualifier
   count: 5
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 5
 - identifier: owl:DatatypeProperty
   label: owl:DatatypeProperty
   count: 1
   namespace_stats:
-  - name: owl
+  - prefix: owl
     count: 1
 - identifier: owl:ObjectProperty
   label: owl:ObjectProperty
   count: 2
   namespace_stats:
-  - name: owl
+  - prefix: owl
     count: 2
-- identifier: P2888
-  label: exact match
-  count: 9
-  namespace_stats:
-  - name: wdt
-    count: 9
 - identifier: Q109229154
   label: article with explicit CiTO annotation
   count: 4
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 4
 - identifier: Q1143604
   label: proceedings
-  count: 25
+  count: 33
   namespace_stats:
-  - name: wd
-    count: 25
+  - prefix: wd
+    count: 33
 - identifier: P854
   label: reference URL
   count: 4
   namespace_stats:
-  - name: pr
+  - prefix: pr
     count: 4
 - identifier: P12545
   label: nanopublication identifier
   count: 4
   namespace_stats:
-  - name: pr
+  - prefix: pr
     count: 4
 - identifier: Q117357566
   label: data set with explicit CiTO annotation
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q30612
   label: clinical trial
   count: 6
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 6
 - identifier: P4844
   label: research intervention
   count: 5
   namespace_stats:
-  - name: wdt
-    count: 5
-- identifier: Q11173
-  label: chemical compound
-  count: 5
-  namespace_stats:
-  - name: wd
+  - prefix: wdt
     count: 5
 - identifier: P1050
   label: medical condition
   count: 5
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 5
 - identifier: P6099
   label: clinical trial phase
   count: 3
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
 - identifier: P3098
   label: ClinicalTrials.gov ID
   count: 3
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
 - identifier: P6220
   label: OpenTrials ID
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: P1132
   label: number of participants
   count: 3
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
 - identifier: P859
   label: sponsor
   count: 23
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 21
-  - name: p
+  - prefix: p
     count: 1
-  - name: ps
+  - prefix: ps
     count: 1
 - identifier: Q22325163
   label: protein-containing complex
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: P7718
   label: Complex Portal accession ID
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P3937
   label: Reactome ID
   count: 6
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 6
 - identifier: xsd:dateTime
   label: xsd:dateTime
-  count: 20
+  count: 21
   namespace_stats:
-  - name: xsd
-    count: 20
+  - prefix: xsd
+    count: 21
 - identifier: Q19847637
   label: Wikidata property for an identifier
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P1114
   label: quantity
   count: 1
   namespace_stats:
-  - name: pq
+  - prefix: pq
     count: 1
 - identifier: P17
   label: country
-  count: 36
+  count: 90
   namespace_stats:
-  - name: wdt
-    count: 36
+  - prefix: wdt
+    count: 88
+  - prefix: p
+    count: 1
+  - prefix: ps
+    count: 1
 - identifier: P27
   label: country of citizenship
-  count: 12
+  count: 18
   namespace_stats:
-  - name: wdt
-    count: 10
-  - name: p
+  - prefix: wdt
+    count: 16
+  - prefix: p
     count: 1
-  - name: wdno
+  - prefix: wdno
     count: 1
 - identifier: Q17329259
   label: wd:Q17329259
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: P840
   label: narrative location
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: schema:description
   label: schema:description
-  count: 5
+  count: 23
   namespace_stats:
-  - name: schema
-    count: 5
+  - prefix: schema
+    count: 23
 - identifier: Q13442814
   label: scholarly article
-  count: 19
+  count: 29
   namespace_stats:
-  - name: wd
-    count: 19
+  - prefix: wd
+    count: 29
 - identifier: P2293
   label: genetic association
   count: 3
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
 - identifier: P780
   label: symptoms and signs
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: Q125391566
   label: scientific event series
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P5822
   label: admission rate
   count: 6
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 3
-  - name: ps
+  - prefix: ps
     count: 3
 - identifier: P518
   label: applies to part
   count: 5
   namespace_stats:
-  - name: pq
+  - prefix: pq
     count: 5
 - identifier: Q47258130
-  label: scientific conference series
-  count: 4
+  label: academic conference series
+  count: 6
   namespace_stats:
-  - name: wd
-    count: 4
+  - prefix: wd
+    count: 6
 - identifier: Q47459256
   label: academic workshop series
   count: 4
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 4
 - identifier: P793
   label: significant event
   count: 18
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 6
-  - name: ps
+  - prefix: ps
     count: 6
-  - name: wdt
+  - prefix: wdt
     count: 6
 - identifier: P5072
   label: presented in
   count: 6
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 6
 - identifier: Q34770
   label: language
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: P2936
   label: language used
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P12655
   label: number of submissions
   count: 2
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 1
-  - name: ps
+  - prefix: ps
     count: 1
 - identifier: P12649
   label: number of accepted contributions
   count: 2
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 1
-  - name: ps
+  - prefix: ps
     count: 1
 - identifier: Q52260246
   label: scientific event
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q46855
   label: hackathon
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: Q2020153
   label: academic conference
-  count: 1
+  count: 14
   namespace_stats:
-  - name: wd
-    count: 1
+  - prefix: wd
+    count: 14
 - identifier: Q40444998
   label: academic workshop
-  count: 1
+  count: 6
   namespace_stats:
-  - name: wd
-    count: 1
+  - prefix: wd
+    count: 6
 - identifier: geof:distance
   label: geof:distance
-  count: 13
+  count: 23
   namespace_stats:
-  - name: geof
-    count: 13
+  - prefix: geof
+    count: 23
 - identifier: Q24575110
   label: start time
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q24575125
   label: end time
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q2404808
   label: deadline
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: xsd:duration
   label: xsd:duration
   count: 2
   namespace_stats:
-  - name: xsd
+  - prefix: xsd
     count: 2
 - identifier: Q42415497
   label: Wikidata property to identify genes
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q7187
   label: gene
   count: 5
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 5
 - identifier: P684
   label: ortholog
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P688
   label: encodes
-  count: 3
+  count: 4
   namespace_stats:
-  - name: wdt
-    count: 3
+  - prefix: wdt
+    count: 4
 - identifier: P704
   label: Ensembl transcript ID
   count: 2
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 1
-  - name: ps
+  - prefix: ps
     count: 1
 - identifier: P3433
   label: biological variant of
   count: 3
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
-- identifier: rdf:type
-  label: rdf:type
-  count: 19
-  namespace_stats:
-  - name: rdf
-    count: 19
 - identifier: Property
   label: wikibase:Property
-  count: 12
+  count: 17
   namespace_stats:
-  - name: wikibase
-    count: 12
+  - prefix: wikibase
+    count: 17
 - identifier: P212
   label: ISBN-13
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P225
   label: taxon name
-  count: 5
+  count: 7
   namespace_stats:
-  - name: wdt
-    count: 5
+  - prefix: wdt
+    count: 7
 - identifier: P236
   label: ISSN
   count: 3
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
-- identifier: P638
-  label: PDB structure ID
-  count: 4
-  namespace_stats:
-  - name: wdt
-    count: 4
 - identifier: P686
   label: Gene Ontology ID
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P698
-  label: PubMed ID
+  label: PubMed publication ID
   count: 6
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 6
 - identifier: P818
   label: arXiv ID
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P932
-  label: PMCID
+  label: PMC publication ID
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P2427
   label: GRID ID
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q45182324
   label: retracted paper
   count: 6
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 6
 - identifier: Q7316896
   label: retraction notice
   count: 5
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 5
 - identifier: P5824
   label: is retracted by
   count: 10
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 10
 - identifier: P407
   label: language of work or name
-  count: 10
+  count: 12
   namespace_stats:
-  - name: wdt
-    count: 10
+  - prefix: wdt
+    count: 12
 - identifier: P6254
   label: subject lexeme
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: P1343
   label: described by source
   count: 9
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 7
-  - name: p
+  - prefix: p
     count: 2
 - identifier: dct:language
   label: dct:language
-  count: 21
+  count: 22
   namespace_stats:
-  - name: dct
-    count: 21
+  - prefix: dct
+    count: 22
 - identifier: wikibase:lemma
   label: wikibase:lemma
-  count: 19
+  count: 21
   namespace_stats:
-  - name: wikibase
-    count: 19
+  - prefix: wikibase
+    count: 21
 - identifier: P275
   label: copyright license
   count: 10
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 10
-- identifier: Q3918
-  label: university
-  count: 4
-  namespace_stats:
-  - name: wd
-    count: 4
 - identifier: Q1371037
   label: institute of technology
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q7315155
   label: research center
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q31855
   label: research institute
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q2385804
   label: educational institution
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: wikibase:around
   label: wikibase:around
   count: 4
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 4
 - identifier: wikibase:center
   label: wikibase:center
   count: 4
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 4
 - identifier: wikibase:radius
   label: wikibase:radius
   count: 4
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 4
 - identifier: wikibase:distance
   label: wikibase:distance
   count: 2
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 2
 - identifier: Q4423781
   label: wd:Q4423781
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q828224
   label: kilometre
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q324254
   label: ontology
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P856
   label: official website
-  count: 13
+  count: 21
   namespace_stats:
-  - name: wdt
-    count: 13
+  - prefix: wdt
+    count: 21
 - identifier: P126
   label: maintained by
-  count: 1
+  count: 2
   namespace_stats:
-  - name: wdt
-    count: 1
+  - prefix: wdt
+    count: 2
 - identifier: P178
   label: developer
-  count: 5
+  count: 6
   namespace_stats:
-  - name: wdt
-    count: 5
+  - prefix: wdt
+    count: 6
 - identifier: P767
   label: contributor to the creative work or subject
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P1687
   label: Wikidata property
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P1365
   label: replaces
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P2283
   label: uses
   count: 13
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 13
 - identifier: Q571
   label: book
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: Q26973022
   label: wd:Q26973022
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q17928402
   label: blog post
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q947859
   label: research proposal
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q54670950
   label: conference poster
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q4915012
   label: biological pathway
   count: 4
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 4
 - identifier: P131
   label: located in the administrative territorial entity
-  count: 38
+  count: 58
   namespace_stats:
-  - name: wdt
-    count: 36
-  - name: p
-    count: 1
-  - name: ps
-    count: 1
-- identifier: P2410
-  label: WikiPathways ID
-  count: 16
-  namespace_stats:
-  - name: wdt
-    count: 16
+  - prefix: wdt
+    count: 54
+  - prefix: p
+    count: 2
+  - prefix: ps
+    count: 2
 - identifier: Q2996394
   label: biological process
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: P371
   label: presenter
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: P4908
   label: season
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: P155
   label: follows
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: P156
   label: followed by
-  count: 2
+  count: 4
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
+  - prefix: p
+    count: 1
+  - prefix: ps
+    count: 1
 - identifier: P5030
   label: talk show guest
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q84574746
   label: Wikidata property to identify podcast episodes
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q24634210
   label: podcast
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: P136
   label: genre
   count: 8
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 8
 - identifier: Q61855877
   label: podcast episode
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: P1113
   label: number of episodes
   count: 3
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
 - identifier: P1019
   label: web feed URL
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q84612171
   label: Wikidata property to identify podcasts
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q69154911
   label: podcast series season
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P872
   label: printed by
   count: 3
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
 - identifier: P2769
   label: budget
   count: 3
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 1
-  - name: psv
+  - prefix: psv
     count: 1
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P3400
   label: CORDIS Project ID
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P4870
   label: GEPRIS project ID
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P6536
   label: Gateway to Research Project ID
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P571
   label: inception
-  count: 13
+  count: 22
   namespace_stats:
-  - name: wdt
-    count: 12
-  - name: wd
+  - prefix: wdt
+    count: 21
+  - prefix: wd
     count: 1
 - identifier: P576
   label: dissolved, abolished or demolished date
-  count: 10
+  count: 17
   namespace_stats:
-  - name: wdt
-    count: 9
-  - name: wd
+  - prefix: wdt
+    count: 16
+  - prefix: wd
     count: 1
 - identifier: P680
   label: molecular function
   count: 4
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 4
 - identifier: P129
   label: physically interacts with
   count: 5
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 5
 - identifier: P681
   label: cell component
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: P682
   label: biological process
   count: 3
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
 - identifier: P123
   label: publisher
-  count: 10
+  count: 11
   namespace_stats:
-  - name: wdt
-    count: 10
+  - prefix: wdt
+    count: 11
 - identifier: P5769
   label: editor-in-chief
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: P1240
   label: Danish Bibliometric Research Indicator level
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q1002697
   label: periodical
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q7397
   label: software
   count: 5
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 5
 - identifier: P277
   label: programmed in
   count: 4
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 4
 - identifier: wikibase:timePrecision
   label: wikibase:timePrecision
   count: 4
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 4
 - identifier: wikibase:timeValue
   label: wikibase:timeValue
   count: 4
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 4
 - identifier: P366
   label: has use
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P1547
   label: depends on software
   count: 5
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 5
 - identifier: P1683
   label: quotation
   count: 1
   namespace_stats:
-  - name: pr
+  - prefix: pr
     count: 1
 - identifier: P105
   label: taxon rank
-  count: 5
+  count: 8
   namespace_stats:
-  - name: wdt
-    count: 5
+  - prefix: wdt
+    count: 8
 - identifier: Q7432
   label: species
-  count: 1
+  count: 3
   namespace_stats:
-  - name: wd
-    count: 1
+  - prefix: wd
+    count: 3
 - identifier: P171
   label: parent taxon
-  count: 11
+  count: 12
   namespace_stats:
-  - name: wdt
-    count: 11
+  - prefix: wdt
+    count: 12
 - identifier: P1057
   label: chromosome
-  count: 1
+  count: 2
   namespace_stats:
-  - name: wdt
-    count: 1
+  - prefix: wdt
+    count: 2
 - identifier: Q42396390
   label: Wikidata property to identify taxa
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
-- identifier: Q8054
-  label: protein
-  count: 3
-  namespace_stats:
-  - name: wd
-    count: 3
-- identifier: P702
-  label: encoded by
-  count: 2
-  namespace_stats:
-  - name: wdt
-    count: 2
 - identifier: Q18610173
   label: Wikidata property to link to Commons
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q26940804
   label: Wikidata property for linking to a representative image
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P41
   label: flag image
-  count: 2
+  count: 3
   namespace_stats:
-  - name: wdt
-    count: 2
+  - prefix: wdt
+    count: 3
 - identifier: Q45203135
   label: retraction
   count: 5
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 5
 - identifier: Q1348305
   label: erratum
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q96472102
   label: uses method in cited work
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q96471820
   label: cites as data source
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q101149476
   label: uses data from
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q16695773
   label: WikiProject
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P6104
   label: maintained by WikiProject
   count: 11
   namespace_stats:
-  - name: wdt
-    count: 11
-- identifier: P5008
-  label: on focus list of Wikimedia project
-  count: 11
-  namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 11
 - identifier: bd:sample
   label: bd:sample
   count: 2
   namespace_stats:
-  - name: bd
+  - prefix: bd
     count: 2
 - identifier: bd:sample.limit
   label: bd:sample.limit
   count: 2
   namespace_stats:
-  - name: bd
+  - prefix: bd
     count: 2
-- identifier: P953
-  label: full work available at URL
-  count: 3
-  namespace_stats:
-  - name: wdt
-    count: 3
 - identifier: Q580922
   label: preprint
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: Q107687829
   label: disagrees with
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q107710355
   label: refutes
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P2675
   label: reply to
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P941
   label: inspired by
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q55915575
   label: scholarly work
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: wikibase:statementValueNormalized
   label: wikibase:statementValueNormalized
   count: 1
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 1
 - identifier: P2507
   label: corrigendum / erratum
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q56478588
   label: expression of concern
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P747
   label: has edition or translation
-  count: 1
+  count: 2
   namespace_stats:
-  - name: wdt
-    count: 1
+  - prefix: wdt
+    count: 2
 - identifier: P629
   label: edition or translation of
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: mwapi:item
   label: mwapi:item
   count: 5
   namespace_stats:
-  - name: mwapi
+  - prefix: mwapi
     count: 5
 - identifier: Q181163
   label: Danish Wikipedia
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q48183
   label: German Wikipedia
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q328
   label: English Wikipedia
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q8447
   label: French Wikipedia
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q11921
   label: Portuguese Wikipedia
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q27230297
   label: CEUR Workshop Proceedings
-  count: 26
+  count: 31
   namespace_stats:
-  - name: wd
-    count: 26
+  - prefix: wd
+    count: 31
 - identifier: P478
   label: volume
-  count: 22
+  count: 27
   namespace_stats:
-  - name: pq
-    count: 21
-  - name: wdt
-    count: 1
+  - prefix: pq
+    count: 24
+  - prefix: wdt
+    count: 3
 - identifier: P973
   label: described at URL
-  count: 1
+  count: 5
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
+    count: 4
+  - prefix: pq
     count: 1
 - identifier: wdt:953
   label: wdt:953
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P4109
   label: URN-NBN
-  count: 2
+  count: 4
   namespace_stats:
-  - name: wdt
-    count: 2
+  - prefix: wdt
+    count: 4
 - identifier: P8978
   label: DBLP publication ID
-  count: 2
+  count: 4
   namespace_stats:
-  - name: wdt
-    count: 2
+  - prefix: wdt
+    count: 4
 - identifier: P6721
   label: K10plus PPN ID
-  count: 1
+  count: 4
   namespace_stats:
-  - name: wdt
-    count: 1
-- identifier: wdt:location
-  label: wdt:location
-  count: 3
-  namespace_stats:
-  - name: wdt
-    count: 3
+  - prefix: wdt
+    count: 4
 - identifier: P11633
   label: colocated with
   count: 4
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 4
 - identifier: P10692
   label: DBLP event ID
-  count: 3
+  count: 5
   namespace_stats:
-  - name: wdt
-    count: 3
+  - prefix: wdt
+    count: 5
 - identifier: P5124
   label: WikiCFP event ID
-  count: 3
+  count: 4
   namespace_stats:
-  - name: wdt
-    count: 3
+  - prefix: wdt
+    count: 4
 - identifier: P8926
   label: DBLP venue ID
-  count: 1
+  count: 3
   namespace_stats:
-  - name: wdt
-    count: 1
+  - prefix: wdt
+    count: 3
 - identifier: P5127
   label: WikiCFP conference series ID
-  count: 1
+  count: 3
   namespace_stats:
-  - name: wdt
-    count: 1
+  - prefix: wdt
+    count: 3
 - identifier: P154
   label: logo image
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P227
   label: GND ID
-  count: 1
+  count: 4
   namespace_stats:
-  - name: wdt
-    count: 1
+  - prefix: wdt
+    count: 4
 - identifier: Q36198963
   label: Towards a Consistent and Scientifically Accurate Drug Ontology
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
+    count: 2
+- identifier: wdt:location
+  label: wdt:location
+  count: 2
+  namespace_stats:
+  - prefix: wdt
+    count: 2
+- identifier: Q11631
+  label: astronaut
+  count: 7
+  namespace_stats:
+  - prefix: wd
+    count: 7
+- identifier: skos:prefLabel
+  label: skos:prefLabel
+  count: 3
+  namespace_stats:
+  - prefix: skos
+    count: 3
+- identifier: Q1370598
+  label: structure of worship
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q515
+  label: city
+  count: 27
+  namespace_stats:
+  - prefix: wd
+    count: 27
+- identifier: Q183
+  label: Germany
+  count: 25
+  namespace_stats:
+  - prefix: wd
+    count: 25
+- identifier: P1082
+  label: population
+  count: 48
+  namespace_stats:
+  - prefix: wdt
+    count: 26
+  - prefix: p
+    count: 11
+  - prefix: ps
+    count: 11
+- identifier: P646
+  label: Freebase ID
+  count: 1
+  namespace_stats:
+  - prefix: p
+    count: 1
+- identifier: P2671
+  label: Google Knowledge Graph ID
+  count: 1
+  namespace_stats:
+  - prefix: p
+    count: 1
+- identifier: Q873
+  label: Meryl Streep
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q19020
+  label: Academy Awards
+  count: 3
+  namespace_stats:
+  - prefix: wd
+    count: 3
+- identifier: P1686
+  label: for work
+  count: 2
+  namespace_stats:
+  - prefix: pq
+    count: 2
+- identifier: Q1001122
+  label: Buddy Boy Hawkins
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: wikibase:propertyType
+  label: wikibase:propertyType
+  count: 10
+  namespace_stats:
+  - prefix: wikibase
+    count: 10
+- identifier: P2235
+  label: external superproperty
+  count: 2
+  namespace_stats:
+  - prefix: wdt
+    count: 2
+- identifier: P2236
+  label: external subproperty
+  count: 2
+  namespace_stats:
+  - prefix: wdt
+    count: 2
+- identifier: P1628
+  label: equivalent property
+  count: 3
+  namespace_stats:
+  - prefix: wdt
+    count: 3
+- identifier: Q1
+  label: Universe
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q47461807
+  label: candidate set
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q12029619
+  label: death registry
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: P1066
+  label: student of
+  count: 2
+  namespace_stats:
+  - prefix: wdt
+    count: 2
+- identifier: P5504
+  label: RISM ID
+  count: 2
+  namespace_stats:
+  - prefix: wdt
+    count: 2
+- identifier: Q142
+  label: France
+  count: 4
+  namespace_stats:
+  - prefix: wd
+    count: 4
+- identifier: Q7889
+  label: video game
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: sc:name
+  label: sc:name
+  count: 1
+  namespace_stats:
+  - prefix: sc
+    count: 1
+- identifier: geo:wktLiteral
+  label: geo:wktLiteral
+  count: 9
+  namespace_stats:
+  - prefix: geo
+    count: 9
+- identifier: P3999
+  label: date of official closure
+  count: 3
+  namespace_stats:
+  - prefix: wdt
+    count: 3
+- identifier: P376
+  label: located on astronomical body
+  count: 3
+  namespace_stats:
+  - prefix: wdt
+    count: 3
+- identifier: osm:wikidata
+  label: osm:wikidata
+  count: 3
+  namespace_stats:
+  - prefix: osm
+    count: 3
+- identifier: geo:hasGeometry
+  label: geo:hasGeometry
+  count: 3
+  namespace_stats:
+  - prefix: geo
+    count: 3
+- identifier: osmrel:44875
+  label: osmrel:44875
+  count: 2
+  namespace_stats:
+  - prefix: osmrel
+    count: 2
+- identifier: ogc:sfContains
+  label: ogc:sfContains
+  count: 2
+  namespace_stats:
+  - prefix: ogc
+    count: 2
+- identifier: Q6256
+  label: country
+  count: 11
+  namespace_stats:
+  - prefix: wd
+    count: 11
+- identifier: Q3624078
+  label: sovereign state
+  count: 9
+  namespace_stats:
+  - prefix: wd
+    count: 9
+- identifier: Q3024240
+  label: historical country
+  count: 6
+  namespace_stats:
+  - prefix: wd
+    count: 6
+- identifier: Q15634554
+  label: wd:Q15634554
+  count: 4
+  namespace_stats:
+  - prefix: wd
+    count: 4
+- identifier: Q1151405
+  label: Client State
+  count: 4
+  namespace_stats:
+  - prefix: wd
+    count: 4
+- identifier: Q426759
+  label: League of Nations mandate
+  count: 4
+  namespace_stats:
+  - prefix: wd
+    count: 4
+- identifier: Q188443
+  label: micronation
+  count: 4
+  namespace_stats:
+  - prefix: wd
+    count: 4
+- identifier: P36
+  label: capital
+  count: 7
+  namespace_stats:
+  - prefix: wdt
+    count: 5
+  - prefix: p
+    count: 1
+  - prefix: ps
+    count: 1
+- identifier: Q838948
+  label: work of art
+  count: 6
+  namespace_stats:
+  - prefix: wd
+    count: 6
+- identifier: ql:has-predicate
+  label: ql:has-predicate
+  count: 3
+  namespace_stats:
+  - prefix: ql
+    count: 3
+- identifier: P180
+  label: depicts
+  count: 4
+  namespace_stats:
+  - prefix: wdt
+    count: 4
+- identifier: foaf:name
+  label: foaf:name
+  count: 2
+  namespace_stats:
+  - prefix: foaf
+    count: 2
+- identifier: Q2079
+  label: Leipzig
+  count: 4
+  namespace_stats:
+  - prefix: wd
+    count: 4
+- identifier: P1913
+  label: gene duplication association with
+  count: 2
+  namespace_stats:
+  - prefix: ps
+    count: 2
+- identifier: Q7395156
+  label: SWAT and WADS conferences
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: P450
+  label: astronaut mission
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P2044
+  label: elevation above sea level
+  count: 33
+  namespace_stats:
+  - prefix: wdt
+    count: 2
+  - prefix: p
+    count: 16
+  - prefix: psn
+    count: 12
+  - prefix: psv
+    count: 3
+- identifier: P4552
+  label: mountain range
+  count: 6
+  namespace_stats:
+  - prefix: wdt
+    count: 6
+- identifier: Q8502
+  label: mountain
+  count: 9
+  namespace_stats:
+  - prefix: wd
+    count: 9
+- identifier: Q55488
+  label: railway station
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: geof:latitude
+  label: geof:latitude
+  count: 2
+  namespace_stats:
+  - prefix: geof
+    count: 2
+- identifier: geof:longitude
+  label: geof:longitude
+  count: 2
+  namespace_stats:
+  - prefix: geof
+    count: 2
+- identifier: Q17442446
+  label: Wikimedia internal item
+  count: 7
+  namespace_stats:
+  - prefix: wd
+    count: 7
+- identifier: Q21281405
+  label: Wikidata internal entity
+  count: 7
+  namespace_stats:
+  - prefix: wd
+    count: 7
+- identifier: P575
+  label: time of discovery or invention
+  count: 4
+  namespace_stats:
+  - prefix: wdt
+    count: 4
+- identifier: P7589
+  label: date of promulgation
+  count: 4
+  namespace_stats:
+  - prefix: wdt
+    count: 4
+- identifier: P1191
+  label: date of first performance
+  count: 4
+  namespace_stats:
+  - prefix: wdt
+    count: 4
+- identifier: P1619
+  label: date of official opening
+  count: 5
+  namespace_stats:
+  - prefix: wdt
+    count: 5
+- identifier: P1249
+  label: time of earliest written record
+  count: 4
+  namespace_stats:
+  - prefix: wdt
+    count: 4
+- identifier: P8556
+  label: extinction date
+  count: 4
+  namespace_stats:
+  - prefix: wdt
+    count: 4
+- identifier: P6949
+  label: announcement date
+  count: 4
+  namespace_stats:
+  - prefix: wdt
+    count: 4
+- identifier: P1319
+  label: earliest date
+  count: 4
+  namespace_stats:
+  - prefix: wdt
+    count: 4
+- identifier: P7125
+  label: date of the latest one
+  count: 4
+  namespace_stats:
+  - prefix: wdt
+    count: 4
+- identifier: P7124
+  label: date of the first one
+  count: 4
+  namespace_stats:
+  - prefix: wdt
+    count: 4
+- identifier: Q35637
+  label: Nobel Peace Prize
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P887
+  label: based on heuristic
+  count: 8
+  namespace_stats:
+  - prefix: pr
+    count: 8
+- identifier: Q69652283
+  label: inferred from title
+  count: 8
+  namespace_stats:
+  - prefix: wd
+    count: 8
+- identifier: Q1637706
+  label: million city
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: P54
+  label: member of sports team
+  count: 4
+  namespace_stats:
+  - prefix: wdt
+    count: 4
+- identifier: Q43310
+  label: Germany national association football team
+  count: 4
+  namespace_stats:
+  - prefix: wd
+    count: 4
+- identifier: Q79859
+  label: 2014 FIFA World Cup
+  count: 4
+  namespace_stats:
+  - prefix: wd
+    count: 4
+- identifier: P5587
+  label: Libris-URI
+  count: 3
+  namespace_stats:
+  - prefix: wdt
+    count: 3
+- identifier: P242
+  label: locator map image
+  count: 3
+  namespace_stats:
+  - prefix: wdt
+    count: 3
+- identifier: Q76
+  label: Barack Obama
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q82594
+  label: computer scientist
+  count: 2
+  namespace_stats:
+  - prefix: wd
     count: 2
 - identifier: Q16917
   label: hospital
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q1032372
   label: hackspace
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P40
   label: child
-  count: 4
-  namespace_stats:
-  - name: wdno
-    count: 2
-  - name: p
-    count: 1
-  - name: wdt
-    count: 1
-- identifier: P19
-  label: place of birth
   count: 7
   namespace_stats:
-  - name: wdt
-    count: 7
+  - prefix: wdno
+    count: 2
+  - prefix: p
+    count: 1
+  - prefix: wdt
+    count: 4
 - identifier: Q60
   label: New York City
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
-- identifier: schema:about
-  label: schema:about
-  count: 21
-  namespace_stats:
-  - name: schema
-    count: 21
-- identifier: schema:isPartOf
-  label: schema:isPartOf
-  count: 17
-  namespace_stats:
-  - name: schema
-    count: 17
-- identifier: schema:name
-  label: schema:name
-  count: 6
-  namespace_stats:
-  - name: schema
-    count: 6
 - identifier: Q1190554
   label: occurrence
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P1340
   label: eye color
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P465
   label: sRGB color hex triplet
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: wikibase:isSomeValue
   label: wikibase:isSomeValue
   count: 1
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 1
 - identifier: wikibase:wikiGroup
   label: wikibase:wikiGroup
   count: 5
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 5
 - identifier: schema:inLanguage
   label: schema:inLanguage
-  count: 8
+  count: 10
   namespace_stats:
-  - name: schema
-    count: 8
+  - prefix: schema
+    count: 10
 - identifier: P1800
   label: Wikimedia database name
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q12345
   label: Count von Count
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
-- identifier: wikibase:propertyType
-  label: wikibase:propertyType
-  count: 5
-  namespace_stats:
-  - name: wikibase
-    count: 5
 - identifier: wikibase:WikibaseItem
   label: wikibase:WikibaseItem
   count: 1
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 1
 - identifier: Q297853
   label: Øresund Region
-  count: 1
+  count: 2
   namespace_stats:
-  - name: wd
-    count: 1
-- identifier: P1082
-  label: population
-  count: 7
-  namespace_stats:
-  - name: wdt
-    count: 5
-  - name: p
-    count: 1
-  - name: ps
-    count: 1
+  - prefix: wd
+    count: 2
 - identifier: Q1907114
   label: metropolitan area
-  count: 1
+  count: 2
   namespace_stats:
-  - name: wd
-    count: 1
+  - prefix: wd
+    count: 2
 - identifier: Q622852
   label: domesticated animal
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P39
   label: position held
   count: 11
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 4
-  - name: ps
+  - prefix: ps
     count: 4
-  - name: wdt
+  - prefix: wdt
     count: 3
 - identifier: Q30185
   label: mayor
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q144
   label: dog
-  count: 1
+  count: 2
   namespace_stats:
-  - name: wd
-    count: 1
+  - prefix: wd
+    count: 2
 - identifier: Q780
   label: chicken
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q14530
   label: Messier object
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q523
   label: star
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P1215
   label: apparent magnitude
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
+    count: 1
+- identifier: P1098
+  label: number of speakers, writers, or signers
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q34228
+  label: sign language
+  count: 1
+  namespace_stats:
+  - prefix: wd
     count: 1
 - identifier: ontolex:sense
   label: ontolex:sense
   count: 8
   namespace_stats:
-  - name: ontolex
+  - prefix: ontolex
     count: 8
 - identifier: Q9027
   label: Swedish
   count: 6
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 6
 - identifier: wikibase:lexicalCategory
   label: wikibase:lexicalCategory
   count: 4
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 4
 - identifier: Q187931
   label: phrase
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P5973
   label: synonym
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q1860
   label: English
   count: 4
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 4
 - identifier: Q184439
   label: profanity
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q545779
   label: pejorative
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P6191
   label: language style
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: P9660
   label: not found in
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q1935308
   label: Svenska Akademiens Ordbok
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: ontolex:lexicalForm
   label: ontolex:lexicalForm
-  count: 5
+  count: 6
   namespace_stats:
-  - name: ontolex
-    count: 5
+  - prefix: ontolex
+    count: 6
 - identifier: P5831
   label: usage example
   count: 6
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 3
-  - name: ps
+  - prefix: ps
     count: 3
 - identifier: P6072
   label: subject sense
   count: 3
   namespace_stats:
-  - name: pq
+  - prefix: pq
     count: 3
 - identifier: P5830
   label: subject form
   count: 3
   namespace_stats:
-  - name: pq
+  - prefix: pq
     count: 3
 - identifier: ontolex:representation
   label: ontolex:representation
   count: 4
   namespace_stats:
-  - name: ontolex
+  - prefix: ontolex
     count: 4
 - identifier: Q9788
   label: letter
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q9035
   label: Danish
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P443
   label: pronunciation audio
-  count: 1
+  count: 2
   namespace_stats:
-  - name: wdt
-    count: 1
+  - prefix: wdt
+    count: 2
 - identifier: P5137
   label: item for this sense
-  count: 5
+  count: 6
   namespace_stats:
-  - name: wdt
-    count: 5
+  - prefix: wdt
+    count: 6
 - identifier: Q188
   label: German
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
-- identifier: Q3624078
-  label: sovereign state
-  count: 5
-  namespace_stats:
-  - name: wd
-    count: 5
 - identifier: Q47092
   label: rape
-  count: 1
+  count: 2
   namespace_stats:
-  - name: wd
-    count: 1
+  - prefix: wd
+    count: 2
 - identifier: Q198
   label: war
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q124490
   label: violence
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q170382
   label: revolver
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q1576
   label: cigar
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q8102
   label: slang
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q1521634
   label: vulgarism
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q376431
   label: color term
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: ontolex:LexicalEntry
   label: ontolex:LexicalEntry
-  count: 3
+  count: 4
   namespace_stats:
-  - name: ontolex
-    count: 3
+  - prefix: ontolex
+    count: 4
 - identifier: Q29053744
   label: liquid water
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P218
   label: ISO 639-1 code
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P6271
   label: demonym of
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q9288
   label: Hebrew
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q1084
   label: noun
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: wikibase:grammaticalFeature
   label: wikibase:grammaticalFeature
   count: 1
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 1
 - identifier: Q499327
   label: masculine
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q1775415
   label: feminine
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: wikibase:statements
   label: wikibase:statements
-  count: 3
+  count: 6
   namespace_stats:
-  - name: wikibase
-    count: 3
+  - prefix: wikibase
+    count: 6
 - identifier: Q727694
   label: Standard Mandarin
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P1721
-  label: pinyin transliteration
+  label: Hanyu Pinyin transliteration
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P1647
   label: subproperty of
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: Q317623
   label: technical standard
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q729
   label: animal
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q43501
   label: zoo
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q51955019
   label: BEIC Digital Library
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P958
   label: section, verse, paragraph, or clause
   count: 2
   namespace_stats:
-  - name: pr
+  - prefix: pr
     count: 2
 - identifier: Q7048977
   label: abstract entity
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q112276019
   label: wd:Q112276019
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
-- identifier: Q6256
-  label: country
-  count: 4
-  namespace_stats:
-  - name: wd
-    count: 4
 - identifier: wikibase:badge
   label: wikibase:badge
   count: 2
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 2
 - identifier: Q17437796
   label: featured article badge
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P1367
   label: Art UK artist ID
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: hint:gearing
   label: hint:gearing
   count: 2
   namespace_stats:
-  - name: hint
+  - prefix: hint
     count: 2
 - identifier: Q532
   label: village
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q212
   label: Ukraine
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P1741
   label: GTAA ID
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q894107
   label: Borovnice
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: wikibase:decodeUri
   label: wikibase:decodeUri
   count: 1
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 1
 - identifier: Q1746392
   label: wd:Q1746392
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q108325
   label: chapel
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q4989906
   label: monument
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q10861631
   label: small bell tower
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q15077340
   label: wd:Q15077340
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q1516537
   label: technical monument
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q47008262
   label: ensemble of small monuments
   count: 1
   namespace_stats:
-  - name: wd
-    count: 1
-- identifier: P106
-  label: occupation
-  count: 30
-  namespace_stats:
-  - name: wdt
-    count: 28
-  - name: p
-    count: 1
-  - name: ps
+  - prefix: wd
     count: 1
 - identifier: Q182436
   label: librarian
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q436240
   label: ancient language
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q1288568
   label: modern language
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q33215
   label: constructed language
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P424
   label: Wikimedia language code
   count: 3
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
-- identifier: Q3024240
-  label: historical country
-  count: 2
-  namespace_stats:
-  - name: wd
-    count: 2
 - identifier: Q28171280
   label: ancient civilization
   count: 1
   namespace_stats:
-  - name: wd
-    count: 1
-- identifier: P36
-  label: capital
-  count: 3
-  namespace_stats:
-  - name: wdt
-    count: 1
-  - name: p
-    count: 1
-  - name: ps
+  - prefix: wd
     count: 1
 - identifier: Q1065
   label: United Nations
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
-- identifier: Q515
-  label: city
-  count: 2
-  namespace_stats:
-  - name: wd
-    count: 2
-- identifier: P30
-  label: continent
-  count: 5
-  namespace_stats:
-  - name: wdt
-    count: 5
 - identifier: Q15
   label: Africa
-  count: 1
+  count: 2
   namespace_stats:
-  - name: wd
-    count: 1
+  - prefix: wd
+    count: 2
 - identifier: P37
   label: official language
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q55
   label: Netherlands
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q33384
   label: dialect
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q10876391
   label: Wikipedia language edition
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q3957
   label: town
-  count: 1
+  count: 2
   namespace_stats:
-  - name: wd
-    count: 1
+  - prefix: wd
+    count: 2
 - identifier: Q35
   label: Denmark
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P402
   label: OpenStreetMap relation ID
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q8686
   label: Shanghai
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q928830
   label: metro station
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P81
   label: connecting line
-  count: 4
+  count: 6
   namespace_stats:
-  - name: wdt
-    count: 3
-  - name: pq
-    count: 1
+  - prefix: wdt
+    count: 4
+  - prefix: pq
+    count: 2
 - identifier: P197
   label: adjacent station
-  count: 3
+  count: 5
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
-  - name: p
-    count: 1
-  - name: ps
-    count: 1
+  - prefix: p
+    count: 2
+  - prefix: ps
+    count: 2
 - identifier: wikibase:geoLongitude
   label: wikibase:geoLongitude
-  count: 5
+  count: 9
   namespace_stats:
-  - name: wikibase
-    count: 5
+  - prefix: wikibase
+    count: 9
 - identifier: wikibase:geoLatitude
   label: wikibase:geoLatitude
-  count: 5
+  count: 9
   namespace_stats:
-  - name: wikibase
-    count: 5
-- identifier: geo:wktLiteral
-  label: geo:wktLiteral
-  count: 2
-  namespace_stats:
-  - name: geo
-    count: 2
+  - prefix: wikibase
+    count: 9
 - identifier: Q2039348
   label: municipality of the Netherlands
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: P47
   label: shares border with
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: Q213246
   label: Alphen aan den Rijn
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q902814
   label: border city
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q47588
   label: Basque Country
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q484170
   label: commune of France
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q2074737
   label: municipality of Spain
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q355304
   label: watercourse
   count: 4
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 4
 - identifier: P2043
   label: length
   count: 3
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
 - identifier: Q51
   label: Antarctica
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P403
   label: mouth of the watercourse
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q12280
   label: bridge
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P177
   label: crosses
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q24186
   label: Leipzig Government Region
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q429088
   label: mons
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: wikibase:geoGlobe
   label: wikibase:geoGlobe
   count: 2
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 2
 - identifier: Q2
   label: Earth
   count: 1
   namespace_stats:
-  - name: wd
-    count: 1
-- identifier: P2044
-  label: elevation above sea level
-  count: 13
-  namespace_stats:
-  - name: psn
-    count: 3
-  - name: p
-    count: 6
-  - name: psv
-    count: 3
-  - name: wdt
+  - prefix: wd
     count: 1
 - identifier: Q11573
   label: metre
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: wikibase:rank
   label: wikibase:rank
   count: 1
   namespace_stats:
-  - name: wikibase
+  - prefix: wikibase
     count: 1
 - identifier: wikibase:DeprecatedRank
   label: wikibase:DeprecatedRank
   count: 1
   namespace_stats:
-  - name: wikibase
-    count: 1
-- identifier: Q8502
-  label: mountain
-  count: 1
-  namespace_stats:
-  - name: wd
+  - prefix: wikibase
     count: 1
 - identifier: Q38
   label: Italy
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q933
   label: South Pole
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q13224
   label: Paris Métro Line 1
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P5051
   label: towards
   count: 1
   namespace_stats:
-  - name: pq
+  - prefix: pq
     count: 1
 - identifier: Q585752
   label: Château de Vincennes
   count: 1
   namespace_stats:
-  - name: wd
-    count: 1
-- identifier: P1619
-  label: date of official opening
-  count: 1
-  namespace_stats:
-  - name: wdt
+  - prefix: wd
     count: 1
 - identifier: P1217
   label: Internet Broadway Database venue ID
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q235065
   label: Broadway theatre
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q35657
   label: U.S. state
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: Q3710
   label: foot
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q9188
   label: Empire State Building
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P374
   label: INSEE municipality code
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q7265977
   label: former municipality of the Netherlands
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q41176
   label: building
-  count: 1
-  namespace_stats:
-  - name: wd
-    count: 1
-- identifier: lgdo:Bank
-  label: lgdo:Bank
-  count: 1
-  namespace_stats:
-  - name: lgdo
-    count: 1
-- identifier: lgdo:atm
-  label: lgdo:atm
-  count: 1
-  namespace_stats:
-  - name: lgdo
-    count: 1
-- identifier: lgdo:Atm
-  label: lgdo:Atm
-  count: 1
-  namespace_stats:
-  - name: lgdo
-    count: 1
-- identifier: geom:geometry
-  label: geom:geometry
-  count: 1
-  namespace_stats:
-  - name: geom
-    count: 1
-- identifier: geo:asWKT
-  label: geo:asWKT
-  count: 1
-  namespace_stats:
-  - name: geo
-    count: 1
-- identifier: lgdo:operator
-  label: lgdo:operator
-  count: 1
-  namespace_stats:
-  - name: lgdo
-    count: 1
-- identifier: bif:st_intersects
-  label: bif:st_intersects
-  count: 1
-  namespace_stats:
-  - name: bif
-    count: 1
-- identifier: bif:st_point
-  label: bif:st_point
-  count: 1
-  namespace_stats:
-  - name: bif
-    count: 1
-- identifier: Q806724
-  label: Bankcard-Servicenetz
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
-- identifier: P1454
-  label: legal form
-  count: 1
-  namespace_stats:
-  - name: wdt
-    count: 1
-- identifier: Q5349747
-  label: Eingetragene Genossenschaft
-  count: 1
-  namespace_stats:
-  - name: wd
-    count: 1
-- identifier: P3113
-  label: does not have part
-  count: 1
-  namespace_stats:
-  - name: wdt
-    count: 1
 - identifier: Q23442
   label: island
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P2046
   label: area
-  count: 2
+  count: 4
   namespace_stats:
-  - name: p
-    count: 1
-  - name: psn
-    count: 1
+  - prefix: p
+    count: 2
+  - prefix: psn
+    count: 2
 - identifier: Q705
   label: Zeeland
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q82117
   label: city gate
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
+- identifier: Q35666
+  label: glacier
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
 - identifier: P735
   label: given name
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: Q15235674
   label: Antoine
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P3602
   label: candidacy in election
   count: 6
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 3
-  - name: ps
+  - prefix: ps
     count: 3
 - identifier: Q16061881
   label: 2017 Dutch general election
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: P1268
   label: represents
   count: 3
   namespace_stats:
-  - name: pq
+  - prefix: pq
     count: 3
 - identifier: P551
   label: residence
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q12892
   label: Antwerp
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P2002
-  label: Twitter (X) username
+  label: X username
   count: 3
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
 - identifier: P2035
   label: wdt:P2035
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q747910
   label: Democrats 66
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q275441
   label: Labour Party
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q83307
   label: minister
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q7138926
   label: parliament building
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P699
   label: Disease Ontology ID
   count: 4
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
-  - name: p
+  - prefix: p
     count: 1
 - identifier: Q18123741
   label: infectious disease
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P2176
   label: drug or therapy used for treatment
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q12136
   label: disease
-  count: 2
+  count: 3
   namespace_stats:
-  - name: wd
-    count: 2
+  - prefix: wd
+    count: 3
 - identifier: P3488
   label: minimal incubation period in humans
   count: 2
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 1
-  - name: psn
+  - prefix: psn
     count: 1
 - identifier: P3487
   label: maximal incubation period in humans
   count: 2
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 1
-  - name: psn
+  - prefix: psn
     count: 1
 - identifier: P351
   label: Entrez Gene ID
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
-- identifier: Q15978631
-  label: Homo sapiens
-  count: 6
-  namespace_stats:
-  - name: wd
-    count: 6
 - identifier: schema:dateModified
   label: schema:dateModified
   count: 2
   namespace_stats:
-  - name: schema
+  - prefix: schema
     count: 2
 - identifier: P3329
   label: CIViC variant ID
   count: 9
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 5
-  - name: p
+  - prefix: p
     count: 2
-  - name: ps
+  - prefix: ps
     count: 2
 - identifier: Q188874
   label: colorectal cancer
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P3358
   label: positive prognostic predictor for
   count: 6
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
-  - name: p
+  - prefix: p
     count: 3
 - identifier: P3356
   label: positive diagnostic predictor for
   count: 5
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
-  - name: p
+  - prefix: p
     count: 3
 - identifier: P3357
   label: negative diagnostic predictor for
   count: 5
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
-  - name: p
+  - prefix: p
     count: 3
 - identifier: P3359
   label: negative prognostic predictor for
   count: 5
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
-  - name: p
+  - prefix: p
     count: 3
 - identifier: Q1164529
   label: renal cell carcinoma
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: P3354
   label: positive therapeutic predictor for
   count: 6
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 5
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P2175
   label: medical condition treated
   count: 3
   namespace_stats:
-  - name: pq
+  - prefix: pq
     count: 3
 - identifier: P3355
   label: negative therapeutic predictor for
   count: 4
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
-  - name: p
+  - prefix: p
     count: 3
 - identifier: P352
   label: UniProt protein ID
   count: 2
   namespace_stats:
-  - name: wdt
-    count: 2
-- identifier: wp:bdbWikidata
-  label: wp:bdbWikidata
-  count: 2
-  namespace_stats:
-  - name: wp
-    count: 2
-- identifier: dcterms:isPartOf
-  label: dcterms:isPartOf
-  count: 4
-  namespace_stats:
-  - name: dcterms
-    count: 4
-- identifier: wp:Interaction
-  label: wp:Interaction
-  count: 2
-  namespace_stats:
-  - name: wp
+  - prefix: wdt
     count: 2
 - identifier: Q1968598
   label: Asterophryinae
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: gas:maxIterations
   label: gas:maxIterations
-  count: 2
-  namespace_stats:
-  - name: gas
-    count: 2
-- identifier: Q420633
-  label: phosphoribosyl pyrophosphate
-  count: 1
-  namespace_stats:
-  - name: wd
-    count: 1
-- identifier: Q27125809
-  label: 5-formamido-1-(5-phospho-D-ribosyl)imidazole-4-carboxamide(2-)
-  count: 1
-  namespace_stats:
-  - name: wd
-    count: 1
-- identifier: Q422462
-  label: guanosine
-  count: 1
-  namespace_stats:
-  - name: wd
-    count: 1
-- identifier: Pathway
-  label: wp:Pathway
-  count: 1
-  namespace_stats:
-  - name: wp
-    count: 1
-- identifier: wp:organismName
-  label: wp:organismName
-  count: 1
-  namespace_stats:
-  - name: wp
-    count: 1
-- identifier: dc:identifier
-  label: dc:identifier
   count: 3
   namespace_stats:
-  - name: dc
+  - prefix: gas
     count: 3
-- identifier: dc:title
-  label: dc:title
-  count: 1
-  namespace_stats:
-  - name: dc
-    count: 1
-- identifier: Protein
-  label: wp:Protein
-  count: 1
-  namespace_stats:
-  - name: wp
-    count: 1
-- identifier: wp:bdbEntrezGene
-  label: wp:bdbEntrezGene
-  count: 1
-  namespace_stats:
-  - name: wp
-    count: 1
 - identifier: Q504775
   label: bladder cancer
   count: 1
   namespace_stats:
-  - name: wd
-    count: 1
-- identifier: wp:participants
-  label: wp:participants
-  count: 1
-  namespace_stats:
-  - name: wp
-    count: 1
-- identifier: wp:ontologyTag
-  label: wp:ontologyTag
-  count: 1
-  namespace_stats:
-  - name: wp
+  - prefix: wd
     count: 1
 - identifier: Q12078
   label: cancer
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q16521
   label: taxon
-  count: 1
+  count: 2
   namespace_stats:
-  - name: wd
-    count: 1
+  - prefix: wd
+    count: 2
 - identifier: Q864503
   label: biologist
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q21014462
   label: cell line
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q14296
   label: top-level domain
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q12140
   label: medication
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P2974
   label: habitat
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q5880
   label: vagina
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P1056
-  label: product or material produced or service provided
+  label: product or material produced or sold, or service provided
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q319541
   label: 1H-indole
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P141
   label: IUCN conservation status
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: P1843
   label: taxon common name
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: Q11394
-  label: Endangered species
+  label: endangered species
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q219127
   label: Critically Endangered
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q278113
   label: Vulnerable
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q235557
   label: file format
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P1195
   label: file extension
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P1163
   label: media type
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: P1462
   label: standards body
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q37033
   label: World Wide Web Consortium
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P139
   label: wdt:P139
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P348
   label: software version identifier
   count: 1
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 1
 - identifier: P1072
   label: readable file format
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q44585
   label: Nobel Prize in Chemistry
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q41581
   label: alkane
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q170731
   label: solubility
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P2076
   label: temperature
   count: 1
   namespace_stats:
-  - name: pqv
+  - prefix: pqv
     count: 1
 - identifier: P2178
   label: solvent
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q3863
   label: asteroid
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q634
   label: planet
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q26529
   label: space probe
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P619
   label: UTC date of spacecraft launch
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q901
   label: scientist
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q170790
   label: mathematician
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q7191
   label: Nobel Prize
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q18016466
   label: Lydia Pintscher
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P157
   label: killed by
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P2021
   label: Erdős number
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: Q16
   label: Canada
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: Q849697
   label: doctorate
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q17376908
   label: languoid
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q5633421
   label: scientific journal
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q199655
-  label: Library and information science
+  label: library science
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q16387
   label: information science
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q13420675
   label: library and information science
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q318
   label: galaxy
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q11538
   label: mathematical proof
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q65943
   label: theorem
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P2534
   label: defining formula
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q8513
   label: database
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q2775969
   label: fictional planet
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P1080
   label: from narrative universe
   count: 3
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
 - identifier: Q3647172
   label: unit of mass
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q4117139
   label: biological database
   count: 1
   namespace_stats:
-  - name: wd
-    count: 1
-- identifier: vrank:hasRank
-  label: vrank:hasRank
-  count: 1
-  namespace_stats:
-  - name: vrank
-    count: 1
-- identifier: vrank:rankValue
-  label: vrank:rankValue
-  count: 1
-  namespace_stats:
-  - name: vrank
+  - prefix: wd
     count: 1
 - identifier: Q11696
   label: President of the United States
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P509
   label: cause of death
-  count: 3
+  count: 4
   namespace_stats:
-  - name: wdt
-    count: 3
+  - prefix: wdt
+    count: 4
 - identifier: Q82955
   label: politician
-  count: 1
+  count: 3
   namespace_stats:
-  - name: wd
-    count: 1
+  - prefix: wd
+    count: 3
 - identifier: Q19546
   label: pope
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q458
   label: European Union
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P150
   label: contains the administrative territorial entity
-  count: 1
+  count: 2
   namespace_stats:
-  - name: wdt
-    count: 1
+  - prefix: wdt
+    count: 2
 - identifier: Q18493502
   label: suicide bombing
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q217327
   label: suicide attack
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P1339
   label: number of injured
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P1120
   label: number of deaths
   count: 1
   namespace_stats:
-  - name: wdt
-    count: 1
-- identifier: Q142
-  label: France
-  count: 1
-  namespace_stats:
-  - name: wd
+  - prefix: wdt
     count: 1
 - identifier: Q39
   label: Switzerland
-  count: 1
-  namespace_stats:
-  - name: wd
-    count: 1
-- identifier: Q31
-  label: Belgium
-  count: 1
-  namespace_stats:
-  - name: wd
-    count: 1
-- identifier: Q30
-  label: United States of America
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
+- identifier: Q31
+  label: Belgium
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q30
+  label: United States of America
+  count: 3
+  namespace_stats:
+  - prefix: wd
+    count: 3
 - identifier: Q2500638
   label: creator
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q20826540
   label: scholar
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q215627
   label: person
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q253774
   label: An Lushan Rebellion
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q49757
   label: poet
-  count: 3
+  count: 4
   namespace_stats:
-  - name: wd
-    count: 3
+  - prefix: wd
+    count: 4
 - identifier: P497
   label: CBDB ID
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q11514315
   label: historical period
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q130436
   label: history of Japan
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P2348
   label: time period
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q154952
   label: Willem-Alexander of the Netherlands
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q18636219
   label: Wikidata property with datatype 'time'
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q2977
   label: cathedral
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q90
   label: Paris
   count: 4
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 4
 - identifier: Q75849591
   label: Churches in Kirchenkreis Wittenberg
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q76598130
   label: parish area of EKMD
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q16970
   label: church building
-  count: 1
+  count: 3
   namespace_stats:
-  - name: wd
-    count: 1
-- identifier: Q183
-  label: Germany
-  count: 4
-  namespace_stats:
-  - name: wd
-    count: 4
+  - prefix: wd
+    count: 3
 - identifier: P539
   label: Museofile ID
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q12130
   label: Brittany
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q1492
   label: Barcelona
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q33506
   label: museum
-  count: 1
+  count: 4
   namespace_stats:
-  - name: wd
-    count: 1
+  - prefix: wd
+    count: 4
 - identifier: Q33999
   label: actor
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: P161
   label: cast member
   count: 5
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 2
-  - name: ps
+  - prefix: ps
     count: 2
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P453
   label: character role
   count: 2
   namespace_stats:
-  - name: pq
+  - prefix: pq
     count: 2
 - identifier: Q24856
   label: film series
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q18086706
   label: self
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q11424
   label: film
-  count: 4
+  count: 5
   namespace_stats:
-  - name: wd
-    count: 4
+  - prefix: wd
+    count: 5
 - identifier: P57
   label: director
   count: 3
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 3
 - identifier: Q3455803
   label: director
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P805
   label: statement is subject of
   count: 3
   namespace_stats:
-  - name: pq
+  - prefix: pq
     count: 3
 - identifier: Q103360
   label: Academy Award for Best Director
   count: 1
   namespace_stats:
-  - name: wd
-    count: 1
-- identifier: Q19020
-  label: Academy Awards
-  count: 2
-  namespace_stats:
-  - name: wd
-    count: 2
-- identifier: P1686
-  label: for work
-  count: 1
-  namespace_stats:
-  - name: pq
+  - prefix: wd
     count: 1
 - identifier: Q2526255
   label: film director
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q886
   label: The Simpsons
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q21191270
   label: television series episode
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q321423
   label: Law & Order
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q1983062
   label: episode
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q3577037
   label: The West Wing
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q221074
   label: Bud Spencer
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q668
   label: India
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q843
   label: Pakistan
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q47543030
   label: regeneration of The Doctor
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P175
   label: performer
   count: 3
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 1
-  - name: ps
+  - prefix: ps
     count: 1
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q36180
   label: writer
-  count: 2
-  namespace_stats:
-  - name: wd
-    count: 2
-- identifier: Q482980
-  label: author
-  count: 2
-  namespace_stats:
-  - name: wd
-    count: 2
-- identifier: Q7725634
-  label: literary work
   count: 3
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
+- identifier: Q482980
+  label: author
+  count: 3
+  namespace_stats:
+  - prefix: wd
+    count: 3
+- identifier: Q7725634
+  label: literary work
+  count: 4
+  namespace_stats:
+  - prefix: wd
+    count: 4
 - identifier: P291
   label: place of publication
-  count: 1
+  count: 2
   namespace_stats:
-  - name: wdt
-    count: 1
+  - prefix: wdt
+    count: 2
 - identifier: Q234460
   label: text
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q37484
   label: epic poem
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q877838
   label: Poet Laureate of the United Kingdom
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P748
   label: appointed by
   count: 1
   namespace_stats:
-  - name: pq
+  - prefix: pq
     count: 1
 - identifier: Q212805
   label: digital library
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q7075
   label: library
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q37922
   label: Nobel Prize in Literature
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P1411
   label: nominated for
   count: 2
   namespace_stats:
-  - name: p
+  - prefix: p
     count: 1
-  - name: ps
+  - prefix: ps
     count: 1
 - identifier: P2963
   label: Goodreads author ID
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P655
   label: translator
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P2533
   label: WomenWriters ID
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q931597
   label: Marvel Universe
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q95074
   label: fictional character
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
+- identifier: Q105834355
+  label: '2032: The Legend of the Lost Future'
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: P658
+  label: tracklist
+  count: 4
+  namespace_stats:
+  - prefix: p
+    count: 2
+  - prefix: ps
+    count: 2
+- identifier: P750
+  label: distributed by
+  count: 8
+  namespace_stats:
+  - prefix: p
+    count: 4
+  - prefix: ps
+    count: 4
+- identifier: Q4537983
+  label: Yandex Music
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: P2699
+  label: URL
+  count: 4
+  namespace_stats:
+  - prefix: pq
+    count: 4
+- identifier: Q20056642
+  label: Apple Music
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: P5749
+  label: Amazon Standard Identification Number
+  count: 2
+  namespace_stats:
+  - prefix: wdt
+    count: 2
+- identifier: P2207
+  label: Spotify track ID
+  count: 2
+  namespace_stats:
+  - prefix: wdt
+    count: 2
 - identifier: Q936474
   label: Mano Negra
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q207898
   label: Manu Chao
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q36834
   label: composer
-  count: 1
+  count: 2
   namespace_stats:
-  - name: wd
-    count: 1
+  - prefix: wd
+    count: 2
 - identifier: P86
   label: composer
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: P826
   label: tonality
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
-- identifier: Q5741069
-  label: rock band
-  count: 1
-  namespace_stats:
-  - name: wd
-    count: 1
 - identifier: Q177220
   label: singer
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q639669
   label: musician
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P170
   label: creator
   count: 13
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 11
-  - name: p
+  - prefix: p
     count: 2
 - identifier: Q5593
   label: Pablo Picasso
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
-- identifier: P180
-  label: depicts
-  count: 2
-  namespace_stats:
-  - name: wdt
-    count: 2
 - identifier: Q243
   label: Eiffel Tower
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q3305213
   label: painting
   count: 8
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 8
 - identifier: Q34661
   label: Gustav Klimt
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q471379
   label: The Scream
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P195
   label: collection
-  count: 2
+  count: 7
   namespace_stats:
-  - name: wdt
-    count: 2
+  - prefix: wdt
+    count: 6
+  - prefix: wd
+    count: 1
 - identifier: P186
   label: made from material
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q860861
   label: sculpture
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q123454
   label: Max Bill
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q5598
   label: Rembrandt
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q190804
   label: Rijksmuseum
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q19675
   label: Louvre Museum
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: wikibase:ExternalId
   label: wikibase:ExternalId
-  count: 2
+  count: 3
   namespace_stats:
-  - name: wikibase
-    count: 2
+  - prefix: wikibase
+    count: 3
 - identifier: Q44847669
   label: Wikidata property to identify artworks
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q1028181
   label: painter
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q19595382
   label: Wikidata property for authority control for people
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q4233718
   label: anonymous
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: P350
   label: RKDimages ID
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q41264
   label: Johannes Vermeer
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P135
   label: movement
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q40415
   label: Impressionism
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P608
   label: exhibition history
   count: 2
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 2
 - identifier: Q25379
   label: play
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q557141
   label: public art
   count: 3
   namespace_stats:
-  - name: wd
-    count: 3
-- identifier: Q838948
-  label: work of art
-  count: 3
-  namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 3
 - identifier: Q20980830
   label: Europeana 280
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q483501
   label: artist
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q15841920
-  label: Redewendung
+  label: Redewendung (idiomatic expression)
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q212071
   label: rector
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q193510
   label: University of Padua
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q131734
   label: brewery
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q5571382
   label: Terrell Buckley
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q223243
   label: Miami Dolphins
   count: 2
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 2
 - identifier: Q28061352
   label: Mapping file of InChIStrings, InChIKeys and DTXSIDs for the EPA CompTox Dashboard
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: mwapi:gsrnamespace
   label: mwapi:gsrnamespace
   count: 1
   namespace_stats:
-  - name: mwapi
+  - prefix: mwapi
     count: 1
 - identifier: mwapi:gsrprop
   label: mwapi:gsrprop
   count: 1
   namespace_stats:
-  - name: mwapi
+  - prefix: mwapi
     count: 1
 - identifier: Q202864
   label: Zika virus
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: Q8071861
   label: Zika fever
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P2250
   label: life expectancy
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P2048
   label: height
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: P2050
   label: wingspan
   count: 1
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 1
 - identifier: Q78101716
   label: adult weight
   count: 1
   namespace_stats:
-  - name: wd
+  - prefix: wd
     count: 1
 - identifier: P525
   label: Swedish municipality code
   count: 4
   namespace_stats:
-  - name: wdt
+  - prefix: wdt
     count: 4
+- identifier: dblp:yearOfPublication
+  label: dblp:yearOfPublication
+  count: 2
+  namespace_stats:
+  - prefix: dblp
+    count: 2
+- identifier: xsd:gYear
+  label: xsd:gYear
+  count: 1
+  namespace_stats:
+  - prefix: xsd
+    count: 1
+- identifier: Q3235597
+  label: crucifixion
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q16271064
+  label: herpetologist
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q113556931
+  label: Social Studies Curriculum for Basic 7
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q600134
+  label: course
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q12089225
+  label: mineral species
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P674
+  label: characters
+  count: 2
+  namespace_stats:
+  - prefix: wdt
+    count: 2
+- identifier: Q682371
+  label: Index
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q22686
+  label: Donald Trump
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P103
+  label: native language
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q36236
+  label: Malayalam
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q10871364
+  label: baseball player
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q96354844
+  label: LSE Digital Library
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q99566222
+  label: Suffrage banners of Mary Lowndes
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q6780171
+  label: Mary Lowndes
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q1222730
+  label: women's suffrage movement
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q8030967
+  label: Women's Library
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q81165078
+  label: Women's Library Archives
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q100890107
+  label: Suffrage banners
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q4801299
+  label: Artists' Suffrage League
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q2748532
+  label: National Union of Women's Suffrage Societies
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q7186
+  label: Marie Curie
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q8031349
+  label: Women Writers' Suffrage League
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q254858
+  label: Emily Davison
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q55970423
+  label: 'Emily Wilding Davison: centennial celebrations'
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q76948
+  label: Caroline Herschel
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q268702
+  label: Mary Somerville
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q7259
+  label: Ada Lovelace
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q30128828
+  label: Ada Lovelace Award
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q225863
+  label: Josephine Butler
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q83796578
+  label: Association for Moral and Social Hygiene
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q392703
+  label: UK National Archives
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q442818
+  label: Millicent Garrett Fawcett
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q271477
+  label: Elizabeth Fry
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q108792154
+  label: hydro-electric power scheme
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q145
+  label: United Kingdom
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: P7350
+  label: Gazetteer for Scotland place ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P7630
+  label: Dictionary of Scottish Architects building ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P3074
+  label: Grace's Guide ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P718
+  label: Canmore ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P709
+  label: Historic Environment Scotland ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q486972
+  label: human settlement
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q1549591
+  label: big city
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: wd:532
+  label: wd:532
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q219
+  label: Bulgaria
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q747074
+  label: commune of Italy
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q68947
+  label: subspecies
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P10838
+  label: Survey of Scottish Witchcraft - Case ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P1552
+  label: has characteristic
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q34379
+  label: musical instrument
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q1375103
+  label: Universal Studios Japan
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q6866008
+  label: Ministry for the Interior of Luxembourg
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P3342
+  label: significant person
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q83405
+  label: factory
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q24726223
+  label: Polyketide synthase, acyl transferase domain
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q24771608
+  label: Polyketide synthase, thioesterase domain
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q24773430
+  label: Polyketide synthase, ketoreductase domain
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P8814
+  label: WordNet 3.1 Synset ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q111535559
+  label: 2022 FIFA World Cup team
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P1532
+  label: country for sport
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: bd:slice
+  label: bd:slice
+  count: 1
+  namespace_stats:
+  - prefix: bd
+    count: 1
+- identifier: P7859
+  label: p:P7859
+  count: 1
+  namespace_stats:
+  - prefix: p
+    count: 1
+- identifier: bd:slice.offset
+  label: bd:slice.offset
+  count: 1
+  namespace_stats:
+  - prefix: bd
+    count: 1
+- identifier: bd:slice.limit
+  label: bd:slice.limit
+  count: 1
+  namespace_stats:
+  - prefix: bd
+    count: 1
+- identifier: P10832
+  label: WorldCat Entities ID
+  count: 1
+  namespace_stats:
+  - prefix: p
+    count: 1
+- identifier: P9284
+  label: GB1900 ID
+  count: 1
+  namespace_stats:
+  - prefix: p
+    count: 1
+- identifier: Q489357
+  label: farmhouse
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q692630
+  label: outdoor gym
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q972564
+  label: Sundbyberg Municipality
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P1031
+  label: legal citation of this text
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q8752
+  label: Basque
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P5323
+  label: attested in
+  count: 1
+  namespace_stats:
+  - prefix: p
+    count: 1
+- identifier: P7855
+  label: attested as
+  count: 1
+  namespace_stats:
+  - prefix: pq
+    count: 1
+- identifier: Q83672
+  label: Shah Jahan
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q17
+  label: Japan
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q28324850
+  label: wd:Q28324850
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P791
+  label: ISIL
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P349
+  label: NDL Authority ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P281
+  label: postal code
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q47461344
+  label: written work
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q123283356
+  label: wd:Q123283356
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P8768
+  label: online catalog URL
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q56677318
+  label: Santos Dumont Collection
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q2668072
+  label: collection
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q3391743
+  label: visual artist
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P1559
+  label: name in native language
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q41
+  label: Greece
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q473972
+  label: protected area
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q108060388
+  label: Federal Inventory of Dry Grasslands and Pastures of National Importance
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q12640
+  label: Canton of Fribourg
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P1448
+  label: official name
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q252
+  label: Indonesia
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q5078
+  label: South Sulawesi
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q679206
+  label: organizational unit
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q30089794
+  label: research data management
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q1198
+  label: North Rhine-Westphalia
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P968
+  label: email address
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q1339
+  label: Johann Sebastian Bach
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P1303
+  label: instrument
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q106927517
+  label: European Literary Text Collection
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q106926624
+  label: Distant Reading for European Literary History
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q106703494
+  label: World-Wide Directory of Repositories holding Archives of Literature and Art
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P4330
+  label: contains
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q869
+  label: Thailand
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q10225
+  label: Indian National Congress
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q133585
+  label: airship
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q84263196
+  label: COVID-19
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q21199
+  label: natural number
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P1181
+  label: numeric value
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P20
+  label: place of death
+  count: 2
+  namespace_stats:
+  - prefix: wdt
+    count: 2
+- identifier: Q391800
+  label: Municipality of Škocjan
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q108149
+  label: nuclide
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q84
+  label: London
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q202866
+  label: animated film
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P1434
+  label: takes place in fictional universe
+  count: 2
+  namespace_stats:
+  - prefix: p
+    count: 1
+  - prefix: ps
+    count: 1
+- identifier: P8345
+  label: media franchise
+  count: 2
+  namespace_stats:
+  - prefix: p
+    count: 1
+  - prefix: ps
+    count: 1
+- identifier: Q833
+  label: Malaysia
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q61729277
+  label: Regional bibliography of Saxony
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P494
+  label: ICD-10 ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P757
+  label: World Heritage Site ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P1435
+  label: heritage designation
+  count: 1
+  namespace_stats:
+  - prefix: p
+    count: 1
+- identifier: P2614
+  label: World Heritage criteria
+  count: 2
+  namespace_stats:
+  - prefix: pq
+    count: 1
+  - prefix: wdt
+    count: 1
+- identifier: Q9388534
+  label: archival collection
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q109363303
+  label: Northeastern University Archives and Special Collections
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P300
+  label: ISO 3166-2 code
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q100363299
+  label: WikiProject PCC Wikidata Pilot/San Diego State University
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P84
+  label: architect
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q64
+  label: Berlin
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P140
+  label: religion or worldview
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q33231
+  label: photographer
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q34
+  label: Sweden
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: P214
+  label: VIAF ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q36
+  label: Poland
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q21150
+  label: Vejen Municipality
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P2124
+  label: member count
+  count: 2
+  namespace_stats:
+  - prefix: p
+    count: 1
+  - prefix: ps
+    count: 1
+- identifier: Q1885601
+  label: Ivacevičy District
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q22674925
+  label: former settlement
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q4286337
+  label: city district
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q24067406
+  label: wd:Q24067406
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q123705
+  label: neighborhood
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q188509
+  label: suburb
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q442799
+  label: faubourg
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q152081
+  label: concentration camp
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q2583015
+  label: ghetto in Nazi-occupied Europe
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q4413844
+  label: wd:Q4413844
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q4443227
+  label: Stone Age settlement site
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q13028920
+  label: wd:Q13028920
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P910
+  label: topic's main category
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q748198
+  label: gay village
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P8274
+  label: living people protection class
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q213
+  label: Czech Republic
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q55678
+  label: railway stop
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P3576
+  label: TLG author ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q1162568
+  label: International Council for Science
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q413
+  label: physics
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q107715
+  label: physical quantity
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q817477
+  label: tehsil
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q110714857
+  label: Anakapalli district
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q109501555
+  label: On Happiness
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q109474585
+  label: The Wellcome Collection Podcast
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q109512854
+  label: Tranquillity
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q109512828
+  label: Resolve
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q109512804
+  label: Hope
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q4904190
+  label: Bidisha
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q109472427
+  label: The Happiness Quest
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q109505200
+  label: Happiness in time
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q109505244
+  label: What happy endings teach us in childhood
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q109505252
+  label: This is a MOOD
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q109505255
+  label: Chemical highs and psychedelic research
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q109505258
+  label: Living with less for spiritual gain
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q109505260
+  label: Active pensioners, blooming gardens
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q109498388
+  label: Kate Wilkinson
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q7981191
+  label: Wellcome Collection
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q326276
+  label: Wellcome Trust
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q109503909
+  label: How trauma affects the body and mind
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q109472585
+  label: Hidden Bodies
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P6224
+  label: level of description
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q44
+  label: beer
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q113445303
+  label: National Curriculum of Ghana
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P8263
+  label: curriculum topics
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q502948
+  label: World Snooker Championship
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: P1346
+  label: winner
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P3707
+  label: Gridabase glacier ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P6148
+  label: GLAMOS glacier ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P6799
+  label: GLIMS ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P8133
+  label: Swedish Glaciers ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P1404
+  label: World Glacier Inventory ID
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q1438040
+  label: research library
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q58242826
+  label: New York Public Library Research Libraries
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: wikibase:statementProperty
+  label: wikibase:statementProperty
+  count: 1
+  namespace_stats:
+  - prefix: wikibase
+    count: 1
+- identifier: Q1131296
+  label: freguesia of Portugal
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q45
+  label: Portugal
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q4220917
+  label: film award
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q1407225
+  label: television award
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: wikibase:identifiers
+  label: wikibase:identifiers
+  count: 1
+  namespace_stats:
+  - prefix: wikibase
+    count: 1
+- identifier: Q483453
+  label: fountain
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q25327
+  label: Coccinellidae
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: P176
+  label: manufacturer
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: P452
+  label: industry
+  count: 1
+  namespace_stats:
+  - prefix: wdt
+    count: 1
+- identifier: Q1778629
+  label: coal industry
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q766401
+  label: copper extraction
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q15850907
+  label: deep underground mining
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q5283
+  label: diamond
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q56604589
+  label: diamond industry
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q12089268
+  label: extraction of crude petroleum and natural gas
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q1349660
+  label: extraction of petroleum
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q1961917
+  label: extraction of salt
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q1071389
+  label: gold mining
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q11202319
+  label: goldsmithing
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q29585219
+  label: Manufacture of cement
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q29584505
+  label: manufacture of cement, lime and plaster
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q44497
+  label: mining
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q1945600
+  label: mining and quarrying
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q29584418
+  label: mining and quarrying n.e.c.
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q2990216
+  label: mining company
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q1370637
+  label: mining engineering
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q6865576
+  label: mining in Brazil
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q29584984
+  label: Mining of chemical and fertiliser minerals
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q12880211
+  label: mining of coal
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q29584408
+  label: mining of hard coal
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q29584414
+  label: mining of iron ores
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q29584410
+  label: mining of lignite
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q16638398
+  label: mining of metal ores
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q29584416
+  label: mining of non-ferrous metal ores
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q29584980
+  label: Mining of other non-ferrous metal ores
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q29584253
+  label: other mining and quarrying
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q29584989
+  label: Other mining and quarrying n.e.c.
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q29584981
+  label: quarrying of ornamental and building stone, limestone, gypsum, chalk and
+    slate
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q29584417
+  label: quarrying of stone, sand and clay
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q57443580
+  label: raw material extraction
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q1048939
+  label: silver mining
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q16659581
+  label: tin mine
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q328381
+  label: uranium mining
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q29585539
+  label: wholesale of mining, construction and civil engineering machinery
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q897
+  label: gold
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q92768401
+  label: Gold Mine
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q663
+  label: aluminium
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q105757481
+  label: German National Research Data Infrastructure (NFDI) e.V.
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q98270496
+  label: accepted NFDI consortium
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: P3831
+  label: object of statement has role
+  count: 1
+  namespace_stats:
+  - prefix: pq
+    count: 1
+- identifier: Q1221156
+  label: federated state of Germany
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q34442
+  label: road
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q1348
+  label: Kolkata
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q89487741
+  label: city in Bulgaria
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q15630849
+  label: village of Bulgaria
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+keyword_stats:
+- keyword: PREFIX
+  count: 4623
+- keyword: SELECT
+  count: 1734
+- keyword: WHERE
+  count: 1636
+- keyword: OPTIONAL
+  count: 771
+- keyword: FILTER
+  count: 720
+- keyword: DISTINCT
+  count: 549
+- keyword: AS
+  count: 2634
+- keyword: ORDER BY
+  count: 707
+- keyword: LIMIT
+  count: 290
+- keyword: BIND
+  count: 843
+- keyword: GROUP BY
+  count: 572
+- keyword: DESC
+  count: 527
+- keyword: SERVICE
+  count: 736
+- keyword: A
+  count: 349
+- keyword: UNION
+  count: 423
+- keyword: MINUS
+  count: 90
+- keyword: WITH
+  count: 401
+- keyword: VALUES
+  count: 164
+- keyword: HAVING
+  count: 23
+- keyword: ASK
+  count: 3
+- keyword: IN
+  count: 39
+- keyword: ASC
+  count: 39
+- keyword: UNDEF
+  count: 2
+- keyword: USING
+  count: 1
+function_stats:
+- name: LANG
+  count: 397
+- name: STRSTARTS
+  count: 28
+- name: YEAR
+  count: 131
+- name: REGEX
+  count: 46
+- name: STR
+  count: 484
+- name: CONCAT
+  count: 353
+- name: COUNT
+  count: 414
+- name: CONTAINS
+  count: 11
+- name: STRLANG
+  count: 3
+- name: IRI
+  count: 26
+- name: SUBSTR
+  count: 270
+- name: GROUP_CONCAT
+  count: 163
+- name: IF
+  count: 86
+- name: NOT EXISTS
+  count: 40
+- name: ENCODE_FOR_URI
+  count: 33
+- name: UCASE
+  count: 2
+- name: LCASE
+  count: 28
+- name: SAMPLE
+  count: 281
+- name: MIN
+  count: 58
+- name: EXISTS
+  count: 12
+- name: SEPARATOR
+  count: 155
+- name: COALESCE
+  count: 77
+- name: MAX
+  count: 57
+- name: NOW
+  count: 20
+- name: SUM
+  count: 23
+- name: REPLACE
+  count: 45
+- name: BOUND
+  count: 27
+- name: ROUND
+  count: 10
+- name: MONTH
+  count: 2
+- name: DAY
+  count: 4
+- name: ABS
+  count: 1
+- name: ISBLANK
+  count: 5
+- name: STRLEN
+  count: 4
+- name: URI
+  count: 10
+- name: AVG
+  count: 1
+- name: EN
+  count: 42
+- name: DE
+  count: 5
+- name: ISIRI
+  count: 2
+- name: ISLITERAL
+  count: 2
+- name: ISNUMERIC
+  count: 2
+- name: STRBEFORE
+  count: 10
+- name: RAND
+  count: 4
+- name: STRDT
+  count: 3
+- name: STRENDS
+  count: 2
+- name: DATATYPE
+  count: 1
+- name: STRAFTER
+  count: 1
+- name: FLOOR
+  count: 4
+- name: LANGMATCHES
+  count: 2
+- name: MD5
+  count: 1
+namespace_stats:
+- prefix: rdfs
+  iri: http://www.w3.org/2000/01/rdf-schema#
+  count: 741
+- prefix: wd
+  iri: http://www.wikidata.org/entity/
+  count: 2053
+- prefix: wdt
+  iri: http://www.wikidata.org/prop/direct/
+  count: 5037
+- prefix: rdf
+  iri: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  count: 73
+- prefix: orkgr
+  iri: http://orkg.org/orkg/resource/
+  count: 5
+- prefix: orkgc
+  iri: http://orkg.org/orkg/class/
+  count: 3
+- prefix: orkgp
+  iri: http://orkg.org/orkg/predicate/
+  count: 12
+- prefix: dblp
+  iri: https://dblp.org/rdf/schema#
+  count: 37
+- prefix: cito
+  count: 4
+- prefix: schema
+  iri: http://schema.org/
+  count: 276
+- prefix: datacite
+  iri: http://purl.org/spar/datacite/
+  count: 8
+- prefix: geo
+  iri: http://www.opengis.net/ont/geosparql#
+  count: 22
+- prefix: geom
+  iri: http://geovocab.org/geometry#
+  count: 3
+- prefix: lgdo
+  iri: http://linkedgeodata.org/ontology/
+  count: 9
+- prefix: hint
+  iri: http://www.bigdata.com/queryHints#
+  count: 108
+- prefix: bif
+  count: 5
+- prefix: bd
+  iri: http://www.bigdata.com/rdf#
+  count: 1369
+- prefix: dct
+  iri: http://purl.org/dc/terms/
+  count: 48
+- prefix: wikibase
+  iri: http://wikiba.se/ontology#
+  count: 2444
+- prefix: wp
+  iri: http://vocabularies.wikipathways.org/wp#
+  count: 27
+- prefix: dcterms
+  count: 8
+- prefix: dc
+  iri: http://purl.org/dc/elements/1.1/
+  count: 13
+- prefix: vrank
+  iri: http://purl.org/voc/vrank#
+  count: 5
+- prefix: ql
+  count: 11
+- prefix: litre
+  iri: http://purl.org/spar/literal/
+  count: 0
+- prefix: p
+  iri: http://www.wikidata.org/prop/
+  count: 481
+- prefix: ps
+  iri: http://www.wikidata.org/prop/statement/
+  count: 277
+- prefix: pq
+  iri: http://www.wikidata.org/prop/qualifier/
+  count: 327
+- prefix: mwapi
+  iri: https://www.mediawiki.org/ontology#API/
+  count: 76
+- prefix: skos
+  iri: http://www.w3.org/2004/02/skos/core#
+  count: 16
+- prefix: target
+  count: 789
+- prefix: http
+  count: 299
+- prefix: pr
+  iri: http://www.wikidata.org/prop/reference/
+  count: 78
+- prefix: prov
+  iri: http://www.w3.org/ns/prov#
+  count: 81
+- prefix: xsd
+  iri: http://www.w3.org/2001/XMLSchema#
+  count: 196
+- prefix: target1
+  count: 29
+- prefix: target2
+  count: 26
+- prefix: gas
+  iri: http://www.bigdata.com/rdf/gas#
+  count: 96
+- prefix: psv
+  iri: http://www.wikidata.org/prop/statement/value/
+  count: 39
+- prefix: owl
+  iri: http://www.w3.org/2002/07/owl#
+  count: 7
+- prefix: geof
+  iri: http://www.opengis.net/def/function/geosparql/
+  count: 47
+- prefix: sc
+  count: 1
+- prefix: osm
+  count: 6
+- prefix: ogc
+  count: 4
+- prefix: osmkey
+  count: 2
+- prefix: osmrel
+  count: 4
+- prefix: foaf
+  count: 3
+- prefix: dbr
+  count: 1
+- prefix: psn
+  iri: http://www.wikidata.org/prop/statement/value-normalized/
+  count: 31
+- prefix: descriptor
+  count: 0
+- prefix: s
+  count: 3
+- prefix: wdno
+  iri: http://www.wikidata.org/prop/novalue/
+  count: 5
+- prefix: ontolex
+  iri: http://www.w3.org/ns/lemon/ontolex#
+  count: 34
+- prefix: var_muntype
+  count: 21
+- prefix: var_area
+  count: 21
+- prefix: void
+  iri: http://rdfs.org/ns/void#
+  count: 0
+- prefix: pav
+  iri: http://purl.org/pav/
+  count: 0
+- prefix: freq
+  iri: http://purl.org/cld/freq/
+  count: 0
+- prefix: biopax
+  iri: http://www.biopax.org/release/biopax-level3.owl#
+  count: 0
+- prefix: gpml
+  iri: http://vocabularies.wikipathways.org/gpml#
+  count: 0
+- prefix: wprdf
+  iri: http://rdf.wikipathways.org/
+  count: 0
+- prefix: pqv
+  iri: http://www.wikidata.org/prop/qualifier/value/
+  count: 4

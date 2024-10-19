@@ -553,17 +553,17 @@ class QueryBundle:
         )
         return response.text
 
-    def get_lod(self) -> List[dict]:
+    def get_lod(self, *, param_dict=None) -> List[dict]:
         """
         Executes the stored query using the SPARQL service and returns the results as a list of dictionaries.
 
         Returns:
             List[dict]: A list where each dictionary represents a row of results from the SPARQL query.
         """
-        lod = self.sparql.queryAsListOfDicts(self.query.query)
+        lod = self.sparql.queryAsListOfDicts(self.query.query, param_dict=param_dict)
         return lod
 
-    def get_lod_with_stats(self) -> tuple[list[dict], QueryStats]:
+    def get_lod_with_stats(self, *, param_dict=None) -> tuple[list[dict], QueryStats]:
         """
         Executes the stored query using the SPARQL service and returns the results as a list of dictionaries.
 
@@ -573,7 +573,7 @@ class QueryBundle:
         logger.info(f"Querying {self.endpoint.name} with query {self.named_query.name}")
         query_stat = QueryStats(query_id=self.named_query.query_id, endpoint_name=self.endpoint.name)
         try:
-            lod = self.sparql.queryAsListOfDicts(self.query.query)
+            lod = self.sparql.queryAsListOfDicts(self.query.query, param_dict=param_dict)
             query_stat.records = len(lod) if lod else -1
             query_stat.done()
         except Exception as ex:

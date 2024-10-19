@@ -55,7 +55,6 @@ class BaseQueryView:
         """
         try:
             qn = self.query_selector.qn
-<<<<<<< HEAD
             like = self.query_selector.like
 
             if like:
@@ -78,21 +77,6 @@ class BaseQueryView:
                 AND domain {comparison_operator} ?"""
 
             self.q_lod = self.nqm.sql_db.query(sql_query, (name_pattern, namespace_pattern, domain_pattern))
-=======
-            name_like = f"{qn.name}%"
-            namespace_like = f"{qn.namespace}%"
-            domain_like = f"{qn.domain}%"
-            sql_query = """SELECT 
-            * 
-            FROM NamedQuery 
-            WHERE 
-                name LIKE ? 
-                AND namespace LIKE ? 
-                AND domain LIKE ?"""
-            self.q_lod = self.nqm.sql_db.query(
-                sql_query, (name_like, namespace_like, domain_like)
-            )
->>>>>>> 637cba199a535243920575991af2770e73ae8825
             self.show_lod(self.q_lod)
         except Exception as ex:
             self.solution.handle_exception(ex)

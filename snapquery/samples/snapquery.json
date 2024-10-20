@@ -8,8 +8,8 @@
       "domain": "wikidata.org",
       "namespace": "snapquery",
       "name": "SPARQL_functions",
-      "sparql": "#title: List of SPARQL 1.1 functions\r\nSELECT ?name ?wikidata_entity WHERE {\r\n  ?wikidata_entity wdt:P31 wd:Q130565232.\r\n  ?wikidata_entity wdt:P361 wd:Q32146616.\r\n  ?wikidata_entity rdfs:label ?name. FILTER(lang(?name)=\"en\")\r\n}",
-      "url": "https://w.wiki/Bbjk",
+      "sparql": "#title: List of SPARQL 1.1 functions\r\nSELECT ?name ?wikidata_entity WHERE {\r\n  ?wikidata_entity wdt:P31 wd:Q130565232.\r\n ?wikidata_entity rdfs:label ?name. FILTER(lang(?name)=\"en\")\r\n} ORDER BY ?name",
+      "url": "https://w.wiki/BcCE",
       "title": "List of SPARQL 1.1 functions",
       "description": "",
       "comment": ""
@@ -19,8 +19,8 @@
       "domain": "wikidata.org",
       "namespace": "snapquery",
       "name": "SPARQL_keywords",
-      "sparql": "#title: List of SPARQL 1.1 keywords\r\nSELECT ?name ?wikidata_entity WHERE {\r\n  ?wikidata_entity wdt:P31 wd:Q114355584.\r\n  ?wikidata_entity wdt:P361 wd:Q32146616.\r\n  ?wikidata_entity rdfs:label ?name. FILTER(lang(?name)=\"en\")\r\n}",
-      "url": "https://w.wiki/Bbjp",
+      "sparql": "#title: List of SPARQL 1.1 keywords\r\nSELECT ?name ?wikidata_entity WHERE {\r\n  ?wikidata_entity wdt:P31 wd:Q114355584.\r\n  \r\n  ?wikidata_entity rdfs:label ?name. FILTER(lang(?name)=\"en\")\r\n} ORDER BY ?name",
+      "url": "https://w.wiki/BcCG",
       "title": "List of SPARQL 1.1 keywords",
       "description": "",
       "comment": ""

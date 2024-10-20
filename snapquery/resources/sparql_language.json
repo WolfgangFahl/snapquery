@@ -1,20 +1,68 @@
 {
     "keywords": [
         {
-            "name": "OPTIONAL",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q114355577"
+            "name": "ADD",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130597965"
+        },
+        {
+            "name": "ALL",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130597969"
+        },
+        {
+            "name": "AS",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130565435"
+        },
+        {
+            "name": "ASC",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130565436"
         },
         {
             "name": "ASK",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130564516"
         },
         {
+            "name": "BASE",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130597971"
+        },
+        {
             "name": "BIND",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130564517"
         },
         {
+            "name": "CLEAR",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130597975"
+        },
+        {
             "name": "CONSTRUCT",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130564518"
+        },
+        {
+            "name": "COPY",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130597977"
+        },
+        {
+            "name": "CREATE",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130597979"
+        },
+        {
+            "name": "DEFAULT",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130597980"
+        },
+        {
+            "name": "DELETE",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130597982"
+        },
+        {
+            "name": "DELETE DATA",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130597983"
+        },
+        {
+            "name": "DELETE WHERE",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130597991"
+        },
+        {
+            "name": "DESC",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130565439"
         },
         {
             "name": "DESCRIBE",
@@ -25,8 +73,20 @@
             "wikidata_entity": "http://www.wikidata.org/entity/Q130564521"
         },
         {
+            "name": "DROP",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130597993"
+        },
+        {
             "name": "FILTER",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130564522"
+        },
+        {
+            "name": "FROM",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130597997"
+        },
+        {
+            "name": "FROM NAMED",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130597999"
         },
         {
             "name": "GRAPH",
@@ -41,24 +101,60 @@
             "wikidata_entity": "http://www.wikidata.org/entity/Q130564526"
         },
         {
-            "name": "IRI",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130564527"
+            "name": "IN",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130565444"
+        },
+        {
+            "name": "INSERT",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130598004"
+        },
+        {
+            "name": "INSERT DATA",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130598006"
+        },
+        {
+            "name": "INTO",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130598008"
         },
         {
             "name": "LIMIT",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130564528"
         },
         {
+            "name": "LOAD",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130598009"
+        },
+        {
             "name": "MINUS",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130564529"
+        },
+        {
+            "name": "MOVE",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130598010"
+        },
+        {
+            "name": "NAMED",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130598015"
+        },
+        {
+            "name": "NOT IN",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130598017"
         },
         {
             "name": "OFFSET",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130564530"
         },
         {
+            "name": "OPTIONAL",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q114355577"
+        },
+        {
             "name": "ORDER BY",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130564531"
+        },
+        {
+            "name": "PREFIX",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130565449"
         },
         {
             "name": "REDUCED",
@@ -73,75 +169,47 @@
             "wikidata_entity": "http://www.wikidata.org/entity/Q130564534"
         },
         {
+            "name": "SILENT",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130594005"
+        },
+        {
+            "name": "TO",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130598019"
+        },
+        {
+            "name": "UNDEF",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130598022"
+        },
+        {
             "name": "UNION",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130564535"
         },
         {
-            "name": "URI",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130564536"
+            "name": "USING",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130598024"
+        },
+        {
+            "name": "USING NAMED",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130598026"
         },
         {
             "name": "VALUES",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130564540"
         },
         {
-            "name": "IF",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565096"
-        },
-        {
-            "name": "COALESCE",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565097"
-        },
-        {
-            "name": "NOT EXISTS",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565098"
-        },
-        {
-            "name": "EXISTS",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565099"
-        },
-        {
-            "name": "CONCAT",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565100"
-        },
-        {
-            "name": "GROUP_CONCAT",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565101"
-        },
-        {
             "name": "WHERE",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565102"
         },
         {
-            "name": "A",
+            "name": "WITH",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130598027"
+        },
+        {
+            "name": "a",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565434"
-        },
-        {
-            "name": "AS",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565435"
-        },
-        {
-            "name": "ASC",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565436"
-        },
-        {
-            "name": "DESC",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565439"
-        },
-        {
-            "name": "IN",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565444"
-        },
-        {
-            "name": "PREFIX",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565449"
         }
     ],
     "functions": [
-        {
-            "name": "STR",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130564604"
-        },
         {
             "name": "ABS",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565467"
@@ -151,8 +219,16 @@
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565468"
         },
         {
+            "name": "BNODE",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130595680"
+        },
+        {
             "name": "BOUND",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565469"
+        },
+        {
+            "name": "CEIL",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130595681"
         },
         {
             "name": "COALESCE",
@@ -179,14 +255,6 @@
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565475"
         },
         {
-            "name": "DE",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565476"
-        },
-        {
-            "name": "EN",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565477"
-        },
-        {
             "name": "ENCODE_FOR_URI",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565478"
         },
@@ -203,28 +271,16 @@
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565481"
         },
         {
+            "name": "HOURS",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130595683"
+        },
+        {
             "name": "IF",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565482"
         },
         {
             "name": "IRI",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565483"
-        },
-        {
-            "name": "ISBLANK",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565484"
-        },
-        {
-            "name": "ISIRI",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565485"
-        },
-        {
-            "name": "ISLITERAL",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565486"
-        },
-        {
-            "name": "ISNUMERIC",
-            "wikidata_entity": "http://www.wikidata.org/entity/Q130565487"
         },
         {
             "name": "LANG",
@@ -249,6 +305,10 @@
         {
             "name": "MIN",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565493"
+        },
+        {
+            "name": "MINUTES",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130595687"
         },
         {
             "name": "MONTH",
@@ -283,8 +343,32 @@
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565501"
         },
         {
+            "name": "SECONDS",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130595691"
+        },
+        {
             "name": "SEPARATOR",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565502"
+        },
+        {
+            "name": "SHA1",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130595693"
+        },
+        {
+            "name": "SHA256",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130595694"
+        },
+        {
+            "name": "SHA384",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130595695"
+        },
+        {
+            "name": "SHA512",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130596730"
+        },
+        {
+            "name": "STR",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130564604"
         },
         {
             "name": "STRAFTER",
@@ -315,12 +399,24 @@
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565510"
         },
         {
+            "name": "STRUUID",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130595696"
+        },
+        {
             "name": "SUBSTR",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565511"
         },
         {
             "name": "SUM",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565512"
+        },
+        {
+            "name": "TIMEZONE",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130596731"
+        },
+        {
+            "name": "TZ",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130595697"
         },
         {
             "name": "UCASE",
@@ -331,8 +427,36 @@
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565514"
         },
         {
+            "name": "UUID",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130595698"
+        },
+        {
             "name": "YEAR",
             "wikidata_entity": "http://www.wikidata.org/entity/Q130565515"
+        },
+        {
+            "name": "isBLANK",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130565484"
+        },
+        {
+            "name": "isIRI",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130565485"
+        },
+        {
+            "name": "isLITERAL",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130565486"
+        },
+        {
+            "name": "isNUMERIC",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130565487"
+        },
+        {
+            "name": "isURI",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130595684"
+        },
+        {
+            "name": "sameTerm",
+            "wikidata_entity": "http://www.wikidata.org/entity/Q130595690"
         }
     ]
 }

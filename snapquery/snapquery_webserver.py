@@ -303,6 +303,7 @@ class SnapQuerySolution(InputWebSolution):
         """
         super().__init__(webserver, client)  # Call to the superclass constructor
         self.webserver: SnapQueryWebServer
+        self.authorization=self.webserver.authorization
         self.nqm = self.webserver.nqm
         self.endpoint_name = self.get_user_endpoint()
 
@@ -355,9 +356,14 @@ class SnapQuerySolution(InputWebSolution):
                     self.link_button("login with orcid", redirect_url, "login", new_tab=False)
             if self.webserver.orcid_auth.authenticated():
                 orcid_token = self.webserver.orcid_auth.get_cached_user_access_token()
-                ui.markdown(f"*logged in as* **{orcid_token.name} ({orcid_token.orcid})**").props(
+                # we have an ORCID authenticated user check the authorization
+                self.user_has_llm_right = self.authorization.check_right_by_orcid(orcid_token.orcid, "LLM")
+                checkmark = " LLM ✅" if self.user_has_llm_right else ""
+                user_markup=f"*logged in as* **{orcid_token.name} ({orcid_token.orcid}) {checkmark}**"
+                ui.markdown(user_markup).props(
                     "flat color=white icon=folder"
                 ).classes("ml-auto")
+
 
     async def nominate_ui(self):
         """

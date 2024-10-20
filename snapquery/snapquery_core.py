@@ -14,7 +14,7 @@ import uuid
 from dataclasses import asdict, dataclass, field, fields, is_dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Type
+from typing import Any, Dict, List, Optional, Type, Union
 
 import requests
 from lodstorage.lod_csv import CSV
@@ -494,6 +494,17 @@ class NamedQuerySet:
         if query.query_id not in self._query_dict:
             self.queries.append(query)
             self._query_dict[query.query_id] = query
+
+    def get_query_by_id(self, query_id: str) -> Union[NamedQuery, None]:
+        """
+        Get named query by name
+        Args:
+            query_id: id of the query.
+
+        Returns:
+            NamedQuery or None
+        """
+        return self._query_dict.get(query_id, None)
 
 
 class QueryBundle:

@@ -13,6 +13,8 @@ from bs4 import BeautifulSoup, ResultSet
 from lodstorage.query import Query, QuerySyntaxHighlight
 from lodstorage.yamlable import lod_storable
 
+from snapquery.models.sparql_components import SPARQLLanguage
+
 
 class SparqlQueryAnnotater:
     """
@@ -21,6 +23,7 @@ class SparqlQueryAnnotater:
 
     def __init__(self, query: Query):
         self.query = query
+        self.sparql_language = SPARQLLanguage.load_sparql_language()
         query_syntax_highlight = QuerySyntaxHighlight(query)
         html = query_syntax_highlight.highlight()
         self.soup = BeautifulSoup(html, "html.parser")
@@ -144,7 +147,7 @@ class SparqlQueryAnnotater:
             keyword = element.next_element.text
             annotation_element = self.soup.new_tag(
                 "a",
-                href="http://www.wikidata.org/entity/" + keyword,
+                href=self.sparql_language.get_keyword_wd_entity(keyword),
                 title=keyword.upper(),
                 target="_blank",
             )
@@ -152,11 +155,11 @@ class SparqlQueryAnnotater:
             annotation_element.insert(0, element)
 
     def _annotate_functions(self):
-        for element in self._get_keyword_elements():
+        for element in self._get_function_elements():
             function_name = element.next_element.text
             annotation_element = self.soup.new_tag(
                 "a",
-                href="http://www.wikidata.org/entity/" + function_name,
+                href=self.sparql_language.get_function_wd_entity(function_name),
                 title=function_name.upper(),
                 target="_blank",
             )

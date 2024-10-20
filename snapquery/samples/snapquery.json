@@ -1,0 +1,29 @@
+{
+  "domain": "wikidata.org",
+  "namespace": "snapquery",
+  "target_graph_name": "wikidata",
+  "queries": [
+    {
+      "query_id": "sparql-functions--snapquery@wikidata.org",
+      "domain": "wikidata.org",
+      "namespace": "snapquery",
+      "name": "SPARQL_functions",
+      "sparql": "#title: List of SPARQL 1.1 functions\r\nSELECT ?name ?wikidata_entity WHERE {\r\n  ?wikidata_entity wdt:P31 wd:Q130565232.\r\n  ?wikidata_entity wdt:P361 wd:Q32146616.\r\n  ?wikidata_entity rdfs:label ?name. FILTER(lang(?name)=\"en\")\r\n}",
+      "url": "https://w.wiki/Bbjk",
+      "title": "List of SPARQL 1.1 functions",
+      "description": "",
+      "comment": ""
+    },
+    {
+      "query_id": "sparql-keywords--snapquery@wikidata.org",
+      "domain": "wikidata.org",
+      "namespace": "snapquery",
+      "name": "SPARQL_keywords",
+      "sparql": "#title: List of SPARQL 1.1 keywords\r\nSELECT ?name ?wikidata_entity WHERE {\r\n  ?wikidata_entity wdt:P31 wd:Q114355584.\r\n  ?wikidata_entity wdt:P361 wd:Q32146616.\r\n  ?wikidata_entity rdfs:label ?name. FILTER(lang(?name)=\"en\")\r\n}",
+      "url": "https://w.wiki/Bbjp",
+      "title": "List of SPARQL 1.1 keywords",
+      "description": "",
+      "comment": ""
+    }
+  ]
+}

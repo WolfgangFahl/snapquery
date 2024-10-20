@@ -44,6 +44,26 @@ class QueryImportView:
         """
         setup the user interface
         """
+        if self.solution.user_has_llm_right:
+            self.setup_ui_llm()
+        else:
+            self.setup_ui_public()
+
+    def setup_ui_llm(self):
+        with self.solution.container:
+            with ui.column():
+                ui.textarea(label="URL List", placeholder="Paste short URLs, one per line").bind_value(self, "url_list")
+                ui.button(icon="input", text="Import Queries", on_click=self.on_input_multiple_urls)
+
+    def on_input_multiple_urls(self, _args):
+        urls = self.url_list.strip().split('\n')
+        for url in urls:
+            sparql_query = self.qimport.read_from_short_url(url)
+
+    def setup_ui_public(self):
+        """
+        setup the user interface for a public user that needs to identify
+        """
         with self.solution.container:
             with ui.row() as self.input_row:
                 self.input_row.classes("h-full")

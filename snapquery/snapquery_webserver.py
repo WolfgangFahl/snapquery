@@ -306,6 +306,7 @@ class SnapQuerySolution(InputWebSolution):
         self.authorization=self.webserver.authorization
         self.nqm = self.webserver.nqm
         self.endpoint_name = self.get_user_endpoint()
+        self.user_has_llm_right=False
 
     def configure_settings(self):
         """

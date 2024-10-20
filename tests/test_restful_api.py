@@ -79,7 +79,7 @@ class TestRestFulApi(WebserverTest):
         for endpoint_name in [
             "wikidata",
             # "wikidata-openlinksw",
-            "wikidata-qlever"
+            "wikidata-qlever",
             # "wikidata-scatter",
         ]:
             path = f"/api/query/wikidata.org/snapquery-examples/cats.json?endpoint_name={endpoint_name}&limit=3"

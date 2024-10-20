@@ -3,14 +3,17 @@ Created on 2024-05-12
 
 @author: wf
 """
+
 import json
 import random
 import urllib.parse
-from snapquery.version import Version
+
 import requests
 from ngwidgets.llm import LLM
 from ratelimit import limits, sleep_and_retry
+
 from snapquery.snapquery_core import NamedQuery, NamedQuerySet
+from snapquery.version import Version
 
 
 class ShortIds:
@@ -59,10 +62,11 @@ class ShortUrl:
     Handles operations related to wikidata and similar short URLs such as QLever.
     see https://meta.wikimedia.org/wiki/Wikimedia_URL_Shortener for
     """
+
     # see https://stackoverflow.com/questions/62396801/how-to-handle-too-many-requests-on-wikidata-using-sparqlwrapper
     CALLS_PER_MINUTE = 30
     ONE_MINUTE = 60
-    
+
     def __init__(self, short_url: str, scheme: str = "https", netloc: str = "query.wikidata.org"):
         """
         Constructor
@@ -72,7 +76,7 @@ class ShortUrl:
             scheme (str): URL scheme to be used (e.g., 'https' or 'http') for validating URL format.
             netloc (str): Network location part of the URL, typically the domain name, to be used for validating URL format.
         """
-        
+
         self.short_url = short_url
         self.scheme = scheme
         self.netloc = netloc
@@ -85,7 +89,6 @@ class ShortUrl:
     def get_user_agent():
         version = Version()
         return f"{version.name}/{version.version} ({version.cm_url}; {version.authors}) Python-requests/{requests.__version__}"
-
 
     @property
     def name(self):
@@ -211,12 +214,12 @@ SPARQL: {sparql}
     def fetch_final_url(self):
         """
         Follow the redirection to get the final URL with rate limiting.
-    
+
         Returns:
             str: The final URL after redirection.
         """
         try:
-            headers = {'User-Agent': self.user_agent}
+            headers = {"User-Agent": self.user_agent}
             response = requests.get(self.short_url, headers=headers, allow_redirects=True)
             response.raise_for_status()
             self.url = response.url

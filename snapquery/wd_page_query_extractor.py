@@ -2,6 +2,7 @@
 Created on 2024-05-04
 Author: tholzheim
 """
+
 import logging
 import pprint
 import re
@@ -11,7 +12,7 @@ import requests
 import wikitextparser as wtp
 from wikitextparser import Section, Template
 
-from snapquery.snapquery_core import QueryName, NamedQuery, NamedQueryManager, NamedQuerySet
+from snapquery.snapquery_core import NamedQuery, NamedQueryManager, NamedQuerySet, QueryName
 from snapquery.wd_short_url import ShortUrl
 
 
@@ -29,7 +30,7 @@ class WikipediaQueryExtractor:
         namespace: str,
         target_graph_name: str,
         template_name: str = "SPARQL",  # https://en.wikipedia.org/wiki/Template:SPARQL) - if None seek for short-urls
-        debug: bool=False
+        debug: bool = False,
     ):
         """
         Constructor
@@ -40,21 +41,19 @@ class WikipediaQueryExtractor:
         self.namespace = namespace
         self.target_graph_name = target_graph_name
         self.template_name = template_name
-        self.debug=debug
+        self.debug = debug
         self.logger = logging.getLogger("snapquery.wd_page_extractor.WikipediaQueryExtractor")
 
         self.named_query_list = NamedQuerySet(
-            domain=self.domain, 
-            namespace=self.namespace, 
-            target_graph_name=self.target_graph_name
+            domain=self.domain, namespace=self.namespace, target_graph_name=self.target_graph_name
         )
         self.errors = []
-        
+
     def log(self, message: str, is_error: bool = False):
         if self.debug:
             print(message)
         if is_error:
-            self.logger.debug(message) 
+            self.logger.debug(message)
             self.errors.append(message)
 
     def get_wikitext(self) -> str:
@@ -86,23 +85,23 @@ class WikipediaQueryExtractor:
         text = text.strip()
         return text
 
-    def extract_query_from_wiki_markup(self, title: str, markup: str, sparql: str,url:str=None) -> NamedQuery:
+    def extract_query_from_wiki_markup(self, title: str, markup: str, sparql: str, url: str = None) -> NamedQuery:
         """
         Extracts a named query from wiki markup.
-    
+
         This method processes the title, markup, and SPARQL query to create a NamedQuery object.
-        It sanitizes the text, removes section headers from the description, and constructs 
+        It sanitizes the text, removes section headers from the description, and constructs
         a URL that points to the specific section of the Wikipedia page.
-    
+
         Args:
             title (str): The title of the query section.
             markup (str): The wiki markup text containing the query description.
             sparql (str): The SPARQL query string.
             url(str): the url to assign - if not given derive from base_url and section title
-    
+
         Returns:
             NamedQuery: A NamedQuery object containing the processed information.
-    
+
         Note:
             The method sanitizes the title and description, removes section headers from the
             description, and constructs a URL with a section anchor based on the title.
@@ -114,7 +113,7 @@ class WikipediaQueryExtractor:
             desc = desc.strip()
         title = self.sanitize_text(title)
         if url is None:
-            url=f"{self.base_url}#{title.replace(' ', '_')}"
+            url = f"{self.base_url}#{title.replace(' ', '_')}"
         named_query = NamedQuery(
             domain=self.domain,
             namespace=self.namespace,
@@ -140,7 +139,7 @@ class WikipediaQueryExtractor:
 
             title = short_url_instance.name
             query_name = QueryName(name=title, namespace=self.namespace, domain=self.domain)
-            
+
             if query_name.query_id in self.named_query_list._query_dict:
                 self.log(f"Query with ID {query_name.query_id} already exists. Skipping.", is_error=True)
                 continue
@@ -152,17 +151,17 @@ class WikipediaQueryExtractor:
 
             if sparql_query:
                 query = self.extract_query_from_wiki_markup(
-                    title=title, 
-                    markup=description, 
-                    sparql=sparql_query,
-                    url=short_url_instance.short_url)
+                    title=title, markup=description, sparql=sparql_query, url=short_url_instance.short_url
+                )
                 self.named_query_list.add(query)
                 self.log(f"Added query: {title}")
             else:
                 self.log(f"No query found for short URL {short_url}", is_error=True)
 
         if not self.debug and self.errors:
-            self.logger.info(f"Encountered {len(self.errors)} errors during extraction. Set debug=True for more details.")
+            self.logger.info(
+                f"Encountered {len(self.errors)} errors during extraction. Set debug=True for more details."
+            )
 
         return named_queries
 
@@ -208,7 +207,7 @@ class WikipediaQueryExtractor:
         parsed = wtp.parse(wikitext)
         for section in parsed.sections:
             self.extract_queries_from_section(section)
-     
+
     def save_to_json(self, file_path: str):
         """
         Save the NamedQueryList to a JSON file.
@@ -231,5 +230,5 @@ class WikipediaQueryExtractor:
 
     def show_errors(self):
         print(f"{len(self.errors)} errors:")
-        for i,error in enumerate(self.errors,start=1):
+        for i, error in enumerate(self.errors, start=1):
             print(f"{i:3}:{error}")

@@ -118,12 +118,8 @@ class SparqlAnalyzer:
                     elements.extend(element)
             else:
                 pass
-        declared_prefix_counter = Counter(
-            [value.get("prefix") for value in defined_prefixes]
-        )
-        multi_declarations = [
-            prefix for prefix, count in declared_prefix_counter.items() if count > 1
-        ]
+        declared_prefix_counter = Counter([value.get("prefix") for value in defined_prefixes])
+        multi_declarations = [prefix for prefix, count in declared_prefix_counter.items() if count > 1]
         used_prefix_names = {value.get("prefix") for value in used_prefixes}
         used_prefix_map = dict()
         for prefix_value in reversed(defined_prefixes):
@@ -153,23 +149,17 @@ class SparqlAnalyzer:
             # extract used and declared prefixes
             declared_prefixes, used_prefixes = cls.extract_used_prefixes(prepared_query)
             missing_prefix_declarations = used_prefixes - set(declared_prefixes.keys())
-            undefined_prefixes = missing_prefix_declarations.difference(
-                cls.get_prefix_luts().keys()
-            )
+            undefined_prefixes = missing_prefix_declarations.difference(cls.get_prefix_luts().keys())
             if undefined_prefixes:
                 logger.error(
                     f"Prefix definitions missing for: {undefined_prefixes} → Not all prefixes that are missing can be added"
                 )
             missing_prefix_declarations_lut = {
-                key: value
-                for key, value in cls.get_prefix_luts().items()
-                if key in missing_prefix_declarations
+                key: value for key, value in cls.get_prefix_luts().items() if key in missing_prefix_declarations
             }
             fixed_query = cls._add_prefixes(missing_prefix_declarations_lut, query)
         except Exception as e:
-            logger.debug(
-                "Adding missing prefixes to query failed → Unable to parse SPARQL query"
-            )
+            logger.debug("Adding missing prefixes to query failed → Unable to parse SPARQL query")
             logging.error(e)
             fixed_query = query
         return fixed_query
@@ -229,9 +219,7 @@ class SparqlAnalyzer:
         Returns:
             SPARQL query with prefixes added
         """
-        prefixes_clauses = [
-            cls.prefix_clause(prefix, iri) for prefix, iri in prefixes.items()
-        ]
+        prefixes_clauses = [cls.prefix_clause(prefix, iri) for prefix, iri in prefixes.items()]
         prefixes_clauses_str = "\n".join(prefixes_clauses)
         return prefixes_clauses_str + "\n" + query
 

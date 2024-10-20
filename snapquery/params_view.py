@@ -3,6 +3,7 @@ Created on 06.05.2024
 
 @author: wf
 """
+
 from lodstorage.params import Params
 from ngwidgets.dict_edit import DictEdit, FieldUiDef, FormUiDef
 

@@ -3,6 +3,7 @@ Created on 2024-05-12
 
 @author: wf
 """
+
 import unittest
 
 from ngwidgets.basetest import Basetest
@@ -37,16 +38,16 @@ class TestShortUrl(Basetest):
         )
         nq_set.save_to_json_file("/tmp/wikidata-short-urls.json", indent=2)
         self.assertEqual(count, len(nq_set.queries))
-        
+
     @unittest.skipIf(Basetest.inPublicCI(), "unreliable execution in CI")
     def test_short_url(self):
         """
         test short url reading
         """
-        for short_id in ["5aTp","5aHL","5b3r"]:
-            short_url=ShortUrl(short_url=f"https://w.wiki/{short_id}")
+        for short_id in ["5aTp", "5aHL", "5b3r"]:
+            short_url = ShortUrl(short_url=f"https://w.wiki/{short_id}")
             short_url.read_query()
-            debug=self.debug
-            debug=True
+            debug = self.debug
+            debug = True
             if debug:
                 print(short_url.sparql)

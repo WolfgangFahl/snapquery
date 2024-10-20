@@ -3,6 +3,7 @@ Created on 04.05.2024
 
 @author: wf
 """
+
 # mwlogin.py
 
 import webbrowser

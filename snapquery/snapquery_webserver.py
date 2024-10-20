@@ -15,7 +15,7 @@ from ngwidgets.login import Login
 from ngwidgets.users import Users
 from nicegui import app, ui
 from nicegui.client import Client
-from starlette.responses import RedirectResponse, JSONResponse
+from starlette.responses import JSONResponse, RedirectResponse
 
 from snapquery.models.person import Person
 from snapquery.namespace_stats_view import NamespaceStatsView
@@ -26,6 +26,7 @@ from snapquery.snapquery_core import NamedQueryManager, QueryBundle, QueryName, 
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.stats_view import QueryStatsView
 from snapquery.version import Version
+from snapquery.authorization import Authorization
 
 
 class SnapQueryWebServer(InputWebserver):
@@ -56,6 +57,7 @@ class SnapQueryWebServer(InputWebserver):
         users = Users("~/.solutions/snapquery")
         self.login = Login(self, users)
         self.orcid_auth = OrcidAuth(Path(self.config.base_path))
+        self.authorization=Authorization.load()
         self.nqm = NamedQueryManager.from_samples()
 
         @ui.page("/admin")
@@ -182,12 +184,17 @@ class SnapQueryWebServer(InputWebserver):
         @app.get("/api/query/{domain}/{namespace}/{name}")
         def query(
             request: fastapi.Request,
-            domain: str = fastapi.Path(description="The domain identifying the domain of the query", examples=["wikidata.org"]),
-            namespace: str = fastapi.Path(description="The namespace identifying the group or category of the query.", examples=['snapquery-examples']),
-            name: str = fastapi.Path(description="The specific name of the query to be executed.", examples=['cats']),
+            domain: str = fastapi.Path(
+                description="The domain identifying the domain of the query", examples=["wikidata.org"]
+            ),
+            namespace: str = fastapi.Path(
+                description="The namespace identifying the group or category of the query.",
+                examples=["snapquery-examples"],
+            ),
+            name: str = fastapi.Path(description="The specific name of the query to be executed.", examples=["cats"]),
             endpoint_name: str = fastapi.Query(default="wikidata", examples=sorted(self.nqm.endpoints)),
             limit: int | None = fastapi.Query(default=None),
-            format: Format | None = fastapi.Query(default=Format.html, exampes=[f.name for f in Format])
+            format: Format | None = fastapi.Query(default=Format.html, exampes=[f.name for f in Format]),
         ):
             """
             Executes a SPARQL query by name within a specified namespace, formats the results, and returns them as an HTML response.
@@ -303,7 +310,11 @@ class SnapQuerySolution(InputWebSolution):
         """
         add additional settings
         """
-        self.add_select("default Endpoint", list(self.nqm.endpoints.keys()), value=self.endpoint_name,).bind_value(
+        self.add_select(
+            "default Endpoint",
+            list(self.nqm.endpoints.keys()),
+            value=self.endpoint_name,
+        ).bind_value(
             app.storage.user,
             "endpoint_name",
         )

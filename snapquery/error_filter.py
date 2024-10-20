@@ -3,6 +3,7 @@ Created on 2024-05-06
 
 @author: wf
 """
+
 import json
 from json import JSONDecodeError
 from typing import Union

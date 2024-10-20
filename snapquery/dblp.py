@@ -3,6 +3,7 @@ Created on 2024-06-07
 
 @author: wf
 """
+
 from typing import List
 
 from snapquery.models.person import Person

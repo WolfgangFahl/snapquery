@@ -2,6 +2,7 @@
 Created on 2024-07-04
 @author: wf
 """
+
 from typing import List
 
 from ngwidgets.combobox import ComboBox
@@ -35,7 +36,7 @@ class QuerySelector:
             self.domain_select = self.create_combobox("Domain", self.qns.domains, 25)
             self.namespace_select = self.create_combobox("Namespace", self.qns.namespaces, 40)
             self.name_select = self.create_combobox("Name", self.qns.names, 80)
-            ui.checkbox("prefix").tooltip("prefix search").bind_value(self, 'like').on('change', self.handle_change)
+            ui.checkbox("prefix").tooltip("prefix search").bind_value(self, "like").on("change", self.handle_change)
 
     def create_combobox(self, label: str, options: List[str], width_chars: int) -> ComboBox:
         """Create a ComboBox with the given label, options, and width."""

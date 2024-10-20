@@ -3,6 +3,7 @@ Created on 2024-06-27
 
 @author: wf
 """
+
 from ngwidgets.basetest import Basetest
 
 from snapquery.graph import Graph, GraphManager

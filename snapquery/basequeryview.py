@@ -35,9 +35,7 @@ class BaseQueryView:
 
         self.query_selector = QuerySelector(self.solution, self.on_search_change)
         self.search_result_row = ui.row()
-        self.debouncer = DebouncerUI(
-            parent=self.search_result_row, delay=0.65, debug=self.debug
-        )
+        self.debouncer = DebouncerUI(parent=self.search_result_row, delay=0.65, debug=self.debug)
 
         ui.timer(0.0, self.on_search_change, once=True)
 

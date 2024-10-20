@@ -104,7 +104,11 @@ class SparqlQueryAnnotater:
         return self.soup.find_all("span", {"class": "k"})
 
     def _get_function_elements(self):
-        return self.soup.find_all("span", {"class": "nf"})
+        elements = []
+        for element in self.soup.find_all("span", {"class": "nf"}):
+            if element.previous_element.text != "@":
+                elements.append(element)
+        return elements
 
     def get_used_prefixes(self):
         prefixes = []
@@ -244,4 +248,6 @@ class FunctionStat:
     count: int = 0
 
 
-QUERY_ITEM_STATS: Stats = Stats.load_from_yaml_file(Path(__file__).parent.joinpath("samples", "query_stats.yaml"))
+QUERY_ITEM_STATS: Stats = Stats.load_from_yaml_file(
+    Path(__file__).parent.joinpath("samples", "query_stats.yaml")
+)

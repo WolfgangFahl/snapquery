@@ -42,7 +42,7 @@ class TestSparqlQueryAnnotater(Basetest):
           OPTIONAL { ?horse rdfs:label ?horseLabel . FILTER (lang(?horseLabel) = "en") }
           OPTIONAL { ?mother rdfs:label ?motherLabel . FILTER (lang(?motherLabel) = "en") }
           OPTIONAL { ?father rdfs:label ?fatherLabel . FILTER (lang(?fatherLabel) = "en") }
-          OPTIONAL { ?gender rdfs:label ?genderLabel . FILTER (lang(?genderLabel) = "en") }
+          OPTIONAL { ?gender rdfs:label "male"@en }
         }
         ORDER BY ?horse
         """
@@ -90,7 +90,7 @@ class TestSparqlQueryAnnotater(Basetest):
         self.assertEqual(1, len(props))
 
     @unittest.skipIf(
-        Basetest.inPublicCI() or True,
+        Basetest.inPublicCI() or False,
         "Only required to regenerate the query_stats.yaml",
     )
     def test_property_usage(self):
@@ -107,12 +107,18 @@ class TestSparqlQueryAnnotater(Basetest):
         prefixes = []
         for query_record in nqm.sql_db.queryGen(query):
             named_query = NamedQuery.from_record(record=query_record)
-            sparql_prefix_fixed = sparql_analyzer.add_missing_prefixes(named_query.sparql)
-            annotated_query = SparqlQueryAnnotater(Query(named_query.query_id, sparql_prefix_fixed))
+            sparql_prefix_fixed = sparql_analyzer.add_missing_prefixes(
+                named_query.sparql
+            )
+            annotated_query = SparqlQueryAnnotater(
+                Query(named_query.query_id, sparql_prefix_fixed)
+            )
             props = annotated_query.get_used_properties()
             properties.extend(props)
             namespace_iris.extend(annotated_query.get_namespace_iris())
             keywords.extend(annotated_query.get_normalized_keywords())
+            if "EN" in annotated_query.get_normalized_functions():
+                print(named_query.sparql)
             functions.extend(annotated_query.get_normalized_functions())
             prefixes.extend(annotated_query.get_used_prefixes())
             print(f"{named_query.query_id}: {len(props)}")
@@ -203,7 +209,6 @@ class TestSparqlQueryAnnotater(Basetest):
             "OPTIONAL",
             "FILTER",
             "OPTIONAL",
-            "FILTER",
             "ORDER BY",
         ]
         self.assertEqual(used_keywords, expected_keywords)
@@ -229,5 +234,5 @@ class TestSparqlQueryAnnotater(Basetest):
         query = self.query
         annotated_query = SparqlQueryAnnotater(query)
         used_namespace_iris = annotated_query.get_used_functions()
-        expected_namespace_iris = ["year", "year", "lang", "lang", "lang", "lang"]
+        expected_namespace_iris = ["year", "year", "lang", "lang", "lang"]
         self.assertEqual(used_namespace_iris, expected_namespace_iris)

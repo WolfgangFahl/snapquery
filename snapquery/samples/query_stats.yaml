@@ -2,10 +2,10 @@ name: items_used_in_queries
 item_stats:
 - identifier: P31
   label: instance of
-  count: 737
+  count: 739
   namespace_stats:
   - prefix: wdt
-    count: 709
+    count: 711
   - prefix: orkgp
     count: 1
   - prefix: p
@@ -20,10 +20,10 @@ item_stats:
     count: 6
 - identifier: rdfs:label
   label: rdfs:label
-  count: 454
+  count: 456
   namespace_stats:
   - prefix: rdfs
-    count: 454
+    count: 456
 - identifier: Q5741069
   label: rock band
   count: 2
@@ -366,22 +366,22 @@ item_stats:
     count: 3
 - identifier: wikibase:label
   label: wikibase:label
-  count: 669
+  count: 671
   namespace_stats:
   - prefix: wikibase
-    count: 669
+    count: 671
 - identifier: bd:serviceParam
   label: bd:serviceParam
-  count: 707
+  count: 709
   namespace_stats:
   - prefix: bd
-    count: 707
+    count: 709
 - identifier: wikibase:language
   label: wikibase:language
-  count: 669
+  count: 671
   namespace_stats:
   - prefix: wikibase
-    count: 669
+    count: 671
 - identifier: Q420633
   label: phosphoribosyl pyrophosphate
   count: 2
@@ -574,10 +574,10 @@ item_stats:
     count: 16
 - identifier: P625
   label: coordinate location
-  count: 159
+  count: 161
   namespace_stats:
   - prefix: wdt
-    count: 123
+    count: 125
   - prefix: pq
     count: 3
   - prefix: p
@@ -670,16 +670,16 @@ item_stats:
     count: 59
 - identifier: P5008
   label: on focus list of Wikimedia project
-  count: 72
+  count: 74
   namespace_stats:
   - prefix: wdt
-    count: 72
+    count: 74
 - identifier: Q112895606
   label: LSEThesisProject
-  count: 58
+  count: 60
   namespace_stats:
   - prefix: wd
-    count: 58
+    count: 60
 - identifier: Q5
   label: human
   count: 96
@@ -712,10 +712,10 @@ item_stats:
     count: 3
 - identifier: P361
   label: part of
-  count: 88
+  count: 90
   namespace_stats:
   - prefix: wdt
-    count: 86
+    count: 88
   - prefix: p
     count: 1
   - prefix: ps
@@ -766,14 +766,14 @@ item_stats:
     count: 4
 - identifier: P921
   label: main subject
-  count: 199
+  count: 201
   namespace_stats:
   - prefix: p
     count: 14
   - prefix: ps
     count: 5
   - prefix: wdt
-    count: 180
+    count: 182
 - identifier: P1026
   label: academic thesis
   count: 4
@@ -4903,7 +4903,7 @@ item_stats:
   - prefix: wd
     count: 1
 - identifier: Q16970
-  label: church building
+  label: church
   count: 3
   namespace_stats:
   - prefix: wd
@@ -5539,6 +5539,24 @@ item_stats:
   count: 1
   namespace_stats:
   - prefix: xsd
+    count: 1
+- identifier: Q130565232
+  label: SPARQL function
+  count: 1
+  namespace_stats:
+  - prefix: wd
+    count: 1
+- identifier: Q32146616
+  label: SPARQL 1.1 Query Language
+  count: 2
+  namespace_stats:
+  - prefix: wd
+    count: 2
+- identifier: Q114355584
+  label: SPARQL keyword
+  count: 1
+  namespace_stats:
+  - prefix: wd
     count: 1
 - identifier: Q3235597
   label: crucifixion
@@ -7015,17 +7033,17 @@ item_stats:
     count: 1
 keyword_stats:
 - keyword: PREFIX
-  count: 4623
+  count: 4637
 - keyword: SELECT
-  count: 1734
+  count: 1738
 - keyword: WHERE
-  count: 1636
+  count: 1640
 - keyword: OPTIONAL
   count: 771
 - keyword: FILTER
-  count: 720
+  count: 722
 - keyword: DISTINCT
-  count: 549
+  count: 551
 - keyword: AS
   count: 2634
 - keyword: ORDER BY
@@ -7039,7 +7057,7 @@ keyword_stats:
 - keyword: DESC
   count: 527
 - keyword: SERVICE
-  count: 736
+  count: 738
 - keyword: A
   count: 349
 - keyword: UNION
@@ -7064,7 +7082,7 @@ keyword_stats:
   count: 1
 function_stats:
 - name: LANG
-  count: 397
+  count: 399
 - name: STRSTARTS
   count: 28
 - name: YEAR
@@ -7133,10 +7151,6 @@ function_stats:
   count: 10
 - name: AVG
   count: 1
-- name: EN
-  count: 42
-- name: DE
-  count: 5
 - name: ISIRI
   count: 2
 - name: ISLITERAL
@@ -7164,13 +7178,13 @@ function_stats:
 namespace_stats:
 - prefix: rdfs
   iri: http://www.w3.org/2000/01/rdf-schema#
-  count: 741
+  count: 745
 - prefix: wd
   iri: http://www.wikidata.org/entity/
-  count: 2053
+  count: 2063
 - prefix: wdt
   iri: http://www.wikidata.org/prop/direct/
-  count: 5037
+  count: 5051
 - prefix: rdf
   iri: http://www.w3.org/1999/02/22-rdf-syntax-ns#
   count: 73
@@ -7210,13 +7224,13 @@ namespace_stats:
   count: 5
 - prefix: bd
   iri: http://www.bigdata.com/rdf#
-  count: 1369
+  count: 1373
 - prefix: dct
   iri: http://purl.org/dc/terms/
   count: 48
 - prefix: wikibase
   iri: http://wikiba.se/ontology#
-  count: 2444
+  count: 2450
 - prefix: wp
   iri: http://vocabularies.wikipathways.org/wp#
   count: 27

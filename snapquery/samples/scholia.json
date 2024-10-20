@@ -15,6 +15,17 @@
       "comment": ""
     },
     {
+      "query_id": "ask_author_retractions--named_queries@scholia.toolforge.org",
+      "domain": "scholia.toolforge.org",
+      "namespace": "named_queries",
+      "name": "ask_author_retractions",
+      "sparql": "ASK {\n    ?work wdt:P50 wd:{{q}} . BIND(\"author-retractions\" AS ?aspectsubpage)\n    { ?work wdt:P31 wd:Q45182324 } UNION { ?work wdt:P793 wd:Q7316896 . } UNION { ?work wdt:P5824 [] . }\n}\n",
+      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/ask_author_retractions.sparql",
+      "title": "ask_author_retractions",
+      "description": "ask_author_retractions",
+      "comment": ""
+    },
+    {
       "query_id": "ask_venue_cito--named_queries@scholia.toolforge.org",
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
@@ -151,7 +162,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "author_coauthor-map",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n#defaultView:Map\nSELECT ?organization ?organizationLabel ?geo ?count ?layer\nWITH {\n  SELECT DISTINCT ?organization ?geo (COUNT(DISTINCT ?work) AS ?count) WHERE {\n    ?work wdt:P50 target: ;\n          wdt:P50 ?author .\n    FILTER (?author != target: )\n    ?author ( wdt:P108 | wdt:P463 | wdt:P1416 ) / wdt:P361* ?organization . \n    ?organization (wdt:P625 | ((wdt:P276|wdt:P159)/wdt:P625)) ?geo .\n  }\n  GROUP BY ?organization ?geo ?count\n  ORDER BY DESC (?count)\n  LIMIT 2000\n} AS %organizations\nWHERE {\n  INCLUDE %organizations\n  BIND(IF( (?count < 1), \"No results\", IF((?count < 2), \"1 result\", IF((?count < 11), \"1 < results \u2264 10\", IF((?count < 101), \"10 < results \u2264 100\", IF((?count < 1001), \"100 < results \u2264 1000\", IF((?count < 10001), \"1000 < results \u2264 10000\", \"over 10000 results\") ) ) ) )) AS ?layer )\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }        \n }\nORDER BY DESC (?count)\n\n",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n#defaultView:Map\nSELECT ?organization ?organizationLabel ?geo ?count ?layer\nWITH {\n  SELECT DISTINCT ?organization ?geo (COUNT(DISTINCT ?work) AS ?count) WHERE {\n    ?work wdt:P50 target: ;\n          wdt:P50 ?author .\n    FILTER (?author != target: )\n    ?author ( wdt:P108 | wdt:P463 | wdt:P1416 ) / wdt:P361* ?organization . \n    ?organization (wdt:P625 | ((wdt:P276|wdt:P159)/wdt:P625)) ?geo .\n  }\n  GROUP BY ?organization ?geo ?count\n  ORDER BY DESC (?count)\n  LIMIT 2000\n} AS %organizations\nWHERE {\n  INCLUDE %organizations\n  BIND(IF( (?count < 1), \"No results\", IF((?count < 2), \"1 result\", IF((?count < 11), \"1 < results ≤ 10\", IF((?count < 101), \"10 < results ≤ 100\", IF((?count < 1001), \"100 < results ≤ 1000\", IF((?count < 10001), \"1000 < results ≤ 10000\", \"over 10000 results\") ) ) ) )) AS ?layer )\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }        \n }\nORDER BY DESC (?count)\n\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/author_coauthor-map.sparql",
       "title": "author_coauthor-map",
       "description": "author_coauthor-map",
@@ -188,6 +199,17 @@
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/author_list-of-publications.sparql",
       "title": "author_list-of-publications",
       "description": "author_list-of-publications",
+      "comment": ""
+    },
+    {
+      "query_id": "author_list-of-retracted-articles--named_queries@scholia.toolforge.org",
+      "domain": "scholia.toolforge.org",
+      "namespace": "named_queries",
+      "name": "author_list-of-retracted-articles",
+      "sparql": "\n#defaultView:Table\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  (MIN(?dates) AS ?date)\n  ?work ?workLabel\n  (GROUP_CONCAT(DISTINCT ?type_label; separator=\", \") AS ?type)\n  (SAMPLE(?pages_) AS ?pages)\n  ?venue ?venueLabel\n  (GROUP_CONCAT(DISTINCT ?author_label; separator=\", \") AS ?authors)\n  (CONCAT(\"../authors/\", GROUP_CONCAT(DISTINCT SUBSTR(STR(?author), 32); separator=\",\")) AS ?authorsUrl)\nWHERE {\n  ?work wdt:P50 target: .\n  ?work wdt:P50 ?author .\n  { ?work wdt:P31 wd:Q45182324 } UNION { ?work wdt:P793 wd:Q7316896 . } UNION { ?work wdt:P5824 [] . }\n  OPTIONAL {\n    ?author rdfs:label ?author_label_ . FILTER (LANG(?author_label_) = 'en')\n  }\n  BIND(COALESCE(?author_label_, SUBSTR(STR(?author), 32)) AS ?author_label)\n  OPTIONAL { ?work wdt:P31 ?type_ . ?type_ rdfs:label ?type_label . FILTER (LANG(?type_label) = 'en') }\n  ?work wdt:P577 ?datetimes .\n  BIND(xsd:date(?datetimes) AS ?dates)\n  OPTIONAL { ?work wdt:P1104 ?pages_ }\n  OPTIONAL { ?work wdt:P1433 ?venue }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . }\n}\nGROUP BY ?work ?workLabel ?venue ?venueLabel\nORDER BY DESC(?date)\n",
+      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/author_list-of-retracted-articles.sparql",
+      "title": "author_list-of-retracted-articles",
+      "description": "author_list-of-retracted-articles",
       "comment": ""
     },
     {
@@ -246,6 +268,17 @@
       "comment": ""
     },
     {
+      "query_id": "author_retracted-articles-per-year--named_queries@scholia.toolforge.org",
+      "domain": "scholia.toolforge.org",
+      "namespace": "named_queries",
+      "name": "author_retracted-articles-per-year",
+      "sparql": "\n#defaultView:BarChart\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# Inspired from LEGOLAS - http://abel.lis.illinois.edu/legolas/\n# Shubhanshu Mishra, Vetle Torvik\nselect ?year (count(?work) as ?number_of_publications) ?role where {\n  {\n    select (str(?year_) as ?year) (0 as ?pages) (\"_\" as ?role) where {\n      # default values = 0\n      ?year_item wdt:P31 wd:Q577 .\n      ?year_item wdt:P585 ?date .\n      bind(year(?date) as ?year_)\n      {\n        select (min(?year_) as ?earliest_year)  (max(?year_) as ?latest_year) where {\n          ?work wdt:P50 target: .\n          ?work wdt:P577 ?publication_date .\n          { ?work wdt:P31 wd:Q45182324 } UNION { ?work wdt:P793 wd:Q7316896 . } UNION { ?work wdt:P5824 [] . }\n          bind(year(?publication_date) as ?year_)\n        }\n      }\n      bind(year(now())+1 as ?next_year)\n      filter (?year_ >= ?earliest_year && ?year_ <= ?latest_year)\n    }\n  }\n  union {\n  {\n    select ?work (min(?years) as ?year) (count(?coauthors) as ?number_of_authors) ?author_number where {\n      ?work (p:P50|p:P2093) ?author_statement .\n      ?author_statement ps:P50 target: .\n      optional { ?author_statement pq:P1545 ?author_number . }\n      ?work (wdt:P50|wdt:P2093) ?coauthors .\n      ?work wdt:P577 ?dates .\n      { ?work wdt:P31 wd:Q45182324 } UNION { ?work wdt:P793 wd:Q7316896 . } UNION { ?work wdt:P5824 [] . }\n      bind(str(year(?dates)) as ?years) .\n    }\n    group by ?work ?author_number\n  }\n  bind(coalesce(if(?number_of_authors = 1,\n            'Solo author',\n            if(xsd:integer(?author_number) = 1,\n               'First author',\n               if(xsd:integer(?author_number) = ?number_of_authors,\n                  'Last author',\n                  'Middle author'))), 'Unknown')\n       as ?role)\n   }\n}\ngroup by ?year ?role\norder by ?year\n",
+      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/author_retracted-articles-per-year.sparql",
+      "title": "author_retracted-articles-per-year",
+      "description": "author_retracted-articles-per-year",
+      "comment": ""
+    },
+    {
       "query_id": "author_review-statistics--named_queries@scholia.toolforge.org",
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
@@ -261,7 +294,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "author_timeline",
-      "sparql": "#defaultView:Timeline\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# Timeline for an author\nSELECT ?label ?beginning ?ending ?education_degree_label\nWITH {\n  SELECT ?work (MIN(?publication_date) AS ?beginning) WHERE {\n    ?work wdt:P50 target: .\n    ?work wdt:P577 ?publication_date . \n  }\n  GROUP BY ?work\n} AS %works_with_publication_date\nWITH {\n  \n  SELECT ?work ?beginning (COUNT(?citing_article) AS ?number_of_citations) WHERE {\n    INCLUDE %works_with_publication_date\n    OPTIONAL { ?citing_article wdt:P2860 ?work . }\n  }\n  GROUP BY ?work ?beginning \n} AS %works\nWHERE {\n  # { Birth target: wdt:P569 ?beginning . BIND(\"Birth\" AS ?label) } UNION\n  {\n    { \n      SELECT ?work ?beginning WHERE {\n        INCLUDE %works\n      }\n      ORDER BY DESC(?number_of_citations)\n      LIMIT 1        \n    }\n    BIND(\"\ud83d\udcd6 publication of most cited article\" AS ?label)\n  }\n  UNION\n  {\n    { \n      SELECT ?work ?beginning WHERE {\n        INCLUDE %works\n      }\n      ORDER BY ?beginning\n      LIMIT 1        \n    }\n    BIND(\"\ud83d\udcd6 first publication\" AS ?label)\n  }\n  UNION\n  {\n    { \n      SELECT ?work ?beginning WHERE {\n        INCLUDE %works\n      }\n      ORDER BY DESC(?beginning)\n      LIMIT 1        \n    }\n    BIND(\"\ud83d\udcd6 latest publication\" AS ?label)\n  }\n  UNION\n  {\n    # Education\n    target: p:P69 ?education_statement .\n    ?education_statement ps:P69 ?education .\n    ?education rdfs:label ?education_label . \n    FILTER (lang(?education_label) = 'en')\n    BIND(CONCAT(\"\ud83e\udd89 \", ?education_label) AS ?label)\n    OPTIONAL { ?education_statement pq:P580 ?beginning . }\n    OPTIONAL { ?education_statement pq:P582 ?ending . }\n    OPTIONAL {\n      ?education_statement pq:P512 ?education_degree . \n      ?education_degree rdfs:label ?education_degree_label .\n      FILTER (lang(?education_degree_label) = 'en')\n    }\n  }\n  UNION\n  {\n    # Affiliation\n    target: p:P1416 | p:P108 ?affiliation_statement .\n    ?affiliation_statement ps:P1416 | ps:P108 ?affiliation .\n    ?affiliation rdfs:label ?affiliation_label .\n    FILTER (lang(?affiliation_label) = 'en')\n    BIND(CONCAT(\"\ud83c\udfe0 \",?affiliation_label) AS ?label)\n    # OPTIONAL { ?affiliation wdt:P18 ?image }\n    OPTIONAL { ?affiliation_statement pq:P580 ?beginning . }\n    OPTIONAL { ?affiliation_statement pq:P582 ?ending . }\n    OPTIONAL {\n      ?affiliation_statement pq:P512 ?affiliation_degree . \n      ?affiliation_degree rdfs:label ?affiliation_degree_label .\n      FILTER (lang(?affiliation_degree_label) = 'en')\n    }\n  }\n  UNION\n  {\n    target: p:P166 ?award_statement .\n    ?award_statement ps:P166 ?award .\n    ?award rdfs:label ?award_label .\n    FILTER (lang(?award_label) = 'en')\n    BIND(CONCAT(\"\ud83c\udfc6 \",?award_label) AS ?label)\n    ?award_statement pq:P585 ?beginning .\n  }\n\n} \n",
+      "sparql": "#defaultView:Timeline\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# Timeline for an author\nSELECT ?label ?beginning ?ending ?education_degree_label\nWITH {\n  SELECT ?work (MIN(?publication_date) AS ?beginning) WHERE {\n    ?work wdt:P50 target: .\n    ?work wdt:P577 ?publication_date . \n  }\n  GROUP BY ?work\n} AS %works_with_publication_date\nWITH {\n  \n  SELECT ?work ?beginning (COUNT(?citing_article) AS ?number_of_citations) WHERE {\n    INCLUDE %works_with_publication_date\n    OPTIONAL { ?citing_article wdt:P2860 ?work . }\n  }\n  GROUP BY ?work ?beginning \n} AS %works\nWHERE {\n  # { Birth target: wdt:P569 ?beginning . BIND(\"Birth\" AS ?label) } UNION\n  {\n    { \n      SELECT ?work ?beginning WHERE {\n        INCLUDE %works\n      }\n      ORDER BY DESC(?number_of_citations)\n      LIMIT 1        \n    }\n    BIND(\"📖 publication of most cited article\" AS ?label)\n  }\n  UNION\n  {\n    { \n      SELECT ?work ?beginning WHERE {\n        INCLUDE %works\n      }\n      ORDER BY ?beginning\n      LIMIT 1        \n    }\n    BIND(\"📖 first publication\" AS ?label)\n  }\n  UNION\n  {\n    { \n      SELECT ?work ?beginning WHERE {\n        INCLUDE %works\n      }\n      ORDER BY DESC(?beginning)\n      LIMIT 1        \n    }\n    BIND(\"📖 latest publication\" AS ?label)\n  }\n  UNION\n  {\n    # Education\n    target: p:P69 ?education_statement .\n    ?education_statement ps:P69 ?education .\n    ?education rdfs:label ?education_label . \n    FILTER (lang(?education_label) = 'en')\n    BIND(CONCAT(\"🦉 \", ?education_label) AS ?label)\n    OPTIONAL { ?education_statement pq:P580 ?beginning . }\n    OPTIONAL { ?education_statement pq:P582 ?ending . }\n    OPTIONAL {\n      ?education_statement pq:P512 ?education_degree . \n      ?education_degree rdfs:label ?education_degree_label .\n      FILTER (lang(?education_degree_label) = 'en')\n    }\n  }\n  UNION\n  {\n    # Affiliation\n    target: p:P1416 | p:P108 ?affiliation_statement .\n    ?affiliation_statement ps:P1416 | ps:P108 ?affiliation .\n    ?affiliation rdfs:label ?affiliation_label .\n    FILTER (lang(?affiliation_label) = 'en')\n    BIND(CONCAT(\"🏠 \",?affiliation_label) AS ?label)\n    # OPTIONAL { ?affiliation wdt:P18 ?image }\n    OPTIONAL { ?affiliation_statement pq:P580 ?beginning . }\n    OPTIONAL { ?affiliation_statement pq:P582 ?ending . }\n    OPTIONAL {\n      ?affiliation_statement pq:P512 ?affiliation_degree . \n      ?affiliation_degree rdfs:label ?affiliation_degree_label .\n      FILTER (lang(?affiliation_degree_label) = 'en')\n    }\n  }\n  UNION\n  {\n    target: p:P166 ?award_statement .\n    ?award_statement ps:P166 ?award .\n    ?award rdfs:label ?award_label .\n    FILTER (lang(?award_label) = 'en')\n    BIND(CONCAT(\"🏆 \",?award_label) AS ?label)\n    ?award_statement pq:P585 ?beginning .\n  }\n  UNION\n  {\n    target: wdt:P569 ?beginning .\n    BIND(CONCAT(\"👶 born \") AS ?label) .\n  }\n  UNION\n  {\n    target: wdt:P570 ?beginning .\n    BIND(CONCAT(\"🥀 died\") AS ?label) .\n  }\n\t\t\t    \n} \n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/author_timeline.sparql",
       "title": "author_timeline",
       "description": "author_timeline",
@@ -279,17 +312,6 @@
       "comment": ""
     },
     {
-      "query_id": "author_topics-works-matrix--named_queries@scholia.toolforge.org",
-      "domain": "scholia.toolforge.org",
-      "namespace": "named_queries",
-      "name": "author_topics-works-matrix",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?work ?workLabel ?topic ?topicLabel WHERE {\n?work wdt:P50 target: .\n?work wdt:P921 ?topic .\nOPTIONAL { ?work wdt:P577 ?publication_date }\nSERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en,cz,da,de,es,fr,hi,jp,nl,nn,ru,sv,zh\". }\n}\nORDER BY ?publication_date",
-      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/author_topics-works-matrix.sparql",
-      "title": "author_topics-works-matrix",
-      "description": "author_topics-works-matrix",
-      "comment": ""
-    },
-    {
       "query_id": "author_topics--named_queries@scholia.toolforge.org",
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
@@ -301,25 +323,25 @@
       "comment": ""
     },
     {
+      "query_id": "author_topics-works-matrix--named_queries@scholia.toolforge.org",
+      "domain": "scholia.toolforge.org",
+      "namespace": "named_queries",
+      "name": "author_topics-works-matrix",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?work ?workLabel ?topic ?topicLabel WHERE {\n?work wdt:P50 target: .\n?work wdt:P921 ?topic .\nOPTIONAL { ?work wdt:P577 ?publication_date }\nSERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en,cz,da,de,es,fr,hi,jp,nl,nn,ru,sv,zh\". }\n}\nORDER BY ?publication_date",
+      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/author_topics-works-matrix.sparql",
+      "title": "author_topics-works-matrix",
+      "description": "author_topics-works-matrix",
+      "comment": ""
+    },
+    {
       "query_id": "author_use--named_queries@scholia.toolforge.org",
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "author_use",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?count\n  ?use ?useLabel (CONCAT(\"/use/\", SUBSTR(STR(?use), 32)) AS ?useUrl)\n  (\"\ud83d\udd0e\" AS ?zoom)\n  (CONCAT(\"{{ q }}/use/\", SUBSTR(STR(?use), 32)) AS ?zoomUrl)\n  ?useDescription\n\n  ?example_work ?example_workLabel\nWITH {\n  SELECT\n    (COUNT(?work) AS ?count)\n    ?use\n    (SAMPLE(?work) AS ?example_work)\n  {\n    ?work wdt:P50 target: ;\n          wdt:P4510 ?use .\n  }\n  GROUP BY ?use\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\nORDER BY DESC(?count)",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?count\n  ?use ?useLabel (CONCAT(\"/use/\", SUBSTR(STR(?use), 32)) AS ?useUrl)\n  (\"🔎\" AS ?zoom)\n  (CONCAT(\"{{ q }}/use/\", SUBSTR(STR(?use), 32)) AS ?zoomUrl)\n  ?useDescription\n\n  ?example_work ?example_workLabel\nWITH {\n  SELECT\n    (COUNT(?work) AS ?count)\n    ?use\n    (SAMPLE(?work) AS ?example_work)\n  {\n    ?work wdt:P50 target: ;\n          wdt:P4510 ?use .\n  }\n  GROUP BY ?use\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\nORDER BY DESC(?count)",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/author_use.sparql",
       "title": "author_use",
       "description": "author_use",
-      "comment": ""
-    },
-    {
-      "query_id": "author_venue-statistics-chart--named_queries@scholia.toolforge.org",
-      "domain": "scholia.toolforge.org",
-      "namespace": "named_queries",
-      "name": "author_venue-statistics-chart",
-      "sparql": "#defaultView:BubbleChart\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?count ?venue (SAMPLE(?venue_label_) AS ?venue_label) \nWITH {\n  SELECT (COUNT(?work) as ?count) ?venue WHERE {\n    ?work wdt:P50 target: .\n    ?work wdt:P1433 ?venue .\n  }\n  GROUP BY ?venue\n} AS %counts\nWHERE {\n  INCLUDE %counts\n  ?venue rdfs:label ?long_venue_label FILTER(LANG(?long_venue_label) = 'en')\n  OPTIONAL { ?venue wdt:P1813 ?short_name . }\n  BIND(COALESCE(?short_name, ?long_venue_label) AS ?venue_label_)\n}\nGROUP BY ?venue ?count\nORDER BY DESC(?count)  \n",
-      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/author_venue-statistics-chart.sparql",
-      "title": "author_venue-statistics-chart",
-      "description": "author_venue-statistics-chart",
       "comment": ""
     },
     {
@@ -331,6 +353,17 @@
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/author_venue-statistics.sparql",
       "title": "author_venue-statistics",
       "description": "author_venue-statistics",
+      "comment": ""
+    },
+    {
+      "query_id": "author_venue-statistics-chart--named_queries@scholia.toolforge.org",
+      "domain": "scholia.toolforge.org",
+      "namespace": "named_queries",
+      "name": "author_venue-statistics-chart",
+      "sparql": "#defaultView:BubbleChart\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?count ?venue (SAMPLE(?venue_label_) AS ?venue_label) \nWITH {\n  SELECT (COUNT(?work) as ?count) ?venue WHERE {\n    ?work wdt:P50 target: .\n    ?work wdt:P1433 ?venue .\n  }\n  GROUP BY ?venue\n} AS %counts\nWHERE {\n  INCLUDE %counts\n  ?venue rdfs:label ?long_venue_label FILTER(LANG(?long_venue_label) = 'en')\n  OPTIONAL { ?venue wdt:P1813 ?short_name . }\n  BIND(COALESCE(?short_name, ?long_venue_label) AS ?venue_label_)\n}\nGROUP BY ?venue ?count\nORDER BY DESC(?count)  \n",
+      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/author_venue-statistics-chart.sparql",
+      "title": "author_venue-statistics-chart",
+      "description": "author_venue-statistics-chart",
       "comment": ""
     },
     {
@@ -602,7 +635,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "chemical-curation_missing-main-subjects",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT DISTINCT ?work ?workLabel (CONCAT(\"/work/\", SUBSTR(STR(?work),32)) AS ?workUrl)\n  ?chemicalname\n  (CONCAT(SUBSTR(STR(?work),32), \"\\tP921\\t{{ q }}\\tS887\\tQ69652283\") AS ?quickStatements)\n  (CONCAT(\"https://quickstatements.toolforge.org/#/v1=\",\n          SUBSTR(STR(?work),32), \"%7CP921%7C{{ q }}%7CS887%7CQ69652283\") AS ?quickStatementsUrl)\nWITH {\n  SELECT  ?work ?chemicalname WHERE {\n    VALUES ?chemicalType {\n      wd:Q113145171 # type of a chemical entity\n      wd:Q59199015 # group of stereoisomers\n    }\n    target: wdt:P31 ?chemicalType ; rdfs:label ?chemicalname .\n    FILTER(lang(?chemicalname) = \"en\")\n    SERVICE wikibase:mwapi {\n      bd:serviceParam wikibase:endpoint \"www.wikidata.org\";\n      wikibase:api \"Generator\";\n      mwapi:generator \"search\";\n      mwapi:gsrsearch ?chemicalname;\n      mwapi:gsrlimit \"max\".\n      ?work wikibase:apiOutputItem mwapi:title.\n    }\n    ?work wdt:P1476 ?title .\n    MINUS {?work wdt:P921 target: }\n    FILTER (REGEX(LCASE(?title), LCASE(CONCAT( \"\\\\\\\\\", \"b\", ?chemicalname ,\"\\\\\\\\\", \"b\"))))\n  } LIMIT 200\n} AS %works WHERE {\n  INCLUDE %works\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\n",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT DISTINCT ?work ?workLabel (CONCAT(\"/work/\", SUBSTR(STR(?work),32)) AS ?workUrl)\n  ?chemicalname\n  (CONCAT(SUBSTR(STR(?work),32), \"\tP921\t{{ q }}\tS887\tQ69652283\") AS ?quickStatements)\n  (CONCAT(\"https://quickstatements.toolforge.org/#/v1=\",\n          SUBSTR(STR(?work),32), \"%7CP921%7C{{ q }}%7CS887%7CQ69652283\") AS ?quickStatementsUrl)\nWITH {\n  SELECT  ?work ?chemicalname WHERE {\n    VALUES ?chemicalType {\n      wd:Q113145171 # type of a chemical entity\n      wd:Q59199015 # group of stereoisomers\n    }\n    target: wdt:P31 ?chemicalType ; rdfs:label ?chemicalname .\n    FILTER(lang(?chemicalname) = \"en\")\n    SERVICE wikibase:mwapi {\n      bd:serviceParam wikibase:endpoint \"www.wikidata.org\";\n      wikibase:api \"Generator\";\n      mwapi:generator \"search\";\n      mwapi:gsrsearch ?chemicalname;\n      mwapi:gsrlimit \"max\".\n      ?work wikibase:apiOutputItem mwapi:title.\n    }\n    ?work wdt:P1476 ?title .\n    MINUS {?work wdt:P921 target: }\n    FILTER (REGEX(LCASE(?title), LCASE(CONCAT( \"\\\\\\\\\", \"b\", ?chemicalname ,\"\\\\\\\\\", \"b\"))))\n  } LIMIT 200\n} AS %works WHERE {\n  INCLUDE %works\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/chemical-curation_missing-main-subjects.sparql",
       "title": "chemical-curation_missing-main-subjects",
       "description": "chemical-curation_missing-main-subjects",
@@ -818,6 +851,28 @@
       "comment": ""
     },
     {
+      "query_id": "chemical_biological-processes--named_queries@scholia.toolforge.org",
+      "domain": "scholia.toolforge.org",
+      "namespace": "named_queries",
+      "name": "chemical_biological-processes",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT DISTINCT ?pathway ?pathwayLabel (CONCAT(\"/pathway/\", SUBSTR(STR(?pathway), 32)) AS ?pathwayUrl) WHERE {\n  VALUES ?chemical { target: }\n  ?chemical wdt:P361 ?pathway.\n  ?pathway wdt:P527 ?chemical.\n  ?pathway wdt:P31 wd:Q2996394.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n} ORDER BY ASC(?pathwayLabel)\n  LIMIT 250\n",
+      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/chemical_biological-processes.sparql",
+      "title": "chemical_biological-processes",
+      "description": "chemical_biological-processes",
+      "comment": ""
+    },
+    {
+      "query_id": "chemical_found-in-matrix-np--named_queries@scholia.toolforge.org",
+      "domain": "scholia.toolforge.org",
+      "namespace": "named_queries",
+      "name": "chemical_found-in-matrix-np",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT DISTINCT ?matrix ?matrixLabel ?taxon ?taxonLabel (CONCAT(\"/taxon/\", SUBSTR(STR(?taxon), 32)) AS ?taxonUrl) WHERE {\n  VALUES ?chemical { target: }\n  ?chemical wdt:P361 ?matrix.\n  ?matrix (wdt:P279*/wdt:P1582) ?taxon .\n  ?matrix wdt:P527 ?chemical.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n} ORDER BY ASC(?taxonLabel)\n  LIMIT 250\n",
+      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/chemical_found-in-matrix-np.sparql",
+      "title": "chemical_found-in-matrix-np",
+      "description": "chemical_found-in-matrix-np",
+      "comment": ""
+    },
+    {
       "query_id": "chemical_found-in-taxon--named_queries@scholia.toolforge.org",
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
@@ -835,7 +890,7 @@
       "name": "chemical_identifiers",
       "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: identifiers for this chemical\nSELECT\n  ?Identifier ?IdentifierLabel\n  ?Value (SAMPLE(?idUrls) as ?ValueUrl)\n  ?IdentifierDescription\nWITH {\n  SELECT ?Identifier ?Value ?formatterurl WHERE {\n    target: ?IDdir ?Value .\n    ?Identifier wikibase:directClaim ?IDdir ;\n            wdt:P31 wd:Q19833835 .\n    OPTIONAL { \n      ?Identifier wdt:P1630 ?formatterurl .\n    }\n    FILTER (?Identifier != wd:P233)\n    FILTER (?Identifier != wd:P234)\n    FILTER (?Identifier != wd:P2017)\n  } LIMIT 500\n} AS %RESULTS {\n  { SELECT * WHERE {\n      INCLUDE %RESULTS\n      FILTER (?Identifier = wd:P234)\n      BIND(IRI(REPLACE(?formatterurl, '\\\\\\\\$1', ENCODE_FOR_URI(str(?Value)))) AS ?idUrls).\n    }\n  } UNION {\n    SELECT * WHERE {\n      INCLUDE %RESULTS\n      FILTER (?Identifier != wd:P234)\n      BIND(IRI(REPLACE(?formatterurl, '\\\\\\\\$1', str(?Value))) AS ?idUrls).\n    }\n  }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\nGROUP BY ?Identifier ?IdentifierLabel ?IdentifierDescription ?Value\nORDER BY ASC(?IdentifierLabel)\n\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/chemical_identifiers.sparql",
-      "title": "chemical_identifiers",
+      "title": "identifiers for this chemical",
       "description": "chemical_identifiers",
       "comment": ""
     },
@@ -846,7 +901,7 @@
       "name": "chemical_physchem-properties",
       "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: physicochemical properties of this chemical\nSELECT DISTINCT ?propEntity ?propEntityLabel ?value ?units ?unitsLabel ?qualifiers ?source ?sourceLabel ?doi\nWITH {\n  SELECT DISTINCT ?propEntity ?value ?units ?source ?doi (GROUP_CONCAT(?qualifierStr; separator=\", \") AS ?qualifiers) WHERE {\n    target: ?propp ?statement .\n    ?statement a wikibase:BestRank ;\n      ?proppsv [\n        wikibase:quantityAmount ?value ;\n        wikibase:quantityUnit ?units\n      ] .\n    OPTIONAL {\n      ?statement prov:wasDerivedFrom/pr:P248 ?source .\n      OPTIONAL { ?source wdt:P356 ?doi . }\n    }\n    ?property wikibase:claim ?propp ;\n            wikibase:statementValue ?proppsv ;\n            wdt:P1629 ?propEntity ;\n            wdt:P31 wd:Q21077852 .\n    OPTIONAL {\n      {\n        ?qualifierProp wikibase:qualifier ?qualifier ;\n                       rdfs:label ?qProplabel; FILTER (lang(?qProplabel) = \"en\") .\n        ?qualifier a owl:DatatypeProperty .\n        ?statement ?qualifier ?qualifierVal .\n        BIND (CONCAT(str(?qProplabel), \": \", str(?qualifierVal)) AS ?qualifierStr)\n      } UNION {\n        ?qualifierProp wikibase:qualifier ?qualifier ;\n                       rdfs:label ?qProplabel; FILTER (lang(?qProplabel) = \"en\") .\n        ?qualifier a owl:ObjectProperty .\n        ?statement ?qualifier ?qualifierVal .\n        ?qualifierVal rdfs:label ?qVallabel; FILTER (lang(?qVallabel) = \"en\") .\n        BIND (CONCAT(str(?qProplabel), \": \", str(?qVallabel)) AS ?qualifierStr)\n      }\n    }\n  } GROUP BY ?propEntity ?value ?units ?source ?doi\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n} \nORDER BY ASC(?propEntityLabel)\n\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/chemical_physchem-properties.sparql",
-      "title": "chemical_physchem-properties",
+      "title": "physicochemical properties of this chemical",
       "description": "chemical_physchem-properties",
       "comment": ""
     },
@@ -857,7 +912,7 @@
       "name": "chemical_publications-per-year",
       "sparql": "#defaultView:BarChart\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: publications per year for this chemical\n# Inspired from LEGOLAS - http://abel.lis.illinois.edu/legolas/\n# Shubhanshu Mishra, Vetle Torvik\nselect ?year (count(?work) as ?number_of_publications) where {\n  {\n    select (str(?year_) as ?year) (0 as ?pages) where {\n      # default values = 0\n      ?year_item wdt:P31 wd:Q577 . \n      ?year_item wdt:P585 ?date .\n      bind(year(?date) as ?year_)\n      {\n        select (min(?year_) as ?earliest_year) where {\n          { ?work wdt:P921/wdt:P31*/wdt:P279* target: . }\n          union { ?work wdt:P921/(^wdt:P361)+ target: . }\n          union { ?work wdt:P921/wdt:P1269+ target: . }\n          union { target: ?propp ?statement .\n                  ?statement a wikibase:BestRank ;\n                             prov:wasDerivedFrom/pr:P248 ?work . }\n          ?work wdt:P577 ?publication_date . \n          bind(year(?publication_date) as ?year_)\n        }\n      }\n      bind(year(now()) as ?next_year)\n      filter (?year_ >= ?earliest_year && ?year_ <= ?next_year)\n    }\n  }\n  union {\n    select ?work (min(?years) as ?year) where {\n      { ?work wdt:P921/wdt:P31*/wdt:P279* target: . }\n      union { ?work wdt:P921/wdt:P527+ target: . }\n      union { ?work wdt:P921/wdt:P1269+ target: . }\n      union { target: ?propp ?statement .\n              ?statement a wikibase:BestRank ;\n                         prov:wasDerivedFrom/pr:P248 ?work . }\n      ?work wdt:P577 ?dates .\n      bind(str(year(?dates)) as ?years) .\n    }\n    group by ?work \n  }\n}\ngroup by ?year \norder by ?year\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/chemical_publications-per-year.sparql",
-      "title": "chemical_publications-per-year",
+      "title": "publications per year for this chemical",
       "description": "chemical_publications-per-year",
       "comment": ""
     },
@@ -868,7 +923,7 @@
       "name": "chemical_recent-literature",
       "sparql": "# title: recent literature about this chemical\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?date ?work ?workLabel ?type ?via ?topics\nWITH {\n  SELECT DISTINCT ?work  ?via ?topic WHERE {\n    { VALUES ?topic { target:}\n      ?work wdt:P921 ?topic . BIND (\"main topic\" AS ?via) }\n    UNION\n    { ?work wdt:P921 ?topic . ?topic ((^wdt:P361)+) target: . BIND (\"part\" AS ?via) }\n    UNION\n    { ?work wdt:P921 ?topic . ?topic (wdt:P31* / wdt:P279* ) target: . BIND (\"subclass\" AS ?via). FILTER (?topic != target:) }\n    UNION\n    { ?work wdt:P921 ?topic . ?topic (wdt:P1269+ ) target: . BIND (\"facet\" AS ?via)}\n    UNION\n    {\n      target: ?propp ?statement .\n      ?statement a wikibase:BestRank ;\n                 prov:wasDerivedFrom/pr:P248 ?work .\n      BIND (\"statement\" AS ?via)\n    }\n  }\n} AS %works\nWITH {\n  SELECT (MAX(?dates) as ?datetime) ?work (GROUP_CONCAT(DISTINCT ?type_label; separator=\", \") AS ?type) ?via (GROUP_CONCAT(DISTINCT ?topic_label; separator=\" // \") AS ?topics) WHERE {\n    INCLUDE %works\n    ?work wdt:P921 ?topic . \n    OPTIONAL { ?work wdt:P31 ?type_ . ?type_ rdfs:label ?type_label . FILTER (LANG(?type_label) = 'en') }\n    OPTIONAL { ?work wdt:P577 ?dates . }\n    ?topic rdfs:label ?topic_label .  FILTER (lang(?topic_label) = 'en')\n  }\n  GROUP BY ?work ?via\n} AS %result\nWHERE {\n  INCLUDE %result\n  BIND(xsd:date(?datetime) AS ?date)\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,da,de,es,fr,jp,nl,no,ru,sv,zh\". }\n}\nORDER BY DESC(?date)\nLIMIT 500\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/chemical_recent-literature.sparql",
-      "title": "chemical_recent-literature",
+      "title": "recent literature about this chemical",
       "description": "chemical_recent-literature",
       "comment": ""
     },
@@ -879,7 +934,7 @@
       "name": "chemical_related",
       "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: related chemical structures\nSELECT ?mol ?molLabel ?InChIKey ?CAS ?ChemSpider ?PubChem_CID WITH {\n  SELECT ?queryKey ?srsearch ?filter WHERE {\n    target: wdt:P235 ?queryKey .\n    BIND (CONCAT(substr($queryKey,1,14), \" haswbstatement:P235\") AS ?srsearch)\n    BIND (CONCAT(\"^\", substr($queryKey,1,14)) AS ?filter)\n  }\n} AS %MOLS WITH {\n  SELECT ?mol ?InChIKey WHERE {\n    INCLUDE %MOLS\n    SERVICE wikibase:mwapi {\n        bd:serviceParam wikibase:endpoint \"www.wikidata.org\";\n        wikibase:api \"Search\";\n        mwapi:srsearch ?srsearch;\n        mwapi:srlimit \"max\".\n        ?mol wikibase:apiOutputItem mwapi:title.\n      }\n    ?mol wdt:P235 ?InChIKey .\n    FILTER (regex(str(?InChIKey), ?filter))\n    FILTER (?InChIKey != ?queryKey)\n  }\n} AS %MOLS2 {\n  INCLUDE %MOLS2\n  OPTIONAL { ?mol wdt:P231 ?CAS }\n  OPTIONAL { ?mol wdt:P661 ?ChemSpider }\n  OPTIONAL { ?mol wdt:P662 ?PubChem_CID }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n}\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/chemical_related.sparql",
-      "title": "chemical_related",
+      "title": "related chemical structures",
       "description": "chemical_related",
       "comment": ""
     },
@@ -890,7 +945,7 @@
       "name": "chemical_relates",
       "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: related chemical structures\nSELECT ?mol ?molLabel ?InChIKey ?CAS ?ChemSpider ?PubChem_CID WHERE {\n  target: wdt:P235 ?queryKey .\n  ?mol wdt:P235 ?InChIKey .\n  OPTIONAL { ?mol wdt:P231 ?CAS }\n  OPTIONAL { ?mol wdt:P661 ?ChemSpider }\n  OPTIONAL { ?mol wdt:P662 ?PubChem_CID }\n  FILTER (regex(str(?InChIKey), concat(\"^\", substr($queryKey,1,14), \"-\")))\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en\". }\n}\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/chemical_relates.sparql",
-      "title": "chemical_relates",
+      "title": "related chemical structures",
       "description": "chemical_relates",
       "comment": ""
     },
@@ -901,7 +956,7 @@
       "name": "chemical_structural-identifiers",
       "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: structural identifiers for this chemical structure\nSELECT\n  ?Structural_identifier ?Structural_identifierLabel\n  ?idLit (SAMPLE(?idUrls) as ?idUrl)\nWITH {\n  SELECT ?Structural_identifier ?idLit ?formatterurl WHERE {\n    VALUES ?Structural_identifier { wd:P233 wd:P234 wd:P2017 }\n    target: ?IDdir ?idLit .\n    ?Structural_identifier wikibase:directClaim ?IDdir ;\n            wdt:P31 wd:Q19833835 .\n    OPTIONAL {\n      ?Structural_identifier wdt:P1630 ?formatterurl .\n    }\n  } LIMIT 500\n} AS %RESULTS {\n  INCLUDE %RESULTS\n  BIND(IRI(REPLACE(?formatterurl, '\\\\\\\\$1', str(?idLit))) AS ?idUrls).\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\nGROUP BY ?Structural_identifier ?Structural_identifierLabel ?idLit\nORDER BY ASC(?ID_TypeLabel)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/chemical_structural-identifiers.sparql",
-      "title": "chemical_structural-identifiers",
+      "title": "structural identifiers for this chemical structure",
       "description": "chemical_structural-identifiers",
       "comment": ""
     },
@@ -972,17 +1027,6 @@
       "comment": ""
     },
     {
-      "query_id": "cito_articles-by-year--named_queries@scholia.toolforge.org",
-      "domain": "scholia.toolforge.org",
-      "namespace": "named_queries",
-      "name": "cito_articles-by-year",
-      "sparql": "#defaultView:BarChart\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT (STR(?year_) AS ?year) (SUM(?count_) AS ?count)\nWHERE {\n  {\n    VALUES ?year_ { 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009\n                   2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 }\n    BIND(0 AS ?count_)\n  }\n  UNION \n  {\n    SELECT\n      ?year_\n      (COUNT(DISTINCT ?citing_work) AS ?count_)\n      ?kind\n    WHERE {\n      VALUES ?INTENTION { target: }\n      ?citing_work wdt:P2860 ?citedArticle ;\n        p:P2860/pq:P3712 ?INTENTION .\n\n      # Year of citation\n      ?citing_work wdt:P577 ?date .\n      BIND(YEAR(?date) AS ?year_)\n    }\n    GROUP BY ?year_ ?kind\n  }\n}\nGROUP BY ?year_\nORDER BY DESC(?year_) \n",
-      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/cito_articles-by-year.sparql",
-      "title": "cito_articles-by-year",
-      "description": "cito_articles-by-year",
-      "comment": ""
-    },
-    {
       "query_id": "cito_articles--named_queries@scholia.toolforge.org",
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
@@ -991,6 +1035,17 @@
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/cito_articles.sparql",
       "title": "cito_articles",
       "description": "cito_articles",
+      "comment": ""
+    },
+    {
+      "query_id": "cito_articles-by-year--named_queries@scholia.toolforge.org",
+      "domain": "scholia.toolforge.org",
+      "namespace": "named_queries",
+      "name": "cito_articles-by-year",
+      "sparql": "#defaultView:BarChart\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT (STR(?year_) AS ?year) (SUM(?count_) AS ?count)\nWHERE {\n  {\n    VALUES ?year_ { 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009\n                   2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 }\n    BIND(0 AS ?count_)\n  }\n  UNION \n  {\n    SELECT\n      ?year_\n      (COUNT(DISTINCT ?citing_work) AS ?count_)\n      ?kind\n    WHERE {\n      VALUES ?INTENTION { target: }\n      ?citing_work wdt:P2860 ?citedArticle ;\n        p:P2860/pq:P3712 ?INTENTION .\n\n      # Year of citation\n      ?citing_work wdt:P577 ?date .\n      BIND(YEAR(?date) AS ?year_)\n    }\n    GROUP BY ?year_ ?kind\n  }\n}\nGROUP BY ?year_\nORDER BY DESC(?year_) \n",
+      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/cito_articles-by-year.sparql",
+      "title": "cito_articles-by-year",
+      "description": "cito_articles-by-year",
       "comment": ""
     },
     {
@@ -1044,7 +1099,7 @@
       "name": "clinical-trial-index_recent-clinical-trials",
       "sparql": "# title: Clinical trials sorted according to date\nSELECT ?start_date ?trial ?trialLabel\nWITH {\n  SELECT * WHERE { \n    ?trial wdt:P31 wd:Q30612 .\n    ?trial wdt:P580 ?start_datetime .\n    hint:Prior hint:rangeSafe true .\n  }\n  ORDER BY DESC(?start_datetime)\n  LIMIT 500\n} AS %trials\nWHERE {\n  INCLUDE %trials\n  BIND(xsd:date(?start_datetime) AS ?start_date)\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en,da,de,es,fr,jp,nl,no,ru,sv,zh\". }\n}\nORDER BY DESC(?start_datetime)",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/clinical-trial-index_recent-clinical-trials.sparql",
-      "title": "clinical-trial-index_recent-clinical-trials",
+      "title": "Clinical trials sorted according to date",
       "description": "clinical-trial-index_recent-clinical-trials",
       "comment": ""
     },
@@ -1064,7 +1119,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "clinical-trial_data",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?description ?value ?valueUrl\nWHERE {\n  BIND(target: AS ?trial)\n  {\n    BIND(1 AS ?order)\n    BIND(\"Title\" AS ?description)\n    ?trial wdt:P1476 ?value .\n  }\n  UNION\n  {\n    BIND(10 AS ?order)\n    BIND(\"Number of participants\" AS ?description)\n    ?trial wdt:P1132 ?value .\n  }\n  UNION\n  {\n    BIND(11 AS ?order)\n    BIND(\"Clinical trial phase\" AS ?description)\n    ?trial wdt:P6099 ?iri .\n\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../topic/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    BIND(12 AS ?order)\n    BIND(\"Medical condition\" AS ?description)\n    ?trial wdt:P1050 ?iri .\n\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../disease/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    BIND(13 AS ?order)\n    BIND(\"Research intervention\" AS ?description)\n    ?trial wdt:P4844 ?iri .\n\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../topic/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    BIND(20 AS ?order)\n    BIND(\"Sponsor\" AS ?description)\n    ?trial wdt:P859 ?iri .\n\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../sponsor/\", ?q) AS ?valueUrl)\n  }\n\n  UNION\n  {\n    BIND(100 AS ?order)\n    BIND(\"ClinicalTrials.gov\" AS ?description)\n    ?trial wdt:P3098 ?value_ .\n    BIND(CONCAT(?value_, \" \u2197\") AS ?value)\n    BIND(CONCAT(\"https://clinicaltrials.gov/show/\", ?value_) AS ?valueUrl)\n  }\n\n  UNION\n  {\n    BIND(101 AS ?order)\n    BIND(\"ClinWiki\" AS ?description)\n    ?trial wdt:P3098 ?value_ .\n    BIND(CONCAT(?value_, \" \u2197\") AS ?value)\n    BIND(CONCAT(\"https://www.clinwiki.org/study/\", ?value_) AS ?valueUrl)\n  }\n\n  UNION\n  {\n    BIND(103 AS ?order)\n    BIND(\"OpenTrials\" AS ?description)\n    ?trial wdt:P6220 ?value_ .\n    BIND(CONCAT(?value_, \" \u2197\") AS ?value)\n    BIND(CONCAT(\"https://explorer.opentrials.net/trials/\", ?value_) AS ?valueUrl)\n  }\n\n} \nORDER BY ?order",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?description ?value ?valueUrl\nWHERE {\n  BIND(target: AS ?trial)\n  {\n    BIND(1 AS ?order)\n    BIND(\"Title\" AS ?description)\n    ?trial wdt:P1476 ?value .\n  }\n  UNION\n  {\n    BIND(10 AS ?order)\n    BIND(\"Number of participants\" AS ?description)\n    ?trial wdt:P1132 ?value .\n  }\n  UNION\n  {\n    BIND(11 AS ?order)\n    BIND(\"Clinical trial phase\" AS ?description)\n    ?trial wdt:P6099 ?iri .\n\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../topic/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    BIND(12 AS ?order)\n    BIND(\"Medical condition\" AS ?description)\n    ?trial wdt:P1050 ?iri .\n\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../disease/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    BIND(13 AS ?order)\n    BIND(\"Research intervention\" AS ?description)\n    ?trial wdt:P4844 ?iri .\n\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../topic/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    BIND(20 AS ?order)\n    BIND(\"Sponsor\" AS ?description)\n    ?trial wdt:P859 ?iri .\n\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../sponsor/\", ?q) AS ?valueUrl)\n  }\n\n  UNION\n  {\n    BIND(100 AS ?order)\n    BIND(\"ClinicalTrials.gov\" AS ?description)\n    ?trial wdt:P3098 ?value_ .\n    BIND(CONCAT(?value_, \" ↗\") AS ?value)\n    BIND(CONCAT(\"https://clinicaltrials.gov/show/\", ?value_) AS ?valueUrl)\n  }\n\n  UNION\n  {\n    BIND(101 AS ?order)\n    BIND(\"ClinWiki\" AS ?description)\n    ?trial wdt:P3098 ?value_ .\n    BIND(CONCAT(?value_, \" ↗\") AS ?value)\n    BIND(CONCAT(\"https://www.clinwiki.org/study/\", ?value_) AS ?valueUrl)\n  }\n\n  UNION\n  {\n    BIND(103 AS ?order)\n    BIND(\"OpenTrials\" AS ?description)\n    ?trial wdt:P6220 ?value_ .\n    BIND(CONCAT(?value_, \" ↗\") AS ?value)\n    BIND(CONCAT(\"https://explorer.opentrials.net/trials/\", ?value_) AS ?valueUrl)\n  }\n\n} \nORDER BY ?order",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/clinical-trial_data.sparql",
       "title": "clinical-trial_data",
       "description": "clinical-trial_data",
@@ -1220,7 +1275,7 @@
       "name": "country_co-organizations",
       "sparql": "# title: Co-organizations for a specific country\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n#defaultView:Map\nSELECT ?coorganization ?coorganizationLabel ?geocoordinates ?example_coauthor ?example_coauthorLabel ?example_work ?example_workLabel\nWITH {  \n  SELECT\n    ?coorganization\n    (SAMPLE(?geocoordinates_) AS ?geocoordinates)\n    (SAMPLE(?coauthor) AS ?example_coauthor)\n    (SAMPLE(?work) AS ?example_work)\n  WHERE {\n    ?organization wdt:P17 target: .\n    ?author wdt:P108 | wdt:P463 | wdt:P1416/wdt:P361* ?organization .\n    ?work wdt:P50 ?author, ?coauthor .\n    ?coauthor wdt:P108 | wdt:P463 | wdt:P1416/wdt:P361* ?coorganization .\n    FILTER NOT EXISTS { ?coorganization wdt:P17 target: }\n    ?coorganization wdt:P625 ?geocoordinates_ .\n  }\n  GROUP BY ?coorganization \n} AS %results\nWHERE {\n  INCLUDE %results\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/country_co-organizations.sparql",
-      "title": "country_co-organizations",
+      "title": "Co-organizations for a specific country",
       "description": "country_co-organizations",
       "comment": ""
     },
@@ -1231,7 +1286,7 @@
       "name": "country_locations-as-topics",
       "sparql": "# title: Locations as topics for a specific country\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n#defaultView:Map{\"markercluster\":true}.\nSELECT \n  ?location ?locationLabel \n  ?work ?workLabel \n  ?geo\n  ?layer\nWITH {\n  SELECT ?location ?work ?geo ?type WHERE {\n    ?location wdt:P17 target: .\n    \n    # Geocoordinates may possible be under a headquarter property\n    ?location wdt:P159? / wdt:P625 ?geo.\n    ?work wdt:P921 ?location .\n    \n    # Filter encyclopedic articles - that may not be so relevant\n    FILTER NOT EXISTS { ?work wdt:P31 wd:Q17329259 }\n  }\n} AS %results\nWHERE {\n  INCLUDE %results\n          \n  # Move here for speed of query\n  OPTIONAL {\n    ?work wdt:P31 / rdfs:label ?layer . \n    FILTER (LANG(?layer) = 'en')\n  }\n  \n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en,da,de,es,fr,jp,nl,no,ru,sv,zh\". }\n} ",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/country_locations-as-topics.sparql",
-      "title": "country_locations-as-topics",
+      "title": "Locations as topics for a specific country",
       "description": "country_locations-as-topics",
       "comment": ""
     },
@@ -1242,7 +1297,7 @@
       "name": "country_narrative-locations",
       "sparql": "# title: Narrative locations for a specific country\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n#defaultView:Map{\"markercluster\":true}.\nSELECT \n  ?location ?locationLabel \n  ?work ?workLabel \n  ?geo\n  ?layer\nWITH {\n  SELECT DISTINCT ?location ?work ?geo ?layer WHERE {\n    ?location wdt:P17 target: .\n    \n    # Geocoordinates may possible be under a headquarter property\n    ?location wdt:P159? / wdt:P625 ?geo.\n    ?work wdt:P840 ?location .\n    \n    # Filter encyclopedic articles - that may not be so relevant\n    FILTER NOT EXISTS { ?work wdt:P31 wd:Q17329259 }\n\n    OPTIONAL { ?work wdt:P31 / rdfs:label ?layer . FILTER (LANG(?layer) = 'en') }\n  }\n} AS %results\nWHERE {\n  INCLUDE %results \n\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en,da,de,es,fr,jp,nl,no,ru,sv,zh\". }\n}",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/country_narrative-locations.sparql",
-      "title": "country_narrative-locations",
+      "title": "Narrative locations for a specific country",
       "description": "country_narrative-locations",
       "comment": ""
     },
@@ -1253,7 +1308,7 @@
       "name": "country_organizations",
       "sparql": "# title: Organizations for a specific country\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?number_of_authors\n  ?number_of_works\n  ?organization ?organizationLabel\nWITH {  \n  SELECT\n    ?organization\n    (COUNT(DISTINCT ?author) AS ?number_of_authors)\n    (COUNT(DISTINCT ?work) AS ?number_of_works)\n  WHERE {\n    ?organization wdt:P17 target: .\n    ?author wdt:P108 | wdt:P463 | wdt:P1416/wdt:P361* ?organization .\n    ?work wdt:P50 ?author .\n  }\n  GROUP BY ?organization \n} AS %results\nWHERE {\n  INCLUDE %results\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en,da,es,fr,jp,nl,no,ru,sv,zh\". }\n}\nORDER BY DESC(?number_of_authors) DESC(?number_of_works)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/country_organizations.sparql",
-      "title": "country_organizations",
+      "title": "Organizations for a specific country",
       "description": "country_organizations",
       "comment": ""
     },
@@ -1374,7 +1429,7 @@
       "name": "event-series_events",
       "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: List of event and proceedings for a specific event series\nSELECT DISTINCT \n  (SAMPLE(?years) AS ?year)\n  (SAMPLE(?ordinal) AS ?ordinal)\n  (SAMPLE(?short_names) AS ?short_name)\n  ?event ?eventLabel (CONCAT(\"/event/\", SUBSTR(STR(?event), 32)) AS ?eventUrl)\n  ?proceedings ?proceedingsLabel (CONCAT(\"/venue/\", SUBSTR(STR(?proceedings), 32)) AS ?proceedingsUrl)\nWHERE {\n  {\n    ?event wdt:P179 | wdt:P31 target: .\n    OPTIONAL {\n      ?event wdt:P585 | wdt:P580 ?datetime .\n      BIND(YEAR(?datetime) AS ?years)\n    }\n    OPTIONAL {\n      ?event wdt:P1813 ?short_names\n    }\n    OPTIONAL {\n      ?proceedings wdt:P4745 ?event\n    }\n    OPTIONAL{\n      ?event p:P179/pq:P1545 ?ordinal\n    }\n  }\n  UNION\n  {\n    # proceedings even if the event is not there!!!\n    ?proceedings ( wdt:P179 / wdt:P4745 ) target: .\n    OPTIONAL {\n      ?proceedings wdt:P577 ?datetime .\n      BIND(YEAR(?datetime) AS ?years)    \n    }\n  }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,da,de,es,fr,jp,nl,no,ru,sv,zh\". }\n  }\nGROUP BY ?event ?year ?eventLabel ?proceedings ?proceedingsLabel\nORDER BY DESC(?year)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/event-series_events.sparql",
-      "title": "event-series_events",
+      "title": "List of event and proceedings for a specific event series",
       "description": "event-series_events",
       "comment": ""
     },
@@ -1638,7 +1693,7 @@
       "name": "gene_identifiers",
       "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: identifiers for this gene\nSELECT\n  ?Identifier ?IdentifierLabel\n  ?Value (SAMPLE(?idUrls) as ?ValueUrl)\n  ?IdentifierDescription\nWITH {\n  SELECT ?Identifier ?Value ?formatterurl WHERE {\n    target: ?IDdir ?Value .\n    ?Identifier wikibase:directClaim ?IDdir ;\n            wdt:P31 wd:Q42415497 .\n    OPTIONAL { \n      ?Identifier wdt:P1630 ?formatterurl .\n    }\n  } LIMIT 500\n} AS %RESULTS {\n  {\n    SELECT * WHERE {\n      INCLUDE %RESULTS\n      BIND(IRI(REPLACE(?formatterurl, '\\\\\\\\$1', str(?Value))) AS ?idUrls).\n    }\n  }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\nGROUP BY ?Identifier ?IdentifierLabel ?IdentifierDescription ?Value\nORDER BY ASC(?IdentifierLabel)\n\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/gene_identifiers.sparql",
-      "title": "gene_identifiers",
+      "title": "identifiers for this gene",
       "description": "gene_identifiers",
       "comment": ""
     },
@@ -1781,7 +1836,7 @@
       "name": "location-topic_nearby-researchers",
       "sparql": "PREFIX target1: <http://www.wikidata.org/entity/{{ q1 }}>\nPREFIX target2: <http://www.wikidata.org/entity/{{ q2 }}>\n\n# title: Nearby researchers that work with a specific topic and near a specified geographical entity\nSELECT\n  ?score\n  ?author ?authorLabel (CONCAT(\"/author/\", SUBSTR(STR(?author), 32)) AS ?authorUrl)\n  ?example_work ?example_workLabel (CONCAT(\"/work/\", SUBSTR(STR(?example_work), 32)) AS ?example_workUrl)\nWITH {\n  # Universities, research centers, etc.\n  SELECT ?university WHERE {\n    VALUES ?university { wd:Q3918 wd:Q1371037 wd:Q7315155 wd:Q31855 wd:Q2385804 }\n  }\n} AS %universities\nWITH {\n  SELECT ?organization ?distance ?other_geo {\n    target1: wdt:P625 ?geo .\n    SERVICE wikibase:around { \n      ?organization wdt:P625 ?other_geo .\n      bd:serviceParam wikibase:center ?geo .\n      bd:serviceParam wikibase:radius \"50\" .\n      bd:serviceParam wikibase:distance ?distance .\n    }\n  }\n} AS %near_organizations\nWITH {\n  # Academic institutions on all levels\n  SELECT DISTINCT ?organization ?other_geo ?distance WHERE {\n    INCLUDE %universities\n    INCLUDE %near_organizations\n            \n    ?organization wdt:P361* / wdt:P31 / wdt:P279* ?university .\n  }\n} AS %organizations\nWITH {\n  # Compute distance for authors\n  SELECT\n    (MAX(?inverse_distance_) AS ?inverse_distance)\n    ?author\n  WHERE {\n    INCLUDE %organizations\n\n    BIND(1 / ?distance AS ?inverse_distance_)\n    ?author wdt:P108 | wdt:P1416 ?organization .  \n  }\n  GROUP BY ?author\n} AS %authors_with_distance\nWITH {\n  SELECT\n    ?author\n    (SUM(?topic_score) * MAX(?inverse_distance) AS ?score)\n    (SAMPLE(?work) AS ?example_work)\n  WHERE {\n    INCLUDE %authors_with_distance\n    {\n      ?work wdt:P50 ?author .\n      ?work wdt:P921 / wdt:P279* target2: . BIND(3 AS ?topic_score)\n    }\n    UNION\n    { ?author wdt:P101 target2: . BIND(20 AS ?topic_score) }\n  }\n  GROUP BY ?author\n} AS %results\nWHERE {\n  INCLUDE %results\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,da,de,es,fr,jp,nl,no,ru,sv,zh\". }\n}\nORDER BY DESC(?score) \n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/location-topic_nearby-researchers.sparql",
-      "title": "location-topic_nearby-researchers",
+      "title": "Nearby researchers that work with a specific topic and near a specified geographical entity",
       "description": "location-topic_nearby-researchers",
       "comment": ""
     },
@@ -1803,7 +1858,7 @@
       "name": "location_nearby-organizations",
       "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: Nearby academic institutions around a specified geographic entity.\nSELECT\n  ?distance ?unit ?unitLabel\n  ?organization ?organizationLabel ?organizationDescription (CONCAT(\"/organization/\", SUBSTR(STR(?organization), 32)) AS ?organizationUrl)\nWITH {\n  # Universities, research centers, etc.\n  SELECT ?university WHERE {\n    VALUES ?university { wd:Q3918 wd:Q1371037 wd:Q7315155  wd:Q31855 }\n  }\n} AS %universities\nWITH {\n  # Academic institutions on all levels\n  SELECT DISTINCT ?organization ?other_geo WHERE {\n    INCLUDE %universities\n    ?organization wdt:P361* / wdt:P31 / wdt:P279* ?university .\n    ?organization wdt:P625 ?other_geo .\n  }\n} AS %organizations\nWITH {\n  # Compute distance.\n  SELECT ?organization ?distance ?unit WHERE {\n    INCLUDE %organizations\n    target: wdt:P159* / wdt:P625 ?geo .\n    BIND(geof:distance(?other_geo, ?geo) AS ?distance)\n    BIND(wd:Q828224 AS ?unit)\n    FILTER(?distance < 250)\n  }\n} AS %results\nWHERE {\n  INCLUDE %results\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,da,de,es,fr,jp,nl,no,ru,sv,zh\". }\n}\nORDER BY ?distance\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/location_nearby-organizations.sparql",
-      "title": "location_nearby-organizations",
+      "title": "Nearby academic institutions around a specified geographic entity.",
       "description": "location_nearby-organizations",
       "comment": ""
     },
@@ -1823,7 +1878,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "ontology_data",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT DISTINCT ?description ?value ?valueUrl\nWHERE {\n  BIND(target: AS ?ontology)\n  {\n    BIND(1 AS ?order)\n    BIND(\"Website\" AS ?description)\n    ?ontology wdt:P856 ?value .\n    BIND(?value AS ?valueUrl)\n  }\n  UNION\n  {\n    SELECT\n      (2 AS ?order)\n      (\"Maintainer(s)\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../authors/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P126 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q)\n      ?iri rdfs:label ?value_string .\n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    SELECT\n      (3 AS ?order)\n      (\"Contributors\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../authors/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P50 | wdt:P178 | wdt:P767 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q) \n      ?iri rdfs:label ?value_string . \n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    SELECT\n      (4 AS ?order)\n      (\"Part of\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../topic/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P361 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q) \n      ?iri rdfs:label ?value_string . \n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    SELECT\n      (5 AS ?order)\n      (\"License\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../topic/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P275 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q)\n      ?iri rdfs:label ?value_string .\n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    SELECT\n      (6 AS ?order)\n      (\"Wikidata property\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P1687 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q)\n      ?iri rdfs:label ?value_string .\n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    SELECT\n      (7 AS ?order)\n      (\"\ud83d\uded1 Replaced by\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      ?iri wdt:P1365 target: .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q)\n      ?iri rdfs:label ?value_string .\n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n}\nORDER BY ?order\n",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT DISTINCT ?description ?value ?valueUrl\nWHERE {\n  BIND(target: AS ?ontology)\n  {\n    BIND(1 AS ?order)\n    BIND(\"Website\" AS ?description)\n    ?ontology wdt:P856 ?value .\n    BIND(?value AS ?valueUrl)\n  }\n  UNION\n  {\n    SELECT\n      (2 AS ?order)\n      (\"Maintainer(s)\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../authors/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P126 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q)\n      ?iri rdfs:label ?value_string .\n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    SELECT\n      (3 AS ?order)\n      (\"Contributors\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../authors/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P50 | wdt:P178 | wdt:P767 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q) \n      ?iri rdfs:label ?value_string . \n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    SELECT\n      (4 AS ?order)\n      (\"Part of\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../topic/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P361 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q) \n      ?iri rdfs:label ?value_string . \n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    SELECT\n      (5 AS ?order)\n      (\"License\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../topic/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P275 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q)\n      ?iri rdfs:label ?value_string .\n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    SELECT\n      (6 AS ?order)\n      (\"Wikidata property\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P1687 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q)\n      ?iri rdfs:label ?value_string .\n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    SELECT\n      (7 AS ?order)\n      (\"🛑 Replaced by\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      ?iri wdt:P1365 target: .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q)\n      ?iri rdfs:label ?value_string .\n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n}\nORDER BY ?order\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/ontology_data.sparql",
       "title": "ontology_data",
       "description": "ontology_data",
@@ -1874,6 +1929,17 @@
       "comment": ""
     },
     {
+      "query_id": "organization-curation_authors--named_queries@scholia.toolforge.org",
+      "domain": "scholia.toolforge.org",
+      "namespace": "named_queries",
+      "name": "organization-curation_authors",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  (COUNT(?work) AS ?count) \n  ?author_name\n  (CONCAT(\n      'https://author-disambiguator.toolforge.org/names_oauth.php?doit=Look+for+author&name=',\n      ENCODE_FOR_URI(?author_name)) AS ?author_resolver_url)\nWHERE {\n  {\n    SELECT DISTINCT ?author_name {\n      ?researcher_ ( wdt:P108 | wdt:P463 | wdt:P1416 ) / wdt:P361* target: .\n      \n      ?researcher_ skos:altLabel | rdfs:label ?author_name_ .\n      \n      # The SELECT-DISTINCT-BIND trick here is due to Stanislav Kralin\n      # https://stackoverflow.com/questions/53933564\n      BIND (STR(?author_name_) AS ?author_name)\n    }\n    LIMIT 2000\n  }\n  OPTIONAL { ?work wdt:P2093 ?author_name . }\n}\nGROUP BY ?author_name \nHAVING (?count > 0)\nORDER BY DESC(?count)\n",
+      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/organization-curation_authors.sparql",
+      "title": "organization-curation_authors",
+      "description": "organization-curation_authors",
+      "comment": ""
+    },
+    {
       "query_id": "organization-curation_authors-no-initials--named_queries@scholia.toolforge.org",
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
@@ -1893,17 +1959,6 @@
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/organization-curation_authors-with-initials.sparql",
       "title": "organization-curation_authors-with-initials",
       "description": "organization-curation_authors-with-initials",
-      "comment": ""
-    },
-    {
-      "query_id": "organization-curation_authors--named_queries@scholia.toolforge.org",
-      "domain": "scholia.toolforge.org",
-      "namespace": "named_queries",
-      "name": "organization-curation_authors",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  (COUNT(?work) AS ?count) \n  ?author_name\n  (CONCAT(\n      'https://author-disambiguator.toolforge.org/names_oauth.php?doit=Look+for+author&name=',\n      ENCODE_FOR_URI(?author_name)) AS ?author_resolver_url)\nWHERE {\n  {\n    SELECT DISTINCT ?author_name {\n      ?researcher_ ( wdt:P108 | wdt:P463 | wdt:P1416 ) / wdt:P361* target: .\n      \n      ?researcher_ skos:altLabel | rdfs:label ?author_name_ .\n      \n      # The SELECT-DISTINCT-BIND trick here is due to Stanislav Kralin\n      # https://stackoverflow.com/questions/53933564\n      BIND (STR(?author_name_) AS ?author_name)\n    }\n    LIMIT 2000\n  }\n  OPTIONAL { ?work wdt:P2093 ?author_name . }\n}\nGROUP BY ?author_name \nHAVING (?count > 0)\nORDER BY DESC(?count)\n",
-      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/organization-curation_authors.sparql",
-      "title": "organization-curation_authors",
-      "description": "organization-curation_authors",
       "comment": ""
     },
     {
@@ -2001,7 +2056,7 @@
       "name": "organization_employees-and-affiliated",
       "sparql": "# title: Employees and affiliated with a specified organization\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  (SAMPLE(?number_of_works_) AS ?works)\n  (SAMPLE(?wikis_) AS ?wikis)\n  ?researcher ?researcherLabel ?researcherDescription\n  (SAMPLE(?orcid_) AS ?orcid)\nWITH {\n  SELECT DISTINCT ?researcher WHERE {\n    ?researcher ( wdt:P108 | wdt:P463 | wdt:P1416 ) / wdt:P361* target: .\n  } \n} AS %researchers\nWITH {\n  SELECT\n    (COUNT(?work) AS ?number_of_works_) ?researcher\n  WHERE {\n    INCLUDE %researchers\n\n    # No biological pathways; they skew the statistics too much \n    MINUS { ?work wdt:P31 wd:Q4915012 } \n\n    # This OPTIONAL query should be after the MINUS query, otherwise\n    # researchers might not show if they do not have any papers.\n    OPTIONAL { ?work wdt:P50 ?researcher . }\n  } \n  GROUP BY ?researcher\n} AS %researchers_and_number_of_works\nWHERE {\n  INCLUDE %researchers_and_number_of_works\n  OPTIONAL { ?researcher wdt:P496 ?orcid_ . }\n  OPTIONAL { ?researcher wikibase:sitelinks ?wikis_ }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,da,de,es,fr,nl,no,ru,sv,zh\" . } \n}\nGROUP BY ?researcher ?researcherLabel ?researcherDescription \nORDER BY DESC(?works)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/organization_employees-and-affiliated.sparql",
-      "title": "organization_employees-and-affiliated",
+      "title": "Employees and affiliated with a specified organization",
       "description": "organization_employees-and-affiliated",
       "comment": ""
     },
@@ -2065,7 +2120,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "organization_topics",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?researchers\n  ?topic ?topicLabel (CONCAT(\"/topic/\", SUBSTR(STR(?topic), 32)) AS ?topicUrl)\n  (\"\ud83d\udd0e\" AS ?zoom)\n  (CONCAT(\"{{ q }}/topic/\", SUBSTR(STR(?topic), 32)) AS ?zoomUrl)\n  ?topicDescription\n  ?samplework ?sampleworkLabel (CONCAT(\"/work/\", SUBSTR(STR(?samplework), 32)) AS ?sampleworkUrl)\nWITH {\n  SELECT DISTINCT ?researcher WHERE {\n    ?researcher ( wdt:P108 | wdt:P463 | wdt:P1416 ) / wdt:P361* target: .\n  } \n} AS %researchers\nWITH {\n  SELECT DISTINCT ?topic\n    (COUNT(DISTINCT ?researcher) AS ?researchers)\n    (SAMPLE(?work) AS ?samplework)\n  WHERE {\n    INCLUDE %researchers\n    ?work wdt:P50 ?researcher . \n    ?work wdt:P921 ?topic . \n  } \n  GROUP BY ?topic\n  ORDER BY DESC(?researchers)\n  LIMIT 500\n} AS %works_and_number_of_researchers\nWHERE {\n  INCLUDE %works_and_number_of_researchers\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,da,de,es,fr,nl,no,ru,sv,zh\" . } \n}\nGROUP BY ?researchers ?topic ?topicLabel ?topicDescription ?samplework ?sampleworkLabel\nORDER BY DESC(?researchers)\n",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?researchers\n  ?topic ?topicLabel (CONCAT(\"/topic/\", SUBSTR(STR(?topic), 32)) AS ?topicUrl)\n  (\"🔎\" AS ?zoom)\n  (CONCAT(\"{{ q }}/topic/\", SUBSTR(STR(?topic), 32)) AS ?zoomUrl)\n  ?topicDescription\n  ?samplework ?sampleworkLabel (CONCAT(\"/work/\", SUBSTR(STR(?samplework), 32)) AS ?sampleworkUrl)\nWITH {\n  SELECT DISTINCT ?researcher WHERE {\n    ?researcher ( wdt:P108 | wdt:P463 | wdt:P1416 ) / wdt:P361* target: .\n  } \n} AS %researchers\nWITH {\n  SELECT DISTINCT ?topic\n    (COUNT(DISTINCT ?researcher) AS ?researchers)\n    (SAMPLE(?work) AS ?samplework)\n  WHERE {\n    INCLUDE %researchers\n    ?work wdt:P50 ?researcher . \n    ?work wdt:P921 ?topic . \n  } \n  GROUP BY ?topic\n  ORDER BY DESC(?researchers)\n  LIMIT 500\n} AS %works_and_number_of_researchers\nWHERE {\n  INCLUDE %works_and_number_of_researchers\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,da,de,es,fr,nl,no,ru,sv,zh\" . } \n}\nGROUP BY ?researchers ?topic ?topicLabel ?topicDescription ?samplework ?sampleworkLabel\nORDER BY DESC(?researchers)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/organization_topics.sparql",
       "title": "organization_topics",
       "description": "organization_topics",
@@ -2076,7 +2131,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "organization_uses",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?researchers\n  ?use ?useLabel (CONCAT(\"/use/\", SUBSTR(STR(?use), 32)) AS ?useUrl)\n  (\"\ud83d\udd0e\" AS ?zoom)\n  (CONCAT(\"{{ q }}/use/\", SUBSTR(STR(?use), 32)) AS ?zoomUrl)\n  ?useDescription\n  ?samplework ?sampleworkLabel (CONCAT(\"/work/\", SUBSTR(STR(?samplework), 32)) AS ?sampleworkUrl)\nWITH {\n  SELECT DISTINCT ?researcher WHERE {\n    ?researcher ( wdt:P108 | wdt:P463 | wdt:P1416 ) / wdt:P361* target: .\n  } \n} AS %researchers\nWITH {\n  SELECT DISTINCT ?use\n    (COUNT(DISTINCT ?researcher) AS ?researchers)\n    (SAMPLE(?work) AS ?samplework)\n  WHERE {\n    INCLUDE %researchers\n    ?work wdt:P50 ?researcher . \n    ?work wdt:P4510 ?use . \n  } \n  GROUP BY ?use\n  ORDER BY DESC(?researchers)\n  LIMIT 500\n} AS %works_and_number_of_researchers\nWHERE {\n  INCLUDE %works_and_number_of_researchers\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,da,de,es,fr,nl,no,ru,sv,zh\" . } \n}\nGROUP BY ?researchers ?use ?useLabel ?useDescription ?samplework ?sampleworkLabel\nORDER BY DESC(?researchers)\n",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?researchers\n  ?use ?useLabel (CONCAT(\"/use/\", SUBSTR(STR(?use), 32)) AS ?useUrl)\n  (\"🔎\" AS ?zoom)\n  (CONCAT(\"{{ q }}/use/\", SUBSTR(STR(?use), 32)) AS ?zoomUrl)\n  ?useDescription\n  ?samplework ?sampleworkLabel (CONCAT(\"/work/\", SUBSTR(STR(?samplework), 32)) AS ?sampleworkUrl)\nWITH {\n  SELECT DISTINCT ?researcher WHERE {\n    ?researcher ( wdt:P108 | wdt:P463 | wdt:P1416 ) / wdt:P361* target: .\n  } \n} AS %researchers\nWITH {\n  SELECT DISTINCT ?use\n    (COUNT(DISTINCT ?researcher) AS ?researchers)\n    (SAMPLE(?work) AS ?samplework)\n  WHERE {\n    INCLUDE %researchers\n    ?work wdt:P50 ?researcher . \n    ?work wdt:P4510 ?use . \n  } \n  GROUP BY ?use\n  ORDER BY DESC(?researchers)\n  LIMIT 500\n} AS %works_and_number_of_researchers\nWHERE {\n  INCLUDE %works_and_number_of_researchers\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,da,de,es,fr,nl,no,ru,sv,zh\" . } \n}\nGROUP BY ?researchers ?use ?useLabel ?useDescription ?samplework ?sampleworkLabel\nORDER BY DESC(?researchers)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/organization_uses.sparql",
       "title": "organization_uses",
       "description": "organization_uses",
@@ -2127,17 +2182,6 @@
       "comment": ""
     },
     {
-      "query_id": "organizations_topic-tree-map--named_queries@scholia.toolforge.org",
-      "domain": "scholia.toolforge.org",
-      "namespace": "named_queries",
-      "name": "organizations_topic-tree-map",
-      "sparql": "#defaultView:TreeMap\nSELECT\n  ?number_of_works\n  ?topic ?topicLabel\n  ?organization ?organizationLabel  \nWITH {\n  # Bind organizations to variable\n  SELECT ?organization WHERE {\n    VALUES ?organization { {% for q in qs %} wd:{{ q }} {% endfor %} }\n  }\n} AS %organizations\nWITH {\n  # Find works associated with the organizations\n  SELECT\n    # Should not count authors twice\n    DISTINCT ?work ?organization\n  WHERE {\n    INCLUDE %organizations\n    ?work wdt:P50 / (wdt:P108 | wdt:P463 | (wdt:P1416/wdt:P361*)) ?organization . \n  }\n} AS %works\nWITH {\n  # Count the number of works per topic per organization\n  SELECT\n    (COUNT(?work) AS ?number_of_works) ?topic ?organization\n  WHERE {\n    INCLUDE %works\n    ?work wdt:P921 ?topic .\n  } \n  GROUP BY ?topic ?organization\n} AS %work_numbers\nWHERE {\n  # Join the work and citation counts\n  INCLUDE %work_numbers\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,da,es,fr,jp,nl,no,ru,sv,zh\". }\n}\nORDER BY DESC(?number_of_works)\nLIMIT 100\n\n",
-      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/organizations_topic-tree-map.sparql",
-      "title": "organizations_topic-tree-map",
-      "description": "organizations_topic-tree-map",
-      "comment": ""
-    },
-    {
       "query_id": "organizations_topic-tree--named_queries@scholia.toolforge.org",
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
@@ -2146,6 +2190,17 @@
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/organizations_topic-tree.sparql",
       "title": "organizations_topic-tree",
       "description": "organizations_topic-tree",
+      "comment": ""
+    },
+    {
+      "query_id": "organizations_topic-tree-map--named_queries@scholia.toolforge.org",
+      "domain": "scholia.toolforge.org",
+      "namespace": "named_queries",
+      "name": "organizations_topic-tree-map",
+      "sparql": "#defaultView:TreeMap\nSELECT\n  ?number_of_works\n  ?topic ?topicLabel\n  ?organization ?organizationLabel  \nWITH {\n  # Bind organizations to variable\n  SELECT ?organization WHERE {\n    VALUES ?organization { {% for q in qs %} wd:{{ q }} {% endfor %} }\n  }\n} AS %organizations\nWITH {\n  # Find works associated with the organizations\n  SELECT\n    # Should not count authors twice\n    DISTINCT ?work ?organization\n  WHERE {\n    INCLUDE %organizations\n    ?work wdt:P50 / (wdt:P108 | wdt:P463 | (wdt:P1416/wdt:P361*)) ?organization . \n  }\n} AS %works\nWITH {\n  # Count the number of works per topic per organization\n  SELECT\n    (COUNT(?work) AS ?number_of_works) ?topic ?organization\n  WHERE {\n    INCLUDE %works\n    ?work wdt:P921 ?topic .\n  } \n  GROUP BY ?topic ?organization\n} AS %work_numbers\nWHERE {\n  # Join the work and citation counts\n  INCLUDE %work_numbers\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,da,es,fr,jp,nl,no,ru,sv,zh\". }\n}\nORDER BY DESC(?number_of_works)\nLIMIT 100\n\n",
+      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/organizations_topic-tree-map.sparql",
+      "title": "organizations_topic-tree-map",
+      "description": "organizations_topic-tree-map",
       "comment": ""
     },
     {
@@ -2252,9 +2307,9 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "podcast-episode_listings",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: listings for this podcast\nSELECT\n  ?Identifier ?IdentifierLabel\n  ?value (SAMPLE(?idUrls) as ?valueUrl)\n  ?IdentifierDescription\nWITH {\n  SELECT ?Identifier ?Value ?formatterurl WHERE {\n    target: ?IDdir ?Value .\n    ?Identifier wikibase:directClaim ?IDdir ;\n            wdt:P31 wd:Q84574746 .\n    OPTIONAL { \n      ?Identifier wdt:P1630 ?formatterurl .\n    }\n  } LIMIT 500\n} AS %RESULTS {\n  { SELECT * WHERE {\n      INCLUDE %RESULTS\n      BIND(IRI(REPLACE(?formatterurl, '\\\\\\\\$1', ENCODE_FOR_URI(str(?Value)))) AS ?idUrls).\n    }\n  } UNION {\n    SELECT * WHERE {\n      INCLUDE %RESULTS\n      BIND(IRI(REPLACE(?formatterurl, '\\\\\\\\$1', str(?Value))) AS ?idUrls).\n    }\n  }\n  BIND(CONCAT(?Value, \" \u2197\") AS ?value)\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\nGROUP BY ?Identifier ?IdentifierLabel ?IdentifierDescription ?value\nORDER BY ASC(?IdentifierLabel)\n",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: listings for this podcast\nSELECT\n  ?Identifier ?IdentifierLabel\n  ?value (SAMPLE(?idUrls) as ?valueUrl)\n  ?IdentifierDescription\nWITH {\n  SELECT ?Identifier ?Value ?formatterurl WHERE {\n    target: ?IDdir ?Value .\n    ?Identifier wikibase:directClaim ?IDdir ;\n            wdt:P31 wd:Q84574746 .\n    OPTIONAL { \n      ?Identifier wdt:P1630 ?formatterurl .\n    }\n  } LIMIT 500\n} AS %RESULTS {\n  { SELECT * WHERE {\n      INCLUDE %RESULTS\n      BIND(IRI(REPLACE(?formatterurl, '\\\\\\\\$1', ENCODE_FOR_URI(str(?Value)))) AS ?idUrls).\n    }\n  } UNION {\n    SELECT * WHERE {\n      INCLUDE %RESULTS\n      BIND(IRI(REPLACE(?formatterurl, '\\\\\\\\$1', str(?Value))) AS ?idUrls).\n    }\n  }\n  BIND(CONCAT(?Value, \" ↗\") AS ?value)\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\nGROUP BY ?Identifier ?IdentifierLabel ?IdentifierDescription ?value\nORDER BY ASC(?IdentifierLabel)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/podcast-episode_listings.sparql",
-      "title": "podcast-episode_listings",
+      "title": "listings for this podcast",
       "description": "podcast-episode_listings",
       "comment": ""
     },
@@ -2329,9 +2384,9 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "podcast_listings",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: listings for this podcast\nSELECT\n  ?Identifier ?IdentifierLabel\n  ?value (SAMPLE(?idUrls) as ?valueUrl)\n  ?IdentifierDescription\nWITH {\n  SELECT ?Identifier ?Value ?formatterurl WHERE {\n    target: ?IDdir ?Value .\n    ?Identifier wikibase:directClaim ?IDdir ;\n            wdt:P31 wd:Q84612171 .\n    OPTIONAL { \n      ?Identifier wdt:P1630 ?formatterurl .\n    }\n  } LIMIT 500\n} AS %RESULTS {\n  { SELECT * WHERE {\n      INCLUDE %RESULTS\n      BIND(IRI(REPLACE(?formatterurl, '\\\\\\\\$1', ENCODE_FOR_URI(str(?Value)))) AS ?idUrls).\n    }\n  } UNION {\n    SELECT * WHERE {\n      INCLUDE %RESULTS\n      BIND(IRI(REPLACE(?formatterurl, '\\\\\\\\$1', str(?Value))) AS ?idUrls).\n    }\n  }\n  BIND(CONCAT(?Value, \" \u2197\") AS ?value)\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\nGROUP BY ?Identifier ?IdentifierLabel ?IdentifierDescription ?value\nORDER BY ASC(?IdentifierLabel)\n",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: listings for this podcast\nSELECT\n  ?Identifier ?IdentifierLabel\n  ?value (SAMPLE(?idUrls) as ?valueUrl)\n  ?IdentifierDescription\nWITH {\n  SELECT ?Identifier ?Value ?formatterurl WHERE {\n    target: ?IDdir ?Value .\n    ?Identifier wikibase:directClaim ?IDdir ;\n            wdt:P31 wd:Q84612171 .\n    OPTIONAL { \n      ?Identifier wdt:P1630 ?formatterurl .\n    }\n  } LIMIT 500\n} AS %RESULTS {\n  { SELECT * WHERE {\n      INCLUDE %RESULTS\n      BIND(IRI(REPLACE(?formatterurl, '\\\\\\\\$1', ENCODE_FOR_URI(str(?Value)))) AS ?idUrls).\n    }\n  } UNION {\n    SELECT * WHERE {\n      INCLUDE %RESULTS\n      BIND(IRI(REPLACE(?formatterurl, '\\\\\\\\$1', str(?Value))) AS ?idUrls).\n    }\n  }\n  BIND(CONCAT(?Value, \" ↗\") AS ?value)\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\nGROUP BY ?Identifier ?IdentifierLabel ?IdentifierDescription ?value\nORDER BY ASC(?IdentifierLabel)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/podcast_listings.sparql",
-      "title": "podcast_listings",
+      "title": "listings for this podcast",
       "description": "podcast_listings",
       "comment": ""
     },
@@ -2463,7 +2518,7 @@
       "name": "project_statistics",
       "sparql": "# title: Statistics for projects identifiers\nSELECT ?count ?description {\n  {\n    { SELECT (COUNT(*) AS ?count) WHERE { [] wdt:P3400 []. } }\n    BIND(\"Total number of projects with a CORDIS number\" AS ?description)\n  }\n  UNION \n  {\n    { SELECT (COUNT(*) AS ?count) WHERE { [] wdt:P4870 []. } }\n    BIND(\"Total number of projects with a GEPRIS number\" AS ?description)\n  }\n  UNION \n  {\n    { SELECT (COUNT(*) AS ?count) WHERE { [] wdt:P6536 []. } }\n    BIND(\"Total number of projects with a Gateway to Research Project ID\" AS ?description)\n  }\n}\nORDER BY DESC(?count)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/project_statistics.sparql",
-      "title": "project_statistics",
+      "title": "Statistics for projects identifiers",
       "description": "project_statistics",
       "comment": ""
     },
@@ -2472,7 +2527,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "project_timeline",
-      "sparql": "#defaultView:Timeline{\"hide\": [\"?end_time\", \"?start_time\"]}\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT DISTINCT ?start_time ?end_time ?description WHERE {\n  {  \n    target: (wdt:P571 | wdt:P580) ?start_time ;\n      (wdt:P576 | wdt:P582) ?end_time .\n    BIND(\"Project time\" AS ?description)\n  } \n  UNION \n  {  \n    target: (^wdt:P1344 | wdt:P710)+ ?project .\n    ?project (wdt:P571 | wdt:P580) ?start_time ;\n             (wdt:P576 | wdt:P582) ?end_time .\n    ?project rdfs:label ?projectName .\n    FILTER (lang(?projectName) = \"en\")\n    BIND(?projectName AS ?description)\n  }   \n  UNION \n  {\n    ?work wdt:P859/(wdt:P1344|^wdt:P710)* target: ;\n                wdt:P577 ?start_time .\n    BIND(\"Publication\" AS ?description)\n  }\n  UNION\n  {\n    ?event wdt:P859 target: .\n    ?event wdt:P585 | wdt:P580 ?start_time .\n    BIND(\"\ud83d\udcc5 Sponsored event\" AS ?description)\n  }\n}",
+      "sparql": "#defaultView:Timeline{\"hide\": [\"?end_time\", \"?start_time\"]}\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT DISTINCT ?start_time ?end_time ?description WHERE {\n  {  \n    target: (wdt:P571 | wdt:P580) ?start_time ;\n      (wdt:P576 | wdt:P582) ?end_time .\n    BIND(\"Project time\" AS ?description)\n  } \n  UNION \n  {  \n    target: (^wdt:P1344 | wdt:P710)+ ?project .\n    ?project (wdt:P571 | wdt:P580) ?start_time ;\n             (wdt:P576 | wdt:P582) ?end_time .\n    ?project rdfs:label ?projectName .\n    FILTER (lang(?projectName) = \"en\")\n    BIND(?projectName AS ?description)\n  }   \n  UNION \n  {\n    ?work wdt:P859/(wdt:P1344|^wdt:P710)* target: ;\n                wdt:P577 ?start_time .\n    BIND(\"Publication\" AS ?description)\n  }\n  UNION\n  {\n    ?event wdt:P859 target: .\n    ?event wdt:P585 | wdt:P580 ?start_time .\n    BIND(\"📅 Sponsored event\" AS ?description)\n  }\n}",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/project_timeline.sparql",
       "title": "project_timeline",
       "description": "project_timeline",
@@ -2703,7 +2758,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "software-curation_missing-describes-use",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT DISTINCT ?work ?workLabel (CONCAT(\"/work/\", SUBSTR(STR(?work),32)) AS ?workUrl)\n  ?softwarename\n  (CONCAT(SUBSTR(STR(?work),32), \"\\tP4510\\t{{ q }}\\tS887\\tQ69652283\") AS ?quickStatements)\n  (CONCAT(\"https://quickstatements.toolforge.org/#/v1=\",\n          SUBSTR(STR(?work),32), \"%7CP4510%7C{{ q }}%7CS887%7CQ69652283\") AS ?quickStatementsUrl)\nWITH {\n  SELECT  ?work ?softwarename WHERE {\n    target: wdt:P31 wd:Q7397 ; rdfs:label ?softwarename .\n    FILTER(lang(?softwarename) = \"en\")\n    SERVICE wikibase:mwapi {\n      bd:serviceParam wikibase:endpoint \"www.wikidata.org\";\n      wikibase:api \"Generator\";\n      mwapi:generator \"search\";\n      mwapi:gsrsearch ?softwarename;\n      mwapi:gsrlimit \"max\".\n      ?work wikibase:apiOutputItem mwapi:title.\n    }\n    ?work wdt:P1476 ?title .\n    MINUS {?work wdt:P4510 target: }\n    FILTER (REGEX(LCASE(?title), LCASE(CONCAT( \"\\\\\\\\\", \"b\", ?softwarename ,\"\\\\\\\\\", \"b\"))))\n  } LIMIT 200\n} AS %works WHERE {\n  INCLUDE %works\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT DISTINCT ?work ?workLabel (CONCAT(\"/work/\", SUBSTR(STR(?work),32)) AS ?workUrl)\n  ?softwarename\n  (CONCAT(SUBSTR(STR(?work),32), \"\tP4510\t{{ q }}\tS887\tQ69652283\") AS ?quickStatements)\n  (CONCAT(\"https://quickstatements.toolforge.org/#/v1=\",\n          SUBSTR(STR(?work),32), \"%7CP4510%7C{{ q }}%7CS887%7CQ69652283\") AS ?quickStatementsUrl)\nWITH {\n  SELECT  ?work ?softwarename WHERE {\n    target: wdt:P31 wd:Q7397 ; rdfs:label ?softwarename .\n    FILTER(lang(?softwarename) = \"en\")\n    SERVICE wikibase:mwapi {\n      bd:serviceParam wikibase:endpoint \"www.wikidata.org\";\n      wikibase:api \"Generator\";\n      mwapi:generator \"search\";\n      mwapi:gsrsearch ?softwarename;\n      mwapi:gsrlimit \"max\".\n      ?work wikibase:apiOutputItem mwapi:title.\n    }\n    ?work wdt:P1476 ?title .\n    MINUS {?work wdt:P4510 target: }\n    FILTER (REGEX(LCASE(?title), LCASE(CONCAT( \"\\\\\\\\\", \"b\", ?softwarename ,\"\\\\\\\\\", \"b\"))))\n  } LIMIT 200\n} AS %works WHERE {\n  INCLUDE %works\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/software-curation_missing-describes-use.sparql",
       "title": "software-curation_missing-describes-use",
       "description": "software-curation_missing-describes-use",
@@ -2804,7 +2859,7 @@
       "name": "sponsor_authors-on-sponsored-works",
       "sparql": "# title: Authors on works sponsored or funded from a specific entity.\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?publication_count\n  ?author ?authorLabel (CONCAT(\"/author/\", SUBSTR(STR(?author), 32)) AS ?authorUrl)\n  ?example_work ?example_workLabel (CONCAT(\"/work/\", SUBSTR(STR(?example_work), 32)) AS ?example_workUrl)\nWITH {\n  SELECT ?author (count(?work) as ?publication_count) (SAMPLE(?work) AS ?example_work)\n  WHERE {\n    ?work wdt:P859+ target: .\n    ?work wdt:P50 ?author .\n  }\n  GROUP BY ?author\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" }\n} \nORDER BY DESC(?publication_count)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/sponsor_authors-on-sponsored-works.sparql",
-      "title": "sponsor_authors-on-sponsored-works",
+      "title": "Authors on works sponsored or funded from a specific entity.",
       "description": "sponsor_authors-on-sponsored-works",
       "comment": ""
     },
@@ -2815,7 +2870,7 @@
       "name": "sponsor_co-sponsors",
       "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: Co-funders to a specific funder including an example funded work\nSELECT ?count \n?sponsor ?sponsorLabel (CONCAT(\"/sponsor/\", SUBSTR(STR(?sponsor), 32)) AS ?sponsorUrl)\n?example_work ?example_workLabel (CONCAT(\"/work/\", SUBSTR(STR(?example_work), 32)) AS ?example_workUrl)\nWITH {\n  SELECT (COUNT(?work) AS ?count) ?sponsor (SAMPLE(?work) AS ?example_work)\n  WHERE {\n    ?work wdt:P859+ target: .\n    ?work wdt:P859+ ?sponsor .\n    FILTER (target: != ?sponsor)\n  }\n  GROUP BY ?sponsor\n} AS %result\nWHERE {\n  # Label the result\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" }\n}\nORDER BY DESC(?count)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/sponsor_co-sponsors.sparql",
-      "title": "sponsor_co-sponsors",
+      "title": "Co-funders to a specific funder including an example funded work",
       "description": "sponsor_co-sponsors",
       "comment": ""
     },
@@ -2826,7 +2881,7 @@
       "name": "sponsor_project-budgets",
       "sparql": "# title: Scatterplot of project budgets associated with a funder\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n#defaultView:ScatterChart\nSELECT ?start_time ?budget ?project ?projectLabel WHERE {\n  ?project wdt:P859+ target: .\n  ?project wdt:P2769 ?budget .\n  ?project (wdt:P580 | wdt:P571) ?start_time .\n  SERVICE wikibase:label {\n    bd:serviceParam wikibase:language \"en,da,es,fr,jp,nl,no,ru,sv,zh\". }\n}",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/sponsor_project-budgets.sparql",
-      "title": "sponsor_project-budgets",
+      "title": "Scatterplot of project budgets associated with a funder",
       "description": "sponsor_project-budgets",
       "comment": ""
     },
@@ -3007,17 +3062,6 @@
       "comment": ""
     },
     {
-      "query_id": "topic_author-scores-graph--named_queries@scholia.toolforge.org",
-      "domain": "scholia.toolforge.org",
-      "namespace": "named_queries",
-      "name": "topic_author-scores-graph",
-      "sparql": "#defaultView:BubbleChart\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?score ?author ?authorLabel\nWITH {\n  SELECT \n    ?author\n    (SUM(?score_) AS ?score)\n  WHERE {\n    { \n      ?author wdt:P101/wdt:P279* target: .\n      BIND(20 AS ?score_)\n    }\n    UNION\n    {\n      SELECT (3 AS ?score_) ?author WHERE {\n        ?work wdt:P50 ?author ;\n              wdt:P921/wdt:P279* target: .\n      }\n    }\n    UNION\n    {\n      SELECT (1 AS ?score_) ?author WHERE {\n        ?cited_work wdt:P50 ?author .\n        ?citing_work wdt:P2860 ?cited_work .\n        ?citing_work wdt:P921/wdt:P279* target: .\n      }\n    }\n  }\n  GROUP BY ?author\n  ORDER BY DESC(?score)\n  LIMIT 200\n} AS %results \nWHERE {\n  INCLUDE %results\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en,da,de,es,jp,no,ru,sv,zh\". }\n}\nORDER BY DESC(?score)\nLIMIT 200\n",
-      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/topic_author-scores-graph.sparql",
-      "title": "topic_author-scores-graph",
-      "description": "topic_author-scores-graph",
-      "comment": ""
-    },
-    {
       "query_id": "topic_author-scores--named_queries@scholia.toolforge.org",
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
@@ -3026,6 +3070,17 @@
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/topic_author-scores.sparql",
       "title": "topic_author-scores",
       "description": "topic_author-scores",
+      "comment": ""
+    },
+    {
+      "query_id": "topic_author-scores-graph--named_queries@scholia.toolforge.org",
+      "domain": "scholia.toolforge.org",
+      "namespace": "named_queries",
+      "name": "topic_author-scores-graph",
+      "sparql": "#defaultView:BubbleChart\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?score ?author ?authorLabel\nWITH {\n  SELECT \n    ?author\n    (SUM(?score_) AS ?score)\n  WHERE {\n    { \n      ?author wdt:P101/wdt:P279* target: .\n      BIND(20 AS ?score_)\n    }\n    UNION\n    {\n      SELECT (3 AS ?score_) ?author WHERE {\n        ?work wdt:P50 ?author ;\n              wdt:P921/wdt:P279* target: .\n      }\n    }\n    UNION\n    {\n      SELECT (1 AS ?score_) ?author WHERE {\n        ?cited_work wdt:P50 ?author .\n        ?citing_work wdt:P2860 ?cited_work .\n        ?citing_work wdt:P921/wdt:P279* target: .\n      }\n    }\n  }\n  GROUP BY ?author\n  ORDER BY DESC(?score)\n  LIMIT 200\n} AS %results \nWHERE {\n  INCLUDE %results\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en,da,de,es,jp,no,ru,sv,zh\". }\n}\nORDER BY DESC(?score)\nLIMIT 200\n",
+      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/topic_author-scores-graph.sparql",
+      "title": "topic_author-scores-graph",
+      "description": "topic_author-scores-graph",
       "comment": ""
     },
     {
@@ -3040,17 +3095,6 @@
       "comment": ""
     },
     {
-      "query_id": "topic_co-occurring-map--named_queries@scholia.toolforge.org",
-      "domain": "scholia.toolforge.org",
-      "namespace": "named_queries",
-      "name": "topic_co-occurring-map",
-      "sparql": "#defaultView:Map\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?location ?locationLabel\n  ?geo\n  ?example_work ?example_workLabel\nWITH {\n  SELECT\n    ?location ?geo\n    (SAMPLE(?work) AS ?example_work)\n  WHERE {\n    # Find works that are marked with main subject of the topic.\n    ?work wdt:P921 / ( wdt:P31*/wdt:P279* | wdt:P361+ | wdt:P1269+ ) target: .\n    \n    # Identify co-occuring topic that is geo-locatable. \n    ?work wdt:P921 ?location .\n    ?location wdt:P625 ?geo .\n  }\n  GROUP BY ?location ?geo\n} AS %results\nWHERE {\n  INCLUDE %results\n  \n  # Label the results\n  SERVICE wikibase:label {\n    bd:serviceParam wikibase:language \"en,da,de,es,fr,jp,nl,no,ru,sv,zh\".\n  }\n}\n",
-      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/topic_co-occurring-map.sparql",
-      "title": "topic_co-occurring-map",
-      "description": "topic_co-occurring-map",
-      "comment": ""
-    },
-    {
       "query_id": "topic_co-occurring--named_queries@scholia.toolforge.org",
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
@@ -3059,6 +3103,17 @@
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/topic_co-occurring.sparql",
       "title": "topic_co-occurring",
       "description": "topic_co-occurring",
+      "comment": ""
+    },
+    {
+      "query_id": "topic_co-occurring-map--named_queries@scholia.toolforge.org",
+      "domain": "scholia.toolforge.org",
+      "namespace": "named_queries",
+      "name": "topic_co-occurring-map",
+      "sparql": "#defaultView:Map\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?location ?locationLabel\n  ?geo\n  ?example_work ?example_workLabel\nWITH {\n  SELECT\n    ?location ?geo\n    (SAMPLE(?work) AS ?example_work)\n  WHERE {\n    # Find works that are marked with main subject of the topic.\n    ?work wdt:P921 / ( wdt:P31*/wdt:P279* | wdt:P361+ | wdt:P1269+ ) target: .\n    \n    # Identify co-occuring topic that is geo-locatable. \n    ?work wdt:P921 ?location .\n    ?location wdt:P625 ?geo .\n  }\n  GROUP BY ?location ?geo\n} AS %results\nWHERE {\n  INCLUDE %results\n  \n  # Label the results\n  SERVICE wikibase:label {\n    bd:serviceParam wikibase:language \"en,da,de,es,fr,jp,nl,no,ru,sv,zh\".\n  }\n}\n",
+      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/topic_co-occurring-map.sparql",
+      "title": "topic_co-occurring-map",
+      "description": "topic_co-occurring-map",
       "comment": ""
     },
     {
@@ -3121,7 +3176,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "topic_organization-map",
-      "sparql": "#defaultView:Map\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?organization ?organizationLabel ?geo ?count ?layer\nWITH {\n  SELECT DISTINCT ?work WHERE {\n  # Works on the topic\n    ?work wdt:P921 / (wdt:P361+ | wdt:P1269+ | (wdt:P31* / wdt:P279*) ) target: .\n  }\n  LIMIT 20000\n} AS %works\nWITH {\n  SELECT DISTINCT ?organization ?geo (COUNT(DISTINCT ?work) AS ?count) WHERE {\n    INCLUDE %works\n    # Authors who have published works on the topic\n    ?work wdt:P50 ?author . \n    ?author ( wdt:P108 | wdt:P463 | wdt:P1416 ) / wdt:P361* ?organization . \n    # Use the headquarters location by default but keep the coordinate location as a fallback\n    OPTIONAL{?organization p:P159/pq:P625 ?hq_geo}\n    OPTIONAL{?organization wdt:P625 ?coord_geo}\n    BIND(IF(BOUND(?hq_geo), ?hq_geo, ?coord_geo) AS ?geo) .\n    FILTER(BOUND(?geo)) .\n  }\n  GROUP BY ?organization ?geo\n  ORDER BY DESC (?count)\n  LIMIT 2000\n} AS %organizations\nWHERE {\n  INCLUDE %organizations\n  BIND(IF( (?count < 1), \"No results\", IF((?count < 2), \"1 result\", IF((?count < 11), \"1 < results \u2264 10\", IF((?count < 101), \"10 < results \u2264 100\", IF((?count < 1001), \"100 < results \u2264 1000\", IF((?count < 10001), \"1000 < results \u2264 10000\", \"10000 or more results\") ) ) ) )) AS ?layer )\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }        \n }\nORDER BY DESC (?count)\n",
+      "sparql": "#defaultView:Map\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?organization ?organizationLabel ?geo ?count ?layer\nWITH {\n  SELECT DISTINCT ?work WHERE {\n  # Works on the topic\n    ?work wdt:P921 / (wdt:P361+ | wdt:P1269+ | (wdt:P31* / wdt:P279*) ) target: .\n  }\n  LIMIT 20000\n} AS %works\nWITH {\n  SELECT DISTINCT ?organization ?geo (COUNT(DISTINCT ?work) AS ?count) WHERE {\n    INCLUDE %works\n    # Authors who have published works on the topic\n    ?work wdt:P50 ?author . \n    ?author ( wdt:P108 | wdt:P463 | wdt:P1416 ) / wdt:P361* ?organization . \n    # Use the headquarters location by default but keep the coordinate location as a fallback\n    OPTIONAL{?organization p:P159/pq:P625 ?hq_geo}\n    OPTIONAL{?organization wdt:P625 ?coord_geo}\n    BIND(IF(BOUND(?hq_geo), ?hq_geo, ?coord_geo) AS ?geo) .\n    FILTER(BOUND(?geo)) .\n  }\n  GROUP BY ?organization ?geo\n  ORDER BY DESC (?count)\n  LIMIT 2000\n} AS %organizations\nWHERE {\n  INCLUDE %organizations\n  BIND(IF( (?count < 1), \"No results\", IF((?count < 2), \"1 result\", IF((?count < 11), \"1 < results ≤ 10\", IF((?count < 101), \"10 < results ≤ 100\", IF((?count < 1001), \"100 < results ≤ 1000\", IF((?count < 10001), \"1000 < results ≤ 10000\", \"10000 or more results\") ) ) ) )) AS ?layer )\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }        \n }\nORDER BY DESC (?count)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/topic_organization-map.sparql",
       "title": "topic_organization-map",
       "description": "topic_organization-map",
@@ -3176,7 +3231,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "topic_uses",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?count\n  ?use ?useLabel (CONCAT(\"/use/\", SUBSTR(STR(?use), 32)) AS ?useUrl)\n  (\"\ud83d\udd0e\" AS ?zoom)\n  (CONCAT(SUBSTR(STR(target:), 32), \"/use/\", SUBSTR(STR(?use), 32)) AS ?zoomUrl)\n  ?useDescription\n\n  ?example_work ?example_workLabel\nWITH {\n  SELECT\n    (COUNT(?work) AS ?count)\n    ?use\n    (SAMPLE(?work) AS ?example_work)\n  {\n    ?work wdt:P921 target: ;\n          wdt:P4510 ?use .\n  }\n  GROUP BY ?use\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\nORDER BY DESC(?count)\n",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?count\n  ?use ?useLabel (CONCAT(\"/use/\", SUBSTR(STR(?use), 32)) AS ?useUrl)\n  (\"🔎\" AS ?zoom)\n  (CONCAT(SUBSTR(STR(target:), 32), \"/use/\", SUBSTR(STR(?use), 32)) AS ?zoomUrl)\n  ?useDescription\n\n  ?example_work ?example_workLabel\nWITH {\n  SELECT\n    (COUNT(?work) AS ?count)\n    ?use\n    (SAMPLE(?work) AS ?example_work)\n  {\n    ?work wdt:P921 target: ;\n          wdt:P4510 ?use .\n  }\n  GROUP BY ?use\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\nORDER BY DESC(?count)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/topic_uses.sparql",
       "title": "topic_uses",
       "description": "topic_uses",
@@ -3200,7 +3255,7 @@
       "name": "topics_authors",
       "sparql": "# title: Authors for specific topics\nSELECT\n  ?score\n  ?author ?authorLabel (CONCAT(\"/author/\", SUBSTR(STR(?author), 32)) AS ?authorUrl)\n  ?example_work ?example_workLabel (CONCAT(\"/work/\", SUBSTR(STR(?example_work), 32)) AS ?example_workUrl)\nWITH {\n  SELECT (COUNT(?topic) AS ?score) ?author (SAMPLE(?work_) AS ?example_work)\n    WHERE {\n    VALUES ?topic { {% for q in qs %} wd:{{ q }} {% endfor %} }\n    \n    # A broad query including \"(wdt:P361+ | wdt:P1269+ | (wdt:P31* / wdt:P279*) )\" seems to take\n    # long time and time out.\n    ?work wdt:P921 ?topic  .\n    ?work wdt:P2860 ?cited_work .\n    { ?cited_work wdt:P50 ?author . BIND(?cited_work AS ?work_) }\n    UNION\n    { ?work wdt:P50 ?author . BIND(?work AS ?work_) }\n  }\n  GROUP BY ?author\n  ORDER BY DESC(?score)\n  LIMIT 200\n} AS %results\nWHERE {\n  INCLUDE %results\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . }\n}\nORDER BY DESC(?score)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/topics_authors.sparql",
-      "title": "topics_authors",
+      "title": "Authors for specific topics",
       "description": "topics_authors",
       "comment": ""
     },
@@ -3211,7 +3266,7 @@
       "name": "topics_list-of-topics",
       "sparql": "# title: List of topics\nSELECT\n  ?topic ?topicLabel ?topicDescription (CONCAT(\"/topic/\", SUBSTR(STR(?topic), 32)) AS ?topicUrl)\n  ?example_work ?example_workLabel (CONCAT(\"/work/\", SUBSTR(STR(?example_work), 32)) AS ?example_workUrl)\nWITH {\n  SELECT ?topic (SAMPLE(?work) AS ?example_work) WHERE {\n    VALUES ?topic { {% for q in qs %} wd:{{ q }} {% endfor %} }\n    OPTIONAL { \n      ?work wdt:P921 ?topic ; wdt:P31 wd:Q13442814 .\n    }\n  }\n  GROUP BY ?topic\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . }\n}\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/topics_list-of-topics.sparql",
-      "title": "topics_list-of-topics",
+      "title": "List of topics",
       "description": "topics_list-of-topics",
       "comment": ""
     },
@@ -3222,7 +3277,7 @@
       "name": "topics_list-of-works",
       "sparql": "# title: List of works on any combination of specific topics\nSELECT\n  ?count \n  (MIN(?publication_date_) AS ?publication_date)\n  ?work ?workLabel (CONCAT(\"/work/\", SUBSTR(STR(?work), 32)) AS ?workUrl)\n  ?topics ?topicsUrl\nWITH {\n  SELECT (COUNT(?topic) AS ?count) ?work\n    (GROUP_CONCAT(DISTINCT ?topic_label; separator=\" // \") AS ?topics) \n    (CONCAT(\"../topics/\", GROUP_CONCAT(DISTINCT SUBSTR(STR(?topic), 32); separator=\",\")) AS ?topicsUrl)                                    \n  WHERE {\n    VALUES ?topic { {% for q in qs %} wd:{{ q }} {% endfor %} }\n    \n    # A broad query including \"(wdt:P361+ | wdt:P1269+ | (wdt:P31* / wdt:P279*) )\" seems to take\n    # long time and time out.\n    ?work wdt:P921 ?topic  .\n    ?topic rdfs:label ?topic_label .\n    FILTER(LANG(?topic_label) = 'en')\n  }\n  GROUP BY ?work ?topics\n  HAVING(?count > 1)\n  ORDER BY DESC(?count)\n  LIMIT 200\n} AS %results\nWHERE {\n  INCLUDE %results\n  OPTIONAL {\n    ?work wdt:P577 ?publication_datetime .\n    BIND(xsd:date(?publication_datetime) AS ?publication_date_)\n  }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . }\n}\nGROUP BY ?count ?work ?workLabel ?topics ?topicsUrl\nORDER BY DESC(?count) DESC(?publication_date)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/topics_list-of-works.sparql",
-      "title": "topics_list-of-works",
+      "title": "List of works on any combination of specific topics",
       "description": "topics_list-of-works",
       "comment": ""
     },
@@ -3286,7 +3341,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "use_co-used",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?count\n  \n  ?coused ?cousedLabel (CONCAT(\"/use/\", SUBSTR(STR(?coused), 32)) AS ?cousedUrl)\n  (\"\ud83d\udd0e\" AS ?zoom)\n  (CONCAT(\"../uses/{{ q }},\", SUBSTR(STR(?coused), 32)) AS ?zoomUrl)\n  ?cousedDescription\n  \n  ?example_work ?example_workLabel (CONCAT(\"/work/\", SUBSTR(STR(?example_work), 32)) AS ?example_workUrl)\nWITH {\n  # Find works that are using a specific software,\n  # and find other software used in the found works\n  SELECT\n    ?coused\n    (COUNT(DISTINCT ?work) as ?count)\n    (SAMPLE(?work) AS ?example_work)\n  WHERE {\n    ?work wdt:P4510 / wdt:P279* target: ;\n          wdt:P4510 ?coused .\n    FILTER (?coused != target:)\n  }\n  GROUP BY ?coused\n} AS %result\nWHERE {\n  # Label the result\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . }\n}\nORDER BY DESC(?count) \n",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?count\n  \n  ?coused ?cousedLabel (CONCAT(\"/use/\", SUBSTR(STR(?coused), 32)) AS ?cousedUrl)\n  (\"🔎\" AS ?zoom)\n  (CONCAT(\"../uses/{{ q }},\", SUBSTR(STR(?coused), 32)) AS ?zoomUrl)\n  ?cousedDescription\n  \n  ?example_work ?example_workLabel (CONCAT(\"/work/\", SUBSTR(STR(?example_work), 32)) AS ?example_workUrl)\nWITH {\n  # Find works that are using a specific software,\n  # and find other software used in the found works\n  SELECT\n    ?coused\n    (COUNT(DISTINCT ?work) as ?count)\n    (SAMPLE(?work) AS ?example_work)\n  WHERE {\n    ?work wdt:P4510 / wdt:P279* target: ;\n          wdt:P4510 ?coused .\n    FILTER (?coused != target:)\n  }\n  GROUP BY ?coused\n} AS %result\nWHERE {\n  # Label the result\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . }\n}\nORDER BY DESC(?count) \n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/use_co-used.sparql",
       "title": "use_co-used",
       "description": "use_co-used",
@@ -3332,7 +3387,7 @@
       "name": "uses_authors",
       "sparql": "# title: Authors for specific uses\nSELECT\n  ?uses ?works\n  ?author ?authorLabel (CONCAT(\"/author/\", SUBSTR(STR(?author), 32)) AS ?authorUrl)\n  ?example_work ?example_workLabel (CONCAT(\"/work/\", SUBSTR(STR(?example_work), 32)) AS ?example_workUrl)\nWITH {\n  SELECT\n    (COUNT(DISTINCT ?use) AS ?uses)\n    (COUNT(DISTINCT ?work) AS ?works)\n    ?author (SAMPLE(?work) AS ?example_work)\n  WHERE {\n    VALUES ?use { {% for q in qs %} wd:{{ q }} {% endfor %} }\n    \n    ?work wdt:P4510 / wdt:P279* ?use ;\n          wdt:P50 ?author .\n  }\n  GROUP BY ?author\n  ORDER BY DESC(?uses)\n  LIMIT 200\n} AS %results\nWHERE {\n  INCLUDE %results\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . }\n}\nORDER BY DESC(?uses) DESC(?works)",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/uses_authors.sparql",
-      "title": "uses_authors",
+      "title": "Authors for specific uses",
       "description": "uses_authors",
       "comment": ""
     },
@@ -3343,7 +3398,7 @@
       "name": "uses_list-of-uses",
       "sparql": "# title: List of uses\nSELECT\n  ?use ?useLabel ?useDescription (CONCAT(\"/use/\", SUBSTR(STR(?use), 32)) AS ?useUrl)\n  ?example_work ?example_workLabel (CONCAT(\"/work/\", SUBSTR(STR(?example_work), 32)) AS ?example_workUrl)\nWITH {\n  SELECT ?use (SAMPLE(?work) AS ?example_work) WHERE {\n    VALUES ?use { {% for q in qs %} wd:{{ q }} {% endfor %} }\n    OPTIONAL { \n      ?work wdt:P4510 ?use .\n    }\n  }\n  GROUP BY ?use\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . }\n}\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/uses_list-of-uses.sparql",
-      "title": "uses_list-of-uses",
+      "title": "List of uses",
       "description": "uses_list-of-uses",
       "comment": ""
     },
@@ -3354,7 +3409,7 @@
       "name": "uses_list-of-works",
       "sparql": "# title: List of works on any combination of specific uses\nSELECT\n  ?count \n  (MIN(?publication_date_) AS ?publication_date)\n  ?work ?workLabel (CONCAT(\"/work/\", SUBSTR(STR(?work), 32)) AS ?workUrl)\n  ?uses ?usesUrl\nWITH {\n  SELECT (COUNT(?use) AS ?count) ?work\n    (GROUP_CONCAT(DISTINCT ?use_label; separator=\" // \") AS ?uses) \n    (CONCAT(\"../uses/\", GROUP_CONCAT(DISTINCT SUBSTR(STR(?use), 32); separator=\",\")) AS ?usesUrl)                                    \n  WHERE {\n    VALUES ?use { {% for q in qs %} wd:{{ q }} {% endfor %} }\n    \n    # A broad query including \"(wdt:P361+ | wdt:P1269+ | (wdt:P31* / wdt:P279*) )\" seems to take\n    # long time and time out.\n    ?work wdt:P4510 ?use  .\n    ?use rdfs:label ?use_label .\n    FILTER(LANG(?use_label) = 'en')\n  }\n  GROUP BY ?work ?uses\n  HAVING(?count > 1)\n  ORDER BY DESC(?count)\n  LIMIT 200\n} AS %results\nWHERE {\n  INCLUDE %results\n  OPTIONAL {\n    ?work wdt:P577 ?publication_datetime .\n    BIND(xsd:date(?publication_datetime) AS ?publication_date_)\n  }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . }\n}\nGROUP BY ?count ?work ?workLabel ?uses ?usesUrl\nORDER BY DESC(?count) DESC(?publication_date)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/uses_list-of-works.sparql",
-      "title": "uses_list-of-works",
+      "title": "List of works on any combination of specific uses",
       "description": "uses_list-of-works",
       "comment": ""
     },
@@ -3420,7 +3475,7 @@
       "name": "venue_articles-citing-retracted-articles",
       "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: Articles in a specific venue citing retracted articles\nSELECT DISTINCT\n  ?retracted_work ?retracted_workLabel\n  ?date\n  ?citing_work ?citing_workLabel\nWITH {\n  # Find retracted papers indicated by instance of retracted paper, \n  # by retraction notice property or by significant event\n  SELECT DISTINCT ?retracted_work WHERE {\n    # articles marked as \"retracted\"\n    { ?retracted_work wdt:P31 wd:Q45182324 }\n    UNION\n    # articles linked to a retraction notice\n    { ?retracted_work wdt:P5824 [] }\n    UNION\n    # articles with a 'retraction' event\n    { ?retracted_work wdt:P793 wd:Q45203135 }\n  }\n} AS %retracted_works\nWHERE {\n  INCLUDE %retracted_works\n  ?citing_work wdt:P2860 ?retracted_work ; wdt:P1433 target: .\n  OPTIONAL {\n    ?retracted_work wdt:P5824 ?retraction .\n    ?retraction wdt:P577 ?retraction_datetime\n    FILTER ( ?citing_work != ?retraction )\n  }\n  MINUS { ?citing_work wdt:P31 wd:Q1348305 }\n  OPTIONAL {\n    ?retracted_work p:P793 [ ps:P793 wd:Q45203135 ; pq:P585 ?keyevent_datetime ]\n  }\n  BIND(COALESCE(xsd:date(COALESCE(?retraction_datetime, ?keyevent_datetime)), \"Unknown date\") AS ?date)\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\nORDER BY DESC(?date)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_articles-citing-retracted-articles.sparql",
-      "title": "venue_articles-citing-retracted-articles",
+      "title": "Articles in a specific venue citing retracted articles",
       "description": "venue_articles-citing-retracted-articles",
       "comment": ""
     },
@@ -3431,7 +3486,7 @@
       "name": "venue_author-awards",
       "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: Author awards for a specific venue\nSELECT DISTINCT\n  ?year \n  ?author ?authorLabel\n  ?award ?awardLabel ?awardDescription\nWHERE {\n  [] wdt:P1433 target: ;\n     wdt:P50 ?author .\n  ?author p:P166 ?award_statement .\n  ?award_statement ps:P166 ?award .\n  OPTIONAL {\n    { ?award_statement pq:P585 ?time }\n    UNION\n    { ?award_statement pq:P580 ?time }\n    BIND(YEAR(?time) AS ?year)\n  }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . }  \n}\nORDER BY DESC(?year)\nLIMIT 500\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_author-awards.sparql",
-      "title": "venue_author-awards",
+      "title": "Author awards for a specific venue",
       "description": "venue_author-awards",
       "comment": ""
     },
@@ -3442,7 +3497,7 @@
       "name": "venue_author-gender-distribution",
       "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: Author gender distribution for a specific venue\nSELECT ?count ?gender ?genderLabel \nWITH {\n  SELECT (COUNT(DISTINCT ?author) AS ?count) ?gender WHERE {\n    ?work wdt:P1433 target: .\n    ?work wdt:P50 ?author .\n    ?author wdt:P21 ?gender .\n  } \n  GROUP BY ?gender\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . } \n} \n ORDER BY DESC(?count)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_author-gender-distribution.sparql",
-      "title": "venue_author-gender-distribution",
+      "title": "Author gender distribution for a specific venue",
       "description": "venue_author-gender-distribution",
       "comment": ""
     },
@@ -3453,7 +3508,7 @@
       "name": "venue_author-images",
       "sparql": "# title: Author images for a specific venue\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n#defaultView:ImageGrid\nSELECT (SAMPLE(?image_) AS ?image) ?author ?authorLabel ?count\nWITH {\n  SELECT ?author (COUNT(?work) AS ?count) WHERE {\n    ?work wdt:P1433 target:;\n          wdt:P50 ?author .\n  }\n  GROUP BY ?author\n} AS %authors\nWHERE {\n  INCLUDE %authors\n  ?author wdt:P18 ?image_ .\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,da,de,es,fr,jp,nl.no,ru,sv,zh\" . } \n}\nGROUP BY ?author ?authorLabel ?count\nORDER BY DESC(?count)\nLIMIT 50  ",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_author-images.sparql",
-      "title": "venue_author-images",
+      "title": "Author images for a specific venue",
       "description": "venue_author-images",
       "comment": ""
     },
@@ -3464,7 +3519,7 @@
       "name": "venue_authors",
       "sparql": "# title: Prolific authors for a specific journal\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?count ?author ?authorLabel ?orcid ?example_work ?example_workLabel\nWITH {\n  # Count the number of works author by the author publishing in the journal\n  SELECT\n    ?author\n    (COUNT(?work) AS ?count)\n    (SAMPLE(?work) AS ?example_work)\n  WHERE {\n    ?work wdt:P50 ?author ;\n          wdt:P1433 target: .\n  }\n  GROUP BY ?author\n} AS %result\nWHERE {\n  INCLUDE %result \n          \n  # Include optional ORCID iD\n  OPTIONAL { ?author wdt:P496 ?orcid . }\n  \n  # Label the results\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . } \n}\nORDER BY DESC(?count)\nLIMIT 50\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_authors.sparql",
-      "title": "venue_authors",
+      "title": "Prolific authors for a specific journal",
       "description": "venue_authors",
       "comment": ""
     },
@@ -3475,7 +3530,7 @@
       "name": "venue_authorship-gender-distribution",
       "sparql": "# title: Authorship gender distribution for a specific venue\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?count ?gender ?genderLabel \nWITH {\n  SELECT (COUNT(?author) AS ?count) ?gender WHERE {\n    ?work wdt:P1433 target: .\n    ?work wdt:P50 ?author .\n    ?author wdt:P21 ?gender .\n  } \n  GROUP BY ?gender\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . } \n} \n ORDER BY DESC(?count)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_authorship-gender-distribution.sparql",
-      "title": "venue_authorship-gender-distribution",
+      "title": "Authorship gender distribution for a specific venue",
       "description": "venue_authorship-gender-distribution",
       "comment": ""
     },
@@ -3486,7 +3541,7 @@
       "name": "venue_citation-distribution",
       "sparql": "# title: Citation distribution for a venue\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n#defaultView:LineChart\nSELECT\n  ?number_of_citations (COUNT(?work) AS ?count)\nWHERE {\n  {\n    SELECT ?work (COUNT(?citing_work) AS ?number_of_citations)\n    WHERE {\n      ?work wdt:P1433 target: .\n      OPTIONAL { ?citing_work wdt:P2860 ?work . }\n    }\n    GROUP BY ?work \n  }\n} \nGROUP BY ?number_of_citations\nORDER BY DESC(?number_of_citations)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_citation-distribution.sparql",
-      "title": "venue_citation-distribution",
+      "title": "Citation distribution for a venue",
       "description": "venue_citation-distribution",
       "comment": ""
     },
@@ -3497,7 +3552,7 @@
       "name": "venue_cited-venues",
       "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# title: Cited venues from specific journal\nSELECT\n  ?count\n  ?short_name\n  ?cited_journal ?cited_journalLabel\nWITH {\n  SELECT\n    (COUNT(?cited_work) AS ?count)\n    ?cited_journal\n    (SAMPLE(?short_name_) AS ?short_name)\n  WHERE {\n    ?work wdt:P1433 target: .\n    ?work wdt:P2860 ?cited_work .\n    ?cited_work wdt:P1433 ?cited_journal . \n    OPTIONAL {\n      ?work wdt:P577 ?publication_datetime .\n      BIND(xsd:date(?publication_datetime) AS ?publication_date)\n    }\n    OPTIONAL { ?cited_journal wdt:P1813 ?short_name_ . }\n  }\n  GROUP BY ?cited_journal\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label {\n    bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . } \n}\nORDER BY DESC(?count)\nLIMIT 200\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_cited-venues.sparql",
-      "title": "venue_cited-venues",
+      "title": "Cited venues from specific journal",
       "description": "venue_cited-venues",
       "comment": ""
     },
@@ -3508,7 +3563,7 @@
       "name": "venue_citing-venues",
       "sparql": "# title: Venues citing articles from this specific journal\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n#defaultView:Table\nSELECT\n  ?count\n  ?short_name\n  ?citing_journal ?citing_journalLabel \nWITH {\n  SELECT\n    (COUNT(?citing_work) AS ?count)\n    ?citing_journal\n    (SAMPLE(?short_name_) AS ?short_name)\n  WHERE {\n    ?work wdt:P1433 target: .\n    ?citing_work wdt:P2860 ?work .\n    ?citing_work wdt:P1433 ?citing_journal .\n    OPTIONAL { ?citing_journal wdt:P1813 ?short_name_ . }\n  }\n  GROUP BY ?citing_journal\n  ORDER BY DESC(?count)\n  LIMIT 1000\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label {\n    bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . } \n}\nORDER BY DESC(?count)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_citing-venues.sparql",
-      "title": "venue_citing-venues",
+      "title": "Venues citing articles from this specific journal",
       "description": "venue_citing-venues",
       "comment": ""
     },
@@ -3519,19 +3574,8 @@
       "name": "venue_co-author-graph",
       "sparql": "# title: Co-author graph for a specific venue\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n#defaultView:Graph\nSELECT ?author1 ?author1Label ?rgb ?author2 ?author2Label\nWITH {\n  # Find works published in the given venue\n  SELECT ?work WHERE {\n    ?work wdt:P1433 target: .\n  }\n} AS %works\nWITH {\n  # Limit the number of authors\n  SELECT (COUNT(?work) AS ?count1) ?author1 WHERE {\n    INCLUDE %works\n    ?work wdt:P50 ?author1 .\n  }\n  GROUP BY ?author1\n  ORDER BY DESC(?count1)\n  LIMIT 15\n} AS %authors1\nWITH {\n  # Limit the number of coauthors\n  SELECT DISTINCT ?author2 ?author1  (COUNT(?work) AS ?count2)  WHERE {\n    INCLUDE %works\n    INCLUDE %authors1\n    ?work wdt:P50 ?author1 , ?author2 .\n    FILTER (?author1 != ?author2) \n  }\n  GROUP BY ?author2 ?author1 \n  ORDER BY DESC(?count2)\n  LIMIT 150\n} AS %authors2\nWHERE {\n#  INCLUDE %authors1\n  INCLUDE %authors2\n  OPTIONAL { ?author1 wdt:P21 ?gender1 . }\n  BIND( IF(?gender1 = wd:Q6581097, \"3182BD\", \"E6550D\") AS ?rgb)\n  SERVICE wikibase:label {\n    bd:serviceParam wikibase:language \"en,fr,de,ru,es,zh,jp\".\n  }\n}\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_co-author-graph.sparql",
-      "title": "venue_co-author-graph",
+      "title": "Co-author graph for a specific venue",
       "description": "venue_co-author-graph",
-      "comment": ""
-    },
-    {
-      "query_id": "venue_incoming-bubble--named_queries@scholia.toolforge.org",
-      "domain": "scholia.toolforge.org",
-      "namespace": "named_queries",
-      "name": "venue_incoming-bubble",
-      "sparql": "#defaultView:BubbleChart\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?intention ?intentionLabel (COUNT(DISTINCT ?citingArticle) AS ?count) WHERE {\n  ?citingArticle p:P2860 ?citationStatement .\n  ?citationStatement pq:P3712 ?intention ;\n                     ps:P2860 ?citedArticle .\n  ?citedArticle wdt:P1433 target: .\n  ?intention wdt:P31 wd:Q96471816 ;\n             wdt:P2888 ?cito .\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n} GROUP BY ?cito ?intention ?intentionLabel\n  ORDER BY DESC(?count)\n",
-      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_incoming-bubble.sparql",
-      "title": "venue_incoming-bubble",
-      "description": "venue_incoming-bubble",
       "comment": ""
     },
     {
@@ -3546,13 +3590,24 @@
       "comment": ""
     },
     {
+      "query_id": "venue_incoming-bubble--named_queries@scholia.toolforge.org",
+      "domain": "scholia.toolforge.org",
+      "namespace": "named_queries",
+      "name": "venue_incoming-bubble",
+      "sparql": "#defaultView:BubbleChart\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?intention ?intentionLabel (COUNT(DISTINCT ?citingArticle) AS ?count) WHERE {\n  ?citingArticle p:P2860 ?citationStatement .\n  ?citationStatement pq:P3712 ?intention ;\n                     ps:P2860 ?citedArticle .\n  ?citedArticle wdt:P1433 target: .\n  ?intention wdt:P31 wd:Q96471816 ;\n             wdt:P2888 ?cito .\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n} GROUP BY ?cito ?intention ?intentionLabel\n  ORDER BY DESC(?count)\n",
+      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_incoming-bubble.sparql",
+      "title": "venue_incoming-bubble",
+      "description": "venue_incoming-bubble",
+      "comment": ""
+    },
+    {
       "query_id": "venue_most-cited-articles--named_queries@scholia.toolforge.org",
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "venue_most-cited-articles",
       "sparql": "# title: Most cited articles published in specific venue\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n#defaultView:Table\nSELECT\n  ?count\n  ?work ?workLabel\n  ?example_citing_work ?example_citing_workLabel\nWITH {\n  # Count citations\n  SELECT\n    (COUNT(?citing_work) AS ?count)\n    ?work\n    (SAMPLE(?citing_work) AS ?example_citing_work)\n  WHERE {\n    ?work wdt:P1433 target: .\n    ?citing_work wdt:P2860 ?work.\n  }\n  GROUP BY ?work\n  ORDER BY DESC(?count)\n  LIMIT 1000  \n} AS %result\nWHERE {\n  # Label results\n  INCLUDE %result\n  SERVICE wikibase:label {\n    bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . } \n}\nORDER BY DESC(?count)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_most-cited-articles.sparql",
-      "title": "venue_most-cited-articles",
+      "title": "Most cited articles published in specific venue",
       "description": "venue_most-cited-articles",
       "comment": ""
     },
@@ -3563,7 +3618,7 @@
       "name": "venue_most-cited-authors",
       "sparql": "# title: Most cited authors published in venue\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?count\n  ?author ?authorLabel\n  ?orcid\n  ?example_cited_work ?example_cited_workLabel\n  ?example_citing_work ?example_citing_workLabel\nWITH {\n  # Count the number of citations\n  SELECT\n    ?author\n    (COUNT(?cited_work) AS ?count)\n    (SAMPLE(?cited_work) AS ?example_cited_work)\n    (SAMPLE(?citing_work) AS ?example_citing_work)\n  WHERE {\n    ?cited_work wdt:P1433 target: .\n    ?citing_work wdt:P2860 ?cited_work .\n    ?cited_work wdt:P50 ?author .\n  }\n  GROUP BY ?author\n} AS %result\nWHERE {\n  INCLUDE %result \n          \n  # Include optional ORCID iD\n  OPTIONAL { ?author wdt:P496 ?orcid . }\n  \n  # Label the results\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . } \n}\nORDER BY DESC(?count)\nLIMIT 100\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_most-cited-authors.sparql",
-      "title": "venue_most-cited-authors",
+      "title": "Most cited authors published in venue",
       "description": "venue_most-cited-authors",
       "comment": ""
     },
@@ -3579,17 +3634,6 @@
       "comment": ""
     },
     {
-      "query_id": "venue_outgoing-bubble--named_queries@scholia.toolforge.org",
-      "domain": "scholia.toolforge.org",
-      "namespace": "named_queries",
-      "name": "venue_outgoing-bubble",
-      "sparql": "#defaultView:BubbleChart\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?cito ?intentionLabel (COUNT(DISTINCT ?citingArticle) AS ?count) WHERE {\n  ?citingArticle p:P2860 ?citationStatement ;\n                 wdt:P1433 target: .\n  ?citationStatement pq:P3712 ?intention ;\n                     ps:P2860 ?citedArticle .\n  ?intention wdt:P31 wd:Q96471816 ;\n             wdt:P2888 ?cito .\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n} GROUP BY ?cito ?intention ?intentionLabel\n  ORDER BY DESC(?count)\n",
-      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_outgoing-bubble.sparql",
-      "title": "venue_outgoing-bubble",
-      "description": "venue_outgoing-bubble",
-      "comment": ""
-    },
-    {
       "query_id": "venue_outgoing--named_queries@scholia.toolforge.org",
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
@@ -3598,6 +3642,17 @@
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_outgoing.sparql",
       "title": "venue_outgoing",
       "description": "venue_outgoing",
+      "comment": ""
+    },
+    {
+      "query_id": "venue_outgoing-bubble--named_queries@scholia.toolforge.org",
+      "domain": "scholia.toolforge.org",
+      "namespace": "named_queries",
+      "name": "venue_outgoing-bubble",
+      "sparql": "#defaultView:BubbleChart\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?cito ?intentionLabel (COUNT(DISTINCT ?citingArticle) AS ?count) WHERE {\n  ?citingArticle p:P2860 ?citationStatement ;\n                 wdt:P1433 target: .\n  ?citationStatement pq:P3712 ?intention ;\n                     ps:P2860 ?citedArticle .\n  ?intention wdt:P31 wd:Q96471816 ;\n             wdt:P2888 ?cito .\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n} GROUP BY ?cito ?intention ?intentionLabel\n  ORDER BY DESC(?count)\n",
+      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_outgoing-bubble.sparql",
+      "title": "venue_outgoing-bubble",
+      "description": "venue_outgoing-bubble",
       "comment": ""
     },
     {
@@ -3640,7 +3695,7 @@
       "name": "venue_topics",
       "sparql": "# title: Count of topics in published work in specified venue\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?count ?topic ?topicLabel ?example_work ?example_workLabel\nWITH {\n  SELECT \n    (COUNT(?work) as ?count)\n    ?topic\n    (SAMPLE(?work) AS ?example_work)\n  WHERE {\n    ?work wdt:P1433 target: .\n    ?work wdt:P921 ?topic .\n  }\n  GROUP BY ?topic\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . } \n}\nORDER BY DESC(?count)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_topics.sparql",
-      "title": "venue_topics",
+      "title": "Count of topics in published work in specified venue",
       "description": "venue_topics",
       "comment": ""
     },
@@ -3649,7 +3704,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "venue_uses",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?count\n  ?use ?useLabel (CONCAT(\"/use/\", SUBSTR(STR(?use), 32)) AS ?useUrl)\n  (\"\ud83d\udd0e\" AS ?zoom)\n  (CONCAT(\"{{ q }}/use/\", SUBSTR(STR(?use), 32)) AS ?zoomUrl)\n  ?useDescription\n\n  ?example_work ?example_workLabel\nWITH {\n  SELECT\n    (COUNT(?work) AS ?count)\n    ?use\n    (SAMPLE(?work) AS ?example_work)\n  {\n    ?work wdt:P1433 target: ;\n          wdt:P4510 ?use .\n  }\n  GROUP BY ?use\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\nORDER BY DESC(?count)",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  ?count\n  ?use ?useLabel (CONCAT(\"/use/\", SUBSTR(STR(?use), 32)) AS ?useUrl)\n  (\"🔎\" AS ?zoom)\n  (CONCAT(\"{{ q }}/use/\", SUBSTR(STR(?use), 32)) AS ?zoomUrl)\n  ?useDescription\n\n  ?example_work ?example_workLabel\nWITH {\n  SELECT\n    (COUNT(?work) AS ?count)\n    ?use\n    (SAMPLE(?work) AS ?example_work)\n  {\n    ?work wdt:P1433 target: ;\n          wdt:P4510 ?use .\n  }\n  GROUP BY ?use\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\nORDER BY DESC(?count)",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/venue_uses.sparql",
       "title": "venue_uses",
       "description": "venue_uses",
@@ -3737,7 +3792,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "wikiproject_co-occurring-wikiprojects",
-      "sparql": "#defaultView:Table\r\n\r\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\r\n\r\nSELECT ?count\r\n       ?wikiproject ?wikiprojectLabel (CONCAT(\"/wikiproject/\", SUBSTR(STR(?wikiproject), 32)) AS ?wikiprojectUrl)\r\n       ?example_entity ?example_entityLabel (CONCAT(\"/\", SUBSTR(STR(?example_entity), 32)) AS ?example_entityUrl)\r\nWITH {\r\n  SELECT (COUNT(?work) AS ?count) ?wikiproject (SAMPLE(?work) AS ?example_entity) WHERE {\r\n    # Find works for the specific queried wikiproject\r\n\t  VALUES ?p { wdt:P6104 wdt:P5008 }\r\n\t  SERVICE bd:sample { ?work ?p target: . bd:serviceParam bd:sample.limit 100000 }\r\n    \r\n    # Find co-occuring wikiprojects\r\n    ?work ?p ?wikiproject .\r\n    \r\n    # Avoid listing the queried wikiproject\r\n      FILTER (target: != ?wikiproject)\r\n  }\r\n  GROUP BY ?wikiproject\r\n} AS %result\r\nWHERE {\r\n  # Label the results\r\n  INCLUDE %result\r\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . }\r\n}\r\nORDER BY DESC(?count)\r\n",
+      "sparql": "#defaultView:Table\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?count\n       ?wikiproject ?wikiprojectLabel (CONCAT(\"/wikiproject/\", SUBSTR(STR(?wikiproject), 32)) AS ?wikiprojectUrl)\n       ?example_entity ?example_entityLabel (CONCAT(\"/\", SUBSTR(STR(?example_entity), 32)) AS ?example_entityUrl)\nWITH {\n  SELECT (COUNT(?work) AS ?count) ?wikiproject (SAMPLE(?work) AS ?example_entity) WHERE {\n    # Find works for the specific queried wikiproject\n\t  VALUES ?p { wdt:P6104 wdt:P5008 }\n\t  SERVICE bd:sample { ?work ?p target: . bd:serviceParam bd:sample.limit 100000 }\n    \n    # Find co-occuring wikiprojects\n    ?work ?p ?wikiproject .\n    \n    # Avoid listing the queried wikiproject\n      FILTER (target: != ?wikiproject)\n  }\n  GROUP BY ?wikiproject\n} AS %result\nWHERE {\n  # Label the results\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . }\n}\nORDER BY DESC(?count)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/wikiproject_co-occurring-wikiprojects.sparql",
       "title": "wikiproject_co-occurring-wikiprojects",
       "description": "wikiproject_co-occurring-wikiprojects",
@@ -3770,7 +3825,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "wikiproject_focus",
-      "sparql": "SELECT ?type ?typeLabel ?count WITH {\r\n    SELECT DISTINCT ?type (COUNT(?item) AS ?count) WHERE {\r\n    ?item wdt:P5008 wd:{{ q }};\r\n            (wdt:P31|wdt:P279) ?type.\r\n    }\r\n    GROUP BY ?type ?count\r\n    ORDER BY DESC (?count)\r\n} AS %result\r\nWHERE {\r\n  INCLUDE %result\r\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en,da,de,es,fr,it,sv,uk,zh\". }\r\n}\r\nORDER BY DESC (?count)",
+      "sparql": "SELECT ?type ?typeLabel ?count WITH {\n    SELECT DISTINCT ?type (COUNT(?item) AS ?count) WHERE {\n    ?item wdt:P5008 wd:{{ q }};\n            (wdt:P31|wdt:P279) ?type.\n    }\n    GROUP BY ?type ?count\n    ORDER BY DESC (?count)\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en,da,de,es,fr,it,sv,uk,zh\". }\n}\nORDER BY DESC (?count)",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/wikiproject_focus.sparql",
       "title": "wikiproject_focus",
       "description": "wikiproject_focus",
@@ -3781,7 +3836,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "wikiproject_maintained",
-      "sparql": "SELECT ?type ?typeLabel ?count WITH {\r\n    SELECT DISTINCT ?type (COUNT(?item) AS ?count) WHERE {\r\n    ?item wdt:P6104 wd:{{ q }};\r\n            (wdt:P31|wdt:P279) ?type.\r\n    }\r\n    GROUP BY ?type ?count\r\n    ORDER BY DESC (?count)\r\n} AS %result\r\nWHERE {\r\n  INCLUDE %result\r\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en,da,de,es,fr,it,sv,uk,zh\". }\r\n}\r\nORDER BY DESC (?count)",
+      "sparql": "SELECT ?type ?typeLabel ?count WITH {\n    SELECT DISTINCT ?type (COUNT(?item) AS ?count) WHERE {\n    ?item wdt:P6104 wd:{{ q }};\n            (wdt:P31|wdt:P279) ?type.\n    }\n    GROUP BY ?type ?count\n    ORDER BY DESC (?count)\n} AS %result\nWHERE {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en,da,de,es,fr,it,sv,uk,zh\". }\n}\nORDER BY DESC (?count)",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/wikiproject_maintained.sparql",
       "title": "wikiproject_maintained",
       "description": "wikiproject_maintained",
@@ -3792,7 +3847,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "wikiproject_organization-map",
-      "sparql": "#defaultView:Map\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?organization ?organizationLabel ?geo ?count ?layer\nWITH {\n  SELECT DISTINCT ?work WHERE {\n  # Works on the topic\n    { ?work wdt:P6104 target: .}\n      union \n      { ?work wdt:P5008 target: .}\n      ?work wdt:P50 [].\n  }\n  LIMIT 20000\n} AS %works\nWITH {\n  SELECT DISTINCT ?organization ?geo (COUNT(DISTINCT ?work) AS ?count) WHERE {\n    INCLUDE %works\n    # Authors who have published works on the topic\n    ?work wdt:P50 ?author . \n    ?author ( wdt:P108 | wdt:P463 | wdt:P1416 ) / wdt:P361* ?organization . \n    # Use the headquarters location by default but keep the coordinate location as a fallback\n    OPTIONAL{?organization p:P159/pq:P625 ?hq_geo}\n    OPTIONAL{?organization wdt:P625 ?coord_geo}\n    BIND(IF(BOUND(?hq_geo), ?hq_geo, ?coord_geo) AS ?geo) .\n    FILTER(BOUND(?geo)) .\n  }\n  GROUP BY ?organization ?geo\n  ORDER BY DESC (?count)\n  LIMIT 2000\n} AS %organizations\nWHERE {\n  INCLUDE %organizations\n  BIND(IF( (?count < 1), \"No results\", IF((?count < 2), \"1 result\", IF((?count < 11), \"1 < results \u2264 10\", IF((?count < 101), \"10 < results \u2264 100\", IF((?count < 1001), \"100 < results \u2264 1000\", IF((?count < 10001), \"1000 < results \u2264 10000\", \"10000 or more results\") ) ) ) )) AS ?layer )\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }        \n }\nORDER BY DESC (?count)\n",
+      "sparql": "#defaultView:Map\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?organization ?organizationLabel ?geo ?count ?layer\nWITH {\n  SELECT DISTINCT ?work WHERE {\n  # Works on the topic\n    { ?work wdt:P6104 target: .}\n      union \n      { ?work wdt:P5008 target: .}\n      ?work wdt:P50 [].\n  }\n  LIMIT 20000\n} AS %works\nWITH {\n  SELECT DISTINCT ?organization ?geo (COUNT(DISTINCT ?work) AS ?count) WHERE {\n    INCLUDE %works\n    # Authors who have published works on the topic\n    ?work wdt:P50 ?author . \n    ?author ( wdt:P108 | wdt:P463 | wdt:P1416 ) / wdt:P361* ?organization . \n    # Use the headquarters location by default but keep the coordinate location as a fallback\n    OPTIONAL{?organization p:P159/pq:P625 ?hq_geo}\n    OPTIONAL{?organization wdt:P625 ?coord_geo}\n    BIND(IF(BOUND(?hq_geo), ?hq_geo, ?coord_geo) AS ?geo) .\n    FILTER(BOUND(?geo)) .\n  }\n  GROUP BY ?organization ?geo\n  ORDER BY DESC (?count)\n  LIMIT 2000\n} AS %organizations\nWHERE {\n  INCLUDE %organizations\n  BIND(IF( (?count < 1), \"No results\", IF((?count < 2), \"1 result\", IF((?count < 11), \"1 < results ≤ 10\", IF((?count < 101), \"10 < results ≤ 100\", IF((?count < 1001), \"100 < results ≤ 1000\", IF((?count < 10001), \"1000 < results ≤ 10000\", \"10000 or more results\") ) ) ) )) AS ?layer )\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }        \n }\nORDER BY DESC (?count)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/wikiproject_organization-map.sparql",
       "title": "wikiproject_organization-map",
       "description": "wikiproject_organization-map",
@@ -3858,7 +3913,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "work-curation_author-resolving",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  (COUNT(?work) AS ?works) \n  ?author_name\n  (\"Author Disambiguator \u2197\" AS ?author_disambiguator)\n  (CONCAT(\"https://author-disambiguator.toolforge.org/names_oauth.php?doit=Look+for+author&name=\", \n          ENCODE_FOR_URI(?author_name)) AS ?author_disambiguatorUrl) \nWITH {\n  SELECT DISTINCT ?author WHERE {\n    target: wdt:P50 ?author .\n  }\n  LIMIT 200  \n} AS %authors\nWITH {\n  SELECT DISTINCT ?author_name WHERE {\n    {\n    INCLUDE %authors\n    ?author skos:altLabel | rdfs:label | (^ps:P50 / pq:P1932) ?author_name . }\n    UNION\n    { target: wdt:P2093 ?author_name . } \n  }\n} AS %author_names\nWHERE {\n  INCLUDE %author_names\n  ?work wdt:P2093 ?author_name .\n}\nGROUP BY ?author_name\nORDER BY DESC (?works)\n",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  (COUNT(?work) AS ?works) \n  ?author_name\n  (\"Author Disambiguator ↗\" AS ?author_disambiguator)\n  (CONCAT(\"https://author-disambiguator.toolforge.org/names_oauth.php?doit=Look+for+author&name=\", \n          ENCODE_FOR_URI(?author_name)) AS ?author_disambiguatorUrl) \nWITH {\n  SELECT DISTINCT ?author WHERE {\n    target: wdt:P50 ?author .\n  }\n  LIMIT 200  \n} AS %authors\nWITH {\n  SELECT DISTINCT ?author_name WHERE {\n    {\n    INCLUDE %authors\n    ?author skos:altLabel | rdfs:label | (^ps:P50 / pq:P1932) ?author_name . }\n    UNION\n    { target: wdt:P2093 ?author_name . } \n  }\n} AS %author_names\nWHERE {\n  INCLUDE %author_names\n  ?work wdt:P2093 ?author_name .\n}\nGROUP BY ?author_name\nORDER BY DESC (?works)\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/work-curation_author-resolving.sparql",
       "title": "work-curation_author-resolving",
       "description": "work-curation_author-resolving",
@@ -3869,7 +3924,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "work-curation_missing-orcid",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT DISTINCT\n  ?author ?authorLabel ?authorDescription\n  (CONCAT(\"/author/\", SUBSTR(STR(?author), 32)) AS ?authorUrl)\n\n  (\"ORCID search \u2197\" AS ?orcid_search)\n  (CONCAT(\"https://orcid.org/orcid-search/search/?searchQuery=\", ENCODE_FOR_URI(?authorLabel)) AS ?orcid_searchUrl)\n\nWHERE {\n  target: wdt:P50 ?author .\n  FILTER NOT EXISTS { ?author wdt:P496 ?orcid . }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . }\n}\n",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT DISTINCT\n  ?author ?authorLabel ?authorDescription\n  (CONCAT(\"/author/\", SUBSTR(STR(?author), 32)) AS ?authorUrl)\n\n  (\"ORCID search ↗\" AS ?orcid_search)\n  (CONCAT(\"https://orcid.org/orcid-search/search/?searchQuery=\", ENCODE_FOR_URI(?authorLabel)) AS ?orcid_searchUrl)\n\nWHERE {\n  target: wdt:P50 ?author .\n  FILTER NOT EXISTS { ?author wdt:P496 ?orcid . }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . }\n}\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/work-curation_missing-orcid.sparql",
       "title": "work-curation_missing-orcid",
       "description": "work-curation_missing-orcid",
@@ -3909,17 +3964,6 @@
       "comment": ""
     },
     {
-      "query_id": "work_citations-per-year--named_queries@scholia.toolforge.org",
-      "domain": "scholia.toolforge.org",
-      "namespace": "named_queries",
-      "name": "work_citations-per-year",
-      "sparql": "#defaultView:BarChart\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  (STR(?year_) AS ?year)\n  (SUM(?count_) AS ?count)\n  ?kind\nWHERE {\n  {\n    VALUES ?year_ { 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013\n                    2014 2015 2016 2017 2018 2019 2020 2021 2022 2023 }\n    BIND(0 AS ?count_)\n    BIND(\"_\" AS ?kind)\n  }\n  UNION \n  {\n    SELECT\n      ?year_\n      (COUNT(DISTINCT ?citing_work) AS ?count_)\n      ?kind\n    WHERE {\n      ?citing_work wdt:P2860 target: .\n  \n      # Detect self-citations\n      BIND(IF(EXISTS { target: wdt:P50 ?selfauthor . ?citing_work  wdt:P50 ?selfauthor } ,\n        \"detected incoming self-citations\",\n        \"citations from others or non-detected self-citations\") AS ?kind)\n\n      # Year of citation\n      ?citing_work wdt:P577 ?date .\n      BIND(YEAR(?date) AS ?year_)\n    }\n    GROUP BY ?year_ ?kind\n  }\n  UNION \n  {\n    SELECT\n      ?year_\n      (COUNT(DISTINCT ?cited_work) AS ?count_)\n      ?kind\n    WHERE {\n      target: wdt:P2860 ?cited_work .\n  \n      # Detect self-citations\n      BIND(IF(EXISTS { ?cited_work wdt:P50 ?selfauthor . target: wdt:P50 ?selfauthor },\n        \"detected outgoing self-citations\",\n        \"outgoing citations to others or non-detected self-citations\") AS ?kind)\n\n      # Year of citation\n      ?cited_work wdt:P577 ?date .\n      BIND(YEAR(?date) AS ?year_)\n    }\n    GROUP BY ?year_ ?kind\n  }\n}\nGROUP BY ?year_ ?kind\nORDER BY DESC(?year_)\n",
-      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/work_citations-per-year.sparql",
-      "title": "work_citations-per-year",
-      "description": "work_citations-per-year",
-      "comment": ""
-    },
-    {
       "query_id": "work_citations--named_queries@scholia.toolforge.org",
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
@@ -3928,6 +3972,17 @@
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/work_citations.sparql",
       "title": "work_citations",
       "description": "work_citations",
+      "comment": ""
+    },
+    {
+      "query_id": "work_citations-per-year--named_queries@scholia.toolforge.org",
+      "domain": "scholia.toolforge.org",
+      "namespace": "named_queries",
+      "name": "work_citations-per-year",
+      "sparql": "#defaultView:BarChart\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT\n  (STR(?year_) AS ?year)\n  (SUM(?count_) AS ?count)\n  ?kind\nWHERE {\n  {\n    VALUES ?year_ { 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013\n                    2014 2015 2016 2017 2018 2019 2020 2021 2022 2023 }\n    BIND(0 AS ?count_)\n    BIND(\"_\" AS ?kind)\n  }\n  UNION \n  {\n    SELECT\n      ?year_\n      (COUNT(DISTINCT ?citing_work) AS ?count_)\n      ?kind\n    WHERE {\n      ?citing_work wdt:P2860 target: .\n  \n      # Detect self-citations\n      BIND(IF(EXISTS { target: wdt:P50 ?selfauthor . ?citing_work  wdt:P50 ?selfauthor } ,\n        \"detected incoming self-citations\",\n        \"citations from others or non-detected self-citations\") AS ?kind)\n\n      # Year of citation\n      ?citing_work wdt:P577 ?date .\n      BIND(YEAR(?date) AS ?year_)\n    }\n    GROUP BY ?year_ ?kind\n  }\n  UNION \n  {\n    SELECT\n      ?year_\n      (COUNT(DISTINCT ?cited_work) AS ?count_)\n      ?kind\n    WHERE {\n      target: wdt:P2860 ?cited_work .\n  \n      # Detect self-citations\n      BIND(IF(EXISTS { ?cited_work wdt:P50 ?selfauthor . target: wdt:P50 ?selfauthor },\n        \"detected outgoing self-citations\",\n        \"outgoing citations to others or non-detected self-citations\") AS ?kind)\n\n      # Year of citation\n      ?cited_work wdt:P577 ?date .\n      BIND(YEAR(?date) AS ?year_)\n    }\n    GROUP BY ?year_ ?kind\n  }\n}\nGROUP BY ?year_ ?kind\nORDER BY DESC(?year_)\n",
+      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/work_citations-per-year.sparql",
+      "title": "work_citations-per-year",
+      "description": "work_citations-per-year",
       "comment": ""
     },
     {
@@ -3953,17 +4008,6 @@
       "comment": ""
     },
     {
-      "query_id": "work_cito-incoming-chart--named_queries@scholia.toolforge.org",
-      "domain": "scholia.toolforge.org",
-      "namespace": "named_queries",
-      "name": "work_cito-incoming-chart",
-      "sparql": "#defaultView:BubbleChart\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?intention ?intentionLabel (COUNT(DISTINCT ?citingArticle) AS ?count) WHERE {\n  VALUES ?CITEDARTICLE { target: }\n  ?citingArticle p:P2860 ?citationStatement .\n  ?citationStatement pq:P3712 ?intention ;\n                     ps:P2860 ?CITEDARTICLE .\n  ?intention wdt:P31 wd:Q96471816 .\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n} GROUP BY ?intention ?intentionLabel\n  ORDER BY DESC(?count)\n",
-      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/work_cito-incoming-chart.sparql",
-      "title": "work_cito-incoming-chart",
-      "description": "work_cito-incoming-chart",
-      "comment": ""
-    },
-    {
       "query_id": "work_cito-incoming--named_queries@scholia.toolforge.org",
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
@@ -3975,11 +4019,22 @@
       "comment": ""
     },
     {
+      "query_id": "work_cito-incoming-chart--named_queries@scholia.toolforge.org",
+      "domain": "scholia.toolforge.org",
+      "namespace": "named_queries",
+      "name": "work_cito-incoming-chart",
+      "sparql": "#defaultView:BubbleChart\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT ?intention ?intentionLabel (COUNT(DISTINCT ?citingArticle) AS ?count) WHERE {\n  VALUES ?CITEDARTICLE { target: }\n  ?citingArticle p:P2860 ?citationStatement .\n  ?citationStatement pq:P3712 ?intention ;\n                     ps:P2860 ?CITEDARTICLE .\n  ?intention wdt:P31 wd:Q96471816 .\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n} GROUP BY ?intention ?intentionLabel\n  ORDER BY DESC(?count)\n",
+      "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/work_cito-incoming-chart.sparql",
+      "title": "work_cito-incoming-chart",
+      "description": "work_cito-incoming-chart",
+      "comment": ""
+    },
+    {
       "query_id": "work_data--named_queries@scholia.toolforge.org",
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "work_data",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT DISTINCT ?description ?value ?valueUrl\nWHERE {\n  BIND(target: AS ?work)\n  {\n    BIND(1 AS ?order)\n    BIND(\"Title\" AS ?description)\n    ?work wdt:P1476 ?value .\n  }\n  UNION\n  {\n    BIND(1.5 AS ?order)\n    BIND(\"Type\" AS ?description)\n    ?work wdt:P31 ?iri .\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n  }\n  UNION\n  {\n    SELECT\n      (2 AS ?order)\n      (\"Authors\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../authors/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P50 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q) \n      ?iri rdfs:label ?value_string . \n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    SELECT\n      (3 AS ?order)\n      (\"Editors\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../authors/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P98 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q) \n      ?iri rdfs:label ?value_string . \n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    BIND(2.5 AS ?order)\n    BIND(\"Language\" AS ?description)\n    ?work wdt:P407 ?iri .\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string .\n    FILTER (LANG(?value_string) = 'en')\n    BIND(STR(?value_string) AS ?value)\n    BIND(CONCAT(\"../language/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    SELECT\n      (3 AS ?order)\n      (\"Reviewers\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../authors/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P4032 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q) \n      ?iri rdfs:label ?value_string . \n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    BIND(4 AS ?order)\n    BIND(\"Published in\" AS ?description)\n    ?work wdt:P1433 ?iri .\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../venue/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    BIND(4 AS ?order)\n    BIND(\"Series\" AS ?description)\n    ?work wdt:P179 ?iri .\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../series/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    BIND(6 AS ?order)\n    BIND(\"Publication date\" AS ?description)\n    ?work p:P577 / psv:P577 ?publication_date_value .\n    ?publication_date_value wikibase:timePrecision ?time_precision ;\n                            wikibase:timeValue ?publication_date .\n    BIND(IF(?time_precision = 9, YEAR(?publication_date), xsd:date(?publication_date)) AS ?value)\n  }\n  UNION\n  {\n    BIND(7 AS ?order)\n    BIND(\"Publisher\" AS ?description)\n    ?work wdt:P123 ?iri .\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../publisher/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    SELECT\n      (8 AS ?order)\n      (\"Topics\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../topics/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P921 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q) \n      ?iri rdfs:label ?value_string . \n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    SELECT\n      (9 AS ?order)\n      (\"Uses\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../uses/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P4510 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q) \n      ?iri rdfs:label ?value_string . \n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    BIND(10 AS ?order)\n    BIND(\"DOI\" AS ?description)\n    ?work wdt:P356 ?valueUrl_ .\n    BIND(CONCAT(\"https://doi.org/\", ENCODE_FOR_URI(?valueUrl_)) AS ?valueUrl)\n    BIND(CONCAT(?valueUrl_, \" \u2197\") AS ?value)\n  }\n  UNION\n  {\n    BIND(11 AS ?order)\n    BIND(\"Homepage\" AS ?description)\n    ?work wdt:P856 ?valueUrl .\n    BIND(STR(?valueUrl) AS ?value)\n  }\n  UNION\n  {\n    BIND(12 AS ?order)\n    BIND(\"Full text\" AS ?description)\n    ?work wdt:P953 ?valueUrl .\n    BIND(CONCAT(STR(?valueUrl), \" \u2197\") AS ?value)\n  }\n  UNION\n  {\n    BIND(13 AS ?order)\n    BIND(\"\ud83d\uded1 Retracted\" AS ?description)\n    { ?work wdt:P31 wd:Q45182324 . }\n    UNION\n    { ?work wdt:P793 wd:Q7316896 . }\n  }\n  UNION\n  {\n    BIND(14 AS ?order)\n    BIND(\"\ud83d\uded1 Retracted by\" AS ?description)\n    ?work wdt:P5824 ?iri .\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../work/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    BIND(15 AS ?order)\n    BIND(\"\u26a0\ufe0f Preprint\" AS ?description)\n    { ?work p:P31 ?statement . ?statement ps:P31 wd:Q580922 . MINUS { ?statement pq:P642 [] } }\n  }\n  UNION\n  {\n    SELECT (COUNT(DISTINCT ?citationStatement) AS ?value) ?order ?description ?valueUrl WHERE {\n      VALUES ?work { wd:{{ q }} }\n      VALUES ?intention { wd:Q96472102 wd:Q101149476 }\n      ?work ^ps:P2860 ?citationStatement . ?citationStatement pq:P3712 ?intention .\n      BIND(20 AS ?order)\n      BIND(\"Data or method used by\" AS ?description)\n      BIND(\"./{{ q }}/cito\" AS ?valueUrl)\n    } GROUP BY ?order ?description ?valueUrl\n  }\n  UNION\n  {\n    SELECT (COUNT(DISTINCT ?citationStatement) AS ?value) ?order ?description ?valueUrl WHERE {\n      VALUES ?work { wd:{{ q }} }\n      VALUES ?intention { wd:Q107687829 wd:Q107710355 }\n      ?work ^ps:P2860 ?citationStatement . ?citationStatement pq:P3712 ?intention .\n      BIND(21 AS ?order)\n      BIND(\"Disagreed with by\" AS ?description)\n      BIND(\"./{{ q }}/cito\" AS ?valueUrl)\n    } GROUP BY ?order ?description ?valueUrl\n  }\n  UNION\n  {\n    BIND(30 AS ?order)\n    BIND(\"\u26a0\ufe0f Preprint of\" AS ?description)\n    { ?work p:P31 ?statement .\n      ?statement pq:P642 ?pub ; ps:P31 wd:Q580922 .\n    BIND(SUBSTR(STR(?pub), 32) AS ?pubqid) \n    ?pub rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?pubqid) AS ?value)\n    BIND(CONCAT(\"../work/\", ?pubqid) AS ?valueUrl)}\n  }\n  UNION\n  {\n    BIND(31 AS ?order)\n    BIND(\"\u26a0\ufe0f Cites retracted article\" AS ?description)\n    { ?work wdt:P2860 ?retracted . ?retracted wdt:P31 wd:Q45182324 . }\n    UNION\n    { ?work wdt:P2860 ?retracted . ?retracted wdt:P793 wd:Q7316896 . }\n    UNION\n    { ?work wdt:P2860 ?retracted . ?retracted wdt:P5824 [] . }\n    ?retracted rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(SUBSTR(STR(?retracted), 32) AS ?q) \n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../work/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    BIND(32 AS ?order)\n    BIND(\"Preprint\" AS ?description)\n    { ?preprint p:P31 ?statement .\n      ?statement pq:P642 ?work ; ps:P31 wd:Q580922 .\n    BIND(SUBSTR(STR(?preprint), 32) AS ?pubqid)\n    ?preprint rdfs:label ?value_string .\n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?pubqid) AS ?value)\n    BIND(CONCAT(\"../work/\", ?pubqid) AS ?valueUrl)}\n  }\n  UNION\n  {\n    BIND(33 AS ?order)\n    BIND(\"\u26a0\ufe0f Erratum of\" AS ?description)\n    { ?work p:P31 ?statement .\n      ?statement pq:P642 ?pub ; ps:P31 wd:Q1348305 .\n    BIND(SUBSTR(STR(?pub), 32) AS ?pubqid)\n    ?pub rdfs:label ?value_string .\n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?pubqid) AS ?value)\n    BIND(CONCAT(\"../work/\", ?pubqid) AS ?valueUrl)}\n  }\n  UNION\n  {\n    BIND(34 AS ?order)\n    BIND(\"\u26a0\ufe0f Retracts\" AS ?description)\n    {\n    { ?work p:P31 ?statement .\n      ?statement pq:P642 ?pub ; ps:P31 wd:Q7316896 . }\n    UNION\n    { ?work ^wdt:P5824 ?pub . }\n    BIND(SUBSTR(STR(?pub), 32) AS ?pubqid)\n    ?pub rdfs:label ?value_string .\n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?pubqid) AS ?value)\n    BIND(CONCAT(\"../work/\", ?pubqid) AS ?valueUrl)}\n  }\n  UNION\n  {\n    BIND(35 AS ?order)\n    BIND(\"Replies to\" AS ?description)\n    ?work wdt:P2675 ?value_ .\n    BIND(SUBSTR(STR(?value_), 32) AS ?valueqid)\n    ?value_ rdfs:label ?value_string .\n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?valueqid) AS ?value)\n    BIND(CONCAT(\"../\", ?valueqid) AS ?valueUrl)\n  }\n  UNION\n  {\n    BIND(36 AS ?order)\n    BIND(\"Inspired by\" AS ?description)\n    ?work wdt:P941 ?value_ .\n    BIND(SUBSTR(STR(?value_), 32) AS ?valueqid)\n    ?value_ rdfs:label ?value_string .\n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?valueqid) AS ?value)\n    BIND(CONCAT(\"../\", ?valueqid) AS ?valueUrl)\n  }\n} \nORDER BY ?order\n",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT DISTINCT ?description ?value ?valueUrl\nWHERE {\n  BIND(target: AS ?work)\n  {\n    BIND(1 AS ?order)\n    BIND(\"Title\" AS ?description)\n    ?work wdt:P1476 ?value .\n  }\n  UNION\n  {\n    BIND(1.5 AS ?order)\n    BIND(\"Type\" AS ?description)\n    ?work wdt:P31 ?iri .\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n  }\n  UNION\n  {\n    SELECT\n      (2 AS ?order)\n      (\"Authors\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../authors/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P50 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q) \n      ?iri rdfs:label ?value_string . \n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    SELECT\n      (3 AS ?order)\n      (\"Editors\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../authors/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P98 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q) \n      ?iri rdfs:label ?value_string . \n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    BIND(2.5 AS ?order)\n    BIND(\"Language\" AS ?description)\n    ?work wdt:P407 ?iri .\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string .\n    FILTER (LANG(?value_string) = 'en')\n    BIND(STR(?value_string) AS ?value)\n    BIND(CONCAT(\"../language/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    SELECT\n      (3 AS ?order)\n      (\"Reviewers\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../authors/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P4032 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q) \n      ?iri rdfs:label ?value_string . \n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    BIND(4 AS ?order)\n    BIND(\"Published in\" AS ?description)\n    ?work wdt:P1433 ?iri .\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../venue/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    BIND(4 AS ?order)\n    BIND(\"Series\" AS ?description)\n    ?work wdt:P179 ?iri .\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../series/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    BIND(6 AS ?order)\n    BIND(\"Publication date\" AS ?description)\n    ?work p:P577 / psv:P577 ?publication_date_value .\n    ?publication_date_value wikibase:timePrecision ?time_precision ;\n                            wikibase:timeValue ?publication_date .\n    BIND(IF(?time_precision = 9, YEAR(?publication_date), xsd:date(?publication_date)) AS ?value)\n  }\n  UNION\n  {\n    BIND(7 AS ?order)\n    BIND(\"Publisher\" AS ?description)\n    ?work wdt:P123 ?iri .\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../publisher/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    SELECT\n      (8 AS ?order)\n      (\"Topics\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../topics/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P921 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q) \n      ?iri rdfs:label ?value_string . \n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    SELECT\n      (9 AS ?order)\n      (\"Uses\" AS ?description)\n      (GROUP_CONCAT(?value_; separator=\", \") AS ?value)\n      (CONCAT(\"../uses/\", GROUP_CONCAT(?q; separator=\",\")) AS ?valueUrl)\n    {\n      BIND(1 AS ?dummy)\n      target: wdt:P4510 ?iri .\n      BIND(SUBSTR(STR(?iri), 32) AS ?q) \n      ?iri rdfs:label ?value_string . \n      FILTER (LANG(?value_string) = 'en')\n      BIND(COALESCE(?value_string, ?q) AS ?value_)\n    }\n    GROUP BY ?dummy\n  }\n  UNION\n  {\n    BIND(10 AS ?order)\n    BIND(\"DOI\" AS ?description)\n    ?work wdt:P356 ?valueUrl_ .\n    BIND(CONCAT(\"https://doi.org/\", ENCODE_FOR_URI(?valueUrl_)) AS ?valueUrl)\n    BIND(CONCAT(?valueUrl_, \" ↗\") AS ?value)\n  }\n  UNION\n  {\n    BIND(11 AS ?order)\n    BIND(\"Homepage\" AS ?description)\n    ?work wdt:P856 ?valueUrl .\n    BIND(STR(?valueUrl) AS ?value)\n  }\n  UNION\n  {\n    BIND(12 AS ?order)\n    BIND(\"Full text\" AS ?description)\n    ?work wdt:P953 ?valueUrl .\n    BIND(CONCAT(STR(?valueUrl), \" ↗\") AS ?value)\n  }\n  UNION\n  {\n    BIND(13 AS ?order)\n    BIND(\"🛑 Retracted\" AS ?description)\n    { ?work wdt:P31 wd:Q45182324 . }\n    UNION\n    { ?work wdt:P793 wd:Q7316896 . }\n  }\n  UNION\n  {\n    BIND(14 AS ?order)\n    BIND(\"🛑 Retracted by\" AS ?description)\n    ?work wdt:P5824 ?iri .\n    BIND(SUBSTR(STR(?iri), 32) AS ?q) \n    ?iri rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../work/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    BIND(15 AS ?order)\n    BIND(\"⚠️ Preprint\" AS ?description)\n    { ?work p:P31 ?statement . ?statement ps:P31 wd:Q580922 . MINUS { ?statement pq:P642 [] } }\n  }\n  UNION\n  {\n    SELECT (COUNT(DISTINCT ?citationStatement) AS ?value) ?order ?description ?valueUrl WHERE {\n      VALUES ?work { wd:{{ q }} }\n      VALUES ?intention { wd:Q96472102 wd:Q101149476 wd:Q96471820 }\n      ?work ^ps:P2860 ?citationStatement . ?citationStatement pq:P3712 ?intention .\n      BIND(20 AS ?order)\n      BIND(\"Data or method used by\" AS ?description)\n      BIND(\"./{{ q }}/cito\" AS ?valueUrl)\n    } GROUP BY ?order ?description ?valueUrl\n  }\n  UNION\n  {\n    SELECT (COUNT(DISTINCT ?citationStatement) AS ?value) ?order ?description ?valueUrl WHERE {\n      VALUES ?work { wd:{{ q }} }\n      VALUES ?intention { wd:Q107687829 wd:Q107710355 wd:Q117121923 wd:Q117121932 }\n      ?work ^ps:P2860 ?citationStatement . ?citationStatement pq:P3712 ?intention .\n      BIND(21 AS ?order)\n      BIND(\"Disagreed with by\" AS ?description)\n      BIND(\"./{{ q }}/cito\" AS ?valueUrl)\n    } GROUP BY ?order ?description ?valueUrl\n  }\n  UNION\n  {\n    BIND(30 AS ?order)\n    BIND(\"⚠️ Preprint of\" AS ?description)\n    { ?work p:P31 ?statement .\n      ?statement pq:P642 ?pub ; ps:P31 wd:Q580922 .\n    BIND(SUBSTR(STR(?pub), 32) AS ?pubqid) \n    ?pub rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?pubqid) AS ?value)\n    BIND(CONCAT(\"../work/\", ?pubqid) AS ?valueUrl)}\n  }\n  UNION\n  {\n    BIND(31 AS ?order)\n    BIND(\"⚠️ Cites retracted article\" AS ?description)\n    { ?work wdt:P2860 ?retracted . ?retracted wdt:P31 wd:Q45182324 . }\n    UNION\n    { ?work wdt:P2860 ?retracted . ?retracted wdt:P793 wd:Q7316896 . }\n    UNION\n    { ?work wdt:P2860 ?retracted . ?retracted wdt:P5824 [] . }\n    ?retracted rdfs:label ?value_string . \n    FILTER (LANG(?value_string) = 'en')\n    BIND(SUBSTR(STR(?retracted), 32) AS ?q) \n    BIND(COALESCE(?value_string, ?q) AS ?value)\n    BIND(CONCAT(\"../work/\", ?q) AS ?valueUrl)\n  }\n  UNION\n  {\n    BIND(32 AS ?order)\n    BIND(\"Preprint\" AS ?description)\n    { ?preprint p:P31 ?statement .\n      ?statement pq:P642 ?work ; ps:P31 wd:Q580922 .\n    BIND(SUBSTR(STR(?preprint), 32) AS ?pubqid)\n    ?preprint rdfs:label ?value_string .\n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?pubqid) AS ?value)\n    BIND(CONCAT(\"../work/\", ?pubqid) AS ?valueUrl)}\n  }\n  UNION\n  {\n    BIND(33 AS ?order)\n    BIND(\"⚠️ Erratum of\" AS ?description)\n    { ?work p:P31 ?statement .\n      ?statement pq:P642 ?pub ; ps:P31 wd:Q1348305 .\n    BIND(SUBSTR(STR(?pub), 32) AS ?pubqid)\n    ?pub rdfs:label ?value_string .\n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?pubqid) AS ?value)\n    BIND(CONCAT(\"../work/\", ?pubqid) AS ?valueUrl)}\n  }\n  UNION\n  {\n    BIND(34 AS ?order)\n    BIND(\"⚠️ Retracts\" AS ?description)\n    {\n    { ?work p:P31 ?statement .\n      ?statement pq:P642 ?pub ; ps:P31 wd:Q7316896 . }\n    UNION\n    { ?work ^wdt:P5824 ?pub . }\n    BIND(SUBSTR(STR(?pub), 32) AS ?pubqid)\n    ?pub rdfs:label ?value_string .\n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?pubqid) AS ?value)\n    BIND(CONCAT(\"../work/\", ?pubqid) AS ?valueUrl)}\n  }\n  UNION\n  {\n    BIND(35 AS ?order)\n    BIND(\"Replies to\" AS ?description)\n    ?work wdt:P2675 ?value_ .\n    BIND(SUBSTR(STR(?value_), 32) AS ?valueqid)\n    ?value_ rdfs:label ?value_string .\n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?valueqid) AS ?value)\n    BIND(CONCAT(\"../\", ?valueqid) AS ?valueUrl)\n  }\n  UNION\n  {\n    BIND(36 AS ?order)\n    BIND(\"Inspired by\" AS ?description)\n    ?work wdt:P941 ?value_ .\n    BIND(SUBSTR(STR(?value_), 32) AS ?valueqid)\n    ?value_ rdfs:label ?value_string .\n    FILTER (LANG(?value_string) = 'en')\n    BIND(COALESCE(?value_string, ?valueqid) AS ?value)\n    BIND(CONCAT(\"../\", ?valueqid) AS ?valueUrl)\n  }\n} \nORDER BY ?order\n",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/work_data.sparql",
       "title": "work_data",
       "description": "work_data",
@@ -3990,7 +4045,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "work_list-of-authors",
-      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# List of authors for a work\nSELECT DISTINCT\n  # Author order\n  ?order\n\n  ?academic_age\n\n  # Author item and label\n  ?author ?authorUrl ?authorDescription\n\nWHERE {\n  {\n    target: p:P50 ?author_statement .\n    ?author_statement ps:P50 ?author_ .\n    ?author_ rdfs:label ?author .\n    FILTER (LANG(?author) = 'en')\n    BIND(CONCAT(\"../author/\", SUBSTR(STR(?author_), 32)) AS ?authorUrl)\n    OPTIONAL {\n      ?author_statement pq:P1545 ?order_ .\n      BIND(xsd:integer(?order_) AS ?order)\n    }\n    OPTIONAL {\n      ?author_ schema:description ?authorDescription .\n      FILTER (LANG(?authorDescription) = \"en\")\n    }\n  }\n  UNION\n  {\n    target: p:P2093 ?authorstring_statement .\n    ?authorstring_statement ps:P2093 ?author_\n    BIND(CONCAT(?author_, \" \u2197\") AS ?author)\n    OPTIONAL {\n      ?authorstring_statement pq:P1545 ?order_ .\n      BIND(xsd:integer(?order_) AS ?order)\n    }\n    BIND(CONCAT(\"https://author-disambiguator.toolforge.org/names_oauth.php?doit=Look+for+author&name=\", ENCODE_FOR_URI(?author_)) AS ?authorUrl)\n  }\n  OPTIONAL {\n    SELECT ?author_ (MAX(?academic_age_) AS ?academic_age) {\n      target: wdt:P50 ?author_ ;\n                 wdt:P577 ?publication_date .\n      [] wdt:P31 / wdt:P279* wd:Q55915575 ;\n         wdt:P50 ?author_ ;\n         wdt:P577 ?other_publication_date .\n      BIND(YEAR(?publication_date) - YEAR(?other_publication_date) AS ?academic_age_)\n    }\n    GROUP BY ?author_\n  }\n}\nORDER BY ?order",
+      "sparql": "PREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\n# List of authors for a work\nSELECT DISTINCT\n  # Author order\n  ?order\n\n  ?academic_age\n\n  # Author item and label\n  ?author ?authorUrl ?authorDescription\n\nWHERE {\n  {\n    target: p:P50 ?author_statement .\n    ?author_statement ps:P50 ?author_ .\n    ?author_ rdfs:label ?author .\n    FILTER (LANG(?author) = 'en')\n    BIND(CONCAT(\"../author/\", SUBSTR(STR(?author_), 32)) AS ?authorUrl)\n    OPTIONAL {\n      ?author_statement pq:P1545 ?order_ .\n      BIND(xsd:integer(?order_) AS ?order)\n    }\n    OPTIONAL {\n      ?author_ schema:description ?authorDescription .\n      FILTER (LANG(?authorDescription) = \"en\")\n    }\n  }\n  UNION\n  {\n    target: p:P2093 ?authorstring_statement .\n    ?authorstring_statement ps:P2093 ?author_\n    BIND(CONCAT(?author_, \" ↗\") AS ?author)\n    OPTIONAL {\n      ?authorstring_statement pq:P1545 ?order_ .\n      BIND(xsd:integer(?order_) AS ?order)\n    }\n    BIND(CONCAT(\"https://author-disambiguator.toolforge.org/names_oauth.php?doit=Look+for+author&name=\", ENCODE_FOR_URI(?author_)) AS ?authorUrl)\n  }\n  OPTIONAL {\n    SELECT ?author_ (MAX(?academic_age_) AS ?academic_age) {\n      target: wdt:P50 ?author_ ;\n                 wdt:P577 ?publication_date .\n      [] wdt:P31 / wdt:P279* wd:Q55915575 ;\n         wdt:P50 ?author_ ;\n         wdt:P577 ?other_publication_date .\n      BIND(YEAR(?publication_date) - YEAR(?other_publication_date) AS ?academic_age_)\n    }\n    GROUP BY ?author_\n  }\n}\nORDER BY ?order",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/work_list-of-authors.sparql",
       "title": "work_list-of-authors",
       "description": "work_list-of-authors",
@@ -4023,7 +4078,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "work_timeline",
-      "sparql": "#defaultView:Timeline\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT DISTINCT ?datetime ?description WHERE {\n  {\n    target: wdt:P577 ?datetime .\n    BIND(\"\ud83c\udf1e publication date\" AS ?description)\n  }\n  UNION \n  {\n    target: wdt:P2507 / wdt:P577 ?datetime .\n    BIND(\"\u2757 erratum\" AS ?description)\n  }\n  UNION \n  {\n    target: wdt:P5824 / wdt:P577 ?datetime .\n    BIND(\"\u26d4 retracted\" AS ?description)\n  }\n  UNION \n  {\n    target: p:P793 ?event_statement .\n    ?event_statement ps:P793 ?event_type .\n    ?event_type rdfs:label ?description_ .\n    ?event_statement pq:P585 ?datetime .\n    FILTER (LANG(?description_) = \"en\")\n    \n    # Warning icon for retraction\n    BIND(\n      IF(\n        ?event_type = wd:Q45203135,\n        CONCAT(\"\u26d4 \", ?description_),\n        IF(\n          ?event_type = wd:Q56478588,\n          CONCAT(\"\u2753 \", ?description_),\n          ?description_\n          )\n        ) AS ?description)\n  }\n  UNION\n  {\n    SELECT ?datetime ?description WHERE {\n      target: wdt:P2860 / wdt:P577 ?datetime\n      BIND(\"\ud83d\udcd6\u27a1\ufe0f cited work with earliest publication date\" AS ?description)\n    }\n    ORDER BY ?datetime\n    LIMIT 1\n  }\n  UNION\n  {\n    SELECT ?datetime ?description WHERE {\n      target: wdt:P2860 / wdt:P577 ?datetime\n      BIND(\"\ud83d\udcd6\u27a1\ufe0f cited work with latest publication date\" AS ?description)\n    }\n    ORDER BY DESC(?datetime)\n    LIMIT 1\n  }\n  UNION\n  {\n    SELECT ?datetime ?description WHERE {\n      target: ^wdt:P2860 / wdt:P577 ?datetime\n      BIND(\"\ud83d\udcd6\u2b05\ufe0f citing work with earliest publication date\" AS ?description)\n    }\n    ORDER BY ?datetime\n    LIMIT 1\n  }\n  UNION\n  {\n    SELECT ?datetime ?description WHERE {\n      target: ^wdt:P2860 / wdt:P577 ?datetime\n      BIND(\"\ud83d\udcd6\u2b05\ufe0f citing work with latest publication date\" AS ?description)\n    }\n    ORDER BY DESC(?datetime)\n    LIMIT 1\n  }\n    UNION\n  {\n    target: (wdt:P747 | ^wdt:P629) / wdt:P577 ?datetime\n    BIND(\"\ud83c\udf1e Publication of edition\" AS ?description)\n  }\n}",
+      "sparql": "#defaultView:Timeline\n\nPREFIX target: <http://www.wikidata.org/entity/{{ q }}>\n\nSELECT DISTINCT ?datetime ?description WHERE {\n  {\n    target: wdt:P577 ?datetime .\n    BIND(\"🌞 publication date\" AS ?description)\n  }\n  UNION \n  {\n    target: wdt:P2507 / wdt:P577 ?datetime .\n    BIND(\"❗ erratum\" AS ?description)\n  }\n  UNION \n  {\n    target: wdt:P5824 / wdt:P577 ?datetime .\n    BIND(\"⛔ retracted\" AS ?description)\n  }\n  UNION \n  {\n    target: p:P793 ?event_statement .\n    ?event_statement ps:P793 ?event_type .\n    ?event_type rdfs:label ?description_ .\n    ?event_statement pq:P585 ?datetime .\n    FILTER (LANG(?description_) = \"en\")\n    \n    # Warning icon for retraction\n    BIND(\n      IF(\n        ?event_type = wd:Q45203135,\n        CONCAT(\"⛔ \", ?description_),\n        IF(\n          ?event_type = wd:Q56478588,\n          CONCAT(\"❓ \", ?description_),\n          ?description_\n          )\n        ) AS ?description)\n  }\n  UNION\n  {\n    SELECT ?datetime ?description WHERE {\n      target: wdt:P2860 / wdt:P577 ?datetime\n      BIND(\"📖➡️ cited work with earliest publication date\" AS ?description)\n    }\n    ORDER BY ?datetime\n    LIMIT 1\n  }\n  UNION\n  {\n    SELECT ?datetime ?description WHERE {\n      target: wdt:P2860 / wdt:P577 ?datetime\n      BIND(\"📖➡️ cited work with latest publication date\" AS ?description)\n    }\n    ORDER BY DESC(?datetime)\n    LIMIT 1\n  }\n  UNION\n  {\n    SELECT ?datetime ?description WHERE {\n      target: ^wdt:P2860 / wdt:P577 ?datetime\n      BIND(\"📖⬅️ citing work with earliest publication date\" AS ?description)\n    }\n    ORDER BY ?datetime\n    LIMIT 1\n  }\n  UNION\n  {\n    SELECT ?datetime ?description WHERE {\n      target: ^wdt:P2860 / wdt:P577 ?datetime\n      BIND(\"📖⬅️ citing work with latest publication date\" AS ?description)\n    }\n    ORDER BY DESC(?datetime)\n    LIMIT 1\n  }\n    UNION\n  {\n    target: (wdt:P747 | ^wdt:P629) / wdt:P577 ?datetime\n    BIND(\"🌞 Publication of edition\" AS ?description)\n  }\n}",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/work_timeline.sparql",
       "title": "work_timeline",
       "description": "work_timeline",
@@ -4045,7 +4100,7 @@
       "domain": "scholia.toolforge.org",
       "namespace": "named_queries",
       "name": "work_wikipedia-mentions",
-      "sparql": "SELECT\n  ?title ?titleUrl\n  ?wikipedia ?wikipediaLabel\n  ?item ?itemLabel ?itemDescription \nWHERE {\n  {\n    SELECT ?title_ ?titleUrl ?item ?wikipedia {\n      SERVICE wikibase:mwapi {\n        bd:serviceParam wikibase:endpoint \"da.wikipedia.org\" ;\n                        wikibase:api \"Generator\" ;\n\t\t\tmwapi:generator \"search\" ;\n                        mwapi:gsrsearch '{{ q }}{% for doi in dois %} OR \"{{ doi }}\"{% endfor %}' ;\n                        mwapi:gsrlimit \"200\" .\n        ?title_ wikibase:apiOutput mwapi:title .\n\t?item wikibase:apiOutputItem mwapi:item .\n      }\n      BIND(URI(CONCAT(\"https://da.wikipedia.org/wiki/\", ENCODE_FOR_URI(REPLACE(?title_, \" \", \"_\")))) AS ?titleUrl)\n      BIND(wd:Q181163 AS ?wikipedia)\n    } \n  }\n  UNION\n  {\n    SELECT ?title_ ?titleUrl ?item ?wikipedia {\n      SERVICE wikibase:mwapi {\n        bd:serviceParam wikibase:endpoint \"de.wikipedia.org\" ;\n                        wikibase:api \"Generator\" ;\n\t\t\tmwapi:generator \"search\" ;\n                        mwapi:gsrsearch '{{ q }}{% for doi in dois %} OR \"{{ doi }}\"{% endfor %}' ;\n                        mwapi:gsrlimit \"200\" .\n        ?title_ wikibase:apiOutput mwapi:title .\n\t?item wikibase:apiOutputItem mwapi:item .\n      }\n      BIND(URI(CONCAT(\"https://de.wikipedia.org/wiki/\", ENCODE_FOR_URI(REPLACE(?title_, \" \", \"_\")))) AS ?titleUrl)\n      BIND(wd:Q48183 AS ?wikipedia)\n    }     \n  }\n  UNION\n  {\n    SELECT ?title_ ?titleUrl ?item ?wikipedia {\n      SERVICE wikibase:mwapi {\n        bd:serviceParam wikibase:endpoint \"en.wikipedia.org\" ;\n                        wikibase:api \"Generator\" ;\n\t\t\tmwapi:generator \"search\" ;\n                        mwapi:gsrsearch '{{ q }}{% for doi in dois %} OR \"{{ doi }}\"{% endfor %}' ;\n                        mwapi:gsrlimit \"200\" .\n        ?title_ wikibase:apiOutput mwapi:title .\n\t?item wikibase:apiOutputItem mwapi:item .\n      }\n      BIND(URI(CONCAT(\"https://en.wikipedia.org/wiki/\", ENCODE_FOR_URI(REPLACE(?title_, \" \", \"_\")))) AS ?titleUrl)\n      BIND(wd:Q328 AS ?wikipedia)\n    }     \n  }\n  UNION\n  {\n    SELECT ?title_ ?titleUrl ?item ?wikipedia {\n      SERVICE wikibase:mwapi {\n        bd:serviceParam wikibase:endpoint \"fr.wikipedia.org\" ;\n                        wikibase:api \"Generator\" ;\n\t\t\tmwapi:generator \"search\" ;\n                        mwapi:gsrsearch '{{ q }}{% for doi in dois %} OR \"{{ doi }}\"{% endfor %}' ;\n                        mwapi:gsrlimit \"200\" .\n        ?title_ wikibase:apiOutput mwapi:title .\n\t?item wikibase:apiOutputItem mwapi:item .\n      }\n      BIND(URI(CONCAT(\"https://fr.wikipedia.org/wiki/\", ENCODE_FOR_URI(REPLACE(?title_, \" \", \"_\")))) AS ?titleUrl)\n      BIND(wd:Q8447 AS ?wikipedia)\n    }     \n  }\n  UNION\n  {\n    SELECT ?title_ ?titleUrl ?item ?wikipedia {\n      SERVICE wikibase:mwapi {\n        bd:serviceParam wikibase:endpoint \"pt.wikipedia.org\" ;\n                        wikibase:api \"Generator\" ;\n\t\t\tmwapi:generator \"search\" ;\n                        mwapi:gsrsearch '{{ q }}{% for doi in dois %} OR \"{{ doi }}\"{% endfor %}' ;\n                        mwapi:gsrlimit \"200\" .\n        ?title_ wikibase:apiOutput mwapi:title .\n\t?item wikibase:apiOutputItem mwapi:item .\n      }\n      BIND(URI(CONCAT(\"https://pt.wikipedia.org/wiki/\", ENCODE_FOR_URI(REPLACE(?title_, \" \", \"_\")))) AS ?titleUrl)\n      BIND(wd:Q11921 AS ?wikipedia)\n    }     \n  }\n  hint:Prior hint:runFirst \"true\" .\n  BIND(CONCAT(?title_, \"&nbsp;\u2197\") AS ?title)\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . }\n} ",
+      "sparql": "SELECT\n  ?title ?titleUrl\n  ?wikipedia ?wikipediaLabel\n  ?item ?itemLabel ?itemDescription \nWHERE {\n  {\n    SELECT ?title_ ?titleUrl ?item ?wikipedia {\n      SERVICE wikibase:mwapi {\n        bd:serviceParam wikibase:endpoint \"da.wikipedia.org\" ;\n                        wikibase:api \"Generator\" ;\n\t\t\tmwapi:generator \"search\" ;\n                        mwapi:gsrsearch '{{ q }}{% for doi in dois %} OR \"{{ doi }}\"{% endfor %}' ;\n                        mwapi:gsrlimit \"200\" .\n        ?title_ wikibase:apiOutput mwapi:title .\n\t?item wikibase:apiOutputItem mwapi:item .\n      }\n      BIND(URI(CONCAT(\"https://da.wikipedia.org/wiki/\", ENCODE_FOR_URI(REPLACE(?title_, \" \", \"_\")))) AS ?titleUrl)\n      BIND(wd:Q181163 AS ?wikipedia)\n    } \n  }\n  UNION\n  {\n    SELECT ?title_ ?titleUrl ?item ?wikipedia {\n      SERVICE wikibase:mwapi {\n        bd:serviceParam wikibase:endpoint \"de.wikipedia.org\" ;\n                        wikibase:api \"Generator\" ;\n\t\t\tmwapi:generator \"search\" ;\n                        mwapi:gsrsearch '{{ q }}{% for doi in dois %} OR \"{{ doi }}\"{% endfor %}' ;\n                        mwapi:gsrlimit \"200\" .\n        ?title_ wikibase:apiOutput mwapi:title .\n\t?item wikibase:apiOutputItem mwapi:item .\n      }\n      BIND(URI(CONCAT(\"https://de.wikipedia.org/wiki/\", ENCODE_FOR_URI(REPLACE(?title_, \" \", \"_\")))) AS ?titleUrl)\n      BIND(wd:Q48183 AS ?wikipedia)\n    }     \n  }\n  UNION\n  {\n    SELECT ?title_ ?titleUrl ?item ?wikipedia {\n      SERVICE wikibase:mwapi {\n        bd:serviceParam wikibase:endpoint \"en.wikipedia.org\" ;\n                        wikibase:api \"Generator\" ;\n\t\t\tmwapi:generator \"search\" ;\n                        mwapi:gsrsearch '{{ q }}{% for doi in dois %} OR \"{{ doi }}\"{% endfor %}' ;\n                        mwapi:gsrlimit \"200\" .\n        ?title_ wikibase:apiOutput mwapi:title .\n\t?item wikibase:apiOutputItem mwapi:item .\n      }\n      BIND(URI(CONCAT(\"https://en.wikipedia.org/wiki/\", ENCODE_FOR_URI(REPLACE(?title_, \" \", \"_\")))) AS ?titleUrl)\n      BIND(wd:Q328 AS ?wikipedia)\n    }     \n  }\n  UNION\n  {\n    SELECT ?title_ ?titleUrl ?item ?wikipedia {\n      SERVICE wikibase:mwapi {\n        bd:serviceParam wikibase:endpoint \"fr.wikipedia.org\" ;\n                        wikibase:api \"Generator\" ;\n\t\t\tmwapi:generator \"search\" ;\n                        mwapi:gsrsearch '{{ q }}{% for doi in dois %} OR \"{{ doi }}\"{% endfor %}' ;\n                        mwapi:gsrlimit \"200\" .\n        ?title_ wikibase:apiOutput mwapi:title .\n\t?item wikibase:apiOutputItem mwapi:item .\n      }\n      BIND(URI(CONCAT(\"https://fr.wikipedia.org/wiki/\", ENCODE_FOR_URI(REPLACE(?title_, \" \", \"_\")))) AS ?titleUrl)\n      BIND(wd:Q8447 AS ?wikipedia)\n    }     \n  }\n  UNION\n  {\n    SELECT ?title_ ?titleUrl ?item ?wikipedia {\n      SERVICE wikibase:mwapi {\n        bd:serviceParam wikibase:endpoint \"pt.wikipedia.org\" ;\n                        wikibase:api \"Generator\" ;\n\t\t\tmwapi:generator \"search\" ;\n                        mwapi:gsrsearch '{{ q }}{% for doi in dois %} OR \"{{ doi }}\"{% endfor %}' ;\n                        mwapi:gsrlimit \"200\" .\n        ?title_ wikibase:apiOutput mwapi:title .\n\t?item wikibase:apiOutputItem mwapi:item .\n      }\n      BIND(URI(CONCAT(\"https://pt.wikipedia.org/wiki/\", ENCODE_FOR_URI(REPLACE(?title_, \" \", \"_\")))) AS ?titleUrl)\n      BIND(wd:Q11921 AS ?wikipedia)\n    }     \n  }\n  hint:Prior hint:runFirst \"true\" .\n  BIND(CONCAT(?title_, \"&nbsp;↗\") AS ?title)\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\" . }\n} ",
       "url": "https://raw.githubusercontent.com/WDscholia/scholia/master/scholia/app/templates/work_wikipedia-mentions.sparql",
       "title": "work_wikipedia-mentions",
       "description": "work_wikipedia-mentions",

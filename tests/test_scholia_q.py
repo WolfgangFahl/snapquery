@@ -19,7 +19,7 @@ class TestScholiaQ(Basetest):
     test scholia q parameter handling
     """
 
-    def setUp(self, debug=True, profile=True):
+    def setUp(self, debug=False, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
         self.nqm = NamedQueryManager()
 

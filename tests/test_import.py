@@ -19,7 +19,7 @@ class TestImport(Basetest):
     the samples import is now tested as part of  TestQueryName
     """
 
-    def setUp(self, debug=True, profile=True):
+    def setUp(self, debug=False, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
 
     def testImport(self):

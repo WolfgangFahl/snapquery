@@ -19,7 +19,7 @@ class TestPIDandPersons(Basetest):
     Test cases for the PIDs and PersonLookup class.
     """
 
-    def setUp(self, debug=True, profile=True):
+    def setUp(self, debug=False, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
         tmpfile = tempfile.NamedTemporaryFile(delete=False)
         self.nqm = NamedQueryManager.from_samples(db_path=tmpfile.name)

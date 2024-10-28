@@ -17,7 +17,7 @@ class TestWikipediaQueryParsing(Basetest):
     Test Wikipedia query parsing
     """
 
-    def setUp(self, debug=True, profile=True):
+    def setUp(self, debug=False, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
         with tempfile.NamedTemporaryFile(delete=False) as tmpfile:
             self.nqm = NamedQueryManager.from_samples(db_path=tmpfile.name)

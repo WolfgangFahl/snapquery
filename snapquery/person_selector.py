@@ -115,7 +115,7 @@ class PersonSelector:
         self.search_name = ""
         self.person_lookup = PersonLookup(nqm=self.solution.webserver.nqm)
         self.selection_btn: Optional[Button] = None
-        self.debouncer_ui = DebouncerUI(parent=self.solution.container, debug=True)
+        self.debouncer_ui = DebouncerUI(parent=self.solution.container, debug=self.solution.args.debug)
         self.person_selection()
 
     @ui.refreshable

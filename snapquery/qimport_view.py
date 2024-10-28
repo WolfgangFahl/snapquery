@@ -155,6 +155,10 @@ class QueryImportView:
         try:
             short_url = ShortUrl(self.url)
             nq = self.qimport.read_from_short_url(short_url, domain=self.domain, namespace=self.namespace)
+            if not nq:
+                with self.query_row:
+                    ui.notify(f"Could not read {short_url}")
+                    return
             # we assume llm authorization is active here
             llm = ShortUrl.get_llm()
             _unique_urls, unique_names = self.nqm.get_unique_sets(domain="wikidata.org", namespace="short_url")

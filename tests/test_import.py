@@ -81,7 +81,7 @@ class TestImport(Basetest):
         """
         short_url = ShortUrl("https://w.wiki/6UCU")
         qimport = QueryImport()
-        nq=qimport.read_from_short_url(short_url,domain="wikidata.org",namespace="short_url",with_llm=False)
+        nq=qimport.read_from_short_url(short_url,domain="wikidata.org",namespace="short_url")
         self.assertEqual("6UCU",nq.name)
         pass
 

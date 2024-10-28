@@ -20,7 +20,7 @@ class TestErrorFilter(Basetest):
     https://github.com/WolfgangFahl/snapquery/issues/20
     """
 
-    def setUp(self, debug=True, profile=True):
+    def setUp(self, debug=False, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
         self.nqm = NamedQueryManager()
         self.example_errs = [

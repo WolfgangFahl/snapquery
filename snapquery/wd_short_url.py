@@ -12,7 +12,8 @@ import requests
 from ngwidgets.llm import LLM
 from ratelimit import limits, sleep_and_retry
 
-from snapquery.snapquery_core import NamedQuery, NamedQuerySet
+from snapquery.snapquery_core import NamedQuery, NamedQuerySet,\
+    NamedQueryManager
 from snapquery.version import Version
 
 
@@ -106,9 +107,9 @@ class ShortUrl:
 
     @classmethod
     def get_prompt_text(cls, sparql: str) -> str:
-        prompt_text = f"""give an english name, title and description in json 
-for cut &paste for the SPARQL query below- the name should be less than 60 chars be a proper identifier which has no special chars so it can be used in an url without escaping. The title should be less than 80 chars and the 
-description not more than three lines of 80 chars. 
+        prompt_text = f"""give an english name, title and description in json
+for cut &paste for the SPARQL query below- the name should be less than 60 chars be a proper identifier which has no special chars so it can be used in an url without escaping. The title should be less than 80 chars and the
+description not more than three lines of 80 chars.
 A valid example result would be e.g.
 {{
   "name": "Locations_in_Rennes_with_French_Wikipedia_Article"
@@ -116,12 +117,41 @@ A valid example result would be e.g.
   "description": "Maps locations in Rennes linked to French Wikipedia articles. It displays entities within 10 km of Rennes' center, showing their names, coordinates, and linked Wikipedia pages. The results include entities' identifiers, coordinates, and related site links."
 }}
 
-The example is just an example - do not use it's content if it does not match. 
+The example is just an example - do not use it's content if it does not match.
 Avoid  hallucinating and stick to the facts.
 If the you can not determine a proper name, title and description return {{}}
 SPARQL: {sparql}
 """
         return prompt_text
+
+    def ask_llm_for_name_and_title(self,
+        llm:LLM,
+        nq:NamedQuery,
+        unique_names)->NamedQuery:
+        """
+        add name, title and description to ghe given query by
+        asking a large language model
+        """
+        llm_response = llm.ask(ShortUrl.get_prompt_text(self.sparql))
+        if llm_response:
+            response_json = json.loads(llm_response)
+            name = response_json.get("name", None)
+            if name in unique_names:
+                return None
+            if name:
+                nq.name = name
+            title = response_json.get("title", "")
+            description = response_json.get("description", "")
+            nq.title = title
+            nq.description = description
+            nq.__post_init__()
+            return nq
+        return None
+
+    @classmethod
+    def get_llm(cls)->LLM:
+        llm=LLM(model="gpt-4")
+        return llm
 
     @classmethod
     def get_random_query_list(
@@ -129,6 +159,7 @@ SPARQL: {sparql}
         namespace: str,
         count: int,
         max_postfix="9pfu",
+        nqm:NamedQueryManager=None,
         with_llm=False,
         with_progress: bool = False,
         debug=False,
@@ -137,22 +168,27 @@ SPARQL: {sparql}
         Read a specified number of random queries from a list of short URLs.
 
         Args:
-            namespace(str): the name to use for the named query list
+            nqm (NamedQueryManager): optional NamedQueryManager
+            namespace (str): the name to use for the named query list
             count (int): Number of random URLs to fetch.
-            max_postfix(str): the maximum ID to try
-            with_progress(bool): if True show progress
+            max_postfix (str): the maximum ID to try
+            with_progress (bool): if True show progress
 
         Returns:
             NamedQueryList: A NamedQueryList containing the queries read from the URLs.
         """
         if with_llm:
-            llm = LLM(model="gpt-4")
+            llm = cls.get_llm()
         short_ids = ShortIds()
         base_url = "https://w.wiki/"
-        unique_urls = set()
-        unique_names = set()
+        domain="wikidata.org"
+        if nqm is None:
+            unique_urls = set()
+            unique_names = set()
+        else:
+            unique_urls,unique_names=nqm.get_unique_sets(namespace=namespace, domain=domain)
 
-        nq_set = NamedQuerySet(domain="wikidata.org", namespace=namespace, target_graph_name="wikidata")
+        nq_set = NamedQuerySet(domain=domain, namespace=namespace, target_graph_name="wikidata")
         give_up = (
             count * 15
         )  # heuristic factor for probability that a short url points to a wikidata entry - 14 has worked so far
@@ -181,21 +217,11 @@ SPARQL: {sparql}
                 )
                 if with_llm:
                     try:
-                        llm_response = llm.ask(cls.get_prompt_text(short_url.sparql))
-                        if llm_response:
-                            response_json = json.loads(llm_response)
-                            name = response_json.get("name", None)
-                            if name in unique_names:
-                                # try again with a different url to avoid name clash
-                                give_up -= 1
-                                continue
-                            if name:
-                                nq.name = name
-                            title = response_json.get("title", "")
-                            description = response_json.get("description", "")
-                            nq.title = title
-                            nq.description = description
-                            nq.__post_init__()
+                        llm_nq=short_url.ask_llm_for_name_and_title(llm=llm, nq=nq,unique_names=unique_names)
+                        # try again with a different url to avoid name clash
+                        if llm_nq is None:
+                            give_up -= 1
+                        continue
                     except Exception as ex:
                         if debug:
                             print(f"Failed to get LLM response: {str(ex)}")

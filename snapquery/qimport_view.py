@@ -4,15 +4,14 @@ Created on 2024-05-05
 @author: wf
 """
 
-from typing import Optional
-
 from lodstorage.query import Query, QuerySyntaxHighlight
-from nicegui import ui
+from nicegui import ui, background_tasks
 
 from snapquery.models.person import Person
 from snapquery.qimport import QueryImport
 from snapquery.snapquery_core import NamedQuery
-
+from snapquery.person_selector import PersonSelector, PersonView
+from snapquery.wd_short_url import ShortUrl
 
 class QueryImportView:
     """
@@ -22,60 +21,78 @@ class QueryImportView:
     def __init__(
         self,
         solution=None,
-        person: Optional[Person] = None,
-        allow_importing_from_url: bool = True,
     ):
-        self.person = person
+        self.person = None
         self.solution = solution
-        self.allow_importing_from_url = allow_importing_from_url
-        self.namespace = ""
+        self.domain="wikidata.org"
+        self.namespace = "short_url"
         self.name = ""
         self.url = ""
         self.title = ""
         self.description = ""
         self.comment = ""
         self.query = None
+        self.allow_importing_from_url=self.solution.user_has_llm_right
         if self.solution:
             self.qimport = QueryImport()
             self.nqm = self.solution.nqm
-            self.setup_ui()
 
-    def setup_ui(self):
+    def on_select_person(self,person: Person=None):
         """
-        setup the user interface
+        react on a person having been selected
+
+        Args:
+            person (Person): the selected Person (if any)
         """
-        if self.solution.user_has_llm_right:
-            self.setup_ui_llm()
-        else:
+        self.container.clear()
+        with self.container:
+            with ui.row().classes("w-full"):
+                with ui.column():
+                    ui.label(text="Nominate your Query").classes("text-xl")
+                    ui.link(
+                        text="see the documentation for detailed information on the nomination procedure",
+                        new_tab=True,
+                        target="https://wiki.bitplan.com/index.php/Snapquery#nominate",
+                    )
+                if person:
+                    PersonView(person).classes("ml-auto bg-slate-100 rounded-md")
+        with ui.row().classes("w-full"):
             self.setup_ui_public()
 
-    def setup_ui_llm(self):
-        with self.solution.container:
+    def nominate_ui(self):
+        """
+        query nomination ui
+        """
+        with self.solution.container as self.container:
             with ui.column():
-                ui.textarea(label="URL List", placeholder="Paste short URLs, one per line").bind_value(self, "url_list")
-                ui.button(icon="input", text="Import Queries", on_click=self.on_input_multiple_urls)
-
-    def on_input_multiple_urls(self, _args):
-        urls = self.url_list.strip().split('\n')
-        for url in urls:
-            sparql_query = self.qimport.read_from_short_url(url)
+                ui.label(text="Nominate your Query").classes("text-xl")
+                ui.link(
+                    text="see the documentation for detailed information on the nomination procedure",
+                    new_tab=True,
+                    target="https://wiki.bitplan.com/index.php/Snapquery#nominate",
+                )
+                ui.label("Please identify yourself by entering or looking up a valid PID(Wikidata ID, ORCID, dblp).")
+                self.person_selector = PersonSelector(solution=self.solution, selection_callback=self.on_select_person)
 
     def setup_ui_public(self):
         """
-        setup the user interface for a public user that needs to identify
+        setup the general public user interface common for
+        both users that need to identify and those that are preauthorized
         """
         with self.solution.container:
             with ui.row() as self.input_row:
                 self.input_row.classes("h-full")
+                ui.input(label="domain", placeholder="e.g. short").bind_value(self, "domain")
                 ui.input(label="namespace", placeholder="e.g. wikidata-examples").bind_value(self, "namespace")
                 with ui.input(label="name", placeholder="e.g. all proceedings of CEUR-WS").bind_value(self, "name"):
                     ui.tooltip("short name for query; needs to be unique within the namespace")
+            with ui.row() as self.url_row:
                 ui.input(label="url", placeholder="e.g. short url to the query").props("size=80").bind_value(
                     self, "url"
                 )
                 if self.allow_importing_from_url:
-                    ui.button(icon="input", text="Import Query", on_click=self.on_input_button)
-                ui.button(icon="publish", text="Publish Query", on_click=self.on_import_button)
+                    ui.button(icon="input", text="Import Query", on_click=self.on_import_button)
+                ui.button(icon="publish", text="Publish Query", on_click=self.on_publish_button)
                 with ui.input(label="title").props("size=80").bind_value(self, "title"):
                     ui.tooltip("Descriptive title of the query")
             self.query_row = ui.row().classes("w-full h-full flex ")
@@ -93,9 +110,9 @@ class QueryImportView:
                 )
                 self.named_query_link = ui.html()
 
-    def on_import_button(self, _args):
+    def on_publish_button(self, _args):
         """
-        import a query
+        publish a query
         """
         if self.query is None:
             with self.query_row:
@@ -104,6 +121,7 @@ class QueryImportView:
         if self.person:
             self.comment = f"[query nominated by {self.person}] {self.comment}"
         nq_record = {
+            "domain": self.domain,
             "namespace": self.namespace,
             "name": self.name,
             "title": self.title,
@@ -120,6 +138,9 @@ class QueryImportView:
         self.clear_inputs()
 
     def clear_inputs(self):
+        """
+        clear the inputs
+        """
         self.query = None
         self.name = None
         self.url = None
@@ -127,16 +148,45 @@ class QueryImportView:
         self.description = None
         self.comment = None
 
-    def on_input_button(self, _args):
+    async def process_input(self):
         """
-        imput a query
+        Process input in background
         """
-        self.query_row.clear()
-        with self.query_row:
-            ui.notify(f"importing named query from {self.url}")
-            sparql_query = self.qimport.read_from_short_url(self.url)
-            self.query = Query(name=self.name, title=self.title, lang="sparql", query=sparql_query)
-            query_syntax_highlight = QuerySyntaxHighlight(self.query)
-            syntax_highlight_css = query_syntax_highlight.formatter.get_style_defs()
-            ui.add_css(syntax_highlight_css)
-            ui.html(query_syntax_highlight.highlight())
+        try:
+            short_url = ShortUrl(self.url)
+            nq = self.qimport.read_from_short_url(short_url, domain=self.domain, namespace=self.namespace)
+            # we assume llm authorization is active here
+            llm = ShortUrl.get_llm()
+            _unique_urls, unique_names = self.nqm.get_unique_sets(domain="wikidata.org", namespace="short_url")
+            llm_nq = short_url.ask_llm_for_name_and_title(llm=llm, nq=nq, unique_names=unique_names)
+            with self.query_row:
+                if not llm_nq:
+                    ui.notify("LLM query failed")
+                else:
+                    self.title = nq.title
+                    self.description = nq.description
+                    self.name = nq.name
+                self.query = Query(name=self.name, title=self.title, lang="sparql", query=nq.sparql)
+                query_syntax_highlight = QuerySyntaxHighlight(self.query)
+                syntax_highlight_css = query_syntax_highlight.formatter.get_style_defs()
+                ui.add_css(syntax_highlight_css)
+                self.query_row.clear()
+                ui.html(query_syntax_highlight.highlight())
+                self.query_row.update()
+                pass
+        except Exception as ex:
+            self.solution.handle_exception(ex)
+
+    async def on_import_button(self, _args):
+        """
+        input a query
+        """
+        try:
+            self.query_row.clear()
+            with self.query_row:
+                ui.notify(f"importing named query from {self.url}")
+                ui.spinner()
+                self.query_row.update()
+            self.search_task = background_tasks.create(self.process_input())
+        except Exception as ex:
+            self.solution.handle_exception(ex)

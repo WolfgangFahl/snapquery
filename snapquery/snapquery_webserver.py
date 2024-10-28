@@ -16,11 +16,8 @@ from ngwidgets.users import Users
 from nicegui import app, ui
 from nicegui.client import Client
 from starlette.responses import JSONResponse, RedirectResponse
-
-from snapquery.models.person import Person
 from snapquery.namespace_stats_view import NamespaceStatsView
 from snapquery.orcid import OrcidAuth
-from snapquery.person_selector import PersonSelector, PersonView
 from snapquery.qimport_view import QueryImportView
 from snapquery.snapquery_core import NamedQueryManager, QueryBundle, QueryName, QueryPrefixMerger
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
@@ -333,6 +330,7 @@ class SnapQuerySolution(InputWebSolution):
         """
         setup the menu
         """
+        self.user_markup=None
         ui.button(icon="menu", on_click=lambda: self.header.toggle())
         self.webserver: SnapQueryWebServer
         super().setup_menu(detailed=detailed)
@@ -349,6 +347,9 @@ class SnapQuerySolution(InputWebSolution):
                 self.link_button("logout", "/logout", "logout", new_tab=False)
                 if self.webserver.login.authenticated():
                     self.link_button("admin", "/admin", "supervisor_account", new_tab=False)
+                    user_name=self.webserver.login.get_username()
+                    self.user_markup=f"logged in as {user_name}"
+                    self.user_has_llm_right=True
                 self.link_button("stats", "/stats", icon_name="query_stats", new_tab=False)
             else:
                 self.link_button("login", "/login", "login", new_tab=False)
@@ -359,9 +360,11 @@ class SnapQuerySolution(InputWebSolution):
                 orcid_token = self.webserver.orcid_auth.get_cached_user_access_token()
                 # we have an ORCID authenticated user check the authorization
                 self.user_has_llm_right = self.authorization.check_right_by_orcid(orcid_token.orcid, "LLM")
+                self.user_markup=f"logged in as {orcid_token.name} ({orcid_token.orcid})"
+            if self.user_markup:
                 checkmark = " LLM ✅" if self.user_has_llm_right else ""
-                user_markup=f"*logged in as* **{orcid_token.name} ({orcid_token.orcid}) {checkmark}**"
-                ui.markdown(user_markup).props(
+                self.user_markup+=checkmark
+                ui.markdown(self.user_markup).props(
                     "flat color=white icon=folder"
                 ).classes("ml-auto")
 
@@ -375,31 +378,8 @@ class SnapQuerySolution(InputWebSolution):
             """
             show the nominate ui
             """
-
-            def selection_callback(person: Person):
-                self.container.clear()
-                with self.container:
-                    with ui.row().classes("w-full"):
-                        with ui.column():
-                            ui.label(text="Nominate your Query").classes("text-xl")
-                            ui.link(
-                                text="see the documentation for detailed information on the nomination procedure",
-                                new_tab=True,
-                                target="https://wiki.bitplan.com/index.php/Snapquery#nominate",
-                            )
-                        PersonView(person).classes("ml-auto bg-slate-100 rounded-md")
-                with ui.row().classes("w-full"):
-                    self.query_import_view = QueryImportView(self, allow_importing_from_url=False, person=person)
-
-            with ui.column():
-                ui.label(text="Nominate your Query").classes("text-xl")
-                ui.link(
-                    text="see the documentation for detailed information on the nomination procedure",
-                    new_tab=True,
-                    target="https://wiki.bitplan.com/index.php/Snapquery#nominate",
-                )
-                ui.label("Please identify yourself by entering or looking up a valid PID(Wikidata ID, ORCID, dblp).")
-                self.person_selector = PersonSelector(solution=self, selection_callback=selection_callback)
+            self.query_import_view=QueryImportView(self)
+            self.query_import_view.nominate_ui()
 
         await self.setup_content_div(show)
 
@@ -409,8 +389,11 @@ class SnapQuerySolution(InputWebSolution):
         """
 
         def show():
-            """ """
+            """
+            display the Query Import View
+            """
             self.query_import_view = QueryImportView(self)
+            self.query_import_view.nominate_ui()
 
         await self.setup_content_div(show)
 

@@ -1195,6 +1195,30 @@ ORDER BY domain,namespace,name"""
 
         return named_queries
 
+    def get_unique_sets(self,
+        namespace: str = "snapquery-examples",
+        domain: str = "wikidata.org",
+  ) -> tuple[set, set]:
+        """
+        Gets the unique URLs and names for a given domain and namespace
+
+        Args:
+            namespace (str): The namespace to get unique sets for
+            domain (str): The domain to get unique sets for
+
+        Returns:
+            tuple[set, set]: A tuple of (unique URLs, unique names) sets
+        """
+        sql_query = """SELECT url, name
+        FROM NamedQuery
+        WHERE domain = ? AND namespace = ?"""
+
+        query_records = self.sql_db.query(sql_query, (domain, namespace))
+        unique_urls = {record['url'] for record in query_records}
+        unique_names = {record['name'] for record in query_records}
+
+        return unique_urls, unique_names
+
     def get_query_stats(self, query_id: str) -> list[QueryStats]:
         """
         Get query stats for the given query name

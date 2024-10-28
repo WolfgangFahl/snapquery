@@ -74,3 +74,15 @@ class TestImport(Basetest):
         if self.debug:
             print(query)
         self.assertTrue("Q0.1" in query)
+
+    def testImportFromShortUrl(self):
+        """
+        test importing a named query from a short url
+        """
+        short_url = ShortUrl("https://w.wiki/6UCU")
+        qimport = QueryImport()
+        nq=qimport.read_from_short_url(short_url,domain="wikidata.org",namespace="short_url",with_llm=False)
+        self.assertEqual("6UCU",nq.name)
+        pass
+
+

@@ -24,10 +24,10 @@ class PersonView(Element):
     """
 
     def __init__(self, person: Person):
+        self.person = person
         self.pids = PIDs()
         self.pid_values = self._create_pid_values(person)
         super().__init__(tag="div")
-        self.person = person
         with self:
             with ui.item() as self.person_card:
                 with ui.item_section().props("avatar"):
@@ -113,7 +113,7 @@ class PersonSelector:
         self.selected_person: Optional[Person] = None
         self.suggestion_view: Optional[ui.element] = None
         self.search_name = ""
-        self.person_lookup = PersonLookup(nqm=solution.webserver.nqm)
+        self.person_lookup = PersonLookup(nqm=self.solution.webserver.nqm)
         self.selection_btn: Optional[Button] = None
         self.debouncer_ui = DebouncerUI(parent=self.solution.container, debug=True)
         self.person_selection()

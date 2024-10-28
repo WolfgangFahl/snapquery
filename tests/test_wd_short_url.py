@@ -31,6 +31,7 @@ class TestShortUrl(Basetest):
             count = 100
             with_llm = True
         nq_set = ShortUrl.get_random_query_list(
+            nqm=None,
             name="wikidata.org/short_urls",
             count=count,
             with_llm=with_llm,

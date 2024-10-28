@@ -10,7 +10,7 @@ import os
 
 from tqdm import tqdm
 
-from snapquery.snapquery_core import NamedQueryManager, NamedQuerySet
+from snapquery.snapquery_core import NamedQueryManager, NamedQuerySet, NamedQuery
 from snapquery.wd_short_url import ShortUrl
 
 
@@ -85,3 +85,34 @@ class QueryImport:
             if with_store and self.nqm:
                 self.nqm.add_and_store(nq)
         return nq_set
+
+    def read_from_short_url(
+        self,
+        short_url: ShortUrl,
+        domain: str,
+        namespace:str,
+    ) -> NamedQuery | None:
+        """
+        Read and process a single short URL, optionally enriching it with LLM-generated metadata.
+
+        Args:
+            short_url (ShortUrl): The ShortUrl instance to process
+            domain (str): the domain for the named query
+            namespace (str): the namespace for the named query
+            with_llm (bool): If True, use LLM to generate metadata
+
+        Returns:
+            NamedQuery | None: A NamedQuery object if successful, None if processing fails
+        """
+        short_url.read_query()
+        if not short_url.sparql or short_url.error:
+            return None
+
+        nq = NamedQuery(
+            domain=domain,
+            name=short_url.name,
+            namespace=namespace,
+            url=short_url.short_url,
+            sparql=short_url.sparql,
+        )
+        return nq

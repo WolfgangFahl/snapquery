@@ -40,6 +40,20 @@ class TestNamedQueryManager(Basetest):
                         print(f"{name}:Exception {str(ex)}")
                         self.assertEqual(-1, ex_count)
 
+    def test_all_and_unique_sets(self):
+        """
+        test the NamedQueryManager meta selections
+        """
+        with tempfile.NamedTemporaryFile() as tmpfile:
+            nqm = NamedQueryManager.from_samples(db_path=tmpfile.name)
+            all_queries=nqm.get_all_queries()
+            self.assertGreaterEqual(3,len(all_queries))
+            #Test unique sets for a known domain/namespace
+            unique_urls, unique_names = nqm.get_unique_sets()
+            self.assertGreaterEqual(3,len(unique_urls))
+            self.assertGreaterEqual(3,len(unique_names))
+
+
     def test_query_with_stats(self):
         """
         tests executing a query with stats

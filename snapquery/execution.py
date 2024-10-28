@@ -21,9 +21,16 @@ class Execution:
         self.logger = logging.getLogger("snapquery.execution.Execution")
 
     def parameterize(self, nq: NamedQuery):
+        """
+        parameterize the given named query
+        see
+        https://github.com/WolfgangFahl/snapquery/issues/33
+        """
         qd = QueryDetails.from_sparql(query_id=nq.query_id, sparql=nq.sparql)
         # Execute the query
         params_dict = {}
+        # @FIXME - you can't do this - hard code
+        # the parameter out of blue air
         if qd.params == "q":
             # use Tim Berners-Lee as a example
             params_dict = {"q": "Q80"}

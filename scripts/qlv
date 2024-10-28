@@ -1,0 +1,246 @@
+#!/bin/bash
+# WF 2024-08-10
+# QLever Wikidata Backup and Indexing Script
+
+# Color definitions
+blue='\033[0;34m'
+red='\033[0;31m'
+green='\033[0;32m'
+endColor='\033[0m'
+
+# Function to display colored messages
+color_msg() {
+  local l_color="$1"
+  local l_msg="$2"
+  echo -e "${l_color}$l_msg${endColor}"
+}
+
+# Function to display errors
+error() {
+  local l_msg="$1"
+  color_msg $red "Error:" 1>&2
+  color_msg $red "\t$l_msg" 1>&2
+  exit 1
+}
+
+# Function to display negative messages
+negative() {
+  local l_msg="$1"
+  color_msg $red "❌:$l_msg"
+}
+
+# Function to display positive messages
+positive() {
+  local l_msg="$1"
+  color_msg $green "✅:$l_msg"
+}
+
+# Function to display usage information
+usage() {
+  echo "Usage: $0 [OPTIONS]"
+  echo "Options:"
+  echo "  -h, --help             Show this help message"
+  echo "  -c, --current          Show the disk currently used by QLever"
+  echo "  -d, --debug            Enable debug output"
+  echo "  -ir, --index-run       Run QLever wikidata indexing on today's disk"
+  echo "  -p, --pull             Pull QLever Docker images"
+  echo "  -qc, --qlever-control  setup qlever-control"
+  echo "  -s, --space            Show free disk space"
+  echo "  -t, --today            Show disk to be used today"
+  echo "  -v, --version          Show version information"
+  exit 1
+}
+
+#
+# setup qlever control
+#
+setup_qlever_control() {
+  # Check if /opt/qlever-control already exists
+  if [ ! -d "/opt/qlever-control" ]; then
+    color_msg $blue "Setting up QLever control in /opt/qlever-control..."
+    
+    # Create the directory with the right permissions
+    sudo mkdir -p /opt/qlever-control
+    sudo chown -R root:users /opt/qlever-control
+    sudo chmod -R 775 /opt/qlever-control
+    
+    # Clone the qlever-control repository
+    sudo git clone https://github.com/ad-freiburg/qlever-control.git /opt/qlever-control
+    cd /opt/qlever-control
+    
+    # Checkout the correct branch
+    sudo git checkout python-qlever
+    
+    # Install qlever-control with pip
+    sudo pip install .
+    
+    positive "QLever control setup and installed successfully."
+  else
+    positive "QLever control is already set up in /opt/qlever-control."
+  fi
+
+  # Verify if the qlever command is installed
+  if which qlever > /dev/null 2>&1; then
+    positive "QLever is installed and available at $(which qlever)"
+  else
+    error "QLever installation failed or is not in the system PATH."
+  fi
+}
+
+
+# Function to pull Docker images
+pull_docker_images() {
+  color_msg $blue "Pulling QLever Docker images..."
+  
+  if docker pull adfreiburg/qlever; then
+    positive "Successfully pulled adfreiburg/qlever"
+  else
+    negative "Failed to pull adfreiburg/qlever"
+  fi
+  
+  if docker pull adfreiburg/qlever-ui; then
+    positive "Successfully pulled adfreiburg/qlever-ui"
+  else
+    negative "Failed to pull adfreiburg/qlever-ui"
+  fi
+}
+
+#
+# get the disk that is currently in use
+#
+check_current_disk() {
+    # Get the current disk used by qlever.server.wikidata
+    current_disk=$(docker inspect qlever.server.wikidata --format '{{ range .Mounts }}{{ .Source }}:{{ .Destination }}{{ printf "\n" }}{{ end }}' | grep "/hd/" | awk -F':' '{print $1}')
+    
+    # Display the current disk
+    if [ -n "$current_disk" ]; then
+        echo "$current_disk"
+    else
+        error "No disk found for qlever.server.wikidata"
+    fi
+}
+
+
+#
+# get the disk of the day
+#
+disk_of_the_day() {
+    # Define the available disks
+    disks=(/hd/alpha /hd/beta /hd/gamma /hd/delta)
+
+    # Get the current day of the week as an index
+    day=$(date +%u) # 1 (Monday) to 7 (Sunday)
+
+    # Select the disk based on the day
+    disk_index=$(( (day - 1) % ${#disks[@]} ))
+    selected_disk=${disks[$disk_index]}
+
+    # Return the selected disk
+    echo "$selected_disk"
+}
+
+#
+# show the available disk space
+#
+show_disk_space() {
+    # Print the header with proper formatting
+    printf "%-10s %-15s %10s %10s %4s\n" "Directory" "Device" "Available" "Total" "Type"
+
+    for dir in /hd/*; do
+        # Get the device mounted to this directory
+        device=$(df $dir | tail -1 | awk '{print $1}')
+        
+        # Get available and total space using df
+        available=$(df -h $dir | tail -1 | awk '{print $4}')
+        total=$(df -h $dir | tail -1 | awk '{print $2}')
+        
+        # Determine if the device is SSD or HDD
+        if [[ "$device" == *nvme* ]]; then
+            type="SSD"
+        else
+            base_device=$(echo "$device" | sed 's/[0-9]*$//') # Strip partition number
+            rotational=$(cat /sys/block/$(basename $base_device)/queue/rotational)
+            if [ "$rotational" -eq 0 ]; then
+                type="SSD"
+            else
+                type="HDD"
+            fi
+        fi
+        
+        # Print the results with proper formatting
+        printf "%-10s %-15s %10s %10s %4s\n" "$(basename $dir)" "$device" "$available" "$total" "$type"
+    done
+}
+
+# Function to prepare the directory for today's QLever indexing
+prepare_dir() {
+    local disk=$(disk_of_the_day)
+    local isodate=$(date +%Y%m%d)
+    dir="$disk/qlever/wikidata_$isodate"
+
+    sudo mkdir -p "$dir"
+    sudo chown -R $(whoami):$(whoami) "$dir"
+    sudo chmod -R 775 "$dir"
+    echo $dir
+}
+
+# Function to execute the QLever indexing inside a screen session with logging
+execute_index() {
+    local isodate=$(date +%Y%m%d)
+    local dir="$1"
+    local session="qlever_wikidata_$isodate"
+    local scriptfile="$dir/qlever_index.sh"
+    local logfile="$dir/screen.log"
+
+    # Create the script that will be run inside the screen session
+    cat <<EOF > "$scriptfile"
+#!/bin/bash
+cd $dir
+exec > >(tee -a "$logfile") 2>&1
+echo "Starting QLever indexing process at \$(date)"
+qlever setup-config wikidata
+qlever get-data
+qlever index
+qlever start
+echo "QLever indexing process completed at \$(date)"
+EOF
+    chmod +x "$scriptfile"
+    screen -dmS $session bash -c "$scriptfile"
+
+    # Verify that the screen session started successfully
+    if screen -ls | grep -q "$session"; then
+        positive "Started screen session $session."
+        positive "Logging to $logfile"
+    else
+        error "Failed to start screen session $session."
+    fi
+}
+
+# run qlever wikidata indexing with screen on today's disk
+create_and_run_index() {
+    # Prepare the directory for today's QLever indexing and capture the directory
+    dir=$(prepare_dir)
+    positive "Created directory $dir"
+    
+    # Execute the QLever indexing inside a screen session with logging
+    execute_index "$dir"
+}
+
+# Parse command line options
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    -h|--help) usage ;;
+    -c|--current) check_current_disk; exit 0 ;;
+    -d|--debug) DEBUG=1 ;;
+    -ir|--index-run) create_and_run_index; exit 0 ;;
+    -p|--pull) pull_docker_images; exit 0 ;;
+    -qc|--qlever-control) setup_qlever_control; exit 0 ;;
+    -s|--space) show_disk_space; exit 0 ;;
+    -t|--today) disk_of_the_day; exit 0 ;;
+    -v|--version) echo "Version 1.0"; exit 0 ;;
+    *) error "Unknown parameter passed: $1" ;;
+  esac
+  shift
+done
+
+exit 0

@@ -105,7 +105,7 @@ class SnapQueryCmd(WebserverCmd):
             nargs="?",  # Make it optional
             help="Query ID in the format 'name[--namespace[@domain]]'",
         )
-        parser.add_argument("-f", "--format", type=Format, choices=list(Format))
+        parser.add_argument("--format", type=Format, choices=list(Format))
         parser.add_argument(
             "--import",
             dest="import_file",
@@ -144,12 +144,12 @@ class SnapQueryCmd(WebserverCmd):
             self.args.func(self.args)
         return self.args
 
-    def handle_args(self) -> bool:
+    def handle_args(self,args) -> bool:
         """
         handle the command line args
         """
         # Call the superclass handle_args to maintain base class behavior
-        handled = super().handle_args()
+        handled = super().handle_args(args)
         self.debug = self.args.debug
         nqm = NamedQueryManager.from_samples()
         self.nqm = nqm

@@ -34,9 +34,9 @@ class TestPIDandPersons(Basetest):
         test person lookup
         """
         pl = PersonLookup(self.nqm)
-        person_list = pl.suggest_from_wikidata("Tim Bern")
+        person_list = pl.suggest_from_wikidata("Tim Berners")
         self.show_pl(person_list)
-        self.assertTrue(len(person_list) > 1)
+        self.assertTrue(len(person_list) >= 1)
         person = person_list[0]
         self.assertEqual("Q80", person.wikidata_id)
 

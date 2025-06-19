@@ -817,7 +817,7 @@ class NamedQueryManager:
                 sample_records = cls.get_sample_records(source_class=source_class)
 
                 # Define entity information dynamically based on the class and primary key
-                entityInfo = EntityInfo(sample_records, name=source_class.__name__, primaryKey=pk)
+                entityInfo = EntityInfo(sample_records, name=source_class.__name__, primaryKey=pk,quiet=not debug)
 
                 # Create and populate the table specific to each class
                 nqm.sql_db.createTable(sample_records, source_class.__name__, withDrop=True)
@@ -981,6 +981,7 @@ class NamedQueryManager:
                 name=source_class.__name__,
                 primaryKey=primary_key,
                 debug=self.debug,
+                quiet=not self.debug
             )
         return self.entity_infos[source_class]
 
@@ -1004,7 +1005,10 @@ class NamedQueryManager:
         """
         entity_info = self.get_entity_info(source_class)
         if with_create:
-            self.sql_db.createTable4EntityInfo(entityInfo=entity_info, withDrop=True)
+            self.sql_db.createTable4EntityInfo(
+                entityInfo=entity_info,
+                withDrop=True
+            )
         # Store the list of dictionaries in the database using the defined entity information
         self.sql_db.store(lod, entity_info, fixNone=True, replace=True)
 

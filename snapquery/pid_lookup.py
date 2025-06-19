@@ -56,26 +56,33 @@ class PersonLookup:
             name="person-by-qid",
             title="Lookup persons with the given qids",
             description="based on a pre-search with wikidata search select persons",
-            sparql="""# snapquery person lookup 
+            sparql="""# snapquery person lookup
 SELECT *
-WHERE 
+WHERE
 {
   VALUES ?scholar {
     {{ qid_list }}
-  } 
+  }
   ?scholar wdt:P31 wd:Q5 .
-  ?scholar wdt:P735 ?given_name_qid .
-  ?given_name_qid rdfs:label ?given_name .
-  ?scholar wdt:P734 ?family_name_qid .
-  ?family_name_qid rdfs:label ?family_name .
-  OPTIONAL{{ ?scholar rdfs:label ?label FILTER(lang(?label) = "en") }}.
-  OPTIONAL{{?scholar wdt:P2456 ?dblp_author_id .}}
-  OPTIONAL{{?scholar wdt:P496 ?orcid_id . }}
-  OPTIONAL{{?scholar wdt:P18 ?image . }}
-  FILTER(lang(?given_name) = "en")
-  FILTER(lang(?family_name) = "en")
+
+  OPTIONAL {
+    ?scholar wdt:P735 ?given_name_qid .
+    ?given_name_qid rdfs:label ?given_name .
+    FILTER(lang(?given_name) = "en")
+  }
+
+  OPTIONAL {
+    ?scholar wdt:P734 ?family_name_qid .
+    ?family_name_qid rdfs:label ?family_name .
+    FILTER(lang(?family_name) = "en")
+  }
+
+  OPTIONAL { ?scholar rdfs:label ?label FILTER(lang(?label) = "en") }
+  OPTIONAL { ?scholar wdt:P2456 ?dblp_author_id }
+  OPTIONAL { ?scholar wdt:P496 ?orcid_id }
+  OPTIONAL { ?scholar wdt:P18 ?image }
 }
-            """,
+""",
         )
         params_dict = {"qid_list": qid_list}
         person_lod, stats = self.nqm.execute_query(

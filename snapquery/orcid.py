@@ -4,7 +4,7 @@ from time import time
 from typing import Optional, Union
 
 import requests
-from lodstorage.yamlable import lod_storable
+from basemkit.yamlable import lod_storable
 from nicegui import app
 
 from snapquery.models.person import Person

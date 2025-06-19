@@ -22,7 +22,7 @@ from lodstorage.params import Params
 from lodstorage.query import Endpoint, EndpointManager, Format, Query, QueryManager
 from lodstorage.sparql import SPARQL
 from lodstorage.sql import SQLDB, EntityInfo
-from lodstorage.yamlable import lod_storable
+from basemkit.yamlable import lod_storable
 from ngwidgets.widgets import Link
 from slugify import slugify
 
@@ -755,7 +755,7 @@ class NamedQueryManager:
         self.meta_qm = QueryManager(queriesPath=yaml_path, with_default=False, lang="sql")
         # Graph Manager
         gm_yaml_path = GraphManager.get_yaml_path()
-        self.gm = GraphManager.load_from_yaml_file(gm_yaml_path)
+        self.gm = GraphManager.load_from_yaml_file(gm_yaml_path) # @UndefinedVariable
         # SQL meta data handling
         # primary keys
         self.primary_keys = {

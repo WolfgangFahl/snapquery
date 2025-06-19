@@ -11,7 +11,7 @@ from typing import Optional
 
 from bs4 import BeautifulSoup, ResultSet
 from lodstorage.query import Query, QuerySyntaxHighlight
-from lodstorage.yamlable import lod_storable
+from basemkit.yamlable import lod_storable
 
 from snapquery.models.sparql_components import SPARQLLanguage
 

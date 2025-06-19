@@ -18,7 +18,7 @@ class Version:
     name = "snapquery"
     version = snapquery.__version__
     date = "2024-05-03"
-    updated = "2024-11-28"
+    updated = "2025-06-19"
     description = "Introduce Named Queries and Named Query Middleware to wikidata"
 
     authors = "Wolfgang Fahl"
@@ -27,7 +27,7 @@ class Version:
     chat_url = "https://github.com/WolfgangFahl/snapquery/discussions"
     cm_url = "https://github.com/WolfgangFahl/snapquery"
 
-    license = """Copyright 2024 contributors. All rights reserved.
+    license = """Copyright 2024-2025 contributors. All rights reserved.
 
   Licensed under the Apache License 2.0
   http://www.apache.org/licenses/LICENSE-2.0

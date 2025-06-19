@@ -80,7 +80,7 @@ class SPARQLLanguage(BaseModel):
         samples_dir = Path(__file__).parent.parent.joinpath("samples")
         query_filepath = samples_dir.joinpath("snapquery.json")
         endpoints_path = samples_dir.joinpath("endpoints.yaml")
-        nq_set: NamedQuerySet = NamedQuerySet.load_from_json_file(query_filepath)
+        nq_set: NamedQuerySet = NamedQuerySet.load_from_json_file(query_filepath) # @UndefinedVariable
         query_functions = nq_set.get_query_by_id(
             "sparql-functions--snapquery@wikidata.org"
         )

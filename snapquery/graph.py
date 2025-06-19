@@ -8,7 +8,7 @@ import os
 from dataclasses import field
 from typing import Dict
 
-from lodstorage.yamlable import lod_storable
+from basemkit.yamlable import lod_storable
 
 
 @lod_storable

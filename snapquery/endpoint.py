@@ -7,7 +7,7 @@ import os
 from dataclasses import field
 from typing import Dict, List, Optional
 
-from lodstorage.yamlable import lod_storable
+from basemkit.yamlable import lod_storable
 
 
 @lod_storable
@@ -15,7 +15,6 @@ class Endpoint:
     """
     A query endpoint for SPARQL, SQL or other storage systems
     """
-
     name: str
     endpoint: str
     lang: str = "sparql"

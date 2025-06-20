@@ -12,13 +12,13 @@ import snapquery
 @dataclass
 class Version:
     """
-    Version handling for nicepdf
+    Version handling for snapquery
     """
 
     name = "snapquery"
     version = snapquery.__version__
     date = "2024-05-03"
-    updated = "2025-06-19"
+    updated = "2025-06-20"
     description = "Introduce Named Queries and Named Query Middleware to wikidata"
 
     authors = "Wolfgang Fahl"

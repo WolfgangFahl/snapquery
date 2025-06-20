@@ -216,7 +216,7 @@ class SnapQueryWebServer(InputWebserver):
 
             return content
 
-    def get_r_format(self, name: str, default_format_str: str = "html") -> Format:
+    def get_r_format(self, name: str, default_format_str: str = "html") -> tuple[str, Format]:
         """
         get the result format from the given query name following the
         dot convention that <name>.<r_format_str> specifies the result format
@@ -227,7 +227,7 @@ class SnapQueryWebServer(InputWebserver):
             default_format_str (str): the name of the default format to use
 
         Returns:
-            Format: the result format
+            tuple[str, Format]: the name and result format
         """
         if "." in name:
             r_format_str = name.split(".")[-1]

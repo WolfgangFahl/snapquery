@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "snapquery"
-description = "snapquery: Introduce Named Queries and Named Query Middleware to wikidata"
+description = "Just Query wikidata and other SPARQL endpoints by query name - a frontend to Introduce Named Queries and Named Query Middleware to wikidata and other SPARQL endpoints "
 keywords = [ "nicegui", "wikidata","SPARQL","query","middleware","qlever","blazegraph"]
 home-page = "https://github.com/WolfgangFahl/snapquery"
 authors = [
@@ -40,6 +40,8 @@ dependencies = [
     #"mwoauth@git+https://github.com/mediawiki-utilities/python-mwoauth"
     #https://pypi.org/project/tqdm/
     "tqdm>=4.66.4",
+    #https://pypi.org/project/pandas/
+    "pandas>=2.3.3",
     # https://pypi.org/project/nicegui/
     # force pin of nicegui
     "nicegui[plotly]==2.24.2",

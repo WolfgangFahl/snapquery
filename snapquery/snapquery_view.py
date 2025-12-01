@@ -4,19 +4,20 @@ Created on 2024-05-03
 @author: wf
 """
 
-import pandas as pd
-import plotly.express as px
 from lodstorage.params import Params
-from lodstorage.query import QuerySyntaxHighlight, ValueFormatter
+from lodstorage.query import QuerySyntaxHighlight, ValueFormatter, \
+    ValueFormatters
 from ngwidgets.input_webserver import InputWebSolution
 from ngwidgets.lod_grid import ListOfDictsGrid
 from ngwidgets.widgets import Link
-from nicegui import app, background_tasks, run, ui
-
+from nicegui import background_tasks, run, ui
 from snapquery.basequeryview import BaseQueryView
 from snapquery.params_view import ParamsView
 from snapquery.query_annotate import SparqlQueryAnnotater
-from snapquery.snapquery_core import NamedQuery, NamedQueryManager, QueryBundle, QueryStats
+from snapquery.snapquery_core import NamedQueryManager, QueryBundle, QueryStats
+
+import pandas as pd
+import plotly.express as px
 
 
 class NamedQueryView:
@@ -38,8 +39,8 @@ class NamedQueryView:
         self.load_task = None
         self.limit = 200
         self.timeout = 20.0
-        # preload ValueFormatter
-        ValueFormatter.getFormats()
+        # preload ValueFormatters
+        ValueFormatters.get_instance()
         self.setup_ui()
 
     def setup_ui(self):

@@ -7,8 +7,7 @@ Move to separate module in 2025-12-01 by wf
 """
 from enum import Enum
 
-from lodstorage.query import Query
-from snapquery.endpoint import Endpoint
+from lodstorage.query import Query, Endpoint
 from snapquery.snapquery_core import NamedQuery
 from snapquery.sparql_analyzer import SparqlAnalyzer
 

@@ -5,9 +5,10 @@ Created on 2024-05-03
 
 import json
 from pathlib import Path
+from typing import Union
 
-import fastapi
 from fastapi import HTTPException
+import fastapi
 from fastapi.responses import HTMLResponse, PlainTextResponse
 from lodstorage.query import Format
 from ngwidgets.input_webserver import InputWebserver, InputWebSolution, WebserverConfig
@@ -15,7 +16,7 @@ from ngwidgets.login import Login
 from ngwidgets.users import Users
 from nicegui import app, ui
 from nicegui.client import Client
-from starlette.responses import JSONResponse, RedirectResponse
+from snapquery.authorization import Authorization
 from snapquery.namespace_stats_view import NamespaceStatsView
 from snapquery.orcid import OrcidAuth
 from snapquery.qimport_view import QueryImportView
@@ -23,7 +24,7 @@ from snapquery.snapquery_core import NamedQueryManager, QueryBundle, QueryName, 
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.stats_view import QueryStatsView
 from snapquery.version import Version
-from snapquery.authorization import Authorization
+from starlette.responses import JSONResponse, RedirectResponse
 
 
 class SnapQueryWebServer(InputWebserver):
@@ -173,10 +174,23 @@ class SnapQueryWebServer(InputWebserver):
             Raises:
                 HTTPException: If the query cannot be found or fails to execute.
             """
-            query_name = QueryName(domain=domain, namespace=namespace, name=name)
-            qb = self.nqm.get_query(query_name=query_name, endpoint_name=endpoint_name, limit=limit)
+            qb=self.get_query_builder(domain, namespace, name, endpoint_name, limit)
             sparql_query = qb.query.query
             return PlainTextResponse(sparql_query)
+
+        @app.get("/api/query_spec/{domain}/{namespace}/{name}",response_model=None)
+        def get_query_spec(
+                request: fastapi.Request,
+                domain: str,
+                namespace: str,
+                name: str,
+                endpoint_name: str = fastapi.Query(default="wikidata"),
+                format: str = fastapi.Query(default=None)
+            ) -> Union[JSONResponse, HTMLResponse, PlainTextResponse]:
+            name, r_format = self.get_r_format(name, "json", request, format)
+            qb=self.get_query_builder(domain, namespace, name, endpoint_name)
+
+            return qb.query
 
         @app.get("/api/query/{domain}/{namespace}/{name}")
         def query(
@@ -216,7 +230,19 @@ class SnapQueryWebServer(InputWebserver):
 
             return content
 
-    def get_r_format(self, name: str, default_format_str: str = "html") -> tuple[str, Format]:
+    def get_query_builder(self, domain: str, namespace: str, name: str, endpoint_name: str, limit: int = None):
+        """Get query builder for given parameters."""
+        query_name = QueryName(domain=domain, namespace=namespace, name=name)
+        qb = self.nqm.get_query(query_name=query_name, endpoint_name=endpoint_name, limit=limit)
+        return qb
+
+    def get_r_format(
+        self,
+        name: str,
+        default_format_str: str = "html",
+        request: fastapi.Request = None,
+        format_param: str = None
+    ) -> tuple[str, Format]:
         """
         get the result format from the given query name following the
         dot convention that <name>.<r_format_str> specifies the result format
@@ -225,15 +251,33 @@ class SnapQueryWebServer(InputWebserver):
         Args:
             name (str): the name of the query/meta query
             default_format_str (str): the name of the default format to use
+            request (fastapi.Request, optional): the request object for content negotiation
+            format_param (str, optional): format override parameter (json, html, yaml, etc.)
 
         Returns:
             tuple[str, Format]: the name and result format
         """
+        # Dot convention
         if "." in name:
             r_format_str = name.split(".")[-1]
             name = name[: name.rfind(".")]
+        # Format parameter
+        elif format_param:
+            r_format_str = format_param
+        # Content negotiation
+        elif request:
+            accept = request.headers.get("accept", "")
+            if "application/json" in accept:
+                r_format_str = "json"
+            elif "text/html" in accept:
+                r_format_str = "html"
+            elif "application/x-yaml" in accept:
+                r_format_str = "yaml"
+            else:
+                r_format_str = default_format_str
         else:
             r_format_str = default_format_str
+
         r_format = Format[r_format_str]
         return name, r_format
 

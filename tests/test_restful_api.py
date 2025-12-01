@@ -79,9 +79,9 @@ class TestRestFulApi(WebserverTest):
         debug = self.debug
         # debug=True
         for endpoint_name in [
-            "wikidata",
+            "wikidata-main",
             # "wikidata-openlinksw",
-            "wikidata-qlever",
+            "wikidata-dbis",
             # "wikidata-scatter",
         ]:
             path = f"/api/query/wikidata.org/snapquery-examples/cats.json?endpoint_name={endpoint_name}&limit=3"

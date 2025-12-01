@@ -90,7 +90,7 @@ class TestNamedQueryManager(Basetest):
             named_query = NamedQuery.from_record(query_record)
             query_bundle = nqm.get_query(
                 query_name=named_query,
-                endpoint_name="wikidata-openlinksw",
+                endpoint_name="wikidata-main",
             )
             if self.debug:
                 print(f"{i+1:3}/{len(query_records)}:{named_query.query_id}")

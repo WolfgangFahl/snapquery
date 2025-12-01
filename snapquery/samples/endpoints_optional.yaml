@@ -1,0 +1,98 @@
+# Optional SPARQL endpoints for snapquery
+# WF 2025-12-01 - new format
+# state nees to be checked
+endpoints:
+  wikidata-openlinksw:
+    description: OpenLink Virtuoso demo (unstable).
+    lang: sparql
+    endpoint: https://wikidata.demo.openlinksw.com/sparql
+    website: https://wikidata.demo.openlinksw.com/sparql
+    database: virtuoso
+    method: POST
+    calls_per_minute: 20
+    prefix_sets:
+      - rdf
+      - wikidata
+
+  wikidata-triply:
+    description: TriplyDB mirror.
+    lang: sparql
+    method: POST
+    database: TriplyDB
+    endpoint: https://api.triplydb.com/datasets/wikimedia/wikidata/sparql
+    website: https://triplydb.com/wikimedia/wikidata/sparql
+    calls_per_minute: 30
+    prefix_sets:
+      - rdf
+      - wikidata
+
+  wikidata-qlever:
+    description: QLever Freiburg Wikidata.
+    lang: sparql
+    method: POST
+    database: qlever
+    endpoint: https://qlever.cs.uni-freiburg.de/api/wikidata
+    website: https://qlever.cs.uni-freiburg.de/wikidata
+    calls_per_minute: 60
+    prefix_sets:
+      - rdf
+      - wikidata
+      - commons
+
+  wikidata-qlever-dbis:
+    description: QLever RWTH Wikidata.
+    lang: sparql
+    method: POST
+    database: qlever
+    endpoint: https://qlever-api.wikidata.dbis.rwth-aachen.de/
+    website: https://qlever.wikidata.dbis.rwth-aachen.de/wikidata
+    calls_per_minute: 60
+    prefix_sets:
+      - rdf
+      - wikidata
+
+  wikidata-scatter:
+    description: Scatter experimental.
+    lang: sparql
+    endpoint: https://query-direct2.orbopengraph.com/bigdata/namespace/wdq/sparql
+    website: https://scatter.red/
+    database: blazegraph
+    method: GET
+    calls_per_minute: 20
+    prefix_sets:
+      - rdf
+      - wikidata
+
+  orkg:
+    description: ORKG (rate-limited).
+    lang: sparql
+    endpoint: https://orkg.org/triplestore
+    website: https://orkg.org/sparql
+    database: virtuoso
+    prefix_sets:
+      - rdf
+      - orkg
+
+  dblp-qlever:
+    description: DBLP QLever Freiburg.
+    lang: sparql
+    method: POST
+    database: qlever
+    endpoint: https://qlever.cs.uni-freiburg.de/api/dblp
+    website: https://qlever.cs.uni-freiburg.de/dblp
+    calls_per_minute: 60
+    prefix_sets:
+      - rdf
+      - dblp
+
+  dblp-trier:
+    description: DBLP Trier mirror.
+    lang: sparql
+    method: POST
+    database: qlever
+    endpoint: https://archimedes.uni-trier.de/sparql
+    website: https://archimedes.uni-trier.de
+    calls_per_minute: 30
+    prefix_sets:
+      - rdf
+      - dblp

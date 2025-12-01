@@ -41,8 +41,17 @@ class TestOrcid(Basetest):
         test request search token
         """
         basedir = Path.home() / ".solutions/snapquery"
+        config_file = basedir / "orcid_config.yaml"
+
+        # check if credential configuration exists
+        if not config_file.exists():
+            if self.debug:
+                print(f"Skipping test_request_search_token: {config_file} not found")
+            return
+
         orcid_auth = OrcidAuth(basedir)
         token = orcid_auth._request_search_token()
+        self.assertIsNotNone(token)
         res = orcid_auth.search(OrcidSearchParams(family_name="berners-lee"))
         self.assertIsInstance(res, list)
         for person in res:

@@ -12,7 +12,6 @@ import re
 import urllib.parse
 import uuid
 from dataclasses import asdict, dataclass, field, fields, is_dataclass
-from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Type, Union
 
@@ -26,11 +25,9 @@ from lodstorage.sql import SQLDB, EntityInfo
 from ngwidgets.widgets import Link
 from slugify import slugify
 
-from snapquery.endpoint import Endpoint as SnapQueryEndpoint
 from snapquery.error_filter import ErrorFilter
 from snapquery.graph import Graph, GraphManager
-from snapquery.sparql_analyzer import SparqlAnalyzer
-
+from snapquery.prefix_merger import QueryPrefixMerger
 logger = logging.getLogger(__name__)
 
 
@@ -644,87 +641,6 @@ class QueryBundle:
             self.query.query = sparql_query
 
 
-class QueryPrefixMerger(Enum):
-    """
-    SPARQL Query prefix merger
-    """
-
-    RAW = "raw"
-    SIMPLE_MERGER = "simple merger"
-    ANALYSIS_MERGER = "analysis merger"
-
-    @classmethod
-    def _missing_(cls, key):
-        return cls.default_merger()
-
-    @classmethod
-    def default_merger(cls) -> "QueryPrefixMerger":
-        return cls.SIMPLE_MERGER
-
-    @classmethod
-    def get_by_name(cls, name: str) -> "QueryPrefixMerger":
-        merger_map = {merger.name: merger.value for merger in QueryPrefixMerger}
-        merger_value = merger_map.get(name, None)
-        merger = QueryPrefixMerger(merger_value)
-        return merger
-
-    @classmethod
-    def merge_prefixes(
-        cls,
-        named_query: NamedQuery,
-        query: Query,
-        endpoint: Endpoint,
-        merger: "QueryPrefixMerger",
-    ) -> str:
-        """
-        Merge prefixes with the given merger
-        Args:
-            named_query (NamedQuery):
-            query (Query):
-            endpoint (Endpoint):
-            merger (QueryPrefixMerger):
-
-        Returns:
-            merged query
-        """
-        if merger == QueryPrefixMerger.SIMPLE_MERGER:
-            return cls.simple_prefix_merger(query.query, endpoint)
-        elif merger == QueryPrefixMerger.ANALYSIS_MERGER:
-            return cls.analysis_prefix_merger(query.query)
-        else:
-            return query.query
-
-    @classmethod
-    def simple_prefix_merger(cls, query_str: str, endpoint: Endpoint) -> str:
-        """
-        Simple prefix merger
-        Args:
-            query_str (str): the query string
-            endpoint (Endpoint): the endpoint
-
-        Returns:
-            merged query
-        """
-        prefixes = endpoint.prefixes if hasattr(endpoint, "prefixes") else None
-        merged_query = query_str
-        if prefixes:
-            merged_query = f"{prefixes}\n{merged_query}"
-        return merged_query
-
-    @classmethod
-    def analysis_prefix_merger(cls, query_str: str) -> str:
-        """
-        Analysis prefix merger
-        Args:
-            query_str
-
-        Returns:
-            merged query
-        """
-        merged_query = SparqlAnalyzer.add_missing_prefixes(query_str)
-        return merged_query
-
-
 class NamedQueryManager:
     """
     Manages the storage, retrieval, and execution of named SPARQL queries.
@@ -883,38 +799,15 @@ class NamedQueryManager:
             endpoints (Optional[Dict[str, LODStorageEndpoint]]): A dictionary of endpoints to store.
                 If None, uses self.endpoints.
         """
-        # This is a compatiblity layer for pylodstorage Endpoints
-        # as of 2024-06 pylodstorage Endpoint still uses @Jsonable which is
-        # deprecated so we convert instances to our local endpoint modules Endpoint format
-        # and use our store mechanism to create SQL records
         if endpoints is None:
             endpoints = self.endpoints
 
         endpoints_lod = []
-        for endpoint_name, lod_endpoint in endpoints.items():
-            # Create a dictionary with only the attributes that exist in lod_endpoint
-            endpoint_dict = {
-                "name": endpoint_name,
-                "lang": getattr(lod_endpoint, "lang", None),
-                "endpoint": getattr(lod_endpoint, "endpoint", None),
-                "website": getattr(lod_endpoint, "website", None),
-                "database": getattr(lod_endpoint, "database", None),
-                "method": getattr(lod_endpoint, "method", None),
-                "prefixes": getattr(lod_endpoint, "prefixes", None),
-                "auth": getattr(lod_endpoint, "auth", None),
-                "user": getattr(lod_endpoint, "user", None),
-                "password": getattr(lod_endpoint, "password", None),
-            }
-
-            # Remove None values
-            endpoint_dict = {k: v for k, v in endpoint_dict.items() if v is not None}
-
-            # Create SnapQueryEndpoint instance with only the available attributes
-            snap_endpoint = SnapQueryEndpoint(**endpoint_dict)
-            endpoints_lod.append(asdict(snap_endpoint))
+        for _endpoint_name, lod_endpoint in endpoints.items():
+            endpoints_lod.append(asdict(lod_endpoint))
 
         # Store the list of dictionaries in the database
-        self.store(lod=endpoints_lod, source_class=SnapQueryEndpoint, with_create=True)
+        self.store(lod=endpoints_lod, source_class=Endpoint, with_create=True)
 
     def execute_query(
         self,
@@ -1132,7 +1025,7 @@ WHERE
             endpoint=endpoint.endpoint,
             limit=limit,
         )
-        query.query = QueryPrefixMerger.merge_prefixes(named_query, query, endpoint, prefix_merger)
+        query.query = QueryPrefixMerger.merge_prefixes(query, endpoint, prefix_merger)
         if limit:
             query.query += f"\nLIMIT {limit}"
         return QueryBundle(named_query=named_query, query=query, endpoint=endpoint)

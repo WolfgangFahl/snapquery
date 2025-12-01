@@ -38,17 +38,11 @@ class TestQueryPrefixMerger(TestCase):
         nqm = NamedQueryManager()
         endpoint = nqm.endpoints.get("wikidata")
         with self.subTest(name="test raw merger"):
-            raw_prefixed_query = QueryPrefixMerger.merge_prefixes(named_query, query, endpoint, QueryPrefixMerger.RAW)
+            raw_prefixed_query = QueryPrefixMerger.merge_prefixes(query, endpoint, QueryPrefixMerger.RAW)
             self.assertEqual(named_query.sparql, raw_prefixed_query)
-        with self.subTest(name="test simple prefix merger"):
-            simple_prefixed_query = QueryPrefixMerger.merge_prefixes(
-                named_query, query, endpoint, QueryPrefixMerger.SIMPLE_MERGER
-            )
-            expected_simple_query = f"{endpoint.prefixes}\nSELECT * WHERE {{?work rdf:label ?label . }}"
-            self.assertEqual(expected_simple_query, simple_prefixed_query)
         with self.subTest(name="test analysis merger"):
             analysis_prefixed_merger = QueryPrefixMerger.merge_prefixes(
-                named_query, query, endpoint, QueryPrefixMerger.ANALYSIS_MERGER
+                query, endpoint, QueryPrefixMerger.ANALYSIS_MERGER
             )
             expected_query = (
                 "PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nSELECT * WHERE {?work rdf:label ?label . }"

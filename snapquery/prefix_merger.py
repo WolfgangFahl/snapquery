@@ -8,7 +8,6 @@ Move to separate module in 2025-12-01 by wf
 from enum import Enum
 
 from lodstorage.query import Query, Endpoint
-from snapquery.snapquery_core import NamedQuery
 from snapquery.sparql_analyzer import SparqlAnalyzer
 
 
@@ -39,7 +38,6 @@ class QueryPrefixMerger(Enum):
     @classmethod
     def merge_prefixes(
         cls,
-        named_query: NamedQuery,
         query: Query,
         endpoint: Endpoint,
         merger: "QueryPrefixMerger",
@@ -47,7 +45,6 @@ class QueryPrefixMerger(Enum):
         """
         Merge prefixes with the given merger
         Args:
-            named_query (NamedQuery):
             query (Query):
             endpoint (Endpoint):
             merger (QueryPrefixMerger):

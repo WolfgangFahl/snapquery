@@ -16,6 +16,7 @@ class UserRights:
     """
     the rights of a single user
     """
+
     name: str
     rights: str
 
@@ -25,10 +26,11 @@ class Authorization:
     """
     Authorization check.
     """
-    user_rights: dict[str,UserRights] = field(default_factory=dict)
+
+    user_rights: dict[str, UserRights] = field(default_factory=dict)
 
     @classmethod
-    def load(cls,yaml_path:str=None) -> "Authorization":
+    def load(cls, yaml_path: str = None) -> "Authorization":
         """
         Load user rights from a YAML file, ensuring the file exists.
         """

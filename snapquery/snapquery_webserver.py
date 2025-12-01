@@ -7,8 +7,8 @@ import json
 from pathlib import Path
 from typing import Union
 
-from fastapi import HTTPException
 import fastapi
+from fastapi import HTTPException
 from fastapi.responses import HTMLResponse, PlainTextResponse
 from lodstorage.query import Format
 from ngwidgets.input_webserver import InputWebserver, InputWebSolution, WebserverConfig
@@ -16,6 +16,8 @@ from ngwidgets.login import Login
 from ngwidgets.users import Users
 from nicegui import app, ui
 from nicegui.client import Client
+from starlette.responses import JSONResponse, RedirectResponse
+
 from snapquery.authorization import Authorization
 from snapquery.namespace_stats_view import NamespaceStatsView
 from snapquery.orcid import OrcidAuth
@@ -24,7 +26,6 @@ from snapquery.snapquery_core import NamedQueryManager, QueryBundle, QueryName, 
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.stats_view import QueryStatsView
 from snapquery.version import Version
-from starlette.responses import JSONResponse, RedirectResponse
 
 
 class SnapQueryWebServer(InputWebserver):
@@ -55,7 +56,7 @@ class SnapQueryWebServer(InputWebserver):
         users = Users("~/.solutions/snapquery")
         self.login = Login(self, users)
         self.orcid_auth = OrcidAuth(Path(self.config.base_path))
-        self.authorization=Authorization.load()
+        self.authorization = Authorization.load()
         self.nqm = NamedQueryManager.from_samples()
 
         @ui.page("/admin")
@@ -174,21 +175,21 @@ class SnapQueryWebServer(InputWebserver):
             Raises:
                 HTTPException: If the query cannot be found or fails to execute.
             """
-            qb=self.get_query_builder(domain, namespace, name, endpoint_name, limit)
+            qb = self.get_query_builder(domain, namespace, name, endpoint_name, limit)
             sparql_query = qb.query.query
             return PlainTextResponse(sparql_query)
 
-        @app.get("/api/query_spec/{domain}/{namespace}/{name}",response_model=None)
+        @app.get("/api/query_spec/{domain}/{namespace}/{name}", response_model=None)
         def get_query_spec(
-                request: fastapi.Request,
-                domain: str,
-                namespace: str,
-                name: str,
-                endpoint_name: str = fastapi.Query(default="wikidata"),
-                format: str = fastapi.Query(default=None)
-            ) -> Union[JSONResponse, HTMLResponse, PlainTextResponse]:
+            request: fastapi.Request,
+            domain: str,
+            namespace: str,
+            name: str,
+            endpoint_name: str = fastapi.Query(default="wikidata"),
+            format: str = fastapi.Query(default=None),
+        ) -> Union[JSONResponse, HTMLResponse, PlainTextResponse]:
             name, r_format = self.get_r_format(name, "json", request, format)
-            qb=self.get_query_builder(domain, namespace, name, endpoint_name)
+            qb = self.get_query_builder(domain, namespace, name, endpoint_name)
 
             return qb.query
 
@@ -237,11 +238,7 @@ class SnapQueryWebServer(InputWebserver):
         return qb
 
     def get_r_format(
-        self,
-        name: str,
-        default_format_str: str = "html",
-        request: fastapi.Request = None,
-        format_param: str = None
+        self, name: str, default_format_str: str = "html", request: fastapi.Request = None, format_param: str = None
     ) -> tuple[str, Format]:
         """
         get the result format from the given query name following the
@@ -344,10 +341,10 @@ class SnapQuerySolution(InputWebSolution):
         """
         super().__init__(webserver, client)  # Call to the superclass constructor
         self.webserver: SnapQueryWebServer
-        self.authorization=self.webserver.authorization
+        self.authorization = self.webserver.authorization
         self.nqm = self.webserver.nqm
         self.endpoint_name = self.get_user_endpoint()
-        self.user_has_llm_right=False
+        self.user_has_llm_right = False
 
     def configure_settings(self):
         """
@@ -374,7 +371,7 @@ class SnapQuerySolution(InputWebSolution):
         """
         setup the menu
         """
-        self.user_markup=None
+        self.user_markup = None
         ui.button(icon="menu", on_click=lambda: self.header.toggle())
         self.webserver: SnapQueryWebServer
         super().setup_menu(detailed=detailed)
@@ -391,9 +388,9 @@ class SnapQuerySolution(InputWebSolution):
                 self.link_button("logout", "/logout", "logout", new_tab=False)
                 if self.webserver.login.authenticated():
                     self.link_button("admin", "/admin", "supervisor_account", new_tab=False)
-                    user_name=self.webserver.login.get_username()
-                    self.user_markup=f"logged in as {user_name}"
-                    self.user_has_llm_right=True
+                    user_name = self.webserver.login.get_username()
+                    self.user_markup = f"logged in as {user_name}"
+                    self.user_has_llm_right = True
                 self.link_button("stats", "/stats", icon_name="query_stats", new_tab=False)
             else:
                 self.link_button("login", "/login", "login", new_tab=False)
@@ -404,14 +401,11 @@ class SnapQuerySolution(InputWebSolution):
                 orcid_token = self.webserver.orcid_auth.get_cached_user_access_token()
                 # we have an ORCID authenticated user check the authorization
                 self.user_has_llm_right = self.authorization.check_right_by_orcid(orcid_token.orcid, "LLM")
-                self.user_markup=f"logged in as {orcid_token.name} ({orcid_token.orcid})"
+                self.user_markup = f"logged in as {orcid_token.name} ({orcid_token.orcid})"
             if self.user_markup:
                 checkmark = " LLM ✅" if self.user_has_llm_right else ""
-                self.user_markup+=checkmark
-                ui.markdown(self.user_markup).props(
-                    "flat color=white icon=folder"
-                ).classes("ml-auto")
-
+                self.user_markup += checkmark
+                ui.markdown(self.user_markup).props("flat color=white icon=folder").classes("ml-auto")
 
     async def nominate_ui(self):
         """
@@ -422,7 +416,7 @@ class SnapQuerySolution(InputWebSolution):
             """
             show the nominate ui
             """
-            self.query_import_view=QueryImportView(self)
+            self.query_import_view = QueryImportView(self)
             self.query_import_view.nominate_ui()
 
         await self.setup_content_div(show)

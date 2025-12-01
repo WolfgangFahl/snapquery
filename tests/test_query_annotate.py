@@ -107,12 +107,8 @@ class TestSparqlQueryAnnotater(Basetest):
         prefixes = []
         for query_record in nqm.sql_db.queryGen(query):
             named_query = NamedQuery.from_record(record=query_record)
-            sparql_prefix_fixed = sparql_analyzer.add_missing_prefixes(
-                named_query.sparql
-            )
-            annotated_query = SparqlQueryAnnotater(
-                Query(named_query.query_id, sparql_prefix_fixed)
-            )
+            sparql_prefix_fixed = sparql_analyzer.add_missing_prefixes(named_query.sparql)
+            annotated_query = SparqlQueryAnnotater(Query(named_query.query_id, sparql_prefix_fixed))
             props = annotated_query.get_used_properties()
             properties.extend(props)
             namespace_iris.extend(annotated_query.get_namespace_iris())

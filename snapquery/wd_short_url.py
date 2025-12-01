@@ -12,8 +12,7 @@ import requests
 from ngwidgets.llm import LLM
 from ratelimit import limits, sleep_and_retry
 
-from snapquery.snapquery_core import NamedQuery, NamedQuerySet,\
-    NamedQueryManager
+from snapquery.snapquery_core import NamedQuery, NamedQueryManager, NamedQuerySet
 from snapquery.version import Version
 
 
@@ -124,10 +123,7 @@ SPARQL: {sparql}
 """
         return prompt_text
 
-    def ask_llm_for_name_and_title(self,
-        llm:LLM,
-        nq:NamedQuery,
-        unique_names)->NamedQuery:
+    def ask_llm_for_name_and_title(self, llm: LLM, nq: NamedQuery, unique_names) -> NamedQuery:
         """
         add name, title and description to ghe given query by
         asking a large language model
@@ -149,8 +145,8 @@ SPARQL: {sparql}
         return None
 
     @classmethod
-    def get_llm(cls)->LLM:
-        llm=LLM(model="gpt-4")
+    def get_llm(cls) -> LLM:
+        llm = LLM(model="gpt-4")
         return llm
 
     @classmethod
@@ -159,7 +155,7 @@ SPARQL: {sparql}
         namespace: str,
         count: int,
         max_postfix="9pfu",
-        nqm:NamedQueryManager=None,
+        nqm: NamedQueryManager = None,
         with_llm=False,
         with_progress: bool = False,
         debug=False,
@@ -181,12 +177,12 @@ SPARQL: {sparql}
             llm = cls.get_llm()
         short_ids = ShortIds()
         base_url = "https://w.wiki/"
-        domain="wikidata.org"
+        domain = "wikidata.org"
         if nqm is None:
             unique_urls = set()
             unique_names = set()
         else:
-            unique_urls,unique_names=nqm.get_unique_sets(namespace=namespace, domain=domain)
+            unique_urls, unique_names = nqm.get_unique_sets(namespace=namespace, domain=domain)
 
         nq_set = NamedQuerySet(domain=domain, namespace=namespace, target_graph_name="wikidata")
         give_up = (
@@ -217,7 +213,7 @@ SPARQL: {sparql}
                 )
                 if with_llm:
                     try:
-                        llm_nq=short_url.ask_llm_for_name_and_title(llm=llm, nq=nq,unique_names=unique_names)
+                        llm_nq = short_url.ask_llm_for_name_and_title(llm=llm, nq=nq, unique_names=unique_names)
                         # try again with a different url to avoid name clash
                         if llm_nq is None:
                             give_up -= 1

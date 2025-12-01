@@ -10,7 +10,7 @@ import os
 
 from tqdm import tqdm
 
-from snapquery.snapquery_core import NamedQueryManager, NamedQuerySet, NamedQuery
+from snapquery.snapquery_core import NamedQuery, NamedQueryManager, NamedQuerySet
 from snapquery.wd_short_url import ShortUrl
 
 
@@ -90,7 +90,7 @@ class QueryImport:
         self,
         short_url: ShortUrl,
         domain: str,
-        namespace:str,
+        namespace: str,
     ) -> NamedQuery | None:
         """
         Read and process a single short URL, optionally enriching it with LLM-generated metadata.

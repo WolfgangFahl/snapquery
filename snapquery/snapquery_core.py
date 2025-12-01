@@ -17,12 +17,12 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Type, Union
 
 import requests
+from basemkit.yamlable import lod_storable
 from lodstorage.lod_csv import CSV
 from lodstorage.params import Params
 from lodstorage.query import Endpoint, EndpointManager, Format, Query, QueryManager
 from lodstorage.sparql import SPARQL
 from lodstorage.sql import SQLDB, EntityInfo
-from basemkit.yamlable import lod_storable
 from ngwidgets.widgets import Link
 from slugify import slugify
 
@@ -755,7 +755,7 @@ class NamedQueryManager:
         self.meta_qm = QueryManager(queriesPath=yaml_path, with_default=False, lang="sql")
         # Graph Manager
         gm_yaml_path = GraphManager.get_yaml_path()
-        self.gm = GraphManager.load_from_yaml_file(gm_yaml_path) # @UndefinedVariable
+        self.gm = GraphManager.load_from_yaml_file(gm_yaml_path)  # @UndefinedVariable
         # SQL meta data handling
         # primary keys
         self.primary_keys = {
@@ -817,7 +817,7 @@ class NamedQueryManager:
                 sample_records = cls.get_sample_records(source_class=source_class)
 
                 # Define entity information dynamically based on the class and primary key
-                entityInfo = EntityInfo(sample_records, name=source_class.__name__, primaryKey=pk,quiet=not debug)
+                entityInfo = EntityInfo(sample_records, name=source_class.__name__, primaryKey=pk, quiet=not debug)
 
                 # Create and populate the table specific to each class
                 nqm.sql_db.createTable(sample_records, source_class.__name__, withDrop=True)
@@ -981,7 +981,7 @@ class NamedQueryManager:
                 name=source_class.__name__,
                 primaryKey=primary_key,
                 debug=self.debug,
-                quiet=not self.debug
+                quiet=not self.debug,
             )
         return self.entity_infos[source_class]
 
@@ -1005,10 +1005,7 @@ class NamedQueryManager:
         """
         entity_info = self.get_entity_info(source_class)
         if with_create:
-            self.sql_db.createTable4EntityInfo(
-                entityInfo=entity_info,
-                withDrop=True
-            )
+            self.sql_db.createTable4EntityInfo(entityInfo=entity_info, withDrop=True)
         # Store the list of dictionaries in the database using the defined entity information
         self.sql_db.store(lod, entity_info, fixNone=True, replace=True)
 
@@ -1199,10 +1196,11 @@ ORDER BY domain,namespace,name"""
 
         return named_queries
 
-    def get_unique_sets(self,
+    def get_unique_sets(
+        self,
         namespace: str = "snapquery-examples",
         domain: str = "wikidata.org",
-  ) -> tuple[set, set]:
+    ) -> tuple[set, set]:
         """
         Gets the unique URLs and names for a given domain and namespace
 
@@ -1218,8 +1216,8 @@ ORDER BY domain,namespace,name"""
         WHERE domain = ? AND namespace = ?"""
 
         query_records = self.sql_db.query(sql_query, (domain, namespace))
-        unique_urls = {record['url'] for record in query_records}
-        unique_names = {record['name'] for record in query_records}
+        unique_urls = {record["url"] for record in query_records}
+        unique_names = {record["name"] for record in query_records}
 
         return unique_urls, unique_names
 

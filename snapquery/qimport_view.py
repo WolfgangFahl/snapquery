@@ -5,13 +5,14 @@ Created on 2024-05-05
 """
 
 from lodstorage.query import Query, QuerySyntaxHighlight
-from nicegui import ui, background_tasks
+from nicegui import background_tasks, ui
 
 from snapquery.models.person import Person
+from snapquery.person_selector import PersonSelector, PersonView
 from snapquery.qimport import QueryImport
 from snapquery.snapquery_core import NamedQuery
-from snapquery.person_selector import PersonSelector, PersonView
 from snapquery.wd_short_url import ShortUrl
+
 
 class QueryImportView:
     """
@@ -24,7 +25,7 @@ class QueryImportView:
     ):
         self.person = None
         self.solution = solution
-        self.domain="wikidata.org"
+        self.domain = "wikidata.org"
         self.namespace = "short_url"
         self.name = ""
         self.url = ""
@@ -32,12 +33,12 @@ class QueryImportView:
         self.description = ""
         self.comment = ""
         self.query = None
-        self.allow_importing_from_url=self.solution.user_has_llm_right
+        self.allow_importing_from_url = self.solution.user_has_llm_right
         if self.solution:
             self.qimport = QueryImport()
             self.nqm = self.solution.nqm
 
-    def on_select_person(self,person: Person=None):
+    def on_select_person(self, person: Person = None):
         """
         react on a person having been selected
 

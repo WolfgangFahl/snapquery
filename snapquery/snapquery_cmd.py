@@ -144,7 +144,7 @@ class SnapQueryCmd(WebserverCmd):
             self.args.func(self.args)
         return self.args
 
-    def handle_args(self,args) -> bool:
+    def handle_args(self, args) -> bool:
         """
         handle the command line args
         """

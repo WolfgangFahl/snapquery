@@ -46,13 +46,12 @@ class TestNamedQueryManager(Basetest):
         """
         with tempfile.NamedTemporaryFile() as tmpfile:
             nqm = NamedQueryManager.from_samples(db_path=tmpfile.name)
-            all_queries=nqm.get_all_queries()
-            self.assertGreaterEqual(3,len(all_queries))
-            #Test unique sets for a known domain/namespace
+            all_queries = nqm.get_all_queries()
+            self.assertGreaterEqual(3, len(all_queries))
+            # Test unique sets for a known domain/namespace
             unique_urls, unique_names = nqm.get_unique_sets()
-            self.assertGreaterEqual(3,len(unique_urls))
-            self.assertGreaterEqual(3,len(unique_names))
-
+            self.assertGreaterEqual(3, len(unique_urls))
+            self.assertGreaterEqual(3, len(unique_names))
 
     def test_query_with_stats(self):
         """

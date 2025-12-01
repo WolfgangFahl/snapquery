@@ -189,7 +189,7 @@ class SparqlAnalyzer:
             else:
                 query_with_removed = f"{select_part}\nWHERE\n{where_part}"
 
-            include_pattern = f"[Ii][Nn][Cc][Ll][Uu][Dd][Ee]\s+%{name}"
+            include_pattern = f"[Ii][Nn][Cc][Ll][Uu][Dd][Ee]\\s+%{name}"
             subquery = f"{{{subquery}\n"
             query_transformed = re.sub(include_pattern, subquery, query_with_removed)
             return query_transformed
@@ -233,15 +233,15 @@ class SparqlAnalyzer:
         Returns:
             True if the query has parameters that need to need set
         """
-        vars = cls.get_query_parameter(query)
-        return len(vars) > 0
+        params = cls.get_query_parameter(query)
+        return len(params) > 0
 
     @classmethod
     def get_query_parameter(cls, query: str) -> set[str]:
         env = Environment()
         ast = env.parse(query)
-        vars = meta.find_undeclared_variables(ast)
-        return vars
+        params = meta.find_undeclared_variables(ast)
+        return params
 
     @classmethod
     def fill_with_sample_query_parameters(cls, query: str) -> str:

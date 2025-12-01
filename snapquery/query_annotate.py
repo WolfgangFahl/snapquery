@@ -9,9 +9,9 @@ import re
 from pathlib import Path
 from typing import Optional
 
+from basemkit.yamlable import lod_storable
 from bs4 import BeautifulSoup, ResultSet
 from lodstorage.query import Query, QuerySyntaxHighlight
-from basemkit.yamlable import lod_storable
 
 from snapquery.models.sparql_components import SPARQLLanguage
 
@@ -248,6 +248,4 @@ class FunctionStat:
     count: int = 0
 
 
-QUERY_ITEM_STATS: Stats = Stats.load_from_yaml_file(
-    Path(__file__).parent.joinpath("samples", "query_stats.yaml")
-)
+QUERY_ITEM_STATS: Stats = Stats.load_from_yaml_file(Path(__file__).parent.joinpath("samples", "query_stats.yaml"))

@@ -45,8 +45,8 @@ class TestRestFulApi(WebserverTest):
         test the endpoints api
         """
         endpoints_data = self.get_json("/api/endpoints")
-        debug=self.debug
-        debug=True
+        debug = self.debug
+        debug = True
         if debug:
             print(endpoints_data)
         self.assertTrue("wikidata" in endpoints_data)

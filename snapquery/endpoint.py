@@ -15,6 +15,7 @@ class Endpoint:
     """
     A query endpoint for SPARQL, SQL or other storage systems
     """
+
     name: str
     endpoint: str
     lang: str = "sparql"

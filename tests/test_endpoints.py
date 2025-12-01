@@ -14,7 +14,7 @@ class TestEndpoints(Basetest):
     test endpoint handling according to https://github.com/WolfgangFahl/snapquery/issues/1
     """
 
-    def setUp(self, debug=False, profile=True):
+    def setUp(self, debug=True, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
         self.nqm = NamedQueryManager()
 

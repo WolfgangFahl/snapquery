@@ -1,736 +1,101 @@
 # Default SPARQL endpoints for snapquery tool
 # 2022-02-14 tholzheim
-'wikidata':
-  lang: sparql
-  endpoint: https://query.wikidata.org/sparql
-  website: https://query.wikidata.org
-  database: blazegraph
-  method: POST
-  prefixes: |
-    PREFIX biopax: <http://www.biopax.org/release/biopax-level3.owl#>
-    PREFIX bd: <http://www.bigdata.com/rdf#>
-    PREFIX cc: <http://creativecommons.org/ns#>
-    PREFIX datacite: <http://purl.org/spar/datacite/>
-    PREFIX dblp: <https://dblp.org/rdf/schema#>
-    PREFIX dc:    <http://purl.org/dc/elements/1.1/>
-    PREFIX dct: <http://purl.org/dc/terms/>
-    PREFIX freq:  <http://purl.org/cld/freq/>
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-    PREFIX geom: <http://geovocab.org/geometry#>
-    PREFIX gpml:  <http://vocabularies.wikipathways.org/gpml#>
-    PREFIX litre: <http://purl.org/spar/literal/>
-    PREFIX lgdo: <http://linkedgeodata.org/ontology/>
-    PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
-    PREFIX orkgp: <http://orkg.org/orkg/predicate/>
-    PREFIX orkgc: <http://orkg.org/orkg/class/>
-    PREFIX orkgr: <http://orkg.org/orkg/resource/>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX p: <http://www.wikidata.org/prop/>
-    PREFIX pav: <http://purl.org/pav/>
-    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
-    PREFIX pqn: <http://www.wikidata.org/prop/qualifier/value-normalized/>
-    PREFIX pqv: <http://www.wikidata.org/prop/qualifier/value/>
-    PREFIX pr: <http://www.wikidata.org/prop/reference/>
-    PREFIX prn: <http://www.wikidata.org/prop/reference/value-normalized/>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-    PREFIX prv: <http://www.wikidata.org/prop/reference/value/>
-    PREFIX ps: <http://www.wikidata.org/prop/statement/>
-    PREFIX psn: <http://www.wikidata.org/prop/statement/value-normalized/>
-    PREFIX psv: <http://www.wikidata.org/prop/statement/value/>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX schema: <http://schema.org/>
-    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX void:  <http://rdfs.org/ns/void#>
-    PREFIX vrank: <http://purl.org/voc/vrank#>
-    PREFIX wd: <http://www.wikidata.org/entity/>
-    PREFIX wdata: <http://www.wikidata.org/wiki/Special:EntityData/>
-    PREFIX wdno: <http://www.wikidata.org/prop/novalue/>
-    PREFIX wdref: <http://www.wikidata.org/reference/>
-    PREFIX wds: <http://www.wikidata.org/entity/statement/>
-    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-    PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
-    PREFIX wdv: <http://www.wikidata.org/value/>
-    PREFIX wikibase: <http://wikiba.se/ontology#>
-    PREFIX wp: <http://vocabularies.wikipathways.org/wp#>
-    PREFIX wprdf: <http://rdf.wikipathways.org/>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-'wikidata-triply':
-  lang: sparql
-  method: POST
-  database: TriplyDB
-  endpoint: https://api.triplydb.com/datasets/wikimedia/wikidata/sparql
-  website: https://triplydb.com/wikimedia/wikidata/sparql
-  prefixes: |
-    PREFIX biopax: <http://www.biopax.org/release/biopax-level3.owl#>
-    PREFIX bd: <http://www.bigdata.com/rdf#>
-    PREFIX cc: <http://creativecommons.org/ns#>
-    PREFIX datacite: <http://purl.org/spar/datacite/>
-    PREFIX dblp: <https://dblp.org/rdf/schema#>
-    PREFIX dc:    <http://purl.org/dc/elements/1.1/>
-    PREFIX dct: <http://purl.org/dc/terms/>
-    PREFIX freq:  <http://purl.org/cld/freq/>
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-    PREFIX geom: <http://geovocab.org/geometry#>
-    PREFIX gpml:  <http://vocabularies.wikipathways.org/gpml#>
-    PREFIX litre: <http://purl.org/spar/literal/>
-    PREFIX lgdo: <http://linkedgeodata.org/ontology/>
-    PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
-    PREFIX orkgp: <http://orkg.org/orkg/predicate/>
-    PREFIX orkgc: <http://orkg.org/orkg/class/>
-    PREFIX orkgr: <http://orkg.org/orkg/resource/>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX p: <http://www.wikidata.org/prop/>
-    PREFIX pav: <http://purl.org/pav/>
-    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
-    PREFIX pqn: <http://www.wikidata.org/prop/qualifier/value-normalized/>
-    PREFIX pqv: <http://www.wikidata.org/prop/qualifier/value/>
-    PREFIX pr: <http://www.wikidata.org/prop/reference/>
-    PREFIX prn: <http://www.wikidata.org/prop/reference/value-normalized/>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-    PREFIX prv: <http://www.wikidata.org/prop/reference/value/>
-    PREFIX ps: <http://www.wikidata.org/prop/statement/>
-    PREFIX psn: <http://www.wikidata.org/prop/statement/value-normalized/>
-    PREFIX psv: <http://www.wikidata.org/prop/statement/value/>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX schema: <http://schema.org/>
-    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX void:  <http://rdfs.org/ns/void#>
-    PREFIX vrank: <http://purl.org/voc/vrank#>
-    PREFIX wd: <http://www.wikidata.org/entity/>
-    PREFIX wdata: <http://www.wikidata.org/wiki/Special:EntityData/>
-    PREFIX wdno: <http://www.wikidata.org/prop/novalue/>
-    PREFIX wdref: <http://www.wikidata.org/reference/>
-    PREFIX wds: <http://www.wikidata.org/entity/statement/>
-    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-    PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
-    PREFIX wdv: <http://www.wikidata.org/value/>
-    PREFIX wikibase: <http://wikiba.se/ontology#>
-    PREFIX wp: <http://vocabularies.wikipathways.org/wp#>
-    PREFIX wprdf: <http://rdf.wikipathways.org/>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-'wikidata-qlever':
-  lang: sparql
-  method: POST
-  database: qlever
-  endpoint: https://qlever.cs.uni-freiburg.de/api/wikidata
-  website: https://qlever.cs.uni-freiburg.de/wikidata
-  prefixes: |
-    PREFIX biopax: <http://www.biopax.org/release/biopax-level3.owl#>
-    PREFIX bd: <http://www.bigdata.com/rdf#>
-    PREFIX cc: <http://creativecommons.org/ns#>
-    PREFIX datacite: <http://purl.org/spar/datacite/>
-    PREFIX dblp: <https://dblp.org/rdf/schema#>
-    PREFIX dc:    <http://purl.org/dc/elements/1.1/>
-    PREFIX dct: <http://purl.org/dc/terms/>
-    PREFIX freq:  <http://purl.org/cld/freq/>
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-    PREFIX geom: <http://geovocab.org/geometry#>
-    PREFIX gpml:  <http://vocabularies.wikipathways.org/gpml#>
-    PREFIX litre: <http://purl.org/spar/literal/>
-    PREFIX lgdo: <http://linkedgeodata.org/ontology/>
-    PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
-    PREFIX orkgp: <http://orkg.org/orkg/predicate/>
-    PREFIX orkgc: <http://orkg.org/orkg/class/>
-    PREFIX orkgr: <http://orkg.org/orkg/resource/>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX p: <http://www.wikidata.org/prop/>
-    PREFIX pav: <http://purl.org/pav/>
-    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
-    PREFIX pqn: <http://www.wikidata.org/prop/qualifier/value-normalized/>
-    PREFIX pqv: <http://www.wikidata.org/prop/qualifier/value/>
-    PREFIX pr: <http://www.wikidata.org/prop/reference/>
-    PREFIX prn: <http://www.wikidata.org/prop/reference/value-normalized/>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-    PREFIX prv: <http://www.wikidata.org/prop/reference/value/>
-    PREFIX ps: <http://www.wikidata.org/prop/statement/>
-    PREFIX psn: <http://www.wikidata.org/prop/statement/value-normalized/>
-    PREFIX psv: <http://www.wikidata.org/prop/statement/value/>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX schema: <http://schema.org/>
-    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX void:  <http://rdfs.org/ns/void#>
-    PREFIX vrank: <http://purl.org/voc/vrank#>
-    PREFIX wd: <http://www.wikidata.org/entity/>
-    PREFIX wdata: <http://www.wikidata.org/wiki/Special:EntityData/>
-    PREFIX wdno: <http://www.wikidata.org/prop/novalue/>
-    PREFIX wdref: <http://www.wikidata.org/reference/>
-    PREFIX wds: <http://www.wikidata.org/entity/statement/>
-    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-    PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
-    PREFIX wdv: <http://www.wikidata.org/value/>
-    PREFIX wikibase: <http://wikiba.se/ontology#>
-    PREFIX wp: <http://vocabularies.wikipathways.org/wp#>
-    PREFIX wprdf: <http://rdf.wikipathways.org/>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-'wikidata-qlever-dbis':
-  lang: sparql
-  method: POST
-  database: qlever
-  endpoint: https://qlever-api.wikidata.dbis.rwth-aachen.de/
-  website: https://qlever.wikidata.dbis.rwth-aachen.de/wikidata
-  prefixes: |
-    PREFIX biopax: <http://www.biopax.org/release/biopax-level3.owl#>
-    PREFIX bd: <http://www.bigdata.com/rdf#>
-    PREFIX cc: <http://creativecommons.org/ns#>
-    PREFIX datacite: <http://purl.org/spar/datacite/>
-    PREFIX dblp: <https://dblp.org/rdf/schema#>
-    PREFIX dc:    <http://purl.org/dc/elements/1.1/>
-    PREFIX dct: <http://purl.org/dc/terms/>
-    PREFIX freq:  <http://purl.org/cld/freq/>
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-    PREFIX geom: <http://geovocab.org/geometry#>
-    PREFIX gpml:  <http://vocabularies.wikipathways.org/gpml#>
-    PREFIX litre: <http://purl.org/spar/literal/>
-    PREFIX lgdo: <http://linkedgeodata.org/ontology/>
-    PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
-    PREFIX orkgp: <http://orkg.org/orkg/predicate/>
-    PREFIX orkgc: <http://orkg.org/orkg/class/>
-    PREFIX orkgr: <http://orkg.org/orkg/resource/>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX p: <http://www.wikidata.org/prop/>
-    PREFIX pav: <http://purl.org/pav/>
-    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
-    PREFIX pqn: <http://www.wikidata.org/prop/qualifier/value-normalized/>
-    PREFIX pqv: <http://www.wikidata.org/prop/qualifier/value/>
-    PREFIX pr: <http://www.wikidata.org/prop/reference/>
-    PREFIX prn: <http://www.wikidata.org/prop/reference/value-normalized/>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-    PREFIX prv: <http://www.wikidata.org/prop/reference/value/>
-    PREFIX ps: <http://www.wikidata.org/prop/statement/>
-    PREFIX psn: <http://www.wikidata.org/prop/statement/value-normalized/>
-    PREFIX psv: <http://www.wikidata.org/prop/statement/value/>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX schema: <http://schema.org/>
-    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX void:  <http://rdfs.org/ns/void#>
-    PREFIX vrank: <http://purl.org/voc/vrank#>
-    PREFIX wd: <http://www.wikidata.org/entity/>
-    PREFIX wdata: <http://www.wikidata.org/wiki/Special:EntityData/>
-    PREFIX wdno: <http://www.wikidata.org/prop/novalue/>
-    PREFIX wdref: <http://www.wikidata.org/reference/>
-    PREFIX wds: <http://www.wikidata.org/entity/statement/>
-    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-    PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
-    PREFIX wdv: <http://www.wikidata.org/value/>
-    PREFIX wikibase: <http://wikiba.se/ontology#>
-    PREFIX wp: <http://vocabularies.wikipathways.org/wp#>
-    PREFIX wprdf: <http://rdf.wikipathways.org/>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-'wikidata-openlinksw':
+# 2025-12-01 new format with prefix-sets
+endpoints:
+  wikidata:
+    description: |
+      Wikimedia Wikidata Query Service (legacy full).
+      Stable but high-load; prefer -main/-scholarly.
     lang: sparql
-    endpoint: https://wikidata.demo.openlinksw.com/sparql
-    website: https://wikidata.demo.openlinksw.com/sparql
-    database: virtuoso
-    prefixes: |
-      PREFIX biopax: <http://www.biopax.org/release/biopax-level3.owl#>
-      PREFIX bd: <http://www.bigdata.com/rdf#>
-      PREFIX cc: <http://creativecommons.org/ns#>
-      PREFIX datacite: <http://purl.org/spar/datacite/>
-      PREFIX dblp: <https://dblp.org/rdf/schema#>
-      PREFIX dc:    <http://purl.org/dc/elements/1.1/>
-      PREFIX dct: <http://purl.org/dc/terms/>
-      PREFIX freq:  <http://purl.org/cld/freq/>
-      PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-      PREFIX geom: <http://geovocab.org/geometry#>
-      PREFIX gpml:  <http://vocabularies.wikipathways.org/gpml#>
-      PREFIX litre: <http://purl.org/spar/literal/>
-      PREFIX lgdo: <http://linkedgeodata.org/ontology/>
-      PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
-      PREFIX orkgp: <http://orkg.org/orkg/predicate/>
-      PREFIX orkgc: <http://orkg.org/orkg/class/>
-      PREFIX orkgr: <http://orkg.org/orkg/resource/>
-      PREFIX owl: <http://www.w3.org/2002/07/owl#>
-      PREFIX p: <http://www.wikidata.org/prop/>
-      PREFIX pav: <http://purl.org/pav/>
-      PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
-      PREFIX pqn: <http://www.wikidata.org/prop/qualifier/value-normalized/>
-      PREFIX pqv: <http://www.wikidata.org/prop/qualifier/value/>
-      PREFIX pr: <http://www.wikidata.org/prop/reference/>
-      PREFIX prn: <http://www.wikidata.org/prop/reference/value-normalized/>
-      PREFIX prov: <http://www.w3.org/ns/prov#>
-      PREFIX prv: <http://www.wikidata.org/prop/reference/value/>
-      PREFIX ps: <http://www.wikidata.org/prop/statement/>
-      PREFIX psn: <http://www.wikidata.org/prop/statement/value-normalized/>
-      PREFIX psv: <http://www.wikidata.org/prop/statement/value/>
-      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-      PREFIX schema: <http://schema.org/>
-      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-      PREFIX void:  <http://rdfs.org/ns/void#>
-      PREFIX vrank: <http://purl.org/voc/vrank#>
-      PREFIX wd: <http://www.wikidata.org/entity/>
-      PREFIX wdata: <http://www.wikidata.org/wiki/Special:EntityData/>
-      PREFIX wdno: <http://www.wikidata.org/prop/novalue/>
-      PREFIX wdref: <http://www.wikidata.org/reference/>
-      PREFIX wds: <http://www.wikidata.org/entity/statement/>
-      PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-      PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
-      PREFIX wdv: <http://www.wikidata.org/value/>
-      PREFIX wikibase: <http://wikiba.se/ontology#>
-      PREFIX wp: <http://vocabularies.wikipathways.org/wp#>
-      PREFIX wprdf: <http://rdf.wikipathways.org/>
-      PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-'wikidata-scatter':
-  lang: sparql
-  endpoint: https://query-direct2.orbopengraph.com/bigdata/namespace/wdq/sparql
-  website: https://scatter.red/
-  database: blazegraph
-  method: GET
-  prefixes: |
-    PREFIX biopax: <http://www.biopax.org/release/biopax-level3.owl#>
-    PREFIX bd: <http://www.bigdata.com/rdf#>
-    PREFIX cc: <http://creativecommons.org/ns#>
-    PREFIX datacite: <http://purl.org/spar/datacite/>
-    PREFIX dblp: <https://dblp.org/rdf/schema#>
-    PREFIX dc:    <http://purl.org/dc/elements/1.1/>
-    PREFIX dct: <http://purl.org/dc/terms/>
-    PREFIX freq:  <http://purl.org/cld/freq/>
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-    PREFIX geom: <http://geovocab.org/geometry#>
-    PREFIX gpml:  <http://vocabularies.wikipathways.org/gpml#>
-    PREFIX litre: <http://purl.org/spar/literal/>
-    PREFIX lgdo: <http://linkedgeodata.org/ontology/>
-    PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
-    PREFIX orkgp: <http://orkg.org/orkg/predicate/>
-    PREFIX orkgc: <http://orkg.org/orkg/class/>
-    PREFIX orkgr: <http://orkg.org/orkg/resource/>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX p: <http://www.wikidata.org/prop/>
-    PREFIX pav: <http://purl.org/pav/>
-    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
-    PREFIX pqn: <http://www.wikidata.org/prop/qualifier/value-normalized/>
-    PREFIX pqv: <http://www.wikidata.org/prop/qualifier/value/>
-    PREFIX pr: <http://www.wikidata.org/prop/reference/>
-    PREFIX prn: <http://www.wikidata.org/prop/reference/value-normalized/>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-    PREFIX prv: <http://www.wikidata.org/prop/reference/value/>
-    PREFIX ps: <http://www.wikidata.org/prop/statement/>
-    PREFIX psn: <http://www.wikidata.org/prop/statement/value-normalized/>
-    PREFIX psv: <http://www.wikidata.org/prop/statement/value/>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX schema: <http://schema.org/>
-    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX void:  <http://rdfs.org/ns/void#>
-    PREFIX vrank: <http://purl.org/voc/vrank#>
-    PREFIX wd: <http://www.wikidata.org/entity/>
-    PREFIX wdata: <http://www.wikidata.org/wiki/Special:EntityData/>
-    PREFIX wdno: <http://www.wikidata.org/prop/novalue/>
-    PREFIX wdref: <http://www.wikidata.org/reference/>
-    PREFIX wds: <http://www.wikidata.org/entity/statement/>
-    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-    PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
-    PREFIX wdv: <http://www.wikidata.org/value/>
-    PREFIX wikibase: <http://wikiba.se/ontology#>
-    PREFIX wp: <http://vocabularies.wikipathways.org/wp#>
-    PREFIX wprdf: <http://rdf.wikipathways.org/>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-'orkg':
+    endpoint: https://query.wikidata.org/sparql
+    website: https://query.wikidata.org
+    database: blazegraph
+    method: POST
+    calls_per_minute: 30
+    auto_update: true
+    data_seeded: 2012-10-29
+    uptime_days: 4500
+    mtriples: 22000
+    prefix_sets:
+      - rdf
+      - wikidata
+      - blazegraph
+      - commons
+
+  wikidata-main:
+    description: WDQS Graph Split — main (non-scholarly).
     lang: sparql
-    endpoint: https://orkg.org/triplestore
-    website: https://orkg.org/sparql
-    database: virtuoso
-    prefixes: |
-      PREFIX biopax: <http://www.biopax.org/release/biopax-level3.owl#>
-    PREFIX bd: <http://www.bigdata.com/rdf#>
-    PREFIX cc: <http://creativecommons.org/ns#>
-    PREFIX datacite: <http://purl.org/spar/datacite/>
-    PREFIX dblp: <https://dblp.org/rdf/schema#>
-    PREFIX dc:    <http://purl.org/dc/elements/1.1/>
-    PREFIX dct: <http://purl.org/dc/terms/>
-    PREFIX freq:  <http://purl.org/cld/freq/>
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-    PREFIX geom: <http://geovocab.org/geometry#>
-    PREFIX gpml:  <http://vocabularies.wikipathways.org/gpml#>
-    PREFIX litre: <http://purl.org/spar/literal/>
-    PREFIX lgdo: <http://linkedgeodata.org/ontology/>
-    PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
-    PREFIX orkgp: <http://orkg.org/orkg/predicate/>
-    PREFIX orkgc: <http://orkg.org/orkg/class/>
-    PREFIX orkgr: <http://orkg.org/orkg/resource/>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX p: <http://www.wikidata.org/prop/>
-    PREFIX pav: <http://purl.org/pav/>
-    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
-    PREFIX pqn: <http://www.wikidata.org/prop/qualifier/value-normalized/>
-    PREFIX pqv: <http://www.wikidata.org/prop/qualifier/value/>
-    PREFIX pr: <http://www.wikidata.org/prop/reference/>
-    PREFIX prn: <http://www.wikidata.org/prop/reference/value-normalized/>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-    PREFIX prv: <http://www.wikidata.org/prop/reference/value/>
-    PREFIX ps: <http://www.wikidata.org/prop/statement/>
-    PREFIX psn: <http://www.wikidata.org/prop/statement/value-normalized/>
-    PREFIX psv: <http://www.wikidata.org/prop/statement/value/>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX schema: <http://schema.org/>
-    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX void:  <http://rdfs.org/ns/void#>
-    PREFIX vrank: <http://purl.org/voc/vrank#>
-    PREFIX wd: <http://www.wikidata.org/entity/>
-    PREFIX wdata: <http://www.wikidata.org/wiki/Special:EntityData/>
-    PREFIX wdno: <http://www.wikidata.org/prop/novalue/>
-    PREFIX wdref: <http://www.wikidata.org/reference/>
-    PREFIX wds: <http://www.wikidata.org/entity/statement/>
-    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-    PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
-    PREFIX wdv: <http://www.wikidata.org/value/>
-    PREFIX wikibase: <http://wikiba.se/ontology#>
-    PREFIX wp: <http://vocabularies.wikipathways.org/wp#>
-    PREFIX wprdf: <http://rdf.wikipathways.org/>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-'gov':
-  endpoint: https://gov-sparql.genealogy.net/dataset/sparql
-  website: https://gov-sparql.genealogy.net/
-  database: gov-genealogy
-  method: POST
-  lang: sparql
-  prefixes: |
-    PREFIX gov: <http://gov.genealogy.net/>
-    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
-    PREFIX gt: <http://gov.genealogy.net/types.owl#>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-    PREFIX dc: <http://purl.org/dc/terms/>
-    PREFIX dc11: <http://purl.org/dc/elements/1.1/>
-    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-    PREFIX time: <http://www.w3.org/2006/time#>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-'dblp':
-  lang: sparql
-  method: POST
-  database: qlever
-  endpoint: https://sparql.dblp.org/sparql
-  website: https://sparql.dblp.org
-  prefixes: |
-    PREFIX biopax: <http://www.biopax.org/release/biopax-level3.owl#>
-    PREFIX bd: <http://www.bigdata.com/rdf#>
-    PREFIX cc: <http://creativecommons.org/ns#>
-    PREFIX datacite: <http://purl.org/spar/datacite/>
-    PREFIX dblp: <https://dblp.org/rdf/schema#>
-    PREFIX dc:    <http://purl.org/dc/elements/1.1/>
-    PREFIX dct: <http://purl.org/dc/terms/>
-    PREFIX freq:  <http://purl.org/cld/freq/>
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-    PREFIX geom: <http://geovocab.org/geometry#>
-    PREFIX gpml:  <http://vocabularies.wikipathways.org/gpml#>
-    PREFIX litre: <http://purl.org/spar/literal/>
-    PREFIX lgdo: <http://linkedgeodata.org/ontology/>
-    PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
-    PREFIX orkgp: <http://orkg.org/orkg/predicate/>
-    PREFIX orkgc: <http://orkg.org/orkg/class/>
-    PREFIX orkgr: <http://orkg.org/orkg/resource/>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX p: <http://www.wikidata.org/prop/>
-    PREFIX pav: <http://purl.org/pav/>
-    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
-    PREFIX pqn: <http://www.wikidata.org/prop/qualifier/value-normalized/>
-    PREFIX pqv: <http://www.wikidata.org/prop/qualifier/value/>
-    PREFIX pr: <http://www.wikidata.org/prop/reference/>
-    PREFIX prn: <http://www.wikidata.org/prop/reference/value-normalized/>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-    PREFIX prv: <http://www.wikidata.org/prop/reference/value/>
-    PREFIX ps: <http://www.wikidata.org/prop/statement/>
-    PREFIX psn: <http://www.wikidata.org/prop/statement/value-normalized/>
-    PREFIX psv: <http://www.wikidata.org/prop/statement/value/>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX schema: <http://schema.org/>
-    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX void:  <http://rdfs.org/ns/void#>
-    PREFIX vrank: <http://purl.org/voc/vrank#>
-    PREFIX wd: <http://www.wikidata.org/entity/>
-    PREFIX wdata: <http://www.wikidata.org/wiki/Special:EntityData/>
-    PREFIX wdno: <http://www.wikidata.org/prop/novalue/>
-    PREFIX wdref: <http://www.wikidata.org/reference/>
-    PREFIX wds: <http://www.wikidata.org/entity/statement/>
-    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-    PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
-    PREFIX wdv: <http://www.wikidata.org/value/>
-    PREFIX wikibase: <http://wikiba.se/ontology#>
-    PREFIX wp: <http://vocabularies.wikipathways.org/wp#>
-    PREFIX wprdf: <http://rdf.wikipathways.org/>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-'dblp-qlever':
-  lang: sparql
-  method: POST
-  database: qlever
-  endpoint: https://qlever.cs.uni-freiburg.de/api/dblp
-  website: https://qlever.cs.uni-freiburg.de/dblp
-  prefixes: |
-    PREFIX biopax: <http://www.biopax.org/release/biopax-level3.owl#>
-    PREFIX bd: <http://www.bigdata.com/rdf#>
-    PREFIX cc: <http://creativecommons.org/ns#>
-    PREFIX datacite: <http://purl.org/spar/datacite/>
-    PREFIX dblp: <https://dblp.org/rdf/schema#>
-    PREFIX dc:    <http://purl.org/dc/elements/1.1/>
-    PREFIX dct: <http://purl.org/dc/terms/>
-    PREFIX freq:  <http://purl.org/cld/freq/>
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-    PREFIX geom: <http://geovocab.org/geometry#>
-    PREFIX gpml:  <http://vocabularies.wikipathways.org/gpml#>
-    PREFIX litre: <http://purl.org/spar/literal/>
-    PREFIX lgdo: <http://linkedgeodata.org/ontology/>
-    PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
-    PREFIX orkgp: <http://orkg.org/orkg/predicate/>
-    PREFIX orkgc: <http://orkg.org/orkg/class/>
-    PREFIX orkgr: <http://orkg.org/orkg/resource/>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX p: <http://www.wikidata.org/prop/>
-    PREFIX pav: <http://purl.org/pav/>
-    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
-    PREFIX pqn: <http://www.wikidata.org/prop/qualifier/value-normalized/>
-    PREFIX pqv: <http://www.wikidata.org/prop/qualifier/value/>
-    PREFIX pr: <http://www.wikidata.org/prop/reference/>
-    PREFIX prn: <http://www.wikidata.org/prop/reference/value-normalized/>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-    PREFIX prv: <http://www.wikidata.org/prop/reference/value/>
-    PREFIX ps: <http://www.wikidata.org/prop/statement/>
-    PREFIX psn: <http://www.wikidata.org/prop/statement/value-normalized/>
-    PREFIX psv: <http://www.wikidata.org/prop/statement/value/>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX schema: <http://schema.org/>
-    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX void:  <http://rdfs.org/ns/void#>
-    PREFIX vrank: <http://purl.org/voc/vrank#>
-    PREFIX wd: <http://www.wikidata.org/entity/>
-    PREFIX wdata: <http://www.wikidata.org/wiki/Special:EntityData/>
-    PREFIX wdno: <http://www.wikidata.org/prop/novalue/>
-    PREFIX wdref: <http://www.wikidata.org/reference/>
-    PREFIX wds: <http://www.wikidata.org/entity/statement/>
-    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-    PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
-    PREFIX wdv: <http://www.wikidata.org/value/>
-    PREFIX wikibase: <http://wikiba.se/ontology#>
-    PREFIX wp: <http://vocabularies.wikipathways.org/wp#>
-    PREFIX wprdf: <http://rdf.wikipathways.org/>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-'dblp-trier':
-  lang: sparql
-  method: POST
-  database: qlever
-  endpoint: https://archimedes.uni-trier.de/sparql
-  website: https://archimedes.uni-trier.de
-  prefixes: |
-    PREFIX biopax: <http://www.biopax.org/release/biopax-level3.owl#>
-    PREFIX bd: <http://www.bigdata.com/rdf#>
-    PREFIX cc: <http://creativecommons.org/ns#>
-    PREFIX datacite: <http://purl.org/spar/datacite/>
-    PREFIX dblp: <https://dblp.org/rdf/schema#>
-    PREFIX dc:    <http://purl.org/dc/elements/1.1/>
-    PREFIX dct: <http://purl.org/dc/terms/>
-    PREFIX freq:  <http://purl.org/cld/freq/>
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-    PREFIX geom: <http://geovocab.org/geometry#>
-    PREFIX gpml:  <http://vocabularies.wikipathways.org/gpml#>
-    PREFIX litre: <http://purl.org/spar/literal/>
-    PREFIX lgdo: <http://linkedgeodata.org/ontology/>
-    PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
-    PREFIX orkgp: <http://orkg.org/orkg/predicate/>
-    PREFIX orkgc: <http://orkg.org/orkg/class/>
-    PREFIX orkgr: <http://orkg.org/orkg/resource/>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX p: <http://www.wikidata.org/prop/>
-    PREFIX pav: <http://purl.org/pav/>
-    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
-    PREFIX pqn: <http://www.wikidata.org/prop/qualifier/value-normalized/>
-    PREFIX pqv: <http://www.wikidata.org/prop/qualifier/value/>
-    PREFIX pr: <http://www.wikidata.org/prop/reference/>
-    PREFIX prn: <http://www.wikidata.org/prop/reference/value-normalized/>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-    PREFIX prv: <http://www.wikidata.org/prop/reference/value/>
-    PREFIX ps: <http://www.wikidata.org/prop/statement/>
-    PREFIX psn: <http://www.wikidata.org/prop/statement/value-normalized/>
-    PREFIX psv: <http://www.wikidata.org/prop/statement/value/>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX schema: <http://schema.org/>
-    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX void:  <http://rdfs.org/ns/void#>
-    PREFIX vrank: <http://purl.org/voc/vrank#>
-    PREFIX wd: <http://www.wikidata.org/entity/>
-    PREFIX wdata: <http://www.wikidata.org/wiki/Special:EntityData/>
-    PREFIX wdno: <http://www.wikidata.org/prop/novalue/>
-    PREFIX wdref: <http://www.wikidata.org/reference/>
-    PREFIX wds: <http://www.wikidata.org/entity/statement/>
-    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-    PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
-    PREFIX wdv: <http://www.wikidata.org/value/>
-    PREFIX wikibase: <http://wikiba.se/ontology#>
-    PREFIX wp: <http://vocabularies.wikipathways.org/wp#>
-    PREFIX wprdf: <http://rdf.wikipathways.org/>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-'wikidata-scholarly':
-  lang: sparql
-  endpoint: https://query-scholarly.wikidata.org/sparql
-  website:  https://query-scholarly.wikidata.org/
-  database: blazegraph
-  method: POST
-  prefixes: |
-    PREFIX biopax: <http://www.biopax.org/release/biopax-level3.owl#>
-    PREFIX bd: <http://www.bigdata.com/rdf#>
-    PREFIX cc: <http://creativecommons.org/ns#>
-    PREFIX datacite: <http://purl.org/spar/datacite/>
-    PREFIX dblp: <https://dblp.org/rdf/schema#>
-    PREFIX dc:    <http://purl.org/dc/elements/1.1/>
-    PREFIX dct: <http://purl.org/dc/terms/>
-    PREFIX freq:  <http://purl.org/cld/freq/>
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-    PREFIX geom: <http://geovocab.org/geometry#>
-    PREFIX gpml:  <http://vocabularies.wikipathways.org/gpml#>
-    PREFIX litre: <http://purl.org/spar/literal/>
-    PREFIX lgdo: <http://linkedgeodata.org/ontology/>
-    PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
-    PREFIX orkgp: <http://orkg.org/orkg/predicate/>
-    PREFIX orkgc: <http://orkg.org/orkg/class/>
-    PREFIX orkgr: <http://orkg.org/orkg/resource/>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX p: <http://www.wikidata.org/prop/>
-    PREFIX pav: <http://purl.org/pav/>
-    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
-    PREFIX pqn: <http://www.wikidata.org/prop/qualifier/value-normalized/>
-    PREFIX pqv: <http://www.wikidata.org/prop/qualifier/value/>
-    PREFIX pr: <http://www.wikidata.org/prop/reference/>
-    PREFIX prn: <http://www.wikidata.org/prop/reference/value-normalized/>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-    PREFIX prv: <http://www.wikidata.org/prop/reference/value/>
-    PREFIX ps: <http://www.wikidata.org/prop/statement/>
-    PREFIX psn: <http://www.wikidata.org/prop/statement/value-normalized/>
-    PREFIX psv: <http://www.wikidata.org/prop/statement/value/>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX schema: <http://schema.org/>
-    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX void:  <http://rdfs.org/ns/void#>
-    PREFIX vrank: <http://purl.org/voc/vrank#>
-    PREFIX wd: <http://www.wikidata.org/entity/>
-    PREFIX wdata: <http://www.wikidata.org/wiki/Special:EntityData/>
-    PREFIX wdno: <http://www.wikidata.org/prop/novalue/>
-    PREFIX wdref: <http://www.wikidata.org/reference/>
-    PREFIX wds: <http://www.wikidata.org/entity/statement/>
-    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-    PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
-    PREFIX wdv: <http://www.wikidata.org/value/>
-    PREFIX wikibase: <http://wikiba.se/ontology#>
-    PREFIX wp: <http://vocabularies.wikipathways.org/wp#>
-    PREFIX wprdf: <http://rdf.wikipathways.org/>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-'wikidata-main':
-  lang: sparql
-  endpoint: https://query-main.wikidata.org/sparql
-  website:  https://query-main.wikidata.org/
-  database: blazegraph
-  method: POST
-  prefixes: |
-    PREFIX biopax: <http://www.biopax.org/release/biopax-level3.owl#>
-    PREFIX bd: <http://www.bigdata.com/rdf#>
-    PREFIX cc: <http://creativecommons.org/ns#>
-    PREFIX datacite: <http://purl.org/spar/datacite/>
-    PREFIX dblp: <https://dblp.org/rdf/schema#>
-    PREFIX dc:    <http://purl.org/dc/elements/1.1/>
-    PREFIX dct: <http://purl.org/dc/terms/>
-    PREFIX freq:  <http://purl.org/cld/freq/>
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-    PREFIX geom: <http://geovocab.org/geometry#>
-    PREFIX gpml:  <http://vocabularies.wikipathways.org/gpml#>
-    PREFIX litre: <http://purl.org/spar/literal/>
-    PREFIX lgdo: <http://linkedgeodata.org/ontology/>
-    PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
-    PREFIX orkgp: <http://orkg.org/orkg/predicate/>
-    PREFIX orkgc: <http://orkg.org/orkg/class/>
-    PREFIX orkgr: <http://orkg.org/orkg/resource/>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX p: <http://www.wikidata.org/prop/>
-    PREFIX pav: <http://purl.org/pav/>
-    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
-    PREFIX pqn: <http://www.wikidata.org/prop/qualifier/value-normalized/>
-    PREFIX pqv: <http://www.wikidata.org/prop/qualifier/value/>
-    PREFIX pr: <http://www.wikidata.org/prop/reference/>
-    PREFIX prn: <http://www.wikidata.org/prop/reference/value-normalized/>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-    PREFIX prv: <http://www.wikidata.org/prop/reference/value/>
-    PREFIX ps: <http://www.wikidata.org/prop/statement/>
-    PREFIX psn: <http://www.wikidata.org/prop/statement/value-normalized/>
-    PREFIX psv: <http://www.wikidata.org/prop/statement/value/>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX schema: <http://schema.org/>
-    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX void:  <http://rdfs.org/ns/void#>
-    PREFIX vrank: <http://purl.org/voc/vrank#>
-    PREFIX wd: <http://www.wikidata.org/entity/>
-    PREFIX wdata: <http://www.wikidata.org/wiki/Special:EntityData/>
-    PREFIX wdno: <http://www.wikidata.org/prop/novalue/>
-    PREFIX wdref: <http://www.wikidata.org/reference/>
-    PREFIX wds: <http://www.wikidata.org/entity/statement/>
-    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-    PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
-    PREFIX wdv: <http://www.wikidata.org/value/>
-    PREFIX wikibase: <http://wikiba.se/ontology#>
-    PREFIX wp: <http://vocabularies.wikipathways.org/wp#>
-    PREFIX wprdf: <http://rdf.wikipathways.org/>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-'wikidata-dbis':
-  lang: sparql
-  endpoint: https://wdqs.wikidata.dbis.rwth-aachen.de/sparql
-  website:  https://wdqs.wikidata.dbis.rwth-aachen.de/
-  database: blazegraph
-  method: POST
-  prefixes: |
-    PREFIX biopax: <http://www.biopax.org/release/biopax-level3.owl#>
-    PREFIX bd: <http://www.bigdata.com/rdf#>
-    PREFIX cc: <http://creativecommons.org/ns#>
-    PREFIX datacite: <http://purl.org/spar/datacite/>
-    PREFIX dblp: <https://dblp.org/rdf/schema#>
-    PREFIX dc:    <http://purl.org/dc/elements/1.1/>
-    PREFIX dct: <http://purl.org/dc/terms/>
-    PREFIX freq:  <http://purl.org/cld/freq/>
-    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
-    PREFIX geom: <http://geovocab.org/geometry#>
-    PREFIX gpml:  <http://vocabularies.wikipathways.org/gpml#>
-    PREFIX litre: <http://purl.org/spar/literal/>
-    PREFIX lgdo: <http://linkedgeodata.org/ontology/>
-    PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
-    PREFIX orkgp: <http://orkg.org/orkg/predicate/>
-    PREFIX orkgc: <http://orkg.org/orkg/class/>
-    PREFIX orkgr: <http://orkg.org/orkg/resource/>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX p: <http://www.wikidata.org/prop/>
-    PREFIX pav: <http://purl.org/pav/>
-    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
-    PREFIX pqn: <http://www.wikidata.org/prop/qualifier/value-normalized/>
-    PREFIX pqv: <http://www.wikidata.org/prop/qualifier/value/>
-    PREFIX pr: <http://www.wikidata.org/prop/reference/>
-    PREFIX prn: <http://www.wikidata.org/prop/reference/value-normalized/>
-    PREFIX prov: <http://www.w3.org/ns/prov#>
-    PREFIX prv: <http://www.wikidata.org/prop/reference/value/>
-    PREFIX ps: <http://www.wikidata.org/prop/statement/>
-    PREFIX psn: <http://www.wikidata.org/prop/statement/value-normalized/>
-    PREFIX psv: <http://www.wikidata.org/prop/statement/value/>
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX schema: <http://schema.org/>
-    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-    PREFIX void:  <http://rdfs.org/ns/void#>
-    PREFIX vrank: <http://purl.org/voc/vrank#>
-    PREFIX wd: <http://www.wikidata.org/entity/>
-    PREFIX wdata: <http://www.wikidata.org/wiki/Special:EntityData/>
-    PREFIX wdno: <http://www.wikidata.org/prop/novalue/>
-    PREFIX wdref: <http://www.wikidata.org/reference/>
-    PREFIX wds: <http://www.wikidata.org/entity/statement/>
-    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-    PREFIX wdtn: <http://www.wikidata.org/prop/direct-normalized/>
-    PREFIX wdv: <http://www.wikidata.org/value/>
-    PREFIX wikibase: <http://wikiba.se/ontology#>
-    PREFIX wp: <http://vocabularies.wikipathways.org/wp#>
-    PREFIX wprdf: <http://rdf.wikipathways.org/>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    endpoint: https://query-main.wikidata.org/sparql
+    website: https://query-main.wikidata.org/
+    database: blazegraph
+    method: POST
+    calls_per_minute: 30
+    auto_update: true
+    data_seeded: 2025-01-01
+    uptime_days: 200
+    mtriples: 8580
+    prefix_sets:
+      - rdf
+      - wikidata
+      - blazegraph
+      - commons
+
+  wikidata-scholarly:
+    description: WDQS Graph Split — scholarly.
+    lang: sparql
+    endpoint: https://query-scholarly.wikidata.org/sparql
+    website: https://query-scholarly.wikidata.org/
+    database: blazegraph
+    method: POST
+    calls_per_minute: 30
+    auto_update: true
+    data_seeded: 2025-01-01
+    uptime_days: 200
+    mtriples: 8730
+    prefix_sets:
+      - rdf
+      - wikidata
+      - blazegraph
+      - commons
+
+  wikidata-dbis:
+    description: RWTH Aachen full Wikidata mirror (stable).
+    lang: sparql
+    endpoint: https://wdqs.wikidata.dbis.rwth-aachen.de/sparql
+    website: https://wdqs.wikidata.dbis.rwth-aachen.de/
+    database: blazegraph
+    method: POST
+    calls_per_minute: 30
+    auto_update: false
+    data_seeded: 2025-06-01
+    uptime_days: 1
+    mtriples: 17029
+    prefix_sets:
+      - rdf
+      - wikidata
+      - blazegraph
+      - commons
+
+  dblp:
+    description: DBLP official (qlever - reliable).
+    lang: sparql
+    method: POST
+    database: qlever
+    endpoint: https://sparql.dblp.org/sparql
+    website: https://sparql.dblp.org
+    calls_per_minute: 60
+    prefix_sets:
+      - rdf
+      - dblp
+
+  gov:
+    description: GOV Genealogy (stable).
+    lang: sparql
+    endpoint: https://gov-sparql.genealogy.net/dataset/sparql
+    website: https://gov-sparql.genealogy.net/
+    database: gov-genealogy
+    method: POST
+    calls_per_minute: 30
+    prefix_sets:
+      - rdf
+      - gov

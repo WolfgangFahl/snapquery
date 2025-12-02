@@ -26,7 +26,7 @@ dependencies = [
 	# https://github.com/WolfgangFahl/nicegui_widgets
 	"ngwidgets>=0.30.0",
     # https://pypi.org/project/pyLodStorage/
-    "pyLodStorage>=0.18.4",
+    "pyLodStorage>=0.18.5",
     # https://pypi.org/project/py-3rdparty-mediawiki/
     "py-3rdparty-mediawiki>=0.18.1",
     "wikitextparser",

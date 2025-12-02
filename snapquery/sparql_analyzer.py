@@ -173,18 +173,19 @@ class SparqlAnalyzer:
         """
         Transform blazegraph with clause to subquery statement
         Args:
-            query:
+            query: SPARQL query string
 
         Returns:
-
+            Transformed query with WITH clause replaced by nested subquery
         """
         match = re.search(cls.BLAZEGRAPH_NAMED_SUBQUERY_PATTERN, query)
         if match:
             subquery = match.group("subquery")
             name = match.group("name")
             start_pos, end_pos = match.span()
-            # check if Where mus be added
-            select_part = query[:start_pos]
+            # check if Where must be added
+            # making sure we handle white space correctly.
+            select_part = query[:start_pos].rstrip()
             where_part = query[end_pos + 1 :]
             if cls.has_blazegraph_with_clause(where_part):
                 where_part = cls.transform_with_clause_to_subquery(where_part)

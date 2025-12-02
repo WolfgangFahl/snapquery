@@ -6,7 +6,7 @@ Created on 2024-05-11
 
 import unittest
 
-from ngwidgets.basetest import Basetest
+from basemkit.basetest import Basetest
 
 from snapquery.execution import Execution
 from snapquery.snapquery_core import NamedQueryManager, QueryName

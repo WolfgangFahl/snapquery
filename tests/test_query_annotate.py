@@ -2,9 +2,9 @@ import unittest
 from collections import Counter
 from pathlib import Path
 
+from basemkit.basetest import Basetest
 from lodstorage.query import Query
 from lodstorage.sparql import SPARQL
-from ngwidgets.basetest import Basetest
 
 from snapquery.query_annotate import (
     QUERY_ITEM_STATS,
@@ -30,7 +30,7 @@ class TestSparqlQueryAnnotater(Basetest):
         PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
         PREFIX wd:  <http://www.wikidata.org/entity/>
         PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-        SELECT DISTINCT ?horse ?horseLabel ?mother ?motherLabel ?father ?fatherLabel 
+        SELECT DISTINCT ?horse ?horseLabel ?mother ?motherLabel ?father ?fatherLabel
         (year(?birthdate) as ?birthyear) (year(?deathdate) as ?deathyear) ?genderLabel
         WHERE {
           ?horse wdt:P31/wdt:P279* wd:Q726 .     # Instance and subclasses of horse (Q726)

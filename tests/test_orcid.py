@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from ngwidgets.basetest import Basetest
+from basemkit.basetest import Basetest
 
 from snapquery.models.person import Person
 from snapquery.orcid import OrcidAuth, OrcidConfig, OrcidSearchParams

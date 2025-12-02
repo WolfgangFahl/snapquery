@@ -7,7 +7,7 @@ Created on 2024-05-04
 import os
 import unittest
 
-from ngwidgets.basetest import Basetest
+from basemkit.basetest import Basetest
 
 from snapquery.scholia import ScholiaQueries
 from snapquery.snapquery_core import NamedQueryManager
@@ -48,8 +48,8 @@ class TestScholia(Basetest):
 
         # Verify the data was stored
         records = nqm.sql_db.query(
-            f"""SELECT * 
-FROM NamedQuery 
+            f"""SELECT *
+FROM NamedQuery
 WHERE namespace='{scholia_queries.named_query_set.namespace}'
 AND domain='{scholia_queries.named_query_set.domain}'
 """

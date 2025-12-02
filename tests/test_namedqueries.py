@@ -7,7 +7,7 @@ Created on 2024-05-03
 import json
 import tempfile
 
-from ngwidgets.basetest import Basetest
+from basemkit.basetest import Basetest
 
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager, QueryName
 

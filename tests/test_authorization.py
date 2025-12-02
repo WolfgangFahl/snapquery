@@ -4,7 +4,7 @@ Created on 2024-10-20
 @author: wf
 """
 
-from ngwidgets.basetest import Basetest
+from basemkit.basetest import Basetest
 
 from snapquery.authorization import Authorization, UserRights
 

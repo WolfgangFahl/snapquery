@@ -28,6 +28,7 @@ from slugify import slugify
 from snapquery.error_filter import ErrorFilter
 from snapquery.graph import Graph, GraphManager
 from snapquery.prefix_merger import QueryPrefixMerger
+
 logger = logging.getLogger(__name__)
 
 
@@ -1025,10 +1026,12 @@ WHERE
             endpoint=endpoint.endpoint,
             limit=limit,
         )
-        query.query = QueryPrefixMerger.merge_prefixes(query, endpoint, prefix_merger)
+        sparql_query = QueryPrefixMerger.merge_prefixes(query, endpoint, prefix_merger)
         if limit:
-            query.query += f"\nLIMIT {limit}"
-        return QueryBundle(named_query=named_query, query=query, endpoint=endpoint)
+            sparql_query += f"\nLIMIT {limit}"
+        query.query = sparql_query
+        query_bundle = QueryBundle(named_query=named_query, query=query, endpoint=endpoint)
+        return query_bundle
 
     def get_namespaces(self) -> Dict[str, int]:
         """

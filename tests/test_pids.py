@@ -6,7 +6,7 @@ PID tests
 
 import tempfile
 
-from ngwidgets.basetest import Basetest
+from basemkit.basetest import Basetest
 
 from snapquery.dblp import DblpPersonLookup
 from snapquery.pid import PIDs

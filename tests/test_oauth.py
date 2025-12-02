@@ -6,7 +6,7 @@ Created on 04.05.2024
 
 import webbrowser
 
-from ngwidgets.basetest import Basetest
+from basemkit.basetest import Basetest
 
 from snapquery.mwlogin import Login
 

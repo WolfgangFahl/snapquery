@@ -7,8 +7,8 @@ Created on 2024-06-03
 import json
 import unittest
 
+from basemkit.basetest import Basetest
 from lodstorage.params import Params
-from ngwidgets.basetest import Basetest
 from ngwidgets.llm import LLM
 
 from snapquery.snapquery_core import NamedQueryManager
@@ -50,7 +50,7 @@ class TestScholiaQ(Basetest):
 
         params = (query_ids,)
         records = self.nqm.sql_db.query(
-            f"""SELECT * FROM NamedQuery 
+            f"""SELECT * FROM NamedQuery
             WHERE query_id in ({query_ids})
             """
         )
@@ -64,13 +64,13 @@ class TestScholiaQ(Basetest):
             sparql = record["sparql"]
             params = Params(sparql)
             if params.has_params:
-                prompt = f""""What entity type should q be in the following SPARQL Query 
-                and what would be a prominent example and the corresponding wikidata Identifier? The context is strictly scholarly publishing - make sure your choice fits this context. Never hallucinate wikidataIDs use None if you do not know 
-                Answer in yaml format for cut&paste e.g. 
+                prompt = f""""What entity type should q be in the following SPARQL Query
+                and what would be a prominent example and the corresponding wikidata Identifier? The context is strictly scholarly publishing - make sure your choice fits this context. Never hallucinate wikidataIDs use None if you do not know
+                Answer in yaml format for cut&paste e.g.
                 entity:beer
                 example:Heineken
-                wikidataId:Q854383  
-                
+                wikidataId:Q854383
+
                 SPARQL query to analyze: {sparql}"""
                 try:
                     llm_response = llm.ask(prompt)

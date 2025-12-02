@@ -7,8 +7,8 @@ Created on 2024-05-06
 import unittest
 from pathlib import Path
 
+from basemkit.basetest import Basetest
 from dacite import from_dict
-from ngwidgets.basetest import Basetest
 
 from snapquery.error_filter import ErrorFilter
 from snapquery.snapquery_core import NamedQueryManager, QueryStats, QueryStatsList

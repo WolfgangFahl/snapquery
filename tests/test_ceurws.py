@@ -7,7 +7,7 @@ Created on 2024-07-02
 import os
 import unittest
 
-from ngwidgets.basetest import Basetest
+from basemkit.basetest import Basetest
 
 from snapquery.ceurws import CeurWSQueries
 from snapquery.snapquery_core import NamedQueryManager
@@ -47,8 +47,8 @@ class TestCeurWS(Basetest):
 
         # Verify the data was stored
         records = nqm.sql_db.query(
-            f"""SELECT * 
-        FROM NamedQuery 
+            f"""SELECT *
+        FROM NamedQuery
         WHERE namespace='{ceurws_queries.named_query_set.namespace}'
         AND domain='{ceurws_queries.named_query_set.domain}'
         """

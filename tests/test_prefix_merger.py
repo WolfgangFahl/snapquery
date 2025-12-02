@@ -1,14 +1,22 @@
-from unittest import TestCase
+"""
+Created on 2024-05-04
 
+@author: tholzheim
+"""
+
+from basemkit.basetest import Basetest
 from lodstorage.query import Query
 
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager, QueryPrefixMerger
 
 
-class TestQueryPrefixMerger(TestCase):
+class TestQueryPrefixMerger(Basetest):
     """
     test TestQueryPrefixMerger
     """
+
+    def setUp(self, debug=False, profile=True):
+        Basetest.setUp(self, debug=debug, profile=profile)
 
     def test__missing_(self):
         """
@@ -50,12 +58,18 @@ class TestQueryPrefixMerger(TestCase):
             self.assertEqual(expected_query, analysis_prefixed_merger)
 
     def test_simple_prefix_merger(self):
+        """
+        test the simple prefix Merger
+        """
         nqm = NamedQueryManager()
         endpoint = nqm.endpoints.get("wikidata")
-        query = "SELECT * WHERE {?work rdf:label ?label . }"
-        expected_query = f"{endpoint.prefixes}\nSELECT * WHERE {{?work rdf:label ?label . }}"
-        actual_query = QueryPrefixMerger.simple_prefix_merger(query, endpoint)
-        self.assertEqual(expected_query, actual_query)
+        sparql_query = "SELECT * WHERE {?work rdf:label ?label . }"
+        actual_query = QueryPrefixMerger.simple_prefix_merger(sparql_query, endpoint)
+        debug = self.debug
+        # debug=True
+        if debug:
+            print(actual_query)
+        self.assertIn("PREFIX rdf:", actual_query)
 
     def test_analysis_prefix_merger(self):
         """
@@ -69,5 +83,8 @@ class TestQueryPrefixMerger(TestCase):
         self.assertEqual(expected_query, actual_query)
 
     def test_get_by_name(self):
+        """
+        get prefix manager by name
+        """
         for merger in QueryPrefixMerger:
             self.assertEqual(merger.get_by_name(merger.name), merger)

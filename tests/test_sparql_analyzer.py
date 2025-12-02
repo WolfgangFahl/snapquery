@@ -1,7 +1,15 @@
+"""
+Created on 2024-05-04
+
+@author: tholzheim
+"""
+
 import logging
 import pprint
 import sys
 import unittest
+
+from basemkit.basetest import Basetest
 
 import snapquery.sparql_analyzer
 from snapquery.snapquery_core import NamedQueryManager
@@ -13,10 +21,13 @@ logger.addHandler(logging.StreamHandler(stream=sys.stdout))
 logger.setLevel(logging.DEBUG)
 
 
-class TestSparqlAnalyzer(unittest.TestCase):
+class TestSparqlAnalyzer(Basetest):
     """
     Tests the Sparql Analyzer class.
     """
+
+    def setUp(self, debug=False, profile=True):
+        Basetest.setUp(self, debug=debug, profile=profile)
 
     def test_is_valid(self):
         test_params = [
@@ -153,7 +164,7 @@ SELECT ?mol ?molLabel ?InChIKey ?CAS ?ChemSpider ?PubChem_CID WITH {
 }
         """
         expected_query = """
-SELECT ?mol ?molLabel ?InChIKey ?CAS ?ChemSpider ?PubChem_CID 
+SELECT ?mol ?molLabel ?InChIKey ?CAS ?ChemSpider ?PubChem_CID
 WHERE
 {
   {  SELECT ?mol ?InChIKey WHERE {
@@ -226,11 +237,11 @@ ASK {
 #title: Variants of author name strings
 PREFIX target: <http://www.wikidata.org/entity/{{ q }}>
 
-SELECT 
+SELECT
   (COUNT(?work) AS ?count)
   ?string
-  (CONCAT("https://author-disambiguator.toolforge.org/names_oauth.php?doit=Look+for+author&name=", 
-        ENCODE_FOR_URI(?string)) AS ?author_resolver_url) 
+  (CONCAT("https://author-disambiguator.toolforge.org/names_oauth.php?doit=Look+for+author&name=",
+        ENCODE_FOR_URI(?string)) AS ?author_resolver_url)
 WITH
 {
   # Find strings associated with the target author
@@ -242,7 +253,7 @@ WITH
     { target: skos:altLabel ?string_. } # in alias
     UNION
     {
-      ?author_statement ps:P50 target: ; 
+      ?author_statement ps:P50 target: ;
                         pq:P1932 ?string_. # in "stated as" strings for "author" statements on work items
     }
   }
@@ -346,7 +357,3 @@ ORDER BY DESC (?count)
                 else:
                     params["Has no parameter"] += 1
         pprint.pprint(params)
-
-
-if __name__ == "__main__":
-    unittest.main()

@@ -4,7 +4,7 @@ Created on 2024-06-27
 @author: wf
 """
 
-from ngwidgets.basetest import Basetest
+from basemkit.basetest import Basetest
 
 from snapquery.graph import Graph, GraphManager
 
@@ -28,7 +28,7 @@ class TestGraph(Basetest):
         yaml_path = "/tmp/graphs.yaml"
         manager.save_to_yaml_file(yaml_path)
         yaml_path = GraphManager.get_yaml_path()
-        manager = GraphManager.load_from_yaml_file(yaml_path)
+        manager = GraphManager.load_from_yaml_file(yaml_path)  # @UndefinedVariable
         self.assertTrue("wikidata" in manager.graphs)
         for graph in manager:
             loaded_graph = manager.get_graph(graph.name)

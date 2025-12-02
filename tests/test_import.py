@@ -6,7 +6,7 @@ Created on 2024-05-05
 
 import json
 
-from ngwidgets.basetest import Basetest
+from basemkit.basetest import Basetest
 
 from snapquery.qimport import QueryImport
 from snapquery.wd_short_url import ShortUrl

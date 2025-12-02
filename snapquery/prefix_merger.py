@@ -5,9 +5,14 @@ Created 2024
 
 Move to separate module in 2025-12-01 by wf
 """
+
+import logging
 from enum import Enum
 
-from lodstorage.query import Query, Endpoint
+from lodstorage.prefix_config import PrefixConfigs
+from lodstorage.prefixes import Prefixes
+from lodstorage.query import Endpoint, Query
+
 from snapquery.sparql_analyzer import SparqlAnalyzer
 
 
@@ -22,11 +27,14 @@ class QueryPrefixMerger(Enum):
 
     @classmethod
     def _missing_(cls, key):
-        return cls.default_merger()
+        logging.warning(f"Invalid QueryPrefixMerger key: {key}, defaulting to SIMPLE_MERGER")
+        merger = cls.default_merger()
+        return merger
 
     @classmethod
     def default_merger(cls) -> "QueryPrefixMerger":
-        return cls.SIMPLE_MERGER
+        merger = cls.SIMPLE_MERGER
+        return merger
 
     @classmethod
     def get_by_name(cls, name: str) -> "QueryPrefixMerger":
@@ -52,12 +60,12 @@ class QueryPrefixMerger(Enum):
         Returns:
             merged query
         """
+        sparql_query = query.query
         if merger == QueryPrefixMerger.SIMPLE_MERGER:
-            return cls.simple_prefix_merger(query.query, endpoint)
+            sparql_query = cls.simple_prefix_merger(sparql_query, endpoint)
         elif merger == QueryPrefixMerger.ANALYSIS_MERGER:
-            return cls.analysis_prefix_merger(query.query)
-        else:
-            return query.query
+            sparql_query = cls.analysis_prefix_merger(sparql_query)
+        return sparql_query
 
     @classmethod
     def simple_prefix_merger(cls, query_str: str, endpoint: Endpoint) -> str:
@@ -70,10 +78,11 @@ class QueryPrefixMerger(Enum):
         Returns:
             merged query
         """
-        prefixes = endpoint.prefixes if hasattr(endpoint, "prefixes") else None
-        merged_query = query_str
-        if prefixes:
-            merged_query = f"{prefixes}\n{merged_query}"
+        prefixes_str = endpoint.get_prefixes(PrefixConfigs.get_instance())
+        if not prefixes_str.strip():
+            return
+
+        merged_query = Prefixes.merge_prefixes(query_str, prefixes_str)
         return merged_query
 
     @classmethod

@@ -9,7 +9,7 @@ import json
 import unittest
 from io import StringIO
 
-from ngwidgets.basetest import Basetest
+from basemkit.basetest import Basetest
 
 from snapquery import snapquery_cmd
 

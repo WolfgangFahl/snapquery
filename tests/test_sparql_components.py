@@ -1,3 +1,9 @@
+"""
+Created on 2024-05-04
+
+@author: tholzheim
+"""
+
 import unittest
 
 from basemkit.basetest import Basetest
@@ -9,6 +15,9 @@ class TestSPARQLLanguage(Basetest):
     """
     test SPARQLLanguage class
     """
+
+    def setUp(self, debug=False, profile=True):
+        Basetest.setUp(self, debug=debug, profile=profile)
 
     def test_get_keyword_wd_entity(self):
         sparql_language = SPARQLLanguage.load_sparql_language()

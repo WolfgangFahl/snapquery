@@ -6,7 +6,7 @@ Created on 2024-05-12
 
 import unittest
 
-from ngwidgets.basetest import Basetest
+from basemkit.basetest import Basetest
 
 from snapquery.wd_short_url import ShortUrl
 

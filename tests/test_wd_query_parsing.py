@@ -18,7 +18,7 @@ class TestWikidataQueryParsing(Basetest):
     Wiki pages (both via Short URL resolution and direct template parsing).
     """
 
-    def setUp(self, debug=True, profile=True):
+    def setUp(self, debug=False, profile=True):
         """
         Set up the test environment.
         Initializes a temporary NamedQueryManager and two extractor instances:

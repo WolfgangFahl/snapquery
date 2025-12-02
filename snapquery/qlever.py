@@ -30,12 +30,11 @@ class QLeverUrl(ShortUrl):
         Returns:
             str: The SPARQL query extracted from the short URL.
         """
-        self.fetch_final_url()
+        self.fetch_final_url(self.short_url)
         if self.url:
             try:
-                response = requests.get(self.url)
-                response.raise_for_status()
-                soup = BeautifulSoup(response.content, "html.parser")
+                text=self.get_wikitext(self.url)
+                soup = BeautifulSoup(text, "html.parser")
                 query_element = soup.find("textarea", {"id": "query"})
                 if query_element and query_element.text:
                     self.sparql = query_element.text.strip()

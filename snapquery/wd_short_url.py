@@ -6,12 +6,12 @@ Created on 2024-05-12
 
 import json
 import random
+from typing import Optional, Set
 import urllib.parse
 
-import requests
 from ngwidgets.llm import LLM
 from ratelimit import limits, sleep_and_retry
-
+import requests
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager, NamedQuerySet
 from snapquery.version import Version
 
@@ -56,16 +56,87 @@ class ShortIds:
         short_id = "".join(random.choices(self.base_chars, k=k))
         return short_id
 
+class Wikidata:
+    """
+    Handles rate-limited access to Wikidata and Wikimedia projects,
+    managing User-Agents and HTTP requests.
 
-class ShortUrl:
+    """
+    # Rate limiting constants
+    # see https://stackoverflow.com/questions/62396801/how-to-handle-too-many-requests-on-wikidata-using-sparqlwrapper
+    CALLS_PER_MINUTE = 30
+    ONE_MINUTE = 60
+
+    def __init__(self):
+        """
+        Constructor.
+        """
+        self.user_agent = self.get_user_agent()
+        self.url = None
+        self.error = None
+
+
+    @classmethod
+    def get_user_agent(cls) -> str:
+        """
+        Constructs a User-Agent string compliant with Wikimedia policy.
+        """
+        version = Version()
+        user_agent= f"{version.name}/{version.version} ({version.cm_url}; {version.authors}) Python-requests/{requests.__version__}"
+        return user_agent
+
+    @sleep_and_retry
+    @limits(calls=CALLS_PER_MINUTE, period=ONE_MINUTE)
+    def fetch_final_url(self, url: str) -> str:
+        """
+        Follow the redirection to get the final URL with rate limiting.
+
+        Args:
+            url (str): The initial URL to fetch.
+
+        Returns:
+            str: The final URL after redirection.
+        """
+        try:
+            headers = {"User-Agent": self.user_agent}
+            response = requests.get(url, headers=headers, allow_redirects=True)
+            response.raise_for_status()
+            self.url = response.url
+        except Exception as ex:
+            self.error = ex
+        return self.url
+
+    @sleep_and_retry
+    @limits(calls=CALLS_PER_MINUTE, period=ONE_MINUTE)
+    def get_wikitext(self,url) -> str:
+        """
+        Get raw wiki text from the configured base_url.
+
+        Args:
+            url (str): The url to fetch.
+
+        Returns:
+            str: Raw wikitext of the page.
+
+        """
+        headers = {"User-Agent": self.user_agent}
+        # Append ?action=raw to fetch source text
+        fetch_url = f"{url}?action=raw"
+
+        try:
+            res = requests.get(fetch_url, headers=headers)
+            res.raise_for_status()
+            return res.text
+        except Exception as ex:
+            self.error = ex
+            raise ex
+
+
+class ShortUrl(Wikidata):
     """
     Handles operations related to wikidata and similar short URLs such as QLever.
     see https://meta.wikimedia.org/wiki/Wikimedia_URL_Shortener for
     """
-
-    # see https://stackoverflow.com/questions/62396801/how-to-handle-too-many-requests-on-wikidata-using-sparqlwrapper
-    CALLS_PER_MINUTE = 30
-    ONE_MINUTE = 60
 
     def __init__(self, short_url: str, scheme: str = "https", netloc: str = "query.wikidata.org"):
         """
@@ -76,19 +147,11 @@ class ShortUrl:
             scheme (str): URL scheme to be used (e.g., 'https' or 'http') for validating URL format.
             netloc (str): Network location part of the URL, typically the domain name, to be used for validating URL format.
         """
-
+        super().__init__()
         self.short_url = short_url
         self.scheme = scheme
         self.netloc = netloc
-        self.url = None
         self.sparql = None
-        self.error = None
-        self.user_agent = self.get_user_agent()
-
-    @staticmethod
-    def get_user_agent():
-        version = Version()
-        return f"{version.name}/{version.version} ({version.cm_url}; {version.authors}) Python-requests/{requests.__version__}"
 
     @property
     def name(self):
@@ -123,7 +186,7 @@ SPARQL: {sparql}
 """
         return prompt_text
 
-    def ask_llm_for_name_and_title(self, llm: LLM, nq: NamedQuery, unique_names) -> NamedQuery:
+    def ask_llm_for_name_and_title(self, llm: LLM, nq: NamedQuery, unique_names: Set[str]) -> Optional[NamedQuery]:
         """
         add name, title and description to ghe given query by
         asking a large language model
@@ -217,7 +280,7 @@ SPARQL: {sparql}
                         # try again with a different url to avoid name clash
                         if llm_nq is None:
                             give_up -= 1
-                        continue
+                            continue
                     except Exception as ex:
                         if debug:
                             print(f"Failed to get LLM response: {str(ex)}")
@@ -231,23 +294,6 @@ SPARQL: {sparql}
                 give_up -= 1
         return nq_set
 
-    @sleep_and_retry
-    @limits(calls=CALLS_PER_MINUTE, period=ONE_MINUTE)
-    def fetch_final_url(self):
-        """
-        Follow the redirection to get the final URL with rate limiting.
-
-        Returns:
-            str: The final URL after redirection.
-        """
-        try:
-            headers = {"User-Agent": self.user_agent}
-            response = requests.get(self.short_url, headers=headers, allow_redirects=True)
-            response.raise_for_status()
-            self.url = response.url
-        except Exception as ex:
-            self.error = ex
-        return self.url
 
     def read_query(self) -> str:
         """
@@ -256,7 +302,7 @@ SPARQL: {sparql}
         Returns:
             str: The SPARQL query extracted from the short URL.
         """
-        self.fetch_final_url()
+        self.fetch_final_url(self.short_url)
         if self.url:
             parsed_url = urllib.parse.urlparse(self.url)
             if parsed_url.scheme == self.scheme and parsed_url.netloc == self.netloc:

@@ -6,8 +6,11 @@ sparql examples
 
 @author wf
 """
+import unittest
+
 from basemkit.basetest import Basetest
 from rdflib import Graph
+
 
 class TestSibExamples(Basetest):
     """
@@ -21,6 +24,8 @@ class TestSibExamples(Basetest):
     def setUp(self, debug=False, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
 
+
+    @unittest.skip("needs github clone to work -postpone")
     def testBgee(self):
         """
         test a single example

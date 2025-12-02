@@ -87,6 +87,8 @@ endpoints:
     prefix_sets:
       - rdf
       - dblp
+      - datacite
+      - litre
 
   gov:
     description: GOV Genealogy (stable).

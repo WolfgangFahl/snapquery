@@ -18,7 +18,7 @@ class TestScholia(Basetest):
     test scholia queries
     """
 
-    def setUp(self, debug=False, profile=True):
+    def setUp(self, debug=True, profile=True):
         Basetest.setUp(self, debug=debug, profile=profile)
 
     @unittest.skipIf(Basetest.inPublicCI(), "avoid github rate limit")

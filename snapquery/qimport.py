@@ -5,7 +5,6 @@ Created on 2024-05-05
 """
 
 import glob
-import json
 import os
 
 from tqdm import tqdm
@@ -63,7 +62,7 @@ class QueryImport:
         Returns:
             NamedQuerySet: A NamedQuerySet object containing the imported NamedQuery objects.
         """
-        nq_set = NamedQuerySet.load_from_json_file(json_file)
+        nq_set = NamedQuerySet.load_from_json_file(json_file) # @UndefinedVariable
         iterable = (
             tqdm(
                 nq_set.queries,

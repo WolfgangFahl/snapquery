@@ -7,14 +7,12 @@ Created on 2024-05-04
 import requests
 
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager, NamedQuerySet
-
+from snapquery.github_access import GitHub
 
 class ScholiaQueries:
     """
     A class to handle the extraction and management of Scholia queries.
     """
-
-    repository_url = "https://api.github.com/repos/WDscholia/scholia/contents/scholia/app/templates"
 
     def __init__(self, nqm: NamedQueryManager, debug: bool = False):
         """
@@ -30,6 +28,7 @@ class ScholiaQueries:
             namespace="named_queries",
             target_graph_name="wikidata",
         )
+        self.github = GitHub(owner="WDscholia", repo="scholia")
         self.debug = debug
 
     def get_scholia_file_list(self):
@@ -39,10 +38,8 @@ class ScholiaQueries:
         Returns:
             list: List of dictionaries representing file information.
         """
-        headers = {"Accept": "application/vnd.github.v3+json"}
-        response = requests.get(self.repository_url, headers=headers)
-        response.raise_for_status()  # Ensure we notice bad responses
-        return response.json()
+        file_list_lod=self.github.get_contents("scholia/app/templates")
+        return file_list_lod
 
     def extract_query(self, file_info) -> NamedQuery:
         """
@@ -60,7 +57,7 @@ class ScholiaQueries:
             file_response.raise_for_status()
             query_str = file_response.text
             name = file_name[:-7]
-            return NamedQuery(
+            named_query=NamedQuery(
                 domain=self.named_query_set.domain,
                 namespace=self.named_query_set.namespace,
                 name=name,
@@ -70,6 +67,7 @@ class ScholiaQueries:
                 comment="",
                 sparql=query_str,
             )
+            return named_query
 
     def extract_queries(self, limit: int = None):
         """

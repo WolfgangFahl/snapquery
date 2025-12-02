@@ -3,7 +3,7 @@ Created on 2024-05-03
 
 @author: wf
 """
-
+from tqdm import tqdm
 import logging
 import sys
 from argparse import ArgumentParser
@@ -88,6 +88,12 @@ class SnapQueryCmd(WebserverCmd):
             help="query parameters as Key-value pairs in the format key1=value1,key2=value2",
         )
         parser.add_argument(
+            "--progress",
+            action="store_true",
+            help="show progress bars when testing queries (--testQueries)",
+        )
+
+        parser.add_argument(
             "--domain",
             type=str,
             default="wikidata.org",
@@ -144,6 +150,56 @@ class SnapQueryCmd(WebserverCmd):
             self.args.func(self.args)
         return self.args
 
+    def handle_test_queries(self):
+        """
+        Handle the --testQueries option by executing queries against endpoints.
+        The endpoint is the outer loop, queries are the inner loop.
+        """
+        # Determine which endpoints to use
+        if self.args.endpointName:
+            endpoint_names = [self.args.endpointName]
+        else:
+            endpoint_names = list(self.nqm.endpoints.keys())
+
+        # Get all queries to test
+        queries = self.nqm.get_all_queries(domain=self.args.domain, namespace=self.args.namespace)
+
+        # Create execution instance
+        execution = Execution(self.nqm, debug=self.args.debug)
+
+        # Outer loop: endpoints
+        endpoint_iter = tqdm(endpoint_names, desc="Testing endpoints") if self.args.progress else endpoint_names
+        for endpoint_name in endpoint_iter:
+            # Inner loop: queries
+            query_iter = tqdm(queries, desc=f"Queries for {endpoint_name}", leave=False) if self.args.progress else queries
+            for i, nq in enumerate(query_iter, start=1):
+                execution.execute(
+                    nq,
+                    endpoint_name=endpoint_name,
+                    context=self.args.context,
+                    title=f"{endpoint_name}::query {i:3}/{len(queries)}",
+                    prefix_merger=QueryPrefixMerger.get_by_name(self.args.prefix_merger),
+                )
+
+    def handle_test_queries_no_progress_version(self):
+        if self.args.endpointName:
+            endpoint_names = [self.args.endpointName]
+        else:
+            endpoint_names = list(self.nqm.endpoints.keys())
+        queries = self.nqm.get_all_queries(domain=self.args.domain, namespace=self.args.namespace)
+        execution = Execution(self.nqm, debug=self.args.debug)
+        query_iter = tqdm(queries, desc="Testing queries") if self.args.progress else queries
+        for i, nq in enumerate(query_iter, start=1):
+            for endpoint_name in endpoint_names:
+                execution.execute(
+                    nq,
+                    endpoint_name=endpoint_name,
+                    context=self.args.context,
+                    title=f"query {i:3}/{len(queries)}::{endpoint_name}",
+                    prefix_merger=QueryPrefixMerger.get_by_name(self.args.prefix_merger),
+                )
+
+
     def handle_args(self, args) -> bool:
         """
         handle the command line args
@@ -174,21 +230,8 @@ class SnapQueryCmd(WebserverCmd):
                 print(f"{namespace}:{count}")
             handled = True
         elif self.args.testQueries:
-            if self.args.endpointName:
-                endpoint_names = [self.args.endpointName]
-            else:
-                endpoint_names = list(nqm.endpoints.keys())
-            queries = self.nqm.get_all_queries(domain=self.args.domain, namespace=self.args.namespace)
-            execution = Execution(self.nqm, debug=self.args.debug)
-            for i, nq in enumerate(queries, start=1):
-                for endpoint_name in endpoint_names:
-                    execution.execute(
-                        nq,
-                        endpoint_name=endpoint_name,
-                        context=self.args.context,
-                        title=f"query {i:3}/{len(queries)}::{endpoint_name}",
-                        prefix_merger=QueryPrefixMerger.get_by_name(self.args.prefix_merger),
-                    )
+            self.handle_test_queries()
+            handled = True
         elif self.args.queryName is not None or self.args.query_id is not None:
             if self.args.query_id is not None:
                 query_name = QueryName.from_query_id(self.args.query_id)

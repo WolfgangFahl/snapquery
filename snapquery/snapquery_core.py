@@ -728,7 +728,7 @@ class NamedQueryManager:
             for source_class, pk in [
                 (NamedQuery, "query_id"),
                 (QueryStats, "stats_id"),
-                (QueryDetails, "quer_id"),
+                (QueryDetails, "query_id"),
             ]:
                 # Fetch sample records from the specified class
                 sample_records = cls.get_sample_records(source_class=source_class)

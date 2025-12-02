@@ -76,6 +76,31 @@ endpoints:
       - blazegraph
       - commons
 
+  wikidata-qlever:
+    description: QLever Freiburg Wikidata.
+    lang: sparql
+    method: POST
+    database: qlever
+    endpoint: https://qlever.dev/api/wikidata
+    website: https://qlever.dev/wikidata
+    calls_per_minute: 60
+    prefix_sets:
+      - rdf
+      - wikidata
+      - commons
+
+  wikidata-qlever-dbis:
+    description: QLever RWTH Wikidata.
+    lang: sparql
+    method: POST
+    database: qlever
+    endpoint: https://qlever-api.wikidata.dbis.rwth-aachen.de/
+    website: https://qlever.wikidata.dbis.rwth-aachen.de/wikidata
+    calls_per_minute: 60
+    prefix_sets:
+      - rdf
+      - wikidata
+
   dblp:
     description: DBLP official (qlever - reliable).
     lang: sparql

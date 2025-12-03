@@ -1,23 +1,27 @@
 # snapQuery
-Just query wikidata by name of query ...
+Just query by name of query ...
 <pre>snapquery cats</pre> is all you need
 
-This endpoint and query detail independent style of querying wikidata and ther SPARQL services
-makes your queries future proof. No worries about blazegraph being replaced, the graph being split or timeouts haunting you. snapquery introduces named queries and named query middleware to wikidata and other SPARQL endpoints
+This endpoint and query detail independent style of querying wikidata and similar knowledge graph services
+makes your queries future proof. No worries about blazegraph being replaced, the graph being split or timeouts haunting you.
+snapquery introduces named queries and named query middleware to wikidata and other knowledge graph endpoints.
 
-snapquery is a tool that simplifies the process of previewing, annotating, rating, commenting, running, and exploring Wikidata
-queries across different SPARQL backends. It enhances user experience by storing query results and allowing easy
+snapquery is a tool that simplifies the process of previewing, annotating, rating, commenting, running, and exploring
+queries across different backends. It enhances user experience by storing query results and allowing easy
 comparison across various backends and over time.
 
 This tool is designed to assist users in curating and collaborating on queries, ensuring their continued functionality
 over time. Developers and data consumers can access data conveniently through APIs, streamlining their workflow.
 
+The technology behind the backend knowlede graphs such as RDF, SPARQL, SQL, CSV, APIs is hidden.
+
+
 | | |
-  | :--- | :--- |
-  | **PyPi** | [![PyPI Status](https://img.shields.io/pypi/v/snapquery.svg)](https://pypi.python.org/pypi/snapquery/) [![License](https://img.shields.io/github/license/WolfgangFahl/snapquery.svg)](https://www.apache.org/licenses/LICENSE-2.0) [![pypi](https://img.shields.io/pypi/pyversions/snapquery)](https://pypi.org/project/snapquery/) [![format](https://img.shields.io/pypi/format/snapquery)](https://pypi.org/project/snapquery/) [![downloads](https://img.shields.io/pypi/dd/snapquery)](https://pypi.org/project/snapquery/) |
-  | **GitHub** | [![Github Actions Build](https://github.com/WolfgangFahl/snapquery/actions/workflows/build.yml/badge.svg)](https://github.com/WolfgangFahl/snapquery/actions/workflows/build.yml) [![Release](https://img.shields.io/github/v/release/WolfgangFahl/snapquery)](https://github.com/WolfgangFahl/snapquery/releases) [![Contributors](https://img.shields.io/github/contributors/WolfgangFahl/snapquery)](https://github.com/WolfgangFahl/snapquery/graphs/contributors) [![Last Commit](https://img.shields.io/github/last-commit/WolfgangFahl/snapquery)](https://github.com/WolfgangFahl/snapquery/commits/) [![GitHub issues](https://img.shields.io/github/issues/WolfgangFahl/snapquery.svg)](https://github.com/WolfgangFahl/snapquery/issues) [![GitHub closed issues](https://img.shields.io/github/issues-closed/WolfgangFahl/snapquery.svg)](https://github.com/WolfgangFahl/snapquery/issues/?q=is%3Aissue+is%3Aclosed) |
-  | **Code** | [![style-black](https://img.shields.io/badge/%20style-black-000000.svg)](https://github.com/psf/black) [![imports-isort](https://img.shields.io/badge/%20imports-isort-%231674b1)](https://pycqa.github.io/isort/) |
-  | **Docs** | [![API Docs](https://img.shields.io/badge/API-Documentation-blue)](https://WolfgangFahl.github.io/snapquery/) [![formatter-docformatter](https://img.shields.io/badge/%20formatter-docformatter-fedcba.svg)](https://github.com/PyCQA/docformatter) [![style-google](https://img.shields.io/badge/%20style-google-3666d6.svg)](https://google.github.io/styleguide/pyguide.html#s3.8-comments-and-docstrings) |
+| :--- | :--- |
+| **PyPi** | [![PyPI Status](https://img.shields.io/pypi/v/snapquery.svg)](https://pypi.python.org/pypi/snapquery/) [![License](https://img.shields.io/github/license/WolfgangFahl/snapquery.svg)](https://www.apache.org/licenses/LICENSE-2.0) [![pypi](https://img.shields.io/pypi/pyversions/snapquery)](https://pypi.org/project/snapquery/) [![format](https://img.shields.io/pypi/format/snapquery)](https://pypi.org/project/snapquery/) [![downloads](https://img.shields.io/pypi/dd/snapquery)](https://pypi.org/project/snapquery/) |
+| **GitHub** | [![Github Actions Build](https://github.com/WolfgangFahl/snapquery/actions/workflows/build.yml/badge.svg)](https://github.com/WolfgangFahl/snapquery/actions/workflows/build.yml) [![Release](https://img.shields.io/github/v/release/WolfgangFahl/snapquery)](https://github.com/WolfgangFahl/snapquery/releases) [![Contributors](https://img.shields.io/github/contributors/WolfgangFahl/snapquery)](https://github.com/WolfgangFahl/snapquery/graphs/contributors) [![Last Commit](https://img.shields.io/github/last-commit/WolfgangFahl/snapquery)](https://github.com/WolfgangFahl/snapquery/commits/) [![GitHub issues](https://img.shields.io/github/issues/WolfgangFahl/snapquery.svg)](https://github.com/WolfgangFahl/snapquery/issues) [![GitHub closed issues](https://img.shields.io/github/issues-closed/WolfgangFahl/snapquery.svg)](https://github.com/WolfgangFahl/snapquery/issues/?q=is%3Aissue+is%3Aclosed) |
+| **Code** | [![style-black](https://img.shields.io/badge/%20style-black-000000.svg)](https://github.com/psf/black) [![imports-isort](https://img.shields.io/badge/%20imports-isort-%231674b1)](https://pycqa.github.io/isort/) |
+| **Docs** | [![API Docs](https://img.shields.io/badge/API-Documentation-blue)](https://WolfgangFahl.github.io/snapquery/) [![formatter-docformatter](https://img.shields.io/badge/%20formatter-docformatter-fedcba.svg)](https://github.com/PyCQA/docformatter) [![style-google](https://img.shields.io/badge/%20style-google-3666d6.svg)](https://google.github.io/styleguide/pyguide.html#s3.8-comments-and-docstrings) |
 [![DOI](https://zenodo.org/badge/795424154.svg)](https://doi.org/10.5281/zenodo.17802424)
 [![Join the discussion at https://github.com/WolfgangFahl/snapquery/discussions](https://img.shields.io/github/discussions/WolfgangFahl/snapquery)](https://github.com/WolfgangFahl/snapquery/discussions)
 ## Demos
@@ -76,25 +80,25 @@ These are the planned features
 
 * support for naming queries ([#9][i9]) ✅
 * support for sharing queries (unique identifier) ([#2][i2]) ✅
-* query multiple backends simultaneously and repeatedly
-* stores queries and adaptations needed for different backends
-* support user login
+* query multiple backends simultaneously and repeatedly ✅
+* stores queries and adaptations needed for different backends ✅
+* support user login ✅
 * support for spam protection
 * support for rating queries
 * support for commenting on queries
-* support for detecting when a query returns different results between different backends
-* support for query states: reliable, needs investigation, need verification
+* support for detecting when a query returns different results between different backends ✅
+* support for query states: reliable, needs investigation, need verification ✅
 * support for autodetecting when a query returns fewer results than before (change in underlying data/model in
   Wikidata) -> needs investigation
 * support for marking queries as reliable query by users
-* support for seeing a state history per query
+* support for seeing a state history per query ✅
 * support for storing query results so you don’t have to wait
 * support for adding metadata to queries
     * add main subject (QID) to query
     * author -> id of author in the system
     * forked from x
 * has REST API for data consumers e.g. LLM developers who want to present user-verified queries and data to users to
-  increase reliability
+  increase reliability ✅
 
 ## User stories
 
@@ -148,19 +152,11 @@ These are the planned features
 
 [i10]: https://github.com/WolfgangFahl/snapquery/issues/10
 [i9]: https://github.com/WolfgangFahl/snapquery/issues/9
-
 [i8]: https://github.com/WolfgangFahl/snapquery/issues/8
-
 [i7]: https://github.com/WolfgangFahl/snapquery/issues/7
-
 [i6]: https://github.com/WolfgangFahl/snapquery/issues/6
-
 [i5]: https://github.com/WolfgangFahl/snapquery/issues/5
-
 [i4]: https://github.com/WolfgangFahl/snapquery/issues/4
-
 [i3]: https://github.com/WolfgangFahl/snapquery/issues/3
-
 [i2]: https://github.com/WolfgangFahl/snapquery/issues/2
-
 [i1]: https://github.com/WolfgangFahl/snapquery/issues/1

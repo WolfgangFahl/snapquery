@@ -89,6 +89,18 @@ endpoints:
       - wikidata
       - commons
 
+  wikidata-triply:
+    description: TriplyDB mirror.
+    lang: sparql
+    method: POST
+    database: TriplyDB
+    endpoint: https://api.triplydb.com/datasets/wikimedia/wikidata/sparql
+    website: https://triplydb.com/wikimedia/wikidata/sparql
+    calls_per_minute: 30
+    prefix_sets:
+      - rdf
+      - wikidata
+
   wikidata-qlever-dbis:
     description: QLever RWTH Wikidata.
     lang: sparql

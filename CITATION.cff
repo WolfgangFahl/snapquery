@@ -1,0 +1,49 @@
+# CITATION.cff for https://github.com/WolfgangFahl/snapquery
+# This CITATION.cff file was initially generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+cff-version: 1.2.0
+title: SnapQuery
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Wolfgang
+    family-names: Fahl
+    affiliation: BITPlan GmbH
+    orcid: 'https://orcid.org/0000-0002-0821-6995'
+  - given-names: Tim
+    family-names: Holzheim
+    orcid: 'https://orcid.org/0000-0003-2533-6363'
+  - given-names: "Charles Tapley"
+    family-names: Hoyt
+    orcid: 'https://orcid.org/0000-0003-4423-4370'
+  - given-names: Dennis
+    family-names: Priskorn
+    orcid: 'https://orcid.org/0000-0002-7669-8498'
+  - given-names: Egon
+    family-names: Willighagen
+    orcid: 'https://orcid.org/0000-0001-7542-0286'
+#  - given-names: Wouter
+#    family-names: Beek
+#    orcid: 'https://orcid.org/0000-0003-0250-9655'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.17802425
+repository-code: 'https://github.com/WolfgangFahl/snapquery'
+url: 'https://snapquery.bitplan.com'
+abstract: >-
+  FAIR Management of Query Sets to Mitigate Query Rot in
+  Knowledge Graphs
+keywords:
+  - SPARQL
+  - Query Rot
+  - Knowledge Graph Management
+  - Benchmarking
+  - Refactoring
+  - Middleware
+  - Query Set
+  - FAIR
+license: Apache-2.0
+version: v0.2.2
+date-released: '2025-12-03'

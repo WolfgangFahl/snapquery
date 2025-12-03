@@ -14,7 +14,7 @@ run_snapquery() {
     local log_dir="/tmp/query_test_log"
     mkdir -p "$log_dir"
     local log="${log_dir}/${endpoint}-${sanitized_namespace}@${domain}.log"
-    local command="snapquery -d -tq -en '$endpoint' --context 'cmd_line_tests' --domain '$domain' --namespace '$namespace'"
+    local command="snapquery -d -tq --progress -en '$endpoint' --context 'cmd_line_tests' --domain '$domain' --namespace '$namespace'"
     echo "Running $command..."
     nohup bash -c "$command" 2>&1 > "$log"  &
     echo "... logged at $log"
@@ -24,26 +24,45 @@ run_snapquery() {
 select_endpoints() {
     local domain="$1"
     local namespace="$2"
-    local dblp_endpoints="dblp dblp-qlever dblp-trier"
+    
     case "$domain" in
         dblp.org)
-            echo "$dblp_endpoints"
+            echo "dblp"
             ;;
         orkg.org)
-            echo "orkg"
+            echo "wikidata"  # ORKG data might work with Wikidata endpoints
+            ;;
+        wikidata.org)
+            echo "wikidata wikidata-main wikidata-scholarly wikidata-dbis wikidata-qlever"
+            ;;
+        ceur-ws.org)
+            echo "wikidata"  # CEUR-WS queries likely target Wikidata
+            ;;
+        scholia.toolforge.org)
+            echo "wikidata wikidata-scholarly"  # Scholia is Wikidata-focused
             ;;
         bitplan.com)
-            echo "wikidata wikidata-scatter"
+            echo "wikidata wikidata-qlever"
+            ;;
+        qlever.cs.uni-freiburg.de)
+            case "$namespace" in
+                performance-dblp)
+                    echo "dblp"
+                    ;;
+                issues.wikidata)
+                    echo "wikidata-qlever wikidata-qlever-dbis"
+                    ;;
+                *)
+                    echo "wikidata-qlever wikidata-qlever-dbis"
+                    ;;
+            esac
+            ;;
+        genealogy.net)
+            echo "gov"
             ;;
         *)
-            case $namespace in
-              qlever.cs.uni-freiburg.de)
-                echo "$dblp_endpoints"
-                ;;
-              *)
-                echo "wikidata wikidata-qlever wikidata-triply wikidata-openlinksw wikidata-scatter"
-                ;;
-              esac
+            # Default fallback - use basic Wikidata endpoints
+            echo "wikidata"
             ;;
     esac
 }
@@ -59,6 +78,50 @@ execute_queries() {
     done
 }
 
+# Function to check if an endpoint is available
+check_endpoint() {
+    local endpoint="$1"
+    local available_endpoints=$(snapquery -le | cut -d':' -f1)
+    if echo "$available_endpoints" | grep -q "^$endpoint$"; then
+        return 0
+    else
+        return 1
+    fi
+}
+
+# Function to filter available endpoints
+filter_available_endpoints() {
+    local endpoints="$1"
+    local available=""
+    IFS=' ' read -ra endpoint_array <<< "$endpoints"
+    for endpoint in "${endpoint_array[@]}"; do
+        if check_endpoint "$endpoint"; then
+            available="$available $endpoint"
+        else
+            echo "Warning: Endpoint '$endpoint' not available, skipping..."
+        fi
+    done
+    echo "$available" | sed 's/^ *//'  # Remove leading space
+}
+
+# Enhanced execute_queries function with endpoint validation
+execute_queries_safe() {
+    local domain="$1"
+    local namespace="$2"
+    local selected_endpoints=$(select_endpoints "$domain" "$namespace")
+    local available_endpoints=$(filter_available_endpoints "$selected_endpoints")
+    
+    if [ -z "$available_endpoints" ]; then
+        echo "No available endpoints for $domain/$namespace"
+        return 1
+    fi
+    
+    IFS=' ' read -ra endpoint_array <<< "$available_endpoints"
+    for endpoint in "${endpoint_array[@]}"; do
+        run_snapquery "$domain" "$namespace" "$endpoint"
+    done
+}
+
 # Main function to process namespace data
 process_namespace_data() {
     local namespace_data=$(snapquery -ln) # Fetch namespaces and their totals dynamically
@@ -67,9 +130,85 @@ process_namespace_data() {
         local namespace="${full_namespace%%@*}"
         local domain="${full_namespace#*@}"
         echo "Processing $domain/$namespace with total entries $count"
-        execute_queries "$domain" "$namespace"
+        execute_queries_safe "$domain" "$namespace"
     done <<< "$namespace_data"
 }
 
-# Run the main function
-process_namespace_data
+# Function to show available endpoints
+show_available_endpoints() {
+    echo "Available endpoints:"
+    snapquery -le | while IFS=':' read -r name url sparql_url method; do
+        echo "  $name: $url -> $sparql_url ($method)"
+    done
+}
+
+# Function to show usage
+show_usage() {
+    cat << EOF
+Usage: $0 [OPTIONS]
+
+Options:
+  -h, --help          Show this help message
+  -e, --endpoints     Show available endpoints
+  -d, --dry-run      Show what would be executed without running
+  -n, --namespace NS  Process only specific namespace
+  
+Examples:
+  $0                           # Process all namespaces
+  $0 -e                        # Show available endpoints
+  $0 -n examples@wikidata.org  # Process only specific namespace
+EOF
+}
+
+# Parse command line arguments
+DRY_RUN=false
+SPECIFIC_NAMESPACE=""
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -h|--help)
+            show_usage
+            exit 0
+            ;;
+        -e|--endpoints)
+            show_available_endpoints
+            exit 0
+            ;;
+        -d|--dry-run)
+            DRY_RUN=true
+            shift
+            ;;
+        -n|--namespace)
+            SPECIFIC_NAMESPACE="$2"
+            shift 2
+            ;;
+        *)
+            echo "Unknown option: $1"
+            show_usage
+            exit 1
+            ;;
+    esac
+done
+
+# Main execution
+if [ "$DRY_RUN" = true ]; then
+    echo "DRY RUN MODE - Commands that would be executed:"
+    # Override run_snapquery for dry run
+    run_snapquery() {
+        local domain="$1"
+        local namespace="$2"
+        local endpoint="$3"
+        echo "Would run: snapquery -d -tq -en '$endpoint' --context 'cmd_line_tests' --domain '$domain' --namespace '$namespace'"
+    }
+fi
+
+if [ -n "$SPECIFIC_NAMESPACE" ]; then
+    # Process specific namespace
+    local namespace="${SPECIFIC_NAMESPACE%%@*}"
+    local domain="${SPECIFIC_NAMESPACE#*@}"
+    echo "Processing specific namespace: $domain/$namespace"
+    execute_queries_safe "$domain" "$namespace"
+else
+    # Process all namespaces
+    process_namespace_data
+fi

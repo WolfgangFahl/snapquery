@@ -253,7 +253,7 @@ class QuerySetCmd(BaseCmd):
         sib_fetcher = SibSparqlExamples(nqm, debug=debug)
         if debug:
             print(f"Fetching SIB examples (limit={limit})...")
-        loaded_queries = sib_fetcher.extract_queries(limit=limit, debug_print=debug or show_progress)
+        loaded_queries = sib_fetcher.extract_queries(limit=limit, debug_print=debug, show_progress=show_progress)
         self._output_dataset(sib_fetcher.named_query_set, args)
 
 

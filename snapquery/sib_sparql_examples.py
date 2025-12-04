@@ -13,6 +13,7 @@ import os
 from typing import Optional, List, Dict, Any, Set
 
 import rdflib
+from tqdm import tqdm
 
 from snapquery.github_access import GitHub
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager, NamedQuerySet
@@ -138,7 +139,7 @@ class SibSparqlExamples:
                 print(f"Error parsing {ttl_path}: {e}")
         return parsed_queries
 
-    def extract_queries(self, limit: Optional[int] = None, debug_print: bool = False) -> List[NamedQuery]:
+    def extract_queries(self, limit: Optional[int] = None, debug_print: bool = False, show_progress: bool = False) -> List[NamedQuery]:
         """
         Main: Fetch/parse/store all TTL → NamedQuery/DB/Set.
         """
@@ -147,7 +148,11 @@ class SibSparqlExamples:
         if limit:
             ttl_items = ttl_items[:limit]
 
-        for item in ttl_items:
+        iterator = ttl_items
+        if show_progress:
+            iterator = tqdm(ttl_items)
+
+        for item in iterator:
             if debug_print:
                 print(f"Processing {item['path']}...")
             content = self.get_ttl_content(item["download_url"])

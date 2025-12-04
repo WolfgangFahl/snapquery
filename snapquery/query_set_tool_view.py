@@ -9,12 +9,12 @@ from nicegui import background_tasks, ui
 
 from snapquery.models.person import Person
 from snapquery.person_selector import PersonSelector, PersonView
-from snapquery.qimport import QueryImport
+from snapquery.query_set_tool import QuerySetTool
 from snapquery.snapquery_core import NamedQuery
 from snapquery.wd_short_url import ShortUrl
 
 
-class QueryImportView:
+class QuerySetToolView:
     """
     display Query Import UI
     """
@@ -35,7 +35,7 @@ class QueryImportView:
         self.query = None
         self.allow_importing_from_url = self.solution.user_has_llm_right
         if self.solution:
-            self.qimport = QueryImport()
+            self.qimport = QuerySetTool()
             self.nqm = self.solution.nqm
 
     def on_select_person(self, person: Person = None):

@@ -1,0 +1,168 @@
+"""
+Created on 2025-12-04
+
+@author: wf
+"""
+from argparse import ArgumentParser, Namespace
+import sys
+
+from basemkit.base_cmd import BaseCmd
+from snapquery.query_set_tool import QuerySetTool
+from snapquery.version import Version
+
+
+class QuerySetCmdVersion(Version):
+    """Version information"""
+    name = "query-set"
+    description = "QuerySet tool"
+
+class QuerySetCmd(BaseCmd):
+    """
+    Command Line Interface for Query Set handling
+    """
+
+    def add_arguments(self, parser: ArgumentParser):
+        """
+        Add command-specific arguments.
+
+        Args:
+            parser: ArgumentParser to add arguments to
+        """
+        super().add_arguments(parser)
+        # Conversion options
+        parser.add_argument(
+            "--convert",
+            action="store_true",
+            help="Convert a NamedQuerySet",
+        )
+        parser.add_argument(
+            "-i",
+            "--input",
+            dest="input",
+            help="Input file path or URL for a NamedQuerySet (JSON or YAML).",
+        )
+        parser.add_argument(
+            "-o",
+            "--output",
+            dest="output",
+            help="Output file path. If omitted, prints to stdout.",
+        )
+        parser.add_argument(
+            "--in-format",
+            choices=["auto", "json", "yaml"],
+            default="auto",
+            help="Input format. If 'auto', inferred from extension or tried JSON then YAML.",
+        )
+        parser.add_argument(
+            "--out-format",
+            choices=["yaml", "json"],
+            default="yaml",
+            help="Output format to write.",
+        )
+        parser.add_argument(
+            "--indent",
+            type=int,
+            default=2,
+            help="JSON pretty-print indentation for --out-format json.",
+        )
+
+        # Short URL path: create a NamedQuerySet from one or more w.wiki URLs
+        parser.add_argument(
+            "--shorturl",
+            nargs="+",
+            help="One or more Wikidata short URLs (e.g., https://w.wiki/XXXX) to build a NamedQuerySet.",
+        )
+        parser.add_argument(
+            "--domain",
+            help="Domain for NamedQuery(s) (required with --shorturl).",
+        )
+        parser.add_argument(
+            "--namespace",
+            help="Namespace for NamedQuery(s) (required with --shorturl).",
+        )
+        parser.add_argument(
+            "--llm",
+            action="store_true",
+            help="Enable LLM enrichment (placeholder; not used in this snippet).",
+        )
+
+    def handle_args(self, args: Namespace) -> bool:
+        """
+        Handle parsed arguments and execute scraping.
+
+        Args:
+            args: Parsed command-line arguments
+
+        Returns:
+            True if handled (no further processing needed)
+        """
+        handled = super().handle_args(args)
+        if handled:
+            return True
+
+        if args.convert:
+            self._handle_convert(args)
+            return True
+
+        # Short URL → NamedQuerySet
+        if args.shorturl:
+            self._handle_shorturl(args)
+            return True
+
+        return False
+
+    def _handle_convert(self, args: Namespace) -> None:
+        """
+        Handle the conversion workflow delegating to QuerySetTool.
+        """
+        if not args.input:
+            raise ValueError("Missing --input for --convert")
+
+        tool = QuerySetTool()
+        nq_set = tool.load_query_set(input_src=args.input, input_format=args.in_format)
+
+        self._output_dataset(nq_set, args)
+
+    def _handle_shorturl(self, args: Namespace) -> None:
+        """
+        Handle the short URL workflow delegating to QuerySetTool.
+        """
+        if not args.domain or not args.namespace:
+            raise ValueError("--domain and --namespace are required with --shorturl")
+
+        tool = QuerySetTool()
+        nq_set = tool.get_query_set_from_short_urls(
+            short_urls=args.shorturl,
+            domain=args.domain,
+            namespace=args.namespace
+        )
+
+        self._output_dataset(nq_set, args)
+
+    def _output_dataset(self, nq_set, args: Namespace) -> None:
+        """
+        Helper to output a NamedQuerySet to file or stdout.
+        """
+        out_fmt = args.out_format
+        if args.output:
+            # Save to file
+            if out_fmt == "yaml":
+                nq_set.save_to_yaml_file(args.output)
+            else:
+                nq_set.save_to_json_file(args.output, indent=args.indent)
+        else:
+            # Print to stdout
+            if out_fmt == "yaml":
+                sys.stdout.write(nq_set.to_yaml(sort_keys=False))
+            else:
+                sys.stdout.write(nq_set.to_json(indent=args.indent))
+
+
+def main(argv=None):
+    """Main entry point."""
+    exit_code = QuerySetCmd.main(QuerySetCmdVersion(), argv)
+    return exit_code
+
+
+if __name__ == "__main__":
+    main()

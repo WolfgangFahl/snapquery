@@ -14,7 +14,7 @@ from lodstorage.query import Format
 from ngwidgets.cmd import WebserverCmd
 
 from snapquery.execution import Execution
-from snapquery.qimport import QueryImport
+from snapquery.query_set_tool import QuerySetTool
 from snapquery.snapquery_core import NamedQueryManager, QueryName, QueryPrefixMerger
 from snapquery.snapquery_webserver import SnapQueryWebServer
 
@@ -272,7 +272,7 @@ class SnapQueryCmd(WebserverCmd):
             json_file (str): Path to the JSON file to import.
         """
         nqm = NamedQueryManager.from_samples()
-        qimport = QueryImport(nqm=nqm)
+        qimport = QuerySetTool(nqm=nqm)
         nq_list = qimport.import_from_json_file(json_file, with_store=True, show_progress=True)
         print(f"Imported {len(nq_list.queries)} named queries from {json_file}.")
 

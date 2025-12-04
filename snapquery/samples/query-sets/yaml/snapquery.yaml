@@ -1,0 +1,26 @@
+domain: wikidata.org
+namespace: snapquery
+target_graph_name: wikidata
+queries:
+- name: SPARQL_functions
+  namespace: snapquery
+  domain: wikidata.org
+  query_id: sparql-functions--snapquery@wikidata.org
+  sparql: "#title: List of SPARQL 1.1 functions\r\nSELECT ?name ?wikidata_entity WHERE\
+    \ {\r\n  ?wikidata_entity wdt:P31 wd:Q130565232.\r\n ?wikidata_entity rdfs:label\
+    \ ?name. FILTER(lang(?name)=\"en\")\r\n} ORDER BY ?name"
+  url: https://w.wiki/BcCE
+  title: List of SPARQL 1.1 functions
+  description: ''
+  comment: ''
+- name: SPARQL_keywords
+  namespace: snapquery
+  domain: wikidata.org
+  query_id: sparql-keywords--snapquery@wikidata.org
+  sparql: "#title: List of SPARQL 1.1 keywords\r\nSELECT ?name ?wikidata_entity WHERE\
+    \ {\r\n  ?wikidata_entity wdt:P31 wd:Q114355584.\r\n  \r\n  ?wikidata_entity rdfs:label\
+    \ ?name. FILTER(lang(?name)=\"en\")\r\n} ORDER BY ?name"
+  url: https://w.wiki/BcCG
+  title: List of SPARQL 1.1 keywords
+  description: ''
+  comment: ''

@@ -1,0 +1,610 @@
+domain: ceur-ws.org
+namespace: challenge
+target_graph_name: wikidata
+queries:
+- name: AllVolumes
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: allvolumes--challenge@ceur-ws.org
+  sparql: "# Q0.1\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX wd:\
+    \ <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\n\
+    PREFIX p: <http://www.wikidata.org/prop/>\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\n\
+    SELECT DISTINCT ?proceeding ?volumeNumber ?title \n  (SAMPLE(?_short_name) as\
+    \ ?short_name)\n  (SAMPLE(?_pubDate) as ?pubDate)\n  (SAMPLE(?_ceurwsUrl) as ?ceurwsUrl)\n\
+    \  (SAMPLE(?_language_of_work_or_name) as ?language_of_work_or_name)\n  (SAMPLE(?_fullWorkUrl)\
+    \ as ?fullWorkUrl)\n  (SAMPLE(?_urn) as ?urn)\n  (SAMPLE(?_dblpPublicationId)\
+    \ as ?dblpPublicationId)\n  (SAMPLE(?_K10plus) as ?K10plus)\nWHERE{\n  ?proceeding\
+    \ wdt:P31 wd:Q1143604.\n  ?proceeding wdt:P179 wd:Q27230297.\n  ?proceeding p:P179/pq:P478\
+    \ ?volumeNumber.\n  ?proceeding wdt:P1476 ?title. Filter(lang(?title)=\"en\")\n\
+    \  OPTIONAL{?proceeding wdt:P1813 ?_short_name.}\n  OPTIONAL{?proceeding wdt:P577\
+    \ ?_pubDate.}\n  OPTIONAL{?proceeding wdt:P973 ?_ceurwsUrl.}\n  OPTIONAL{?proceeding\
+    \ wdt:P407 ?_language_of_work_or_name.}\n  OPTIONAL{?proceeding wdt:953 ?_fullWorkUrl.}\n\
+    \  OPTIONAL{?proceeding wdt:P4109 ?_urn.}\n  OPTIONAL{?proceeding wdt:P8978 ?_dblpPublicationId.}\n\
+    \  OPTIONAL{?proceeding wdt:P6721 ?_K10plus.}\n} \nGROUP BY ?volumeNumber ?proceeding\
+    \ ?title\nORDER BY DESC(xsd:integer(?volumeNumber))"
+  url: https://w.wiki/6UCU
+  title: All [[Concept:Proceedings|proceedings]]
+  description: Task0
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/kfm8ib'
+- name: AllPapers
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: allpapers--challenge@ceur-ws.org
+  sparql: "# Q0.2 List of all papers\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\
+    PREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\n\
+    PREFIX p: <http://www.wikidata.org/prop/>\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\n\
+    SELECT DISTINCT ?paper ?title ?proceeding ?volumeNumber\n  (SAMPLE(?_url) as ?url)\n\
+    \  (SAMPLE(?_event) as ?event)\n  (SAMPLE(?_language_of_work_or_name) as ?language_of_work_or_name)\n\
+    \  (GROUP_CONCAT(?_author) as ?author)\n  (GROUP_CONCAT(?_authorName;SEPARATOR=\"\
+    ,\") as ?author_names)\n  (SAMPLE(?_pubDate) as ?pubDate)\n  (SAMPLE(?_dblpPublicationId)\
+    \ as ?dblpPublicationId)\nWHERE{\n  ?proceeding wdt:P31 wd:Q1143604.\n  ?proceeding\
+    \ wdt:P179 wd:Q27230297.\n  ?proceeding p:P179/pq:P478 ?volumeNumber.\n  ?paper\
+    \ wdt:P1433 ?proceeding.\n  ?paper wdt:P1476 ?title. Filter(lang(?title)=\"en\"\
+    )\n  OPTIONAL{?paper wdt:P953  ?_url.}\n  \n  OPTIONAL{?paper wdt:P5072 ?_event.}\n\
+    \  OPTIONAL{\n    ?paper wdt:P50 ?_author.\n    ?_author rdfs:label ?_authorName.\n\
+    \    FILTER(LANG(?_authorName)=\"en\")\n  }\n  \n  OPTIONAL{?proceeding wdt:P407\
+    \ ?_language_of_work_or_name.}\n  OPTIONAL{?proceeding wdt:P8978 ?_dblpPublicationId.}\n\
+    \  OPTIONAL{?proceeding wdt:P577 ?_pubDate.}\n} GROUP BY ?paper ?title ?proceeding\
+    \ ?volumeNumber\nORDER BY DESC(?pubDate)"
+  url: https://w.wiki/6UJb
+  title: All [[Concept:Paper|papers]]
+  description: Task0
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/K452U4'
+- name: AllEvents
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: allevents--challenge@ceur-ws.org
+  sparql: "SELECT DISTINCT ?event \n  (SAMPLE(?_title) as ?title)  \n  (SAMPLE(?_acronym)\
+    \ as ?acronym) \n  (SAMPLE(?_startTime) as ?startTime) \n  (SAMPLE(?_endTime)\
+    \ as ?endTime)\n  (SAMPLE(?_country) as ?country) \n  (SAMPLE(?_location) as ?location)\
+    \ \n  (SAMPLE(?_officialWebsite) as ?officialWebsite) \n  (SAMPLE(?_colocatedWith)\
+    \ as ?colocatedWith) \n  (SAMPLE(?_dblpEventId) as ?dblpEventId) \n  (SAMPLE(?_wikiCfpId)\
+    \ as ?wikiCfpId) \n  (SAMPLE(?_series) as ?series) \n  (SAMPLE(?_ordinal) as ?ordinal)\n\
+    WHERE{\n  ?proceeding wdt:P31 wd:Q1143604.\n  ?proceeding wdt:P179 wd:Q27230297.\n\
+    \  ?proceeding p:P179/pq:P478 ?volumeNumber.\n  ?proceeding wdt:P4745 ?event.\n\
+    \  OPTIONAL{?event wdt:P1476 ?_title. Filter(lang(?_title)=\"en\")} \n  OPTIONAL{?event\
+    \ wdt:P580 ?_startTime.} \n  OPTIONAL{?event wdt:P582 ?_endTime.} \n  OPTIONAL{?event\
+    \ wdt:P17 ?_country.} \n  OPTIONAL{?event wdt:P276 ?_location.} \n  OPTIONAL{?event\
+    \ wdt:P856 ?_officialWebsite.} \n  OPTIONAL{?event wdt:P31 ?_instanceOf.} \n \
+    \ OPTIONAL{?event wdt:P1813 ?_acronym.} \n  OPTIONAL{?event wdt:P11633 ?_colocatedWith.}\
+    \ \n  OPTIONAL{?event wdt:P10692 ?_dblpEventId.} \n  OPTIONAL{?event wdt:P5124\
+    \ ?_wikiCfpId.}\n  OPTIONAL{?event wdt:P179 ?_series.} \n  OPTIONAL{?event p:P179/pq:P1545\
+    \ ?_ordinal.} \n}\nGROUP BY ?event\nORDER BY DESC(?startTime)"
+  url: https://w.wiki/6UKq
+  title: All [[Concept:Event|events]]
+  description: Task0
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/Bww8ip'
+- name: AllEventSeries
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: alleventseries--challenge@ceur-ws.org
+  sparql: "# Q0.4 List all event series\nSELECT DISTINCT ?series \n  (SAMPLE(?_title)\
+    \ as ?title)  \n  (SAMPLE(?_acronym) as ?acronym) \n  (SAMPLE(?_officialWebsite)\
+    \ as ?officialWebsite) \n  (GROUP_CONCAT(?_instanceOf) as ?instanceOf) \n  (SAMPLE(?_dblpVenueId)\
+    \ as ?dblpVenueId) \n  (SAMPLE(?_wikiCfpSeriesId) as ?wikiCfpSeriesId)\nWHERE{\n\
+    \  ?proceeding wdt:P31 wd:Q1143604.\n  ?proceeding wdt:P179 wd:Q27230297.\n  ?proceeding\
+    \ p:P179/pq:P478 ?volumeNumber.\n  ?proceeding wdt:P4745 ?event.\n  ?event wdt:P179\
+    \ ?series.\n  OPTIONAL{?series wdt:P1476 ?_title. Filter(lang(?_title)=\"en\"\
+    )} \n  OPTIONAL{?series wdt:P856 ?_officialWebsite.} \n  OPTIONAL{?series wdt:P31\
+    \ ?_instanceOf.} \n  OPTIONAL{?series wdt:P1813 ?_acronym.} \n  OPTIONAL{?series\
+    \ wdt:P8926 ?_dblpVenueId.} \n  OPTIONAL{?series wdt:P5127 ?_wikiCfpSeriesId.}\
+    \ \n}\nGROUP BY ?series"
+  url: https://w.wiki/6UE4
+  title: All [[Concept:EventSeries|event series]]
+  description: Task0
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/JqXf3G'
+- name: AllScholars
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: allscholars--challenge@ceur-ws.org
+  sparql: "# Q0.5 List all scholars (authors and editors) of CEUR-Workshop proceedings\n\
+    SELECT DISTINCT \n  ?scholar \n  ?label\n  #(GROUP_CONCAT(?_givenNameLabel) as\
+    \ ?givenName) \n  #(GROUP_CONCAT(?_familyNameLabel) as ?familyName)\nWHERE{\n\
+    \  # Proceeding\n  ?proceeding wdt:P31 wd:Q1143604.\n  # CEUR-WS\n  ?proceeding\
+    \ wdt:P179 wd:Q27230297.\n  {\n    # authors\n    # published in \n    ?paper\
+    \ wdt:P1433 ?proceeding.\n    # author\n    ?paper wdt:P50 ?scholar.\n  }UNION{\n\
+    \    # editors\n    ?proceeding wdt:P98 ?scholar. \n  }\n  \n  ?scholar rdfs:label\
+    \ ?label. \n  FILTER(LANG(?label)=\"en\").\n  #OPTIONAL{\n  #  ?scholar wdt:P735\
+    \ ?_givenName.\n  #  ?_givenName rdfs:label ?_givenNameLabel.\n  #   FILTER(LANG(?_givenNameLabel)=\"\
+    en\").\n  #} \n  \n  #OPTIONAL{\n  #  ?scholar wdt:P734 ?_familyName.\n  #  ?_familyName\
+    \ rdfs:label ?_familyNameLabel.\n  #  FILTER(LANG(?_familyNameLabel)=\"en\").\n\
+    \  #} \n}\nGROUP BY ?scholar ?label"
+  url: https://w.wiki/6UT6
+  title: All [[Concept:Scholar|scholars]]
+  description: Task0
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/3mUK8B'
+- name: AllInstitutions
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: allinstitutions--challenge@ceur-ws.org
+  sparql: "# Q0.6 List all institutions\nSELECT DISTINCT ?institution ?institutionLabel\n\
+    \  (SAMPLE(?_logoImage) as ?logoImage) \n  (SAMPLE(?_shortName) as ?shortName)\
+    \ \n  (SAMPLE(?_country) as ?country) \n  (SAMPLE(?_coordinateLocation) as ?coordinateLocation)\
+    \ \n  (SAMPLE(?_officialWebsite) as ?officialWebsite)\n  (SAMPLE(?_gndId) as ?gndId)\
+    \  \nWHERE{\n  ?proceeding wdt:P31 wd:Q1143604.\n  ?proceeding wdt:P179 wd:Q27230297.\n\
+    \  {\n    # authors\n    ?paper wdt:P1433 ?proceeding.\n    ?paper p:P50/pq:P1416\
+    \ ?institution.\n  }UNION{\n    # editors\n    ?proceeding p:P98/pq:P1416 ?institution.\n\
+    \  }\n  \n  OPTIONAL{?institution rdfs:label ?institutionLabel. Filter(lang(?institutionLabel)=\"\
+    en\")} \n  OPTIONAL{?institution wdt:P154 ?_logoImage.} \n  OPTIONAL{?institution\
+    \ wdt:P1813 ?_shortName.} \n  OPTIONAL{?institution wdt:P17 ?_country.} \n  OPTIONAL{?institution\
+    \ wdt:P625 ?_coordinateLocation.} \n  OPTIONAL{?institution wdt:P856 ?_officialWebsite.}\
+    \  \n  OPTIONAL{?institution wdt:P227 ?_gndId.} \n}\nGROUP BY ?institution ?institutionLabel"
+  url: https://w.wiki/6UKK
+  title: All [[Concept:Institution| institutions]]
+  description: Task0
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/z7hnKG'
+- name: AllAuthorsOfPapersOfProceedings
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: allauthorsofpapersofproceedings--challenge@ceur-ws.org
+  sparql: "# authors of papers of proceedings\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\
+    PREFIX wd: <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\n\
+    PREFIX p: <http://www.wikidata.org/prop/>\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\n\
+    SELECT DISTINCT \n  ?author \n  ?authorLabel\n  ?paper\n  ?paperLabel\n  ?proceedings\n\
+    \  ?proceedingsLabel\n \nWHERE{\n  #VALUES ?volume_number {\n  #  \"3262\"\n \
+    \ #}\n  # proceedings\n  ?proceedings wdt:P31 wd:Q1143604;\n               # CEUR-WS\n\
+    \               wdt:P179 wd:Q27230297;\n               # Volume\n            \
+    \   p:P179/pq:P478 ?volume_number;\n               rdfs:label ?proceedingsLabel;\n\
+    \               FILTER(lang(?proceedingsLabel)=\"en\")\n  # scholarly article\n\
+    \  ?paper wdt:P31 wd:Q13442814.\n  \n  # published in\n  ?paper wdt:P1433 ?proceedings.\n\
+    \  \n  ?paper rdfs:label ?paperLabel. \n  FILTER(lang(?paperLabel)=\"en\")\n \
+    \ \n  # author\n  ?paper wdt:P50 ?author.\n  ?author rdfs:label ?authorLabel.\
+    \ \n  FILTER(lang(?authorLabel)=\"en\")\n}"
+  url: https://w.wiki/6UTH
+  title: authors of [[Concept:Paper|papers]] of [[Concept:Proceedings|proceedings]]
+  description: Task0
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/P7jZJm'
+- name: DuplicateAndEmptyURNs
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: duplicateandemptyurns--challenge@ceur-ws.org
+  sparql: "# Query 8 of Task 0\n# see https://cr.bitplan.com/index.php?title=Q0.8\n\
+    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nPREFIX p: <http://www.wikidata.org/prop/>\n\
+    PREFIX schema: <http://schema.org/>\nPREFIX wd: <http://www.wikidata.org/entity/>\n\
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX wikibase: <http://wikiba.se/ontology#>\n\
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\nSELECT \n  ?urn \n  (COUNT(?proceeding)\
+    \ AS ?count)\n  (GROUP_CONCAT(DISTINCT CONCAT(\"https://ceur-ws.org/Vol-\", ?sVolume,\
+    \ \" - \", STR(?proceeding)); separator=\", \") AS ?volWithProceedings) \nWHERE\
+    \ {\n   # Instance of Proceedings\n   ?proceeding wdt:P31 wd:Q1143604.\n   # with\
+    \ english label\n   ?proceeding rdfs:label ?proceedingLabel.\n   FILTER(LANG(?proceedingLabel)\
+    \ = \"en\")\n   # Part of the series\n   ?proceeding p:P179 ?partOfTheSeries.\n\
+    \   # Volumes via a a qualifier of the part of the series relation\n   OPTIONAL\
+    \ { ?partOfTheSeries pq:P478 ?sVolume. }\n   # CEUR Workshop proceedings\n   ?partOfTheSeries\
+    \ ps:P179 wd:Q27230297.\n   # URN-NBN\n   OPTIONAL { ?proceeding wdt:P4109 ?urn.\
+    \ }\n   #FILTER(BOUND(?urn))  # Ensure URN is available\n}\nGROUP BY ?urn\nHAVING\
+    \ (COUNT(?proceeding) > 1)  # Only select URNs that appear more than once\nORDER\
+    \ BY DESC(?count)"
+  url: https://w.wiki/8eaz
+  title: Duplicate and Empty URNs of [[Concept:Proceedings|proceedings]]
+  description: Task0
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/OLyKEm'
+- name: DuplicateVolumeNumbers
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: duplicatevolumenumbers--challenge@ceur-ws.org
+  sparql: |-
+    # Query 9 of Task 0
+    # see https://cr.bitplan.com/index.php?title=Q0.9
+    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
+    PREFIX p: <http://www.wikidata.org/prop/>
+    PREFIX schema: <http://schema.org/>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wikibase: <http://wikiba.se/ontology#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+    SELECT ?volume (COUNT(?proceeding) AS ?count) (GROUP_CONCAT(DISTINCT ?proceeding; separator=", ") AS ?proceedings)
+    WHERE {
+       # Instance of Proceedings
+       ?proceeding wdt:P31 wd:Q1143604.
+       # with english label
+       ?proceeding rdfs:label ?proceedingLabel.
+       FILTER(LANG(?proceedingLabel) = "en")
+       # Part of the series
+       ?proceeding p:P179 ?partOfTheSeries.
+       # CEUR Workshop proceedings
+       ?partOfTheSeries ps:P179 wd:Q27230297.
+       # Volumes via a qualifier of the part of the series relation
+       OPTIONAL { ?partOfTheSeries pq:P478 ?sVolume. }
+       # Volume via volume property
+       OPTIONAL { ?proceeding wdt:P478 ?volume. }
+
+       # Consolidate volume numbers into one variable
+       BIND(COALESCE(?sVolume, ?volume) AS ?volume)
+    }
+    GROUP BY ?volume
+    HAVING(COUNT(?proceeding) > 1)
+    ORDER BY DESC(?count)
+  url: https://w.wiki/8ea4
+  title: Duplicate CEUR-WS Volume numbers of [[Concept:Proceedings|proceedings]]
+  description: Task0
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/hJlygL'
+- name: LocationOfEvents
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: locationofevents--challenge@ceur-ws.org
+  sparql: |-
+    # Query 10 of Task 0
+    # see https://cr.bitplan.com/index.php/Q0.10
+    #defaultView:Map
+    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
+    PREFIX p: <http://www.wikidata.org/prop/>
+    PREFIX schema: <http://schema.org/>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wikibase: <http://wikiba.se/ontology#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT
+    ?event
+    ?title
+    ?url
+    ?coordinates
+    WHERE {
+      # Instance of Proceedings
+      ?item wdt:P31 wd:Q1143604.
+      # Part of the series
+      ?item p:P179 ?partOfTheSeries.
+      ?item wdt:P953 ?url.
+      # CEUR Workshop proceedings
+      ?partOfTheSeries ps:P179 wd:Q27230297.
+      # Acronym
+      OPTIONAL {?item wdt:P1813 ?short_name.}
+
+      ?item wdt:P4745 ?event.
+      ?event wdt:P1476 ?title.
+      OPTIONAL{
+        ?event wdt:P276 ?location.
+        OPTIONAL{?location wdt:P625 ?coordinates}
+        ?location rdfs:label ?locationLabel.
+        FILTER(LANG(?locationLabel) = "en")
+      }
+    }
+  url: https://w.wiki/8gRw
+  title: Locations of all CEUR-WS proceedings [[Concept:Proceedings|proceedings]]
+    [[Concept:Event|events]]
+  description: Task0
+- name: AllEditorsOfWorkshop
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: alleditorsofworkshop--challenge@ceur-ws.org
+  sparql: "SELECT ?proceedings ?editor ?editorLabel ?affiliation ?affiliationLabel\n\
+    WHERE{\n  VALUES ?volume_number {\"3262\"}\n  ?proceedings wdt:P31 wd:Q1143604;\n\
+    \               wdt:P179 wd:Q27230297;\n               p:P179/pq:P478 ?volume_number;\n\
+    \               p:P98 [\n                 ps:P98 ?editor;\n                 pq:P1416\
+    \ ?affiliation\n               ].\n  \n  ?editor rdfs:label ?editorLabel. FILTER(lang(?editorLabel)=\"\
+    en\")\n  ?affiliation rdfs:label ?affiliationLabel. FILTER(lang(?affiliationLabel)=\"\
+    en\")           \n}"
+  url: https://w.wiki/6UAa
+  title: All Editors of Workshop(Volume W)
+  description: Task1
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/JGBD4b'
+- name: NumberOfPapersInWorkshop
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: numberofpapersinworkshop--challenge@ceur-ws.org
+  sparql: "SELECT ?proceedings (COUNT(DISTINCT ?paper) as ?number_of_papers)\nWHERE{\n\
+    \  VALUES ?volume_number {\"3262\"}\n  ?proceedings wdt:P31 wd:Q1143604;\n   \
+    \            wdt:P179 wd:Q27230297;\n               p:P179/pq:P478 ?volume_number.\n\
+    \  \n  ?paper wdt:P31 wd:Q13442814;\n         wdt:P1433 ?proceedings.\n}\nGROUP\
+    \ BY ?proceedings"
+  url: https://w.wiki/6UAd
+  title: Number of Papers in Workshop(Volume W)
+  description: Task1
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/9e3zUz'
+- name: AllAuthorsOfWorkshop
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: allauthorsofworkshop--challenge@ceur-ws.org
+  sparql: "SELECT DISTINCT ?proceedings ?author ?authorLabel\nWHERE{\n  VALUES ?volume_number\
+    \ {\"3262\"}\n  ?proceedings wdt:P31 wd:Q1143604;\n               wdt:P179 wd:Q27230297;\n\
+    \               p:P179/pq:P478 ?volume_number.\n  \n  ?paper wdt:P31 wd:Q13442814;\n\
+    \         wdt:P1433 ?proceedings;\n         wdt:P50|wdt:P2093 ?author.\n  ?author\
+    \ rdfs:label ?authorLabel. FILTER(lang(?authorLabel)=\"en\")\n}"
+  url: https://w.wiki/6UAf
+  title: All Authors of Workshop
+  description: Task1
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/6JIyAd'
+- name: AverageNoOfPagesInWorkshop
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: averagenoofpagesinworkshop--challenge@ceur-ws.org
+  sparql: "SELECT DISTINCT ?proceedings (AVG(?number_of_pages) as ?avg_number_of_pages)\n\
+    WHERE{\n  VALUES ?volume_number {\"3262\"}\n  ?proceedings wdt:P31 wd:Q1143604;\n\
+    \               wdt:P179 wd:Q27230297;\n               p:P179/pq:P478 ?volume_number.\n\
+    \  \n  ?paper wdt:P31 wd:Q13442814;\n         wdt:P1433 ?proceedings;\n      \
+    \   wdt:P1104 ?number_of_pages.\n}\nGROUP BY ?proceedings"
+  url: https://w.wiki/6UAX
+  title: 'Average #of pages in workshop'
+  description: Task1
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/NGlB2l'
+- name: PublicationTurnaround
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: publicationturnaround--challenge@ceur-ws.org
+  sparql: |-
+    SELECT DISTINCT ?proceedings ?pub_date ?event ?start_date
+    WHERE{
+      ?proceedings wdt:P31 wd:Q1143604;
+                   wdt:P179 wd:Q27230297;
+                   p:P179/pq:P478 ?volume_number;
+                   wdt:P577 ?pub_date;
+                   wdt:P4745 ?event.
+      ?event wdt:P580 ?start_date.
+      FILTER(?pub_date < ?start_date)
+    }
+  url: https://w.wiki/6UAk
+  title: Publication turnaround
+  description: Task1
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/PAvC7D'
+- name: PreviousEditionsOfAWorkshop
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: previouseditionsofaworkshop--challenge@ceur-ws.org
+  sparql: |-
+    SELECT DISTINCT ?event ?ordinal ?proceedings ?volume_number
+    WHERE{
+      VALUES ?series_title {"Wikidata Workshop"@en}
+      VALUES ?series_type{ wd:Q47459256 wd:Q47258130 }
+      ?series wdt:P31 ?series_type;
+              wdt:P1476|rdfs:label ?series_title.
+      ?event p:P179 [
+                ps:P179 ?series;
+                pq:P1545 ?ordinal
+              ].
+
+      ?proceedings wdt:P31 wd:Q1143604;
+                   wdt:P179 wd:Q27230297;
+                   p:P179/pq:P478 ?volume_number;
+                   wdt:P4745 ?event.
+    }
+  url: https://w.wiki/6UAo
+  title: previous editions of a workshop
+  description: Task1
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/kUPI5O'
+- name: ChairsOverTheHistoryOfAWorkshop
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: chairsoverthehistoryofaworkshop--challenge@ceur-ws.org
+  sparql: |-
+    SELECT DISTINCT ?programm_commitee ?programm_commiteeLabel
+    WHERE{
+      VALUES ?series_title {"Wikidata Workshop"@en}
+      VALUES ?series_type{ wd:Q47459256 wd:Q47258130 }
+      ?series wdt:P31 ?series_type;
+              wdt:P1476|rdfs:label ?series_title.
+      ?event p:P179 [
+                ps:P179 ?series;
+                pq:P1545 ?ordinal
+              ];
+             wdt:P5804 ?programm_commitee;
+             ^wdt:P4745/wdt:P179 wd:Q27230297.
+      {
+        SELECT (COUNT(DISTINCT ?event) as ?number_of_events)
+        WHERE{
+          VALUES ?series_title {"Wikidata Workshop"@en}
+          VALUES ?series_type{ wd:Q47459256 wd:Q47258130 }
+          ?series wdt:P31 ?series_type;
+              wdt:P1476|rdfs:label ?series_title.
+          ?event p:P179 [
+                ps:P179 ?series;
+                pq:P1545 ?ordinal
+              ];
+               wdt:P5804 ?programm_commitee;
+               ^wdt:P4745/wdt:P179 wd:Q27230297.
+          }
+        }
+
+      ?programm_commitee rdfs:label ?programm_commiteeLabel. FILTER(lang(?programm_commiteeLabel)="en")
+    }GROUP BY ?programm_commitee ?number_of_events ?programm_commiteeLabel
+    HAVING (?number_of_events = COUNT(?programm_commitee))
+  url: https://w.wiki/6UAu
+  title: chairs over the history of a workshop
+  description: Task1
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/ngbkiD'
+- name: WorkshopsOfConferenceInYear
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: workshopsofconferenceinyear--challenge@ceur-ws.org
+  sparql: "SELECT DISTINCT *\nWHERE{\n  VALUES ?conference_title {\"ESWC 2022\"@en}\n\
+    \  ?proceedings wdt:P31 wd:Q1143604;\n               wdt:P179 wd:Q27230297;\n\
+    \               p:P179/pq:P478 ?volume_number;\n               wdt:P577 ?pub_date;\n\
+    \               wdt:P4745 ?workshop.\n  ?workshop wdt:P11633 ?conference.  # colocated\
+    \ with\n  ?conference wdt:P1476|rdfs:label ?conference_title.\n  \n FILTER(YEAR(?pub_date)=\
+    \ \"2022\"^^xsd:integer)\n}"
+  url: https://w.wiki/6UAw
+  title: Workshops of Conference in Year
+  description: Task1
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/j57HVl'
+- name: ChairOfWorkshopAsCoauthor
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: chairofworkshopascoauthor--challenge@ceur-ws.org
+  sparql: "SELECT DISTINCT ?proceedings ?paper ?paperLabel ?event ?eventLabel ?author\
+    \ ?authorLabel\nWHERE{\n  #VALUES ?volume_number {\"3262\"}\n  ?proceedings wdt:P31\
+    \ wd:Q1143604;\n               wdt:P179 wd:Q27230297;\n               p:P179/pq:P478\
+    \ ?volume_number;\n               wdt:P4745 ?event.\n  \n  ?paper wdt:P31 wd:Q13442814;\n\
+    \         wdt:P1433 ?proceedings;\n         wdt:P50|wdt:P2093 ?author.\n  ?event\
+    \ wdt:P5804 ?author.\n  \n  \n  ?author rdfs:label ?authorLabel. FILTER(lang(?authorLabel)=\"\
+    en\")\n  ?paper rdfs:label ?paperLabel. FILTER(lang(?paperLabel)=\"en\")\n  ?event\
+    \ rdfs:label ?eventLabel. FILTER(lang(?eventLabel)=\"en\")\n}"
+  url: https://w.wiki/6UA$
+  title: Chair of Workshop as Coauthor
+  description: Task1
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/qKaWxd'
+- namespace: challenge
+  domain: ceur-ws.org
+  query_id: --challenge@ceur-ws.org
+  sparql: |-
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX p: <http://www.wikidata.org/prop/>
+    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>
+    SELECT DISTINCT ?series ?seriesLabel (Count(DISTINCT ?event2)as ?number_of_events)
+    WHERE{
+      ?proceedings wdt:P31 wd:Q1143604;
+                   wdt:P179 wd:Q27230297;
+                   p:P179/pq:P478 ?volume_number;
+                   wdt:P4745 ?event.
+      ?event wdt:P179 ?series.
+      ?event2 wdt:P179 ?series.
+      ?series rdfs:label ?seriesLabel. FILTER(lang(?seriesLabel)="en")
+    }
+    GROUP BY ?series ?seriesLabel
+    ORDER BY DESC(?number_of_events)
+  url: https://w.wiki/6UB4
+  title: Number of Editions of workshop series
+  description: Task1
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/uVEk8R'
+- namespace: challenge
+  domain: ceur-ws.org
+  query_id: --challenge@ceur-ws.org
+  sparql: |-
+    SELECT DISTINCT ?event ?eventLabel
+    WHERE{
+      VALUES ?event_title {"The Third Wikidata Workshop"@en}
+      ?proceedings wdt:P31 wd:Q1143604;
+                   wdt:P179 wd:Q27230297;
+                   p:P179/pq:P478 ?volume_number;
+                   wdt:P4745 ?e.
+      ?e wdt:P179 ?series;
+             wdt:P1476|rdfs:label ?event_title.
+      ?event p:P179 [
+                      ps:P179 ?series;
+                      pq:P1545 ?ordinal
+      ].
+      ?event rdfs:label ?eventLabel. FILTER(lang(?eventLabel)="en")
+    }
+    ORDER BY ?ordinal
+    LIMIT 1
+  url: https://w.wiki/6UB5
+  title: Change of Workshop title
+  description: Task1
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/a1sm2q'
+- namespace: challenge
+  domain: ceur-ws.org
+  query_id: --challenge@ceur-ws.org
+  sparql: "SELECT DISTINCT ?paper ?paperLabel ?proceedings\nWHERE{\n  VALUES ?event_title\
+    \ {\"1st International Workshop on Knowledge Graph Generation From Text\"@en}\n\
+    \  ?proceedings wdt:P31 wd:Q1143604;\n               wdt:P179 wd:Q27230297;\n\
+    \               p:P179/pq:P478 ?volume_number;\n               wdt:P4745 ?event.\n\
+    \  ?event wdt:P1476|rdfs:label ?event_title.\n  ?paper wdt:P1433 ?proceedings;\
+    \  # published in\n         wdt:P5072 ?event. # presented in\n  \n  ?paper rdfs:label\
+    \ ?paperLabel. FILTER(lang(?paperLabel)=\"en\")\n}"
+  url: https://w.wiki/6UBA
+  title: Jointly published papers
+  description: Task1
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/vgcLz4'
+- namespace: challenge
+  domain: ceur-ws.org
+  query_id: --challenge@ceur-ws.org
+  sparql: "SELECT DISTINCT ?proceedings ?event ?editor ?editorLabel\nWHERE{\n  VALUES\
+    \ ?event_title {\"1st International Workshop on Knowledge Graph Generation From\
+    \ Text\"@en}\n  ?proceedings wdt:P31 wd:Q1143604;\n               wdt:P179 wd:Q27230297;\n\
+    \               p:P179/pq:P478 ?volume_number;\n               p:P4745 [\n   \
+    \                         ps:P4745 ?event;\n                            pq:P98\
+    \ ?editor\n               ].\n  ?event wdt:P1476|rdfs:label ?event_title.\n  \n\
+    \  ?editor rdfs:label ?editorLabel. FILTER(lang(?editorLabel)=\"en\")\n}"
+  url: https://w.wiki/6UBB
+  title: Editors of jointly published papers
+  description: Task1
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/TBhxb5'
+- namespace: challenge
+  domain: ceur-ws.org
+  query_id: --challenge@ceur-ws.org
+  sparql: "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX wd: <http://www.wikidata.org/entity/>\n\
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX p: <http://www.wikidata.org/prop/>\n\
+    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nSELECT DISTINCT ?citingPaper\
+    \ ?citingPaperLabel ?paper ?paperLabel \nWHERE{\n  #VALUES ?proceedings {\n  #\
+    \ wd:Q27230297\n  #}\n  VALUES ?paper {\n    wd:Q36198963\n  }\n  #?paper wdt:P1433\
+    \ ?proceedings. \n  ?paper rdfs:label ?paperLabel. \n  FILTER(lang(?paperLabel)=\"\
+    en\")\n  # cites work\n  ?citingPaper wdt:P2860 ?paper.\n  ?citingPaper rdfs:label\
+    \ ?citingPaperLabel.\n  FILTER(lang(?citingPaperLabel)=\"en\")\n}"
+  url: https://w.wiki/6UBC
+  title: Works cited by paper
+  description: Task2
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/G7PGHO'
+- namespace: challenge
+  domain: ceur-ws.org
+  query_id: --challenge@ceur-ws.org
+  sparql: "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX wd: <http://www.wikidata.org/entity/>\n\
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX p: <http://www.wikidata.org/prop/>\n\
+    PREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nSELECT DISTINCT ?citingPaper\
+    \ ?citingPaperLabel ?paper ?paperLabel ?publicationDate\nWHERE{\n  #VALUES ?proceedings\
+    \ {\n  # wd:Q27230297\n  #}\n  VALUES ?paper {\n    wd:Q36198963\n  }\n  #?paper\
+    \ wdt:P1433 ?proceedings. \n  ?paper rdfs:label ?paperLabel. \n  FILTER(lang(?paperLabel)=\"\
+    en\")\n  # cites work\n  ?citingPaper wdt:P2860 ?paper.\n  ?citingPaper rdfs:label\
+    \ ?citingPaperLabel.\n  FILTER(lang(?citingPaperLabel)=\"en\")\n  ?citingPaper\
+    \ wdt:P577 ?publicationDate\n  FILTER(year(?publicationDate)>2015)\n} \nORDER\
+    \ BY DESC(?publicationDate)"
+  url: https://w.wiki/6UBF
+  title: Works cited by paper after year
+  description: Task2
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/Q32kCB'
+- name: WikiCfpLinksForWorkshops
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: wikicfplinksforworkshops--challenge@ceur-ws.org
+  sparql: "SELECT DISTINCT ?event \n  (SAMPLE(?_title) as ?title)  \n  (SAMPLE(?_acronym)\
+    \ as ?acronym) \n  (SAMPLE(?_startTime) as ?startTime) \n  (SAMPLE(?_endTime)\
+    \ as ?endTime)\n  (SAMPLE(?_country) as ?country) \n  (SAMPLE(?_location) as ?location)\
+    \ \n  (SAMPLE(?_officialWebsite) as ?officialWebsite) \n  (SAMPLE(?_colocatedWith)\
+    \ as ?colocatedWith) \n  (SAMPLE(?_dblpEventId) as ?dblpEventId) \n  (SAMPLE(?_wikiCfpId)\
+    \ as ?wikiCfpId) \n  (SAMPLE(?_series) as ?series) \n  (SAMPLE(?_ordinal) as ?ordinal)\n\
+    WHERE{\n  ?proceeding wdt:P31 wd:Q1143604.\n  ?proceeding wdt:P179 wd:Q27230297.\n\
+    \  ?proceeding p:P179/pq:P478 ?volumeNumber.\n  ?proceeding wdt:P4745 ?event.\n\
+    \  OPTIONAL{?event wdt:P1476 ?_title. Filter(lang(?_title)=\"en\")} \n  OPTIONAL{?event\
+    \ wdt:P580 ?_startTime.} \n  OPTIONAL{?event wdt:P582 ?_endTime.} \n  OPTIONAL{?event\
+    \ wdt:P17 ?_country.} \n  OPTIONAL{?event wdt:location ?_location.} \n  OPTIONAL{?event\
+    \ wdt:P856 ?_officialWebsite.} \n  OPTIONAL{?event wdt:P31 ?_instanceOf.} \n \
+    \ OPTIONAL{?event wdt:P1813 ?_acronym.} \n  OPTIONAL{?event wdt:P11633 ?_colocatedWith.}\
+    \ \n  OPTIONAL{?event wdt:P10692 ?_dblpEventId.} \n  ?event wdt:P5124 ?_wikiCfpId.\n\
+    \  OPTIONAL{?event wdt:P179 ?_series.} \n  OPTIONAL{?event p:P179/pq:P1545 ?_ordinal.}\
+    \ \n}\nGROUP BY ?event\nORDER BY DESC(?startTime)"
+  url: https://w.wiki/6UKs
+  title: Workshop call for papers
+  description: Task3
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/n57R4b'
+- name: WorkshopWebsites
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: workshopwebsites--challenge@ceur-ws.org
+  sparql: "SELECT DISTINCT ?event \n  (SAMPLE(?_title) as ?title)  \n  (SAMPLE(?_acronym)\
+    \ as ?acronym) \n  (SAMPLE(?_startTime) as ?startTime) \n  (SAMPLE(?_endTime)\
+    \ as ?endTime)\n  (SAMPLE(?_country) as ?country) \n  (SAMPLE(?_location) as ?location)\
+    \ \n  (SAMPLE(?_officialWebsite) as ?officialWebsite) \n  (SAMPLE(?_colocatedWith)\
+    \ as ?colocatedWith) \n  (SAMPLE(?_dblpEventId) as ?dblpEventId) \n  (SAMPLE(?_wikiCfpId)\
+    \ as ?wikiCfpId) \n  (SAMPLE(?_series) as ?series) \n  (SAMPLE(?_ordinal) as ?ordinal)\n\
+    WHERE{\n  ?proceeding wdt:P31 wd:Q1143604.\n  ?proceeding wdt:P179 wd:Q27230297.\n\
+    \  ?proceeding p:P179/pq:P478 ?volumeNumber.\n  ?proceeding wdt:P4745 ?event.\n\
+    \  OPTIONAL{?event wdt:P1476 ?_title. Filter(lang(?_title)=\"en\")} \n  OPTIONAL{?event\
+    \ wdt:P580 ?_startTime.} \n  OPTIONAL{?event wdt:P582 ?_endTime.} \n  OPTIONAL{?event\
+    \ wdt:P17 ?_country.} \n  OPTIONAL{?event wdt:location ?_location.} \n  ?event\
+    \ wdt:P856 ?_officialWebsite.\n  OPTIONAL{?event wdt:P31 ?_instanceOf.} \n  OPTIONAL{?event\
+    \ wdt:P1813 ?_acronym.} \n  OPTIONAL{?event wdt:P11633 ?_colocatedWith.} \n  OPTIONAL{?event\
+    \ wdt:P10692 ?_dblpEventId.} \n  OPTIONAL{?event wdt:P5124 ?_wikiCfpId.}\n  OPTIONAL{?event\
+    \ wdt:P179 ?_series.} \n  OPTIONAL{?event p:P179/pq:P1545 ?_ordinal.} \n}\nGROUP\
+    \ BY ?event\nORDER BY DESC(?startTime)"
+  url: https://w.wiki/6ULB
+  title: Workshop website
+  description: Task3
+  comment: 'qlever tryit url: https://qlever.cs.uni-freiburg.de/wikidata/98pi38'
+- name: AuthorActivityInYear
+  namespace: challenge
+  domain: ceur-ws.org
+  query_id: authoractivityinyear--challenge@ceur-ws.org
+  sparql: "#defaultView:Table\nPREFIX target: <http://www.wikidata.org/entity/Q27942628>\n\
+    \nSELECT\n  (MIN(?_year) as ?year)\n  (MIN(?dates) AS ?date)\n  ?work ?workLabel\n\
+    \  (GROUP_CONCAT(DISTINCT ?type_label; separator=\", \") AS ?type)\n  (SAMPLE(?pages_)\
+    \ AS ?pages)\n  ?venue ?venueLabel\n  (GROUP_CONCAT(DISTINCT ?author_label; separator=\"\
+    , \") AS ?authors)\nWHERE {\n  ?work wdt:P50 target: .\n  ?work wdt:P50 ?author\
+    \ .\n  OPTIONAL {\n    ?author rdfs:label ?author_label_ . FILTER (LANG(?author_label_)\
+    \ = 'en')\n  }\n  BIND(COALESCE(?author_label_, SUBSTR(STR(?author), 32)) AS ?author_label)\n\
+    \  OPTIONAL { ?work wdt:P31 ?type_ . ?type_ rdfs:label ?type_label . FILTER (LANG(?type_label)\
+    \ = 'en') }\n  ?work wdt:P577 ?datetimes .\n  BIND(xsd:date(?datetimes) AS ?dates)\n\
+    \  BIND(year(?dates) as ?_year)\n\n \n  OPTIONAL { ?work wdt:P1104 ?pages_ }\n\
+    \  OPTIONAL { ?work wdt:P1433 ?venue }\n  ?work rdfs:label ?workLabel\n  FILTER(LANG(?workLabel)=\"\
+    en\")\n}\nGROUP BY ?work ?workLabel ?venue ?venueLabel\nORDER BY DESC(?date)"
+  url: https://w.wiki/6UTP
+  title: Overall activity in a year
+  description: Task3

@@ -21,7 +21,7 @@ from starlette.responses import JSONResponse, RedirectResponse
 from snapquery.authorization import Authorization
 from snapquery.namespace_stats_view import NamespaceStatsView
 from snapquery.orcid import OrcidAuth
-from snapquery.qimport_view import QueryImportView
+from snapquery.query_set_tool_view import QuerySetToolView
 from snapquery.snapquery_core import NamedQueryManager, QueryBundle, QueryName, QueryPrefixMerger
 from snapquery.snapquery_view import NamedQuerySearch, NamedQueryView
 from snapquery.stats_view import QueryStatsView
@@ -416,7 +416,7 @@ class SnapQuerySolution(InputWebSolution):
             """
             show the nominate ui
             """
-            self.query_import_view = QueryImportView(self)
+            self.query_import_view = QuerySetToolView(self)
             self.query_import_view.nominate_ui()
 
         await self.setup_content_div(show)
@@ -430,7 +430,7 @@ class SnapQuerySolution(InputWebSolution):
             """
             display the Query Import View
             """
-            self.query_import_view = QueryImportView(self)
+            self.query_import_view = QuerySetToolView(self)
             self.query_import_view.nominate_ui()
 
         await self.setup_content_div(show)

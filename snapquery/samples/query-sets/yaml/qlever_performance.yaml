@@ -1,0 +1,100 @@
+domain: qlever.cs.uni-freiburg.de
+namespace: performance-dblp
+target_graph_name: dblp
+queries:
+- name: All papers published in SIGIR
+  namespace: performance-dblp
+  domain: qlever.cs.uni-freiburg.de
+  query_id: all-papers-published-in-sigir--performance-dblp@qlever.cs.uni-freiburg.de
+  sparql: |-
+    PREFIX dblp: <https://dblp.org/rdf/schema#>
+    SELECT ?paper ?title ?year WHERE {
+      ?paper dblp:title ?title .
+      ?paper dblp:publishedIn "SIGIR" .
+      ?paper dblp:yearOfPublication ?year
+    }
+    ORDER BY DESC(?year)
+  url: https://qlever.cs.uni-freiburg.de/dblp/m3osZX
+  title: All papers published in SIGIR
+  description: 'Performance evaluation query: All papers published in SIGIR'
+  comment: Two simple joins, nothing special - see https://github.com/ad-freiburg/qlever/wiki/QLever-performance-evaluation-and-comparison-to-other-SPARQL-engines
+- name: Number of papers by venue
+  namespace: performance-dblp
+  domain: qlever.cs.uni-freiburg.de
+  query_id: number-of-papers-by-venue--performance-dblp@qlever.cs.uni-freiburg.de
+  sparql: |-
+    PREFIX dblp: <https://dblp.org/rdf/schema#>
+    SELECT ?venue (COUNT(?paper) as ?count) WHERE {
+      ?paper dblp:publishedIn ?venue .
+    }
+    GROUP BY ?venue
+    ORDER BY DESC(?count)
+  url: https://qlever.cs.uni-freiburg.de/dblp/weowtF
+  title: Number of papers by venue
+  description: 'Performance evaluation query: Number of papers by venue'
+  comment: Scan of a single predicate with GROUP BY and ORDER BY - see https://github.com/ad-freiburg/qlever/wiki/QLever-performance-evaluation-and-comparison-to-other-SPARQL-engines
+- name: Author names matching REGEX
+  namespace: performance-dblp
+  domain: qlever.cs.uni-freiburg.de
+  query_id: author-names-matching-regex--performance-dblp@qlever.cs.uni-freiburg.de
+  sparql: |-
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX dblp: <https://dblp.org/rdf/schema#>
+    SELECT ?author ?author_label ?count WHERE {
+      { SELECT ?author ?author_label (COUNT(?paper) as ?count) WHERE {
+        ?paper dblp:authoredBy ?author .
+        ?paper dblp:publishedIn "SIGIR" .
+        ?author rdfs:label ?author_label .
+      } GROUP BY ?author ?author_label }
+      FILTER REGEX(STR(?author_label), "M.*D.*", "i")
+    }
+    ORDER BY DESC(?count)
+  url: https://qlever.cs.uni-freiburg.de/dblp/bVZBoH
+  title: Author names matching REGEX
+  description: 'Performance evaluation query: Author names matching REGEX'
+  comment: Joins, GROUP BY, ORDER BY, FILTER REGEX - see https://github.com/ad-freiburg/qlever/wiki/QLever-performance-evaluation-and-comparison-to-other-SPARQL-engines
+- name: All papers in DBLP until 1940
+  namespace: performance-dblp
+  domain: qlever.cs.uni-freiburg.de
+  query_id: all-papers-in-dblp-until-1940--performance-dblp@qlever.cs.uni-freiburg.de
+  sparql: |-
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX dblp: <https://dblp.org/rdf/schema#>
+    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    SELECT ?title ?author ?author_label ?year WHERE {
+      ?paper dblp:title ?title .
+      ?paper dblp:authoredBy ?author .
+      ?paper dblp:yearOfPublication ?year .
+      ?author rdfs:label ?author_label .
+      FILTER (?year <= "1940"^^xsd:gYear)
+    }
+    ORDER BY ASC(?year) ASC(?title)
+  url: https://qlever.cs.uni-freiburg.de/dblp/Rd9ixQ
+  title: All papers in DBLP until 1940
+  description: 'Performance evaluation query: All papers in DBLP until 1940'
+  comment: Three joins, a FILTER, and an ORDER BY - see https://github.com/ad-freiburg/qlever/wiki/QLever-performance-evaluation-and-comparison-to-other-SPARQL-engines
+- name: All papers with their title
+  namespace: performance-dblp
+  domain: qlever.cs.uni-freiburg.de
+  query_id: all-papers-with-their-title--performance-dblp@qlever.cs.uni-freiburg.de
+  sparql: |-
+    PREFIX dblp: <https://dblp.org/rdf/schema#>
+    SELECT ?paper ?title WHERE {
+      ?paper dblp:title ?title .
+    }
+  url: https://qlever.cs.uni-freiburg.de/dblp/WzABwD
+  title: All papers with their title
+  description: 'Performance evaluation query: All papers with their title'
+  comment: Simple, but must materialize large result (problematic for many SPARQL
+    engines) - see https://github.com/ad-freiburg/qlever/wiki/QLever-performance-evaluation-and-comparison-to-other-SPARQL-engines
+- name: All predicates ordered by size
+  namespace: performance-dblp
+  domain: qlever.cs.uni-freiburg.de
+  query_id: all-predicates-ordered-by-size--performance-dblp@qlever.cs.uni-freiburg.de
+  sparql: "SELECT ?predicate (COUNT(?subject) as ?count) WHERE {\n  ?subject ?predicate\
+    \ ?object\n}\nGROUP BY ?predicate \nORDER BY DESC(?count)"
+  url: https://qlever.cs.uni-freiburg.de/dblp/8R9a3u
+  title: All predicates ordered by size
+  description: 'Performance evaluation query: All predicates ordered by size'
+  comment: Conceptually requires a scan over all triples, but huge optimization potential
+    - see https://github.com/ad-freiburg/qlever/wiki/QLever-performance-evaluation-and-comparison-to-other-SPARQL-engines

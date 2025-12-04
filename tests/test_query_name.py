@@ -8,7 +8,7 @@ import tempfile
 
 from basemkit.basetest import Basetest
 
-from snapquery.qimport import QueryImport
+from snapquery.query_set_tool import QuerySetTool
 from snapquery.snapquery_core import NamedQueryManager, QueryName, QueryNameSet
 
 
@@ -26,7 +26,7 @@ class TestQueryName(Basetest):
         """
         with tempfile.NamedTemporaryFile() as tmpfile:
             nqm = NamedQueryManager.from_samples(db_path=tmpfile.name)
-            qimport = QueryImport(nqm=nqm)
+            qimport = QuerySetTool(nqm=nqm)
             qimport.import_samples(with_store=True, show_progress=self.debug)
             qns = QueryNameSet(nqm, limit=10)  # Assume a limit is meaningful for the test context
             test_cases = [

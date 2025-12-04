@@ -95,6 +95,7 @@ only-include = ["snapquery"]
 
 [project.scripts]
 snapquery = "snapquery.snapquery_cmd:main"
+query-set = "snapquery.query_set_cmd:main"
 
 [tool.black]
 line-length = 120

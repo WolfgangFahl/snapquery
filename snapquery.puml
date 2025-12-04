@@ -54,6 +54,7 @@ note right of NamedQuery
 end note
 
 note right of QueryStats
+  see [https://github.com/WolfgangFahl/snapquery/blob/ede1e310151f6205163efe40aa07879779043f89/snapquery/snapquery_core.py#L36 snapquery_core]
   statistics about the execution of a query
 end note
 
@@ -66,6 +67,7 @@ note right of QItem
 end note
 
 note right of QueryDetails
+  see [[https://github.com/WolfgangFahl/snapquery/blob/ede1e310151f6205163efe40aa07879779043f89/snapquery/snapquery_core.py#L384 snapquery_core]]
   Stores details for a named query
 end note
 

@@ -8,6 +8,8 @@ import sys
 
 from basemkit.base_cmd import BaseCmd
 from snapquery.query_set_tool import QuerySetTool
+from snapquery.scholia import ScholiaQueries
+from snapquery.snapquery_core import NamedQueryManager
 from snapquery.version import Version
 
 
@@ -85,6 +87,24 @@ class QuerySetCmd(BaseCmd):
             action="store_true",
             help="Enable LLM enrichment (placeholder; not used in this snippet).",
         )
+        # Scholia options
+        parser.add_argument(
+            "--scholia",
+            action="store_true",
+            help="Run Scholia import to generate a NamedQuerySet.",
+        )
+        parser.add_argument(
+            "--limit",
+            type=int,
+            help="Limit the number of queries extracted e.g. with --scholia",
+        )
+        parser.add_argument(
+            "--progress",
+            action="store_true",
+            help="Show progress bar during execution.",
+        )
+
+
 
     def handle_args(self, args: Namespace) -> bool:
         """
@@ -108,6 +128,11 @@ class QuerySetCmd(BaseCmd):
         if args.shorturl:
             self._handle_shorturl(args)
             return True
+
+        if args.scholia:
+            self._handle_scholia(args)
+            return True
+
 
         return False
 
@@ -138,6 +163,22 @@ class QuerySetCmd(BaseCmd):
         )
 
         self._output_dataset(nq_set, args)
+
+    def _handle_scholia(self, args: Namespace) -> None:
+        """
+        Handle the Scholia import workflow.
+        """
+        # Initialize NamedQueryManager (uses default/temporary DB as in samples)
+        nqm = NamedQueryManager.from_samples()
+
+        scholia_queries = ScholiaQueries(nqm, debug=args.debug)
+
+        # Extract queries with limit and progress
+        scholia_queries.extract_queries(limit=args.limit, show_progress=args.progress)
+
+        # Output the resulting NamedQuerySet
+        self._output_dataset(scholia_queries.named_query_set, args)
+
 
     def _output_dataset(self, nq_set, args: Namespace) -> None:
         """

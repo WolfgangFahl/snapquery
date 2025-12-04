@@ -3,7 +3,7 @@ Created on 2024-05-04
 
 @author: wf
 """
-
+from tqdm import tqdm
 import requests
 
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager, NamedQuerySet
@@ -69,19 +69,26 @@ class ScholiaQueries:
             )
             return named_query
 
-    def extract_queries(self, limit: int = None):
+    def extract_queries(self, limit: int = None, show_progress: bool = False):
         """
         Extract all queries from the Scholia repository.
 
         Args:
             limit (int, optional): Limit the number of queries fetched. Defaults to None.
+            show_progress (bool, optional): Show a progress bar. Defaults to False.
         """
         file_list_json = self.get_scholia_file_list()
-        for i, file_info in enumerate(file_list_json, start=1):
+        # Determine iterator loop
+        if show_progress:
+            iterator = tqdm(file_list_json, desc="Extracting Scholia queries", unit="file")
+        else:
+            iterator = file_list_json
+
+        for i, file_info in enumerate(iterator, start=1):
             named_query = self.extract_query(file_info)
             if named_query:
                 self.named_query_set.queries.append(named_query)
-                if self.debug:
+                if self.debug and not show_progress:
                     if i % 80 == 0:
                         print(f"{i}")
                     print(".", end="", flush=True)

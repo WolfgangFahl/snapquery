@@ -9,6 +9,7 @@ import sys
 from basemkit.base_cmd import BaseCmd
 from snapquery.query_set_tool import QuerySetTool
 from snapquery.scholia import ScholiaQueries
+from snapquery.sib_sparql_examples import SibSparqlExamples
 from snapquery.wd_page_query_extractor import WikidataQueryExtractor
 from snapquery.snapquery_core import NamedQueryManager
 from snapquery.version import Version
@@ -100,6 +101,12 @@ class QuerySetCmd(BaseCmd):
             action="store_true",
             help="Extract official Wikidata SPARQL examples to generate a NamedQuerySet.",
         )
+        # SIB options
+        parser.add_argument(
+            "--sib-examples",
+            action="store_true",
+            help="Extract SIB queries from GitHub to generate a NamedQuerySet.",
+        )
 
         parser.add_argument(
             "--limit",
@@ -144,7 +151,9 @@ class QuerySetCmd(BaseCmd):
         if args.wikidata_examples:
             self._handle_wikidata_examples(args)
             return True
-
+        if args.sib_examples:
+            self._handle_sib_examples(args)
+            return True
 
         return False
 
@@ -231,6 +240,21 @@ class QuerySetCmd(BaseCmd):
 
         # Output the resulting NamedQuerySet
         self._output_dataset(extractor.named_query_list, args)
+
+    def _handle_sib_examples(self, args: Namespace) -> None:
+        """
+        Handle the Wikidata Examples import workflow.
+        """
+        debug = args.debug
+        limit = args.limit
+        show_progress = args.progress
+        # Initialize NamedQueryManager
+        nqm = NamedQueryManager.from_samples()
+        sib_fetcher = SibSparqlExamples(nqm, debug=debug)
+        if debug:
+            print(f"Fetching SIB examples (limit={limit})...")
+        loaded_queries = sib_fetcher.extract_queries(limit=limit, debug_print=debug or show_progress)
+        self._output_dataset(sib_fetcher.named_query_set, args)
 
 
     def _output_dataset(self, nq_set, args: Namespace) -> None:

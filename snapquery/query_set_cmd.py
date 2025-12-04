@@ -9,9 +9,10 @@ import sys
 from basemkit.base_cmd import BaseCmd
 from snapquery.query_set_tool import QuerySetTool
 from snapquery.scholia import ScholiaQueries
+from snapquery.wd_page_query_extractor import WikidataQueryExtractor
 from snapquery.snapquery_core import NamedQueryManager
 from snapquery.version import Version
-
+from tqdm import tqdm
 
 class QuerySetCmdVersion(Version):
     """Version information"""
@@ -93,6 +94,13 @@ class QuerySetCmd(BaseCmd):
             action="store_true",
             help="Run Scholia import to generate a NamedQuerySet.",
         )
+        # Wikidata Examples options
+        parser.add_argument(
+            "--wikidata-examples",
+            action="store_true",
+            help="Extract official Wikidata SPARQL examples to generate a NamedQuerySet.",
+        )
+
         parser.add_argument(
             "--limit",
             type=int,
@@ -131,6 +139,10 @@ class QuerySetCmd(BaseCmd):
 
         if args.scholia:
             self._handle_scholia(args)
+            return True
+
+        if args.wikidata_examples:
+            self._handle_wikidata_examples(args)
             return True
 
 
@@ -178,6 +190,47 @@ class QuerySetCmd(BaseCmd):
 
         # Output the resulting NamedQuerySet
         self._output_dataset(scholia_queries.named_query_set, args)
+
+    def _handle_wikidata_examples(self, args: Namespace) -> None:
+        """
+        Handle the Wikidata Examples import workflow.
+        """
+        # Initialize NamedQueryManager
+        nqm = NamedQueryManager.from_samples()
+
+        # Configure extractor for official examples
+        extractor = WikidataQueryExtractor(
+            nqm=nqm,
+            base_url="https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries/examples",
+            domain="wikidata.org",
+            namespace="examples",
+            target_graph_name="wikidata",
+            debug=args.debug,
+        )
+
+        # 1. Fetch wikitext
+        wikitext = extractor.fetch_wikitext()
+        if not wikitext:
+            return  # fetch_wikitext logs the error
+
+        # 2. Parse sections
+        sections = extractor.get_sections(wikitext)
+
+        # 3. Iterate with optional progress
+        iterator = sections
+        if args.progress:
+            print(f"Extracting queries from {extractor.base_url} ...")
+            iterator = tqdm(sections)
+
+        for section in iterator:
+            extractor.extract_queries_from_section(section)
+
+            # Simple approximation of limit based on queries stored
+            if args.limit and len(extractor.named_query_list.queries) >= args.limit:
+                break
+
+        # Output the resulting NamedQuerySet
+        self._output_dataset(extractor.named_query_list, args)
 
 
     def _output_dataset(self, nq_set, args: Namespace) -> None:

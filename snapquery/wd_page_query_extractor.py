@@ -2,8 +2,10 @@
 Created on 2024-05-04
 Refactored on 2024-05-22
 Author: tholzheim
+Refactored on 2025-04-12
+support progress bar via iterator
 
-This module provides the WikipediaQueryExtractor class, which is responsible for
+This module provides the WikidataQueryExtractor class, which is responsible for
 parsing MediaWiki page content to extract SPARQL queries. It supports extracting
 queries from 'short url' blocks (w.wiki) and explicit SPARQL templates.
 """
@@ -219,6 +221,35 @@ class WikidataQueryExtractor:
         matching = [t for t in templates if t.name.strip() == self.template_name]
         return matching[0] if len(matching) == 1 else None
 
+    def fetch_wikitext(self) -> Optional[str]:
+        """
+        Fetch the wikitext content using the configured base_url.
+
+        Returns:
+            Optional[str]: The raw wikitext, or None on failure.
+        """
+        self.log(f"Fetching wikitext from {self.base_url}...")
+        wd = Wikidata()
+        wikitext = wd.get_wikitext(self.base_url)
+
+        if not wikitext:
+            self.log(f"Failed to retrieve wikitext from {self.base_url}", is_error=True)
+            return None
+        return wikitext
+
+    def get_sections(self, wikitext: str) -> List[Section]:
+        """
+        Parse wikitext into sections.
+
+        Args:
+            wikitext (str): Raw wikitext.
+
+        Returns:
+            List[Section]: List of wikitextparser sections.
+        """
+        parsed = wtp.parse(wikitext)
+        return parsed.sections
+
     def extract_queries(self, wikitext: Optional[str] = None):
         """
         Main entry point for extraction.
@@ -233,17 +264,12 @@ class WikidataQueryExtractor:
             wikitext (Optional[str]): Raw wikitext content. If None, fetches from URL.
         """
         if wikitext is None:
-            self.log(f"Fetching wikitext from {self.base_url}...")
-            wd = Wikidata()
-            wikitext = wd.get_wikitext(self.base_url)
-
+            wikitext = self.fetch_wikitext()
             if not wikitext:
-                self.log(f"Failed to retrieve wikitext from {self.base_url}", is_error=True)
                 return
 
-        # Parse the text using wikitextparser
-        parsed = wtp.parse(wikitext)
-        for section in parsed.sections:
+        sections = self.get_sections(wikitext)
+        for section in sections:
             self.extract_queries_from_section(section)
 
         if not self.debug and self.errors:

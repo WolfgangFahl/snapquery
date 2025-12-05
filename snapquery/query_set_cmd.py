@@ -7,13 +7,15 @@ from argparse import ArgumentParser, Namespace
 import sys
 
 from basemkit.base_cmd import BaseCmd
+from snapquery.qlever import QLever
 from snapquery.query_set_tool import QuerySetTool
 from snapquery.scholia import ScholiaQueries
 from snapquery.sib_sparql_examples import SibSparqlExamples
-from snapquery.wd_page_query_extractor import WikidataQueryExtractor
 from snapquery.snapquery_core import NamedQueryManager
 from snapquery.version import Version
+from snapquery.wd_page_query_extractor import WikidataQueryExtractor
 from tqdm import tqdm
+
 
 class QuerySetCmdVersion(Version):
     """Version information"""
@@ -107,6 +109,12 @@ class QuerySetCmd(BaseCmd):
             action="store_true",
             help="Extract SIB queries from GitHub to generate a NamedQuerySet.",
         )
+        # QLever issues
+        parser.add_argument(
+            "--qlever-issues",
+            action="store_true",
+            help="Extract QLever Issues from GitHub to generate a NamedQuerySet.",
+        )
 
         parser.add_argument(
             "--limit",
@@ -151,8 +159,13 @@ class QuerySetCmd(BaseCmd):
         if args.wikidata_examples:
             self._handle_wikidata_examples(args)
             return True
+
         if args.sib_examples:
             self._handle_sib_examples(args)
+            return True
+
+        if args.qlever_issues:
+            self._handle_qlever_issues(args)
             return True
 
         return False
@@ -253,9 +266,27 @@ class QuerySetCmd(BaseCmd):
         sib_fetcher = SibSparqlExamples(nqm, debug=debug)
         if debug:
             print(f"Fetching SIB examples (limit={limit})...")
-        loaded_queries = sib_fetcher.extract_queries(limit=limit, debug_print=debug, show_progress=show_progress)
+        _loaded_queries = sib_fetcher.extract_queries(limit=limit, debug_print=debug, show_progress=show_progress)
         self._output_dataset(sib_fetcher.named_query_set, args)
 
+    def _handle_qlever_issues(self, args: Namespace):
+        """
+        Get QLever issues from GitHub and convert to NamedQuerySet.
+        """
+        # 1. Initialize logic class
+        qlever = QLever(with_progress=args.progress,debug=args.debug)
+
+        if args.debug or args.progress:
+            print(f"Fetching QLever tickets from GitHub API (limit={args.limit})...")
+
+        # 2. Execute extraction
+        nq_set = qlever.get_issues_query_set(limit=args.limit, progress=args.progress)
+
+        if args.debug:
+            print(f"Extracted {len(nq_set.queries)} named queries.")
+
+        # 3. Output result
+        self._output_dataset(nq_set, args)
 
     def _output_dataset(self, nq_set, args: Namespace) -> None:
         """

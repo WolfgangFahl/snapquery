@@ -1,0 +1,1541 @@
+domain: wikidata.org
+namespace: short_urls
+target_graph_name: wikidata
+queries:
+- name: 4nGj
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 4ngj--short_urls@wikidata.org
+  sparql: "SELECT \n  DISTINCT\n#   ?item ?title\n  (REPLACE(STR(?item), \".*Q\",\
+    \ \"Q\") AS ?qid) \n  (\"P921\" AS ?property)\n  (\"Q110792512\" AS ?ReplaceWithYourTargetID)\n\
+    \  (\"S887\" AS ?heuristic)\n  (\"Q69652283\" AS ?deduced)\n\nWHERE {\n  hint:Query\
+    \ hint:optimizer \"None\".\n  \n{  SERVICE wikibase:mwapi {\n    bd:serviceParam\
+    \ wikibase:api \"Search\";\n                    wikibase:endpoint \"www.wikidata.org\"\
+    ;\n                    mwapi:srsearch \"\\\"poaching pressure\\\" haswbstatement:P31=Q13442814\
+    \ -haswbstatement:P921=Q110792512\".\n      ?page_title wikibase:apiOutput mwapi:title.\n\
+    \  }\n }\n  BIND(IRI(CONCAT(STR(wd:), ?page_title)) AS ?item)\n  \n  ?item wdt:P1476\
+    \ ?title.\n  FILTER REGEX(LCASE(?title), \"poaching(.)pressure\").\n\n}\n"
+  url: https://w.wiki/4nGj
+- name: 2DXc
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2dxc--short_urls@wikidata.org
+  sparql: "SELECT ?municipality ?municipalityLabel ?begindatum ?einddatum ?VervangenDoor\
+    \ ?VervangenDoorLabel ?CBS_gemeentecode ?Amsterdamse_code ?gelegen_in_bestuurlijke_eenheid\
+    \ ?gelegen_in_bestuurlijke_eenheidLabel ?LandLabel WHERE {\n  SERVICE wikibase:label\
+    \ { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n  ?municipality\
+    \ p:P31 ?statement.\n  ?statement ps:P31 wd:Q2039348.\n  { ?statement pq:P580\
+    \ ?begindatum. }\n  optional { ?statement pq:P1366 ?VervangenDoor. }\n  OPTIONAL\
+    \ { ?statement pq:P582 ?einddatum. }\n  OPTIONAL { ?municipality wdt:P382 ?CBS_gemeentecode.\
+    \ }\n  OPTIONAL { ?municipality wdt:P6434 ?Amsterdamse_code. }\n   { ?municipality\
+    \ wdt:P17 ?Land. }\n  ?municipality p:P131 ?gelegen_statement.\n  ?gelegen_statement\
+    \ ps:P131 ?gelegen_in_bestuurlijke_eenheid;\n    pq:P3831 wd:Q134390.\n  \n}"
+  url: https://w.wiki/2DXc
+- name: 8pC9
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 8pc9--short_urls@wikidata.org
+  sparql: "SELECT ?item ?itemLabel \nWHERE \n{\n  ?item wdt:P140 wd:Q432.\n  ?item\
+    \ wdt:P1344 ?contest.\n  FILTER (?contest IN (wd:Q276, wd:Q153578, wd:Q154846,\
+    \ wd:Q171784, wd:Q179853, wd:Q188517, wd:Q199924, wd:Q200794, wd:Q202110, wd:Q203245,\
+    \ wd:Q203254, wd:Q203329, wd:Q203968, wd:Q203975, wd:Q203983, wd:Q203987, wd:Q204010,\
+    \ wd:Q205192, wd:Q207538, wd:Q207541, wd:Q207815, wd:Q207889, wd:Q208243, wd:Q208523,\
+    \ wd:Q208524, wd:Q209429, wd:Q209673, wd:Q209678, wd:Q209745, wd:Q209751, wd:Q209846,\
+    \ wd:Q210578, wd:Q211469, wd:Q211474, wd:Q211478, wd:Q211487, wd:Q211484, wd:Q211490,\
+    \ wd:Q211494, wd:Q211754, wd:Q211752, wd:Q211942, wd:Q213942, wd:Q216891, wd:Q5354210,\
+    \ wd:Q6015709, wd:Q9095390, wd:Q15215081, wd:Q23055386, wd:Q25408640, wd:Q30973589,\
+    \ wd:Q50729731, wd:Q96929880, wd:Q107599005, wd:Q114565318, wd:Q118421125, wd:Q10146,\
+    \ wd:Q10150, wd:Q10151, wd:Q10148, wd:Q10155, wd:Q10152, wd:Q10153, wd:Q10158,\
+    \ wd:Q10157, wd:Q10162, wd:Q10160, wd:Q10161, wd:Q11062, wd:Q11113, wd:Q11117)).\n\
+    \  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\"\
+    . } # Helps get the label in your language, if not, then en language\n}"
+  url: https://w.wiki/8pC9
+- name: 5c5G
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 5c5g--short_urls@wikidata.org
+  sparql: "SELECT ?item ?itemLabel (\"amusement park\" as ?category) ?coordinates\
+    \ ?country ?countryLabel ?locatedin ?locatedinLabel ?pic ?inception ?opening ?heritageLabel\
+    \ ?architect ?architectLabel ?architecturalstyleLabel ?website ?height ?speed\n\
+    \nWHERE {\n  VALUES ?instance {wd:Q194195 wd:Q2416723}\n  ?item wdt:P31 ?instance\
+    \ .\n  \n  ?item wdt:P625 ?coordinates .\n  ?item wdt:P17 ?country .\n  ?item\
+    \ wdt:P131 ?locatedin .\n  OPTIONAL {?item wdt:P18 ?pic .}\n  OPTIONAL {?item\
+    \ wdt:P571 ?inception .}\n  OPTIONAL {?item wdt:P1619 ?opening .}\n  OPTIONAL\
+    \ {?item wdt:P1435 ?heritage .}\n  OPTIONAL {?item wdt:P84 ?architect .}  \n \
+    \ OPTIONAL {?item wdt:P149 ?architecturalstyle .}\n  OPTIONAL {?item wdt:P856\
+    \ ?website .}\n  OPTIONAL {?item wdt:P2048 ?height .}\n  OPTIONAL {?item wdt:P2052\
+    \ ?speed .}\n\n  \n  SERVICE wikibase:label { bd:serviceParam wikibase:language\
+    \ \"[AUTO_LANGUAGE],en\". }\n}"
+  url: https://w.wiki/5c5G
+- name: 2Dcm
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2dcm--short_urls@wikidata.org
+  sparql: "#defaultView:Tree\nSELECT ?continent ?continentFlag ?continentLabel \n\
+    ?country ?countryLabel ?countryFlag \n?region ?regionLabel ?regionFlag \n?city\
+    \ ?cityImage ?pop2 WHERE {\n  ?continent wdt:P31 wd:Q5107.\n  ?country wdt:P31\
+    \ wd:Q6256;\n           wdt:P30 ?continent; \n  OPTIONAL { ?continent wdt:P242\
+    \ ?continentFlag. }\n  OPTIONAL { ?country wdt:P41 ?countryFlag. }\n  OPTIONAL\
+    \ {\n    ?country wdt:P150 ?region.\n    OPTIONAL { ?region wdt:P41 ?regionFlag.\
+    \ }\n    OPTIONAL {\n      ?region wdt:P36 ?city.\n      ?city rdfs:label ?bareCityLabel.\n\
+    \      FILTER(LANG(?bareCityLabel) = \"en\").\n      OPTIONAL { ?city wdt:P1082\
+    \ ?pop. }\n      OPTIONAL { ?city wdt:P18 ?cityImage. }\n      BIND(IF(BOUND(?pop),CONCAT(?bareCityLabel,\
+    \ \" (Population: \", STR(?pop), \")\"),?bareCityLabel) AS ?pop2).\n    }\n  }\n\
+    \  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\"\
+    . }\n}\nORDER BY ?continentLabel ?countryLabel ?regionLabel ?cityLabel"
+  url: https://w.wiki/2Dcm
+- name: 46cf
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 46cf--short_urls@wikidata.org
+  sparql: |-
+    #female botanists and botanical collectors born<1900, sorted by number of sitelinks, with some related info
+    #
+    SELECT ?item ?itemLabel (SAMPLE(?occname) AS ?occname) ?sitelinks ?WDstatements ?article (SAMPLE(?birth) AS ?birth) (SAMPLE(?death) AS ?death) (SAMPLE(?bloodhound) AS ?bloodhound) (SAMPLE(?harvard) AS ?harvard) WHERE {
+      #?occ wdt:P279|wdt:P279/wdt:P279* wd:Q2374149.
+      VALUES ?occ { wd:Q2374149 wd:Q2083925 }
+      ?item wdt:P106 ?occ .
+      OPTIONAL { ?item wdt:P108 ?emp . }
+      ?item wdt:P21 wd:Q6581072;
+        wikibase:statements ?WDstatements;
+        wikibase:sitelinks ?sitelinks.
+      OPTIONAL {
+       ?article schema:about ?item;
+          schema:inLanguage "en";
+          schema:isPartOf <https://en.wikipedia.org/>.
+      }
+      ?occ rdfs:label ?occname .
+      OPTIONAL {?item wdt:P569 ?birth .}
+      OPTIONAL {?item wdt:P570 ?death .}
+      OPTIONAL {?item wdt:P6944 ?bloodhound .}
+      OPTIONAL {?item wdt:P6264 ?harvard .}
+      FILTER(LANG(?occname) = "en").
+      FILTER((?birth<"1900-01-01T00:00:00Z"^^xsd:dateTime)||(?death<"1920-01-01T00:00:00Z"^^xsd:dateTime)).
+      SERVICE wikibase:label {
+        bd:serviceParam wikibase:language "en" .
+      }
+    }
+    GROUP BY ?item ?itemLabel ?sitelinks ?WDstatements ?article
+    ORDER BY DESC (?sitelinks)
+  url: https://w.wiki/46cf
+- name: 4NC9
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 4nc9--short_urls@wikidata.org
+  sparql: "# tool: scholia\nSELECT ?count ?use ?useLabel ?described_by_example ?described_by_exampleLabel\
+    \ ?example_use ?example_useLabel\nWITH {\n  SELECT\n    (COUNT(DISTINCT ?work)\
+    \ AS ?count)\n    ?use\n    (SAMPLE(?described_by) AS ?described_by_example)\n\
+    \    (SAMPLE(?work) AS ?example_use)\n  WHERE {\n    ?work wdt:P2283 | wdt:P4510\
+    \ ?use . \n    ?use wdt:P31/wdt:P279* wd:Q7397 . \n    # Restricting to work takes\
+    \ too long time :(    \n    # ?work wdt:P31/wdt:P279* wd:Q386724 .\n    OPTIONAL\
+    \ { ?use wdt:P1343 ?described_by . }\n  }\n  GROUP BY ?use\n} AS %result\nWHERE\
+    \ {\n  INCLUDE %result\n  SERVICE wikibase:label { bd:serviceParam wikibase:language\
+    \ \"[AUTO_LANGUAGE],en\" . }\n}\nORDER BY DESC(?count)\nLIMIT 500\n"
+  url: https://w.wiki/4NC9
+- name: 47DV
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 47dv--short_urls@wikidata.org
+  sparql: |-
+    SELECT ?city1Label ?parent1Label ?country1Label ?city2Label ?parent2Label ?country2Label ?referenceLabel WHERE {
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+      OPTIONAL { ?city1 wdt:P190 ?city2. }
+      VALUES ?country1 {
+        wd:Q16
+      }
+      VALUES ?country2 {
+        wd:Q148
+        wd:Q17
+        wd:Q884
+        wd:Q408
+        wd:Q668
+        wd:Q865
+        wd:Q252
+        wd:Q928
+        wd:Q881
+        wd:Q833
+        wd:Q869
+        wd:Q334
+        wd:Q819
+        wd:Q424
+        wd:Q902
+        wd:Q843
+        wd:Q854
+        wd:Q837
+        wd:Q917
+        wd:Q664
+        wd:Q423
+        wd:Q711
+        wd:Q691
+        wd:Q574
+        wd:Q712
+      }
+      ?city1 wdt:P17 ?country1.
+      ?city2 wdt:P17 ?country2.
+      OPTIONAL { ?city1 wdt:P131 ?parent1. }
+      OPTIONAL { ?city2 wdt:P131 ?parent2. }
+      OPTIONAL { ?city2 wdt:P854 ?reference. }
+    }
+  url: https://w.wiki/47DV
+- name: 6dhL
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 6dhl--short_urls@wikidata.org
+  sparql: "SELECT DISTINCT ?mujerEnfermera ?mujerEnfermeraEtiqueta ?commonsURL ?numberOfSitelinks\
+    \ ?numberOfIdentifiers ?url ?data\n                                    \nwhere\
+    \ { \n  \n\t?mujerEnfermera wdt:P21 wd:Q6581072 . \n\t?mujerEnfermera wdt:P19\
+    \ ?placeOfBirth . ?placeOfBirth wdt:P131* wd:Q5705 .\n\t?mujerEnfermera wdt:P106\
+    \ wd:Q186360 .\n\t\tOPTIONAL { ?mujerEnfermera wdt:P18 ?commonsURL .}\n\t\tOPTIONAL\
+    \ { ?mujerEnfermera wikibase:sitelinks ?numberOfSitelinks .}\n\t\tOPTIONAL { ?mujerEnfermera\
+    \ wikibase:identifiers ?numberOfIdentifiers .}  \n\t\tOPTIONAL { ?mujerEnfermera\
+    \ p:P106 ?s1 . ?s1 ps:P106 wd:Q186360. ?s1 prov:wasDerivedFrom ?r . ?r pr:P854\
+    \ ?url. ?pr pr:P813 ?data. } \n\t\tSERVICE wikibase:label { bd:serviceParam wikibase:language\
+    \ \"ca\". \n                          ?mujerEnfermera rdfs:label ?mujerEnfermeraEtiqueta.\
+    \  \n                           }\n  \n} \n\norder by ?mujerEnfermeraEtiqueta\n"
+  url: https://w.wiki/6dhL
+- name: 5rys
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 5rys--short_urls@wikidata.org
+  sparql: "SELECT (count(DISTINCT ?item) as ?count)\nWHERE {\n  ?item wdt:P27 wd:Q30.\
+    \ \n  # country of citizenship: us\n  ?item wdt:P31 wd:Q5 . \n  # is a real person\n\
+    \  ?item wdt:P106 ?occ . ?occ wdt:P279* wd:Q2066131. \n  # occupation is a subclass\
+    \ of athlete\n  ?item wdt:P106 ?occ2 . filter not exists { ?occ2 wdt:P279* wd:Q2066131\
+    \ } \n  # has another occupation that is not an athlete\n  ?_articleEN schema:about\
+    \ ?item.  ?_articleEN schema:isPartOf <https://en.wikipedia.org/>.\n  # has an\
+    \ enwiki page\n}"
+  url: https://w.wiki/5rys
+- name: 6XZC
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 6xzc--short_urls@wikidata.org
+  sparql: "#les titres (en français) des films de Jean-Luc Godard\nSELECT ?item ?itemLabel\
+    \ WHERE {\n  ?item wdt:P31 wd:Q11424. # film\n  ?item wdt:P364 wd:Q150. #language\n\
+    \  ?item wdt:P57 wd:Q53001. #director\n \n  SERVICE wikibase:label { bd:serviceParam\
+    \ wikibase:language \"[AUTO_LANGUAGE], en\". }\n\n}\n"
+  url: https://w.wiki/6XZC
+- name: 38H8
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 38h8--short_urls@wikidata.org
+  sparql: "SELECT ?item ?itemLabel ?record_label ?record_labelLabel ?country ?countryLabel\
+    \ ?coordinates WHERE {\n  SERVICE wikibase:label { bd:serviceParam wikibase:language\
+    \ \"[AUTO_LANGUAGE],en\". }\n  ?item wdt:P5008 wd:Q66067752;\n    wdt:P31 wd:Q215380.\n\
+    \  OPTIONAL { ?item wdt:P264 ?record_label. \n    ?record_label wdt:P17 ?country.\
+    \ \n    ?country wdt:P625 ?coordinates.}\n}\nLIMIT 100"
+  url: https://w.wiki/38H8
+- name: 2M5Y
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2m5y--short_urls@wikidata.org
+  sparql: |-
+    select ?value {
+      values ?value { wd:Q82069695 }
+    }
+  url: https://w.wiki/2M5Y
+- name: 2Soq
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2soq--short_urls@wikidata.org
+  sparql: "SELECT ?straat ?straatLabel ?einde WHERE {\n    ?straat wdt:P31 wd:Q79007\
+    \ .\n  \t?straat wdt:P131 wd:Q43631 .\n    ?straat wdt:P576 ?einde .\n    SERVICE\
+    \ wikibase:label { bd:serviceParam wikibase:language \"nl\". }\n}"
+  url: https://w.wiki/2Soq
+- name: 2EDx
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2edx--short_urls@wikidata.org
+  sparql: "# some Q219423 are obviously movable as they have P276 that is different\
+    \ from their P189\nSELECT ?item ?itemLabel ?location ?locationLabel ?location_of_discovery\
+    \ ?location_of_discoveryLabel {\n  ?item wdt:P31 wd:Q219423 .\n  ?item wdt:P276\
+    \ ?location .\n  ?item wdt:P189 ?location_of_discovery . \n  FILTER(!(?location=?location_of_discovery))\n\
+    \  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en,fr\"\
+    . }\n}\nORDER BY ?itemLabel"
+  url: https://w.wiki/2EDx
+- name: 4xjF
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 4xjf--short_urls@wikidata.org
+  sparql: "# tool: scholia\nPREFIX target: <http://www.wikidata.org/entity/Q105747097>\n\
+    \nSELECT DISTINCT \n# ?item ?itemLabel ?taxonname\n  (REPLACE(STR(?item), \".*Q\"\
+    , \"Q\") AS ?work) \n  (\"P921\" AS ?main_subject)\n  (REPLACE(STR(target: ),\
+    \ \".*Q\", \"Q\") AS ?taxon)\n  (\"S887\" AS ?heuristic)\n  (\"Q69652283\" AS\
+    \ ?deduced)\n\nWITH\n{ SELECT  ?item ?taxonname WHERE {\n  target: wdt:P225 ?taxonname\
+    \ .\n  target: wdt:P105 wd:Q7432 . # this filters for species-level (Q7432) taxon\
+    \ names; comment out or adapt as necessary\n\n  SERVICE wikibase:mwapi\n  {\n\
+    \    bd:serviceParam wikibase:endpoint \"www.wikidata.org\";\n      wikibase:api\
+    \ \"Generator\";\n      mwapi:generator \"search\";\n      mwapi:gsrsearch ?taxonname;\n\
+    \      mwapi:gsrlimit \"max\".\n    ?item wikibase:apiOutputItem mwapi:title.\n\
+    \  }\n  ?item wdt:P1476 ?title .\n  \n  MINUS {?item wdt:P921 target: }\n  MINUS\
+    \ {?item wdt:P921 [wdt:P171* target: ] } # this filters out works about subspecies\
+    \ of the target\n\n  FILTER (REGEX(LCASE(?title), LCASE(CONCAT( \"\\\\\", \"b\"\
+    , ?taxonname ,\"\\\\\", \"b\"))))\n  }\n#   LIMIT 200\n}\nAS %items\nWHERE {\n\
+    \  INCLUDE %items\n  SERVICE wikibase:label { bd:serviceParam wikibase:language\
+    \ \"[AUTO_LANGUAGE],en\". }\n}\n# LIMIT 200\n"
+  url: https://w.wiki/4xjF
+- name: 4nZk
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 4nzk--short_urls@wikidata.org
+  sparql: "SELECT DISTINCT\n  ?items\n  ?lexeme\n  ?lemma\n  ?lexicalCategory ?lexicalCategoryLabel\n\
+    \  ?sense\n  ?gloss\n  ?audio\n  ?images\nWHERE {\n  # Filter: 'language' is...\n\
+    \  ?items dct:language wd:Q12107 . # Q1860. English # Q150. French # Q12107. \
+    \ Breton # Q9610. Bengali  \n  # Assign values: lexicographic properties\n  ?items\
+    \ ontolex:lexicalForm ?lexeme .\n  ?items wikibase:lemma ?lemma .\n  ?items wikibase:lexicalCategory\
+    \ ?lexicalCategory .\n  ?items ontolex:sense ?sense .\n  ?sense skos:definition\
+    \ ?gloss .\n  FILTER(LANG(?gloss)= 'fr') . # Filter : definitions in one language\
+    \ only.\n  # Medias and filters (optionals)\n  OPTIONAL { ?lexeme wdt:P443 ?audio\
+    \ . } # Assign value: P443 'pronunciation audio' URL into ?audio\n#  FILTER(REGEX(STR(?audio),\
+    \ \"^http://commons.wikimedia.org/wiki/Special:FilePath/LL-\"))\n  OPTIONAL {\
+    \ ?sense wdt:P18 ?images . }\n#  FILTER(REGEX(STR(?images), \"^http://commons.wikimedia.org\"\
+    ))\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\"\
+    . }\n}\nORDER BY ASC (?items)\n# GROUP BY (?items ?lexeme ?lemma ?lexicalCategory\
+    \ ?lexicalCategoryLabel)"
+  url: https://w.wiki/4nZk
+- name: 24dR
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 24dr--short_urls@wikidata.org
+  sparql: "select distinct ?StilLabel\nwhere {\n  ?Maler  wdt:P106    wd:Q1028181.\n\
+    \  ?Maler  wdt:P135    ?Stil.  \n  ?Stil   rdfs:label  ?StilLabel.\n  SERVICE\
+    \ wikibase:label { bd:serviceParam wikibase:language '[AUTO_LANGUAGE], de'. }\n\
+    }\nORDER BY ?StilLabel"
+  url: https://w.wiki/24dR
+- name: 2gMK
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2gmk--short_urls@wikidata.org
+  sparql: "#canadian cities : instance of city & country Canada\nSELECT ?item ?itemLabel\
+    \ \nWHERE \n{\n  ?item wdt:P31 wd:Q515.\n  ?item wdt:P17 wd:Q16.\n  SERVICE wikibase:label\
+    \ { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}"
+  url: https://w.wiki/2gMK
+- name: 6UeA
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 6uea--short_urls@wikidata.org
+  sparql: |
+    SELECT ?comics_characterLabel ?educationLabel ?degreeLabel ?degreeStatementLabel WHERE {
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+      ?comics_character wdt:P31 wd:Q1114461.
+        VALUES ?universes {
+        wd:Q1152150
+        wd:Q931597
+      }
+      ?comics_character wdt:P1080 ?universes.
+      OPTIONAL {
+        ?comics_character p:P69 ?educationstatement;
+          wdt:P69 ?education.
+        ?education (wdt:P31/(wdt:P279*)) wd:Q38723.
+      }
+      OPTIONAL {?comics_character p:P69 ?educationstatement.
+                                  ?educationstatement pq:P512 ?degree. }
+      OPTIONAL { ?comics_character wdt:P512 ?degreeStatement. }
+    }
+  url: https://w.wiki/6UeA
+- name: 6raz
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 6raz--short_urls@wikidata.org
+  sparql: |-
+    SELECT DISTINCT ?item ?itemLabel ?inception ?inventory_number ?National_Gallery_of_Art_artwork_ID ?catalog_code WHERE {
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE]". }
+      {
+        SELECT DISTINCT ?item WHERE {
+          ?item p:P195 ?statement0.
+          ?statement0 ps:P195 wd:Q62274660.
+          ?item p:P170 ?statement1.
+          ?statement1 ps:P170 wd:Q5593.
+        }
+        LIMIT 10000
+      }
+      OPTIONAL { ?item wdt:P571 ?inception. }
+      OPTIONAL { ?item wdt:P217 ?inventory_number. }
+      OPTIONAL { ?item wdt:P4683 ?National_Gallery_of_Art_artwork_ID. }
+      OPTIONAL { ?item wdt:P528 ?catalog_code. }
+    }
+  url: https://w.wiki/6raz
+- name: 3Mfy
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 3mfy--short_urls@wikidata.org
+  sparql: "# find the strings\n# but put ?authorAltLabel\nSELECT DISTINCT ?authorLabel\
+    \ \nWHERE {\n  ?publication wdt:P50 ?author .\n  ?author ( wdt:P108 | wdt:P463\
+    \ | wdt:P1416 ) / wdt:P361* wd:Q131626 .\nSERVICE wikibase:label { bd:serviceParam\
+    \ wikibase:language \"[AUTO_LANGUAGE]\". }\n  }\nORDER BY ?authorLabel"
+  url: https://w.wiki/3Mfy
+- name: 7qRL
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 7qrl--short_urls@wikidata.org
+  sparql: SELECT DISTINCT ?entity ?entityLabel WHERE {  ?entity (wdt:P31/(wdt:P279*))
+    wd:Q12397176 .  ?entity wdt:P131 wd:Q1627561 .  MINUS {    {?entity a wdno:P18
+    .} UNION    {?entity wdt:P18 ?prop .}  }  SERVICE wikibase:label { bd:serviceParam
+    wikibase:language "[AUTO_LANGUAGE],en". }}
+  url: https://w.wiki/7qRL
+- name: 2Scd
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2scd--short_urls@wikidata.org
+  sparql: "SELECT ?WD ?WDLabel ?ADSvalue ?ORCID\n{\n\t?WD wdt:P6734 ?ADSvalue .\n\
+    \  OPTIONAL {?WD wdt:P496 ?ORCID .\n}  \n  SERVICE wikibase:label { bd:serviceParam\
+    \ wikibase:language \"en,en\"  }    \n}\nLIMIT 60000"
+  url: https://w.wiki/2Scd
+- name: 6Xkj
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 6xkj--short_urls@wikidata.org
+  sparql: |-
+    #title:Mapa das instituições culturais paraenses cadastradas no Wikidata, por tipo de instituição
+    #defaultView:Map
+    SELECT DISTINCT ?item ?coord ?layer ?color
+    WITH { SELECT DISTINCT ?item WHERE { ?item wdt:P31/wdt:P279* wd:Q1030034; wdt:P131/wdt:P131 wd:Q39517. } } AS %results
+    WITH { SELECT DISTINCT ?item ?layer ?color WHERE {
+      { ?item wdt:P31/wdt:P279* wd:Q7075. BIND('biblioteca' as ?layer) BIND('10459F' as ?color) } UNION
+      { ?item wdt:P31/wdt:P279* wd:Q166118. BIND('arquivo' as ?layer) BIND('FFFF00' as ?color) } UNION
+      { ?item wdt:P31/wdt:P279* wd:Q33506. BIND('museu' as ?layer) BIND('D40000' as ?color) } UNION
+      { ?item wdt:P31/wdt:P279* wd:Q1007870. BIND('galeria' as ?layer) BIND('00A300' as ?color) } } } AS %types
+    WHERE {
+      INCLUDE %results.
+      INCLUDE %types.
+      ?item wdt:P625 ?coord.
+      SERVICE wikibase:label {bd:serviceParam wikibase:language "pt-br,pt,en,[AUTO_LANGUAGE]". ?item rdfs:label ?itemLabel.}
+    }
+  url: https://w.wiki/6Xkj
+- name: 3M43
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 3m43--short_urls@wikidata.org
+  sparql: |-
+    SELECT (COUNT(DISTINCT ?item) AS ?count) {
+      ?item wdt:P31 wd:Q5 ; p:P569 [ rdf:type wikibase:BestRank ; psv:P569/wikibase:timePrecision 9 ; ps:P569 "1950-01-01T00:00:00Z"^^xsd:dateTime ] ; wdt:P214 [] .
+    }
+  url: https://w.wiki/3M43
+- name: 2HBq
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2hbq--short_urls@wikidata.org
+  sparql: |-
+    #defaultView:Graph
+    SELECT ?node ?nodeLabel ?nodeImage ?childNode ?childNodeLabel ?childNodeImage ?rgb WHERE {
+      {
+        BIND(wd:Q27902203 AS ?node)
+        ?node ?p ?i.
+        OPTIONAL { ?node wdt:P18 ?nodeImage. }
+        ?childNode ?x ?p.
+        ?childNode rdf:type wikibase:Property.
+        FILTER(STRSTARTS(STR(?i), "http://www.wikidata.org/entity/Q"))
+        FILTER(STRSTARTS(STR(?childNode), "http://www.wikidata.org/entity/P"))
+      }
+      UNION
+      {
+        BIND("EFFBD8" AS ?rgb)
+        wd:Q27902203 ?p ?childNode.
+        OPTIONAL { ?childNode wdt:P18 ?childNodeImage. }
+        ?node ?x ?p.
+        ?node rdf:type wikibase:Property.
+        FILTER(STRSTARTS(STR(?childNode), "http://www.wikidata.org/entity/Q"))
+      }
+      OPTIONAL {
+        ?node wdt:P18 ?nodeImage.
+        ?childNode wdt:P18 ?childNodeImage.
+      }
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "sv". }
+    }
+  url: https://w.wiki/2HBq
+- name: 5mmC
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 5mmc--short_urls@wikidata.org
+  sparql: |-
+    #  defaultView:Map
+    SELECT DISTINCT ?item ?itemLabel ?coords ?itemDescription
+
+    WITH {
+      SELECT ?item ?layer WHERE {
+        ?item wdt:P17 wd:Q145 .
+        ?item wdt:P31/wdt:P279* wd:Q12280 .
+        MINUS {?item wdt:P10987 []} .
+        MINUS {?item wdt:P2505/wdt:P31/wdt:P279* wd:Q34442} .
+        BIND ('missing' AS ?layer) .
+      }
+    } AS %items
+
+    WHERE {
+      INCLUDE %items .
+      ?item wdt:P625 ?coords .
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+    }
+  url: https://w.wiki/5mmC
+- name: 2AmA
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2ama--short_urls@wikidata.org
+  sparql: "#Cats\nSELECT ?item ?itemLabel \nWHERE \n{\n  ?item wdt:P31 wd:Q7278.\n\
+    \  ?item wdt:P17 wd:Q33.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language\
+    \ \"[AUTO_LANGUAGE],fi\". }\n}"
+  url: https://w.wiki/2AmA
+- name: 25vX
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 25vx--short_urls@wikidata.org
+  sparql: |-
+    #People who lived in the same period as another person
+    #added before 2016-10
+
+    select ?person ?personLabel ?personDescription ?birth ?death ?age
+    WHERE
+    {
+      ?person wdt:P31 wd:Q5. # instance of human
+      ?person wdt:P569 ?birth . # birth date
+      bind( year(?death)-year(?birth) as ?age ) # Make a new variable called ?age that we can use
+      filter (?birth = "1989-08-15"^^xsd:dateTime)
+      service wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". } # used to display a label
+    }
+  url: https://w.wiki/25vX
+- name: 2otj
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2otj--short_urls@wikidata.org
+  sparql: "SELECT ?city ?cityLabel ?namedAfterLabel ?whatIsItLabel WHERE {\n\t?city\
+    \ wdt:P31/wdt:P279* wd:Q7930989. # instances of \"city/town\" subclasses\n   \
+    \ ?city wdt:P138 ?namedAfter. # with filled property \"named after\"\n    ?namedAfter\
+    \ wdt:P31 ?whatIsIt. # which is instance of\n    FILTER(?city = wd:Q1341 ||\n\
+    \           ?city = wd:Q2770 ||\n           ?city = wd:Q5655 ||\n           ?city\
+    \ = wd:Q156046 ||\n           ?city = wd:Q1957 ||\n           ?city = wd:Q175651)\n\
+    \tSERVICE wikibase:label { bd:serviceParam wikibase:language \"ru\" }\n}"
+  url: https://w.wiki/2otj
+- name: 6SjU
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 6sju--short_urls@wikidata.org
+  sparql: "SELECT ?country_name (COUNT(DISTINCT ?language) AS ?num)\n\tWHERE {\n\t\
+    \  \n\t  {SELECT ?country\n\t  WHERE{\n\t         ?country wdt:P31/wdt:P279* wd:Q6256\
+    \ ; # Find instances of countries\n\t         MINUS {?country wdt:P37 wd:Q1860.}\
+    \   #Excluding countries which has one official language as Egnlish\n\t   }\n\t\
+    \   }\n\t  \n\t   ?country rdfs:label ?country_name;\n\t            wdt:P37 ?language.\n\
+    \t    \n\t   FILTER(LANG(?country_name)=\"en\")\n\t}\n\tGROUP BY ?country_name\n\
+    \tORDER BY DESC(?num)\n\tLIMIT 10"
+  url: https://w.wiki/6SjU
+- name: 33Gc
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 33gc--short_urls@wikidata.org
+  sparql: "SELECT ?country ?countryLabel\nWHERE \n{\n  ?country wdt:P463 wd:Q7785.\n\
+    \  ?pandemicItem wdt:P31  wd:Q3241045.\n  ?pandemicItem wdt:P17  ?country.\n \
+    \ \n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\"\
+    . }\n}"
+  url: https://w.wiki/33Gc
+- name: 5kMW
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 5kmw--short_urls@wikidata.org
+  sparql: "SELECT DISTINCT ?artistLabel ?artist\nWHERE\n{\n  ?exhibition wdt:P664\
+    \ wd:Q4806558.\n  ?exhibition wdt:P10661 ?artist.\n  ?artist wdt:P6379 wd:Q188740.\n\
+    \  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\"\
+    . }\n}  \n\n"
+  url: https://w.wiki/5kMW
+- name: 74UY
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 74uy--short_urls@wikidata.org
+  sparql: "# Svenska medborgare födda i muslimskt dominerade länder. \nSELECT DISTINCT\
+    \ ?itemLabel ?birthcountryLabel ?degreeLabel ?description ?birthDate ?deathDate\
+    \ ?genderLabel ?linkcount ?item \nWHERE { \n  ?item wdt:P27 wd:Q34;  # Medborgare\
+    \ i Sverige\n        wdt:P19 ?birthplace;  # Födelseplats\n        wdt:P27 ?citizenship;\
+    \  # Medborgarskap\n        wikibase:sitelinks ?linkcount .\n  ?birthplace wdt:P17\
+    \ ?birthcountry . # Födelseland\n  FILTER(?birthcountry != wd:Q34) # Ej född i\
+    \ Sverige\n  ?birthcountry wdt:P297 ?iso2code.  # ISO 3166-1 alpha-2 kod för födelselandet\n\
+    \  FILTER(REGEX(?iso2code, \"^(AE|AF|AL|AZ|BA|BH|BD|BN|BJ|DJ|DZ|EG|GM|GN|ID|IR|IQ|JO|KZ|KE|KG|KM|KW|LB|LY|MA|ML|MK|MR|MV|MY|MZ|NE|NG|OM|PK|PS|QA|SA|SN|SO|SD|SY|TJ|TM|TN|TR|UG|UZ|XK|YE)$\"\
+    ))\n  OPTIONAL { ?item schema:description ?description. FILTER(LANG(?description)\
+    \ = \"sv\")}  # Svensk beskrivning \n  OPTIONAL { ?item wdt:P512 ?degree. }  #\
+    \ Akademisk examen\n  OPTIONAL { ?item wdt:P569 ?birthDate. }  \n  OPTIONAL {\
+    \ ?item wdt:P570 ?deathDate. } \n  OPTIONAL { ?item wdt:P21 ?gender . }\n  SERVICE\
+    \ wikibase:label { bd:serviceParam wikibase:language \"sv,en\". } \n}\nORDER BY\
+    \ DESC(STRLEN(?degreeLabel)>0) DESC(?linkcount ) # Sortera på akademisk examen,\
+    \ och på antal Wikipediaspråk"
+  url: https://w.wiki/74UY
+- name: 5J9Y
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 5j9y--short_urls@wikidata.org
+  sparql: |-
+    SELECT ?item ?itemLabel (COUNT(DISTINCT ?sitelink) AS ?count) ?fecha_de_nacimiento WHERE {
+      ?item wdt:P31 wd:Q5;
+        wdt:P27 wd:Q29.
+      ?sitelink schema:about ?item.
+      FILTER(EXISTS {
+        ?wen schema:about ?item;
+          schema:inLanguage "en".
+      })
+      FILTER(NOT EXISTS {
+        ?wes schema:about ?item;
+          schema:inLanguage "es".
+      })
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "es,en". }
+      OPTIONAL { ?item wdt:P569 ?fecha_de_nacimiento. }
+    }
+    GROUP BY ?item ?itemLabel
+    ORDER BY DESC (?count)
+  url: https://w.wiki/5J9Y
+- name: 6sx$
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 6sx--short_urls@wikidata.org
+  sparql: |-
+    #title: Which recipients of GA (Q25894736) awards studied the highest number of bitter compounds, by number of reported compounds?
+    SELECT ?authorLabel (COUNT(DISTINCT ?compound) AS ?count) WHERE {
+      VALUES ?society {
+        wd:Q25894736
+      }
+      VALUES ?property {
+        wd:Q1517187
+      }
+      ?award wdt:P1027 ?society.
+      ?author wdt:P166 ?award.
+      ?compound p:P703 ?stmt;
+        wdt:P235 ?inchikey;
+        wdt:P1552 ?property.
+      ?stmt (ps:P703/(wdt:P171*)) ?taxon.
+      ?taxon wdt:P105 ?rank;
+        wdt:P225 ?taxon_name.
+      ?stmt (prov:wasDerivedFrom/pr:P248) ?art.
+      ?art wdt:P50 ?author.
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+    }
+    GROUP BY ?authorLabel ?minval
+    HAVING (?count >= 10 )
+    ORDER BY DESC (?count)
+  url: https://w.wiki/6sx$
+- name: 6cL6
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 6cl6--short_urls@wikidata.org
+  sparql: "SELECT DISTINCT ?ocupacio ?ocupacioLabel\n                  (COUNT(DISTINCT\
+    \ ?home) AS ?computHomes) \n                  (sum(?numberOfSitelinks) as ?totalNumberOfSitelinks)\n\
+    \                                    \nwhere { \n  \n\t?home wdt:P21 wd:Q6581097\
+    \ . \n    ?home wdt:P19 ?placeOfBirth . ?placeOfBirth wdt:P131* wd:Q5705 .\n \
+    \   ?home wdt:P106 ?ocupacio .\n    ?home wikibase:sitelinks ?numberOfSitelinks\
+    \ .\n    SERVICE wikibase:label { bd:serviceParam wikibase:language \"ca\". \n\
+    \                          ?ocupacio rdfs:label ?ocupacioLabel.  \n          \
+    \                 }\n  \n} \n\ngroup by ?ocupacio ?ocupacioLabel\norder by desc\
+    \ (?totalNumberOfSitelinks)\n\n"
+  url: https://w.wiki/6cL6
+- name: 3Tt5
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 3tt5--short_urls@wikidata.org
+  sparql: "#Giornalisti\nSELECT ?item ?itemLabel \nWHERE \n{\n  ?item wdt:P31 wd:Q5\
+    \ . \n  ?item wdt:P6087 wd:Q33748\n  SERVICE wikibase:label { bd:serviceParam\
+    \ wikibase:language \"[AUTO_LANGUAGE],en\". }\n}\nLIMIT 100"
+  url: https://w.wiki/3Tt5
+- name: 4wKn
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 4wkn--short_urls@wikidata.org
+  sparql: "SELECT \n  DISTINCT\n#   ?item ?title\n  (REPLACE(STR(?item), \".*Q\",\
+    \ \"Q\") AS ?qid) \n  (\"P921\" AS ?property)\n  (\"Q111187235\" AS ?ReplaceWithYourTargetID)\n\
+    \  (\"S887\" AS ?heuristic)\n  (\"Q69652283\" AS ?deduced)\n\nWHERE {\n  hint:Query\
+    \ hint:optimizer \"None\".\n  \n{  SERVICE wikibase:mwapi {\n    bd:serviceParam\
+    \ wikibase:api \"Search\";\n                    wikibase:endpoint \"www.wikidata.org\"\
+    ;\n                    mwapi:srsearch \"harmful mutation haswbstatement:P31=Q13442814\
+    \ -haswbstatement:P921=Q111187235\".\n      ?page_title wikibase:apiOutput mwapi:title.\n\
+    \  }\n }\nUNION\n{  SERVICE wikibase:mwapi {\n    bd:serviceParam wikibase:api\
+    \ \"Search\";\n                    wikibase:endpoint \"www.wikidata.org\";\n \
+    \                   mwapi:srsearch \"detrimental mutation haswbstatement:P31=Q13442814\
+    \ -haswbstatement:P921=Q111187235\".\n      ?page_title wikibase:apiOutput mwapi:title.\n\
+    \  }\n }\n  BIND(IRI(CONCAT(STR(wd:), ?page_title)) AS ?item)\n  \n  ?item wdt:P1476\
+    \ ?title.\n  FILTER REGEX(LCASE(?title), \"\\\\b(harmful|detrimental)(.)mutation\"\
+    ).\n\n}\n"
+  url: https://w.wiki/4wKn
+- name: 4Vor
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 4vor--short_urls@wikidata.org
+  sparql: "SELECT \n  DISTINCT\n#  ?item ?title\n  (REPLACE(STR(?item), \".*Q\", \"\
+    Q\") AS ?qid) \n  (\"P921\" AS ?property)\n  (\"Q901117\" AS ?ReplaceWithYourTargetID)\n\
+    \  (\"S887\" AS ?heuristic)\n  (\"Q69652283\" AS ?deduced)\n\nWHERE {\n  hint:Query\
+    \ hint:optimizer \"None\".\n  \n{  SERVICE wikibase:mwapi {\n    bd:serviceParam\
+    \ wikibase:api \"Search\";\n                    wikibase:endpoint \"www.wikidata.org\"\
+    ;\n                    mwapi:srsearch \"excitotoxic haswbstatement:P31=Q13442814\
+    \ -haswbstatement:P921=Q901117\".\n      ?page_title wikibase:apiOutput mwapi:title.\n\
+    \  }\n }\n  BIND(IRI(CONCAT(STR(wd:), ?page_title)) AS ?item)\n  \n  ?item wdt:P1476\
+    \ ?title_.\n  ?item wdt:P1433 ?venue.\n  ?venue wdt:P1476 ?venue_title.\n  BIND(CONCAT(?title_\
+    \ , \" | \" , ?venue_title)  AS ?title)\n  FILTER REGEX(LCASE(?title), \"excitotoxic\"\
+    ).\n  FILTER (!REGEX(LCASE(?title), \"excitotoxicity\")).\n\n}\n"
+  url: https://w.wiki/4Vor
+- name: 7AdZ
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 7adz--short_urls@wikidata.org
+  sparql: "SELECT DISTINCT ?item ?Yle_ID ?label_smn ?label_fi ?label_sms ?label_se\
+    \ WHERE {\n    ?item wdt:P8309 ?Yle_ID;\n      wdt:P31 ?lij;\n      rdfs:label\
+    \ ?label_smn. \n    FILTER((LANG(?label_smn)) = \"smn\")\n    OPTIONAL {\n   \
+    \   ?item rdfs:label ?label_fi.\n      FILTER((LANG(?label_fi)) = \"fi\")\n  \
+    \  }\n    OPTIONAL {\n      ?item rdfs:label ?label_sms.\n      FILTER((LANG(?label_sms))\
+    \ = \"sms\")\n    }\n    OPTIONAL {\n      ?item rdfs:label ?label_se.\n     \
+    \ FILTER((LANG(?label_se)) = \"se\")\n    }\n}\nORDER BY ?lij"
+  url: https://w.wiki/7AdZ
+- name: 3DeX
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 3dex--short_urls@wikidata.org
+  sparql: "               SELECT DISTINCT ?item ?itemLabel ?itemDescription ?type\
+    \ ?main_category (GROUP_CONCAT(DISTINCT(?altLabel); separator = \", \") AS ?altLabel_list)\
+    \ WHERE {\n                        ?item ?altLabel \"أبو عمار\"@ar.\n        \
+    \                ?item wdt:P31 ?type .\n                       #Exclude the disambiguation\
+    \ page from the set of results.\n                        MINUS { ?item wdt:P31\
+    \ wd:Q4167410}\n                        OPTIONAL{    ?item wdt:P910 ?main_category}\n\
+    \                        ?article schema:about ?item;\n                      \
+    \  schema:isPartOf <https://en.wikipedia.org/>;\n                        OPTIONAL\
+    \ { ?item skos:altLabel ?altLabel . FILTER (lang(?altLabel) = \"ar\") }\n    \
+    \                    SERVICE wikibase:label { bd:serviceParam wikibase:language\
+    \ \"ar\" .}        \n                        }\n                        GROUP\
+    \ BY ?item ?itemLabel ?itemDescription ?type ?main_category"
+  url: https://w.wiki/3DeX
+- name: 2GJN
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2gjn--short_urls@wikidata.org
+  sparql: "#defaultView:ImageGrid\nSELECT ?item ?itemLabel ?image \nWHERE\n{\n?item\
+    \ wdt:P106 wd:Q36180 .\n?item wdt:P27 wd:Q408 .\n ?item wdt:P18 ?image .\n   \
+    \   \nSERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\"\
+    \ }\n}\nLIMIT 100\n\n\n\n\n\n\n\n"
+  url: https://w.wiki/2GJN
+- name: 5GQg
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 5gqg--short_urls@wikidata.org
+  sparql: |-
+    SELECT ?item ?itemLabel ?P31 ?P31Label ?start ?end ?games ?wins ?losses ?ties ?ranking ?scored ?conceded WHERE {
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+      ?item p:P1923 ?clubstatement .
+      ?clubstatement ps:P1923 wd:Q2674 .
+      OPTIONAL { ?clubstatement pq:P1350 ?games . }
+      OPTIONAL { ?clubstatement pq:P1355 ?wins . }
+      OPTIONAL { ?clubstatement pq:P1356 ?losses . }
+      OPTIONAL { ?clubstatement pq:P1356 ?ties . }
+      OPTIONAL { ?clubstatement pq:P1352 ?ranking . }
+      OPTIONAL { ?clubstatement pq:P1351 ?scored . }
+      OPTIONAL { ?clubstatement pq:P1359 ?conceded . }
+      OPTIONAL { ?item wdt:P31 ?P31. }
+      OPTIONAL { ?item wdt:P580 ?start. }
+      OPTIONAL { ?item wdt:P582 ?end. }
+    }
+    ORDER BY ?start
+  url: https://w.wiki/5GQg
+- name: 2kqx
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2kqx--short_urls@wikidata.org
+  sparql: |
+    SELECT ?item WHERE {
+     ?item wdt:P31 wd:Q1088552 .
+     ?item wdt:P17 wd:Q16 .
+    }
+  url: https://w.wiki/2kqx
+- name: 9ESA
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 9esa--short_urls@wikidata.org
+  sparql: |-
+    SELECT DISTINCT ?item ?itemLabel WHERE {
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE]". }
+      {
+        SELECT DISTINCT ?item WHERE {
+          ?item p:P2302 ?statement0.
+          ?statement0 (ps:P2302/(wdt:P279*)) wd:Q19474404.
+          MINUS { ?item  wikibase:propertyType wikibase:ExternalId }
+        }
+        LIMIT 10000
+      }
+    }
+  url: https://w.wiki/9ESA
+- name: 4e6$
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 4e6--short_urls@wikidata.org
+  sparql: |-
+    SELECT DISTINCT ?prozess ?prozessLabel ?parentclass ?parentclassLabel
+    WHERE{
+        ?prozess ^wdt:P682/wdt:P129 wd:Q165399 .
+        ?prozess ^wdt:P682/wdt:P129 wd:Q422438 .
+        ?prozess wdt:P279 ?parentclass
+        SERVICE wikibase:label {  bd:serviceParam wikibase:language "en, de" . }
+      }
+  url: https://w.wiki/4e6$
+- name: 25mz
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 25mz--short_urls@wikidata.org
+  sparql: |-
+    select ?s ?sLabel ?country ?countryLabel ?locale ?o
+    where {
+       ?s wdt:P31 wd:Q3918 .
+       ?s wdt:P17 ?country .
+       ?s wdt:P17 wd:Q17 .
+       ?s wdt:P131 wd:Q243853 .
+       ?s wdt:P571 ?o .
+       SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],ja". }
+    }
+    LIMIT 100
+  url: https://w.wiki/25mz
+- name: 2VQj
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2vqj--short_urls@wikidata.org
+  sparql: "SELECT ?item ?itemLabel ?start ?end ?term ?termLabel ?district ?districtLabel\
+    \ ?group ?groupLabel WHERE { \n  ?item p:P39 ?ps .\n  ?ps ps:P39 [ wdt:P279* wd:Q21269547\
+    \ ; pq:P580 ?start ] .\n  OPTIONAL { ?ps pq:P582 ?end }\n  OPTIONAL { ?ps pq:P768\
+    \ ?district }\n  OPTIONAL { ?ps pq:P4100 ?group }\n  FILTER NOT EXISTS { ?ps pq:P2937\
+    \ [] }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en,az\"\
+    \ . }\n}"
+  url: https://w.wiki/2VQj
+- name: 2$gN
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2-gn--short_urls@wikidata.org
+  sparql: |-
+    SELECT ?city ?cityLabel ?twin ?twinLabel ?start ?ref
+    WHERE {
+      ?city wdt:P17 wd:Q16;
+            p:P190 ?statement .
+      ?statement ps:P190 ?twin .
+      OPTIONAL{ ?statement prov:wasDerivedFrom ?refnode.
+                ?refnode   pr:P854 ?ref.
+              }
+      OPTIONAL { ?statement pq:P580 ?start }
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "en" }
+    }
+    ORDER BY ?start
+    LIMIT 1000
+  url: https://w.wiki/2$gN
+- name: 8cFV
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 8cfv--short_urls@wikidata.org
+  sparql: "select ?univ ?univLabel (count(?s) As ?c) where{\n?s  wdt:P27  wd:Q17;\
+    \      #国籍＝日本 \n    wdt:P106 wd:Q82955;   #職業＝政治家\n    wdt:P69  ?univ.       #出身校\n\
+    #?univ wdt:P31/wdt:P279* wd:Q3918.#大学の一覧に絞り込み使用とするとタイムアウトする\nSERVICE wikibase:label\
+    \ { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}GROUP BY ?univ\
+    \ ?univLabel\nORDER BY DESC(?c)\nLIMIT 100あ\n"
+  url: https://w.wiki/8cFV
+- name: 6q8P
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 6q8p--short_urls@wikidata.org
+  sparql: |-
+    # Lexemes in English that match an expression
+    SELECT ?lexemeId ?lemma WHERE {
+      ?lexemeId dct:language wd:Q1860;
+                wikibase:lemma ?lemma.
+      # only those lemmas that begin with "pota", i.e. "potato"
+      FILTER (regex(?lemma, '^[^A-Z].*[âêîôû]'))
+    }
+  url: https://w.wiki/6q8P
+- name: 6GLK
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 6glk--short_urls@wikidata.org
+  sparql: |
+    SELECT ?item ?title
+      WHERE
+      { hint:Query hint:optimizer "None".
+       SERVICE wikibase:mwapi
+        {
+          bd:serviceParam wikibase:api "Generator" .
+          bd:serviceParam wikibase:endpoint "commons.wikimedia.org" .
+          bd:serviceParam mwapi:gcmtitle "Category:Videos from webcams" .
+          bd:serviceParam mwapi:generator "categorymembers" .
+          bd:serviceParam mwapi:gcmtype "file" .
+          bd:serviceParam mwapi:gcmlimit "max" .
+          bd:serviceParam mwapi:prop "globalusage" .
+          bd:serviceParam mwapi:gunamespace "0" .
+          ?title wikibase:apiOutput mwapi:title .
+          ?pageid wikibase:apiOutput "@pageid" .
+          ?usedaturl wikibase:apiOutput "globalusage/gu/@url" .
+          ?usedatwiki wikibase:apiOutput "globalusage/gu/@wiki" .
+        }
+        FILTER(?usedatwiki != "www.wikidata.org")
+        BIND (URI(CONCAT('https://commons.wikimedia.org/entity/M', ?pageid)) AS ?file)
+        BIND (URI(?usedaturl) AS ?article)
+        ?article schema:about ?item .
+       MINUS { ?item wdt:P10 [] }
+      }
+  url: https://w.wiki/6GLK
+- name: 27W$
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 27w--short_urls@wikidata.org
+  sparql: "select distinct ?city ?cityLabel ?country ?countryLabel\nwith { select\
+    \ distinct ?country ?city { ?city wdt:P31/wdt:P279* wd:Q515; wdt:P17 ?country\
+    \ } } as %city_country\nwith { select distinct ?country { include %city_country\
+    \ } } as %countries\n{ \n  {\n    select ?city ?cityLabel ?country { include %city_country\
+    \ service wikibase:label { bd:serviceParam wikibase:language \"en, hi\" . ?city\
+    \ rdfs:label ?cityLabel} }\n  } \n  {\n    select ?country ?countryLabel { include\
+    \ %countries service wikibase:label { bd:serviceParam wikibase:language \"en,\
+    \ hi\" } }\n  }\n} order by ?countryLabel"
+  url: https://w.wiki/27W$
+- name: 8ZrC
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 8zrc--short_urls@wikidata.org
+  sparql: |-
+    SELECT DISTINCT ?item ?itemLabel ?lang_label
+    WHERE {
+        ?item wdt:P31 wd:Q5;
+              wdt:P569 ?birth;
+              rdfs:label ?lang_label.
+        FILTER (?birth < "1600-01-01"^^xsd:dateTime)
+        FILTER(lang(?lang_label) = "la")
+        #SERVICE wikibase:label { bd:serviceParam wikibase:language "la" }
+    } LIMIT 1000000
+  url: https://w.wiki/8ZrC
+- name: 2K63
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2k63--short_urls@wikidata.org
+  sparql: |
+    select * where{
+    ?s ?p ?o.
+    }limit 10
+  url: https://w.wiki/2K63
+- name: 6kLf
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 6klf--short_urls@wikidata.org
+  sparql: "#title:Map with FindAGrave connected cemeteries\n#defaultView:Map{\"hide\"\
+    :[\"?coordinates\"]}\nSELECT DISTINCT ?layer ?Wtree ?WikiTree ?FindAGrave ?site\
+    \ ?siteLabel ?coordinates ?imageF ?value ?svWikipedia ?Gravstensinv  ?OSM ?OSM2\n\
+    WHERE \n{\n  ?site wdt:P5259 ?value; wdt:P625 ?coordinates.\n  OPTIONAL { ?site\
+    \ wdt:P8592 ?imageF }\n  OPTIONAL { ?site wdt:P7607 ?Wtree }\n  OPTIONAL {?site\
+    \ wdt:P2025 ?Fid}\n  OPTIONAL { ?site wdt:P10689 ?OSMid }\n  OPTIONAL { ?site\
+    \ wdt:P402 ?OSMrelid }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language\
+    \ \"sv,en\". }\n  BIND(URI(CONCAT(\"https://www.rotter.se/gsi/\",?value)) AS ?Gravstensinv)\n\
+    \  BIND(URI(CONCAT(\"https://www.wikitree.com/wiki/\",?Wtree)) AS ?WikiTree)\n\
+    \  BIND(URI(CONCAT(\"https://www.findagrave.com/cemetery/\",?Fid)) AS ?FindAGrave)\n\
+    \  \n  BIND(URI(CONCAT(\"https://www.openstreetmap.org/way/\",?OSMid)) AS ?OSM)\n\
+    \  BIND(URI(CONCAT(\"https://www.openstreetmap.org/relation/\",?OSMrelid)) AS\
+    \ ?OSM2)\n \n  BIND(IF(BOUND(?Fid), \"FindAGrave cemetery\", \"-\") as ?layer)\n\
+    \  OPTIONAL {\n      ?svWikipedia schema:about ?site .\n      ?svWikipedia schema:inLanguage\
+    \ \"sv\" .\n      ?svWikipedia schema:isPartOf <https://sv.wikipedia.org/> .\n\
+    \    }\n}"
+  url: https://w.wiki/6kLf
+- name: 2BdK
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2bdk--short_urls@wikidata.org
+  sparql: "# SELECT ?county ?countyLabel (COUNT(DISTINCT(?item)) AS ?n_par) (SUM(?pop)\
+    \ AS ?total_pop) (SUM(?area) AS ?total_area)\n# SELECT ?seq ?item ?item_label\
+    \ ?pop ?pop_time ?area\nSELECT DISTINCT ?seq ?item ?item_label ?pop ?pop_time\
+    \ ?area\n\nWITH {\n  SELECT ?seq ?item ?item_label ?pop ?pop_time ?area WHERE\
+    \ {\n    ?item p:P528 ?seq_stmt .\n    ?seq_stmt ps:P528 ?seq .\n    ?seq_stmt\
+    \ pq:P972 wd:Q68810696 .  \n    OPTIONAL {?item wdt:P2046 ?area} .\n    OPTIONAL\
+    \ {\n      ?item p:P1082 ?pop_stmt .\n      ?pop_stmt ps:P1082 ?pop .\n      ?pop_stmt\
+    \ pq:P585 ?pop_time .\n      FILTER(year(?pop_time) = 2011) .\n    }\n    OPTIONAL\
+    \ {?item rdfs:label ?item_label . FILTER(lang(?item_label) = 'en')}\n  }\n} AS\
+    \ %parish_data\n\nWHERE {\n  INCLUDE %parish_data .\n  \n  FILTER(!bound(?area))\
+    \ .\n  \n  \n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\"\
+    . }\n} \n\nORDER BY ?seq"
+  url: https://w.wiki/2BdK
+- name: 29FP
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 29fp--short_urls@wikidata.org
+  sparql: "SELECT ?seq ?item ?itemLabel WHERE {\n    ?item p:P528 ?seq_stmt .\n  \
+    \  ?seq_stmt ps:P528 ?seq .\n    ?seq_stmt pq:P972 wd:Q68810696 .\n    \n    SERVICE\
+    \ wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n\
+    } ORDER BY ?seq"
+  url: https://w.wiki/29FP
+- name: 6nV4
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 6nv4--short_urls@wikidata.org
+  sparql: |
+    # Humans who died on a specific date on Polish Wikipedia, ordered by label
+    SELECT ?item (MIN(?name) AS ?articlename) (MIN(?img) AS ?image) (MIN(?dob) AS ?dateOfBirth) (MIN(?itemLabel) AS ?label) (MIN(?itemDescription) AS ?description)
+    WHERE {
+        VALUES ?dod {"+2023-06-01"^^xsd:dateTime}
+        ?dod ^wdt:P570 ?item .
+        ?item ^schema:about ?article .
+        ?article schema:isPartOf <https://pl.wikipedia.org/> ;
+                 schema:name ?name .
+        OPTIONAL {
+            ?item wdt:P18 ?img .
+        }
+        OPTIONAL {
+            ?item wdt:P569 ?dob .
+        }
+        SERVICE wikibase:label {
+            bd:serviceParam wikibase:language "pl" .
+            ?item rdfs:label ?itemLabel ;
+                  schema:description ?itemDescription .
+        }
+        BIND(REPLACE(?itemLabel, "^.*(?<! [Vv][ao]n| [Dd][aeiu]| [Dd][e][lns]| [Ll][ae]) (?!([SJ]r\\.?|[XVI]+)$)", "") AS ?sortname)
+    } GROUP BY ?item ORDER BY ASC(?dateOfBirth) ASC(UCASE(?sortname))
+  url: https://w.wiki/6nV4
+- name: 2N8$
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2n8--short_urls@wikidata.org
+  sparql: |-
+    #defaultView:LineChart
+    SELECT ?date ?tests ?country WHERE {
+      ?x wdt:P361 wd:Q81068910.
+      ?x wdt:P276 ?c.
+      ?c wdt:P31 wd:Q6256.
+      ?c rdfs:label ?country.
+      FILTER(LANG(?country)="en")
+      FILTER(CONTAINS(?date, "2020"))
+      ?x wdt:P8011 ?tests.
+      ?x p:P8011 ?st.
+      ?st pq:P585 ?date.
+      ?st ps:P8011 ?tests.
+      }
+    ORDER BY ?date
+  url: https://w.wiki/2N8$
+- name: 4Mti
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 4mti--short_urls@wikidata.org
+  sparql: "SELECT ?person ?personLabel ?personBirth ?article\nWHERE {\n  ?person wdt:P569\
+    \ ?personBirth ;\n          p:P39 [\n                  ps:P39 wd:Q785304 \n  \
+    \          ] .\n  ?article schema:about ?person; \n           schema:isPartOf\
+    \ <https://simple.wikipedia.org/>.\n  SERVICE wikibase:label { bd:serviceParam\
+    \ wikibase:language \"en\" }\n}\nORDER BY ?personBirth\n"
+  url: https://w.wiki/4Mti
+- name: 8nRS
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 8nrs--short_urls@wikidata.org
+  sparql: |-
+    select *
+    with {
+      select ?llang (count(*) as ?total) {
+        ?l wikibase:lemma ?lemma.
+        bind(lang(?lemma) as ?llang).
+        filter (strstarts(?llang, "mis-x-")).
+      } group by ?llang
+    } as %stats
+    {
+      include %stats.
+      bind(uri(concat(str(wd:), ucase(strafter(?llang, "-x-")))) as ?item).
+      ?item wdt:P305 ?ietf.
+      filter (strlen(?ietf) != 3).
+    } order by ?ietf
+  url: https://w.wiki/8nRS
+- name: 2MwG
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2mwg--short_urls@wikidata.org
+  sparql: |-
+    SELECT ?2020_coronavirus_pandemic_in_Tunisia ?2020_coronavirus_pandemic_in_TunisiaLabel WHERE {
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+      ?2020_coronavirus_pandemic_in_Tunisia wdt:P361 wd:Q87343682.
+    }
+    LIMIT 100
+  url: https://w.wiki/2MwG
+- name: 6MmJ
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 6mmj--short_urls@wikidata.org
+  sparql: SELECT ?q { ?q wdt:P31 wd:Q5 ; wdt:P17 [] }
+  url: https://w.wiki/6MmJ
+- name: 7A9w
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 7a9w--short_urls@wikidata.org
+  sparql: "#defaultView:Graph\n\n# Query to retrieve all philosophers in Wikidata\
+    \ who were born between 1800 and 1920 and are also mathematicans\nSELECT ?person\
+    \ ?personLabel ?birth\nWHERE {\n  ?person wdt:P106 wd:Q4964182; # ?person has\
+    \ occupation philosopher\n          wdt:P569 ?birth; # ?person has date of birth\
+    \ \n          wdt:P106 wd:Q170790; # ?person has occupation mathematican\n  wdt:P6886\
+    \ wd:Q1860. # ?person has writing language English\n          \n  FILTER(\"1800\"\
+    ^^xsd:dateTime <= ?birth && ?birth < \"1920\"^^xsd:dateTime).\n  SERVICE wikibase:label\
+    \ { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE]\". }\n}\n\n\n\n\n"
+  url: https://w.wiki/7A9w
+- name: 4maC
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 4mac--short_urls@wikidata.org
+  sparql: "SELECT ?person ?personLabel ?image ?birthDate\n\nWHERE {\n  \n  ?person\
+    \ wdt:P106 wd:Q593644 .\n  ?person wdt:P21 wd:Q6581072 .\n  \n  ?person wdt:P18\
+    \ ?image .\n  ?person wdt:P569 ?birthDate .\n \n  \n  SERVICE wikibase:label {\
+    \ bd:serviceParam wikibase:language \"fi,en\". }\n  \n  }"
+  url: https://w.wiki/4maC
+- name: 49g8
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 49g8--short_urls@wikidata.org
+  sparql: |-
+    #American suffragettes
+    #defaultView:Map
+    SELECT ?suffragette ?suffragetteLabel ?date_de_naissance ?date_de_mort ?lieu_de_naissance ?lieu_de_naissanceLabel ?lieu_de_mort ?lieu_de_mortLabel ?coordonnees WHERE {
+      ?suffragette wdt:P106 wd:Q322170;
+        wdt:P27 wd:Q30.
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr". }
+      OPTIONAL { ?suffragette wdt:P569 ?date_de_naissance. }
+      OPTIONAL { ?suffragette wdt:P570 ?date_de_mort. }
+      OPTIONAL { ?suffragette wdt:P19 ?lieu_de_naissance. }
+      ?suffragette wdt:P20 ?lieu_de_mort. ?lieu_de_mort wdt:P625 ?coordonnees
+    }
+    ORDER BY (?date_de_naissance)
+    LIMIT 1000
+  url: https://w.wiki/49g8
+- name: 2jxW
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2jxw--short_urls@wikidata.org
+  sparql: |-
+    SELECT ?Alphabetically_named_Flights_RAF_RFC ?Alphabetically_named_Flights_RAF_RFCLabel ?number_of_processor_cores WHERE {
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+      ?Alphabetically_named_Flights_RAF_RFC wdt:P1145 wd:Q4735219.
+      OPTIONAL { ?Alphabetically_named_Flights_RAF_RFC wdt:P1141 ?number_of_processor_cores. }
+    }
+    LIMIT 100
+  url: https://w.wiki/2jxW
+- name: 29Pq
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 29pq--short_urls@wikidata.org
+  sparql: |-
+    SELECT ?country ?countryLabel (COUNT(DISTINCT ?city) AS ?number_of_cities)
+    WHERE
+    {
+      ?city wdt:P31/wdt:P279* wd:Q515;
+            wdt:P17 ?country;
+            wdt:P1082 ?population.
+      FILTER(?population > 500000)
+      ?country wdt:P30 wd:Q46.
+      FILTER NOT EXISTS {?country wdt:P31 wd:Q3024240}
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+    }
+    GROUP BY ?country ?countryLabel
+    ORDER BY DESC(?number_of_cities)
+  url: https://w.wiki/29Pq
+- name: 2LD4
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2ld4--short_urls@wikidata.org
+  sparql: |-
+    SELECT ?person ?personLabel WHERE {
+      ?person wdt:P19 wd:Q29;
+        wdt:P106 wd:Q937857.
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],es". }
+      OPTIONAL {  }
+      OPTIONAL {  }
+      OPTIONAL {  }
+      ?person wdt:P21 wd:Q6581097.
+    }
+  url: https://w.wiki/2LD4
+- name: 7kZc
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 7kzc--short_urls@wikidata.org
+  sparql: |-
+    SELECT DISTINCT ?item ?itemLabel WHERE {
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE]". }
+      {
+        SELECT DISTINCT ?item WHERE {
+          ?item p:P31 ?statement0.
+          ?statement0 (ps:P31/(wdt:P279*)) wd:Q5.
+          ?item p:P106 ?statement1.
+          ?statement1 (ps:P106/(wdt:P279*)) wd:Q40348.
+          ?item p:P69 ?statement2.
+          ?statement2 (ps:P69/(wdt:P279*)) wd:Q5555403.
+        }
+        LIMIT 100
+      }
+    }
+  url: https://w.wiki/7kZc
+- name: 2YSF
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2ysf--short_urls@wikidata.org
+  sparql: "SELECT distinct ?item ?itemLabel with {\nselect ?item where \n{\n  ?item\
+    \ p:P39 ?stat0 . \n  ?stat0 ps:P39 wd:Q77685926 . \n  ?stat0 pq:P4100 wd:Q9626\
+    \ .\n  ?item wdt:P21 wd:Q6581097.\n} } as %i\nwhere {\n  include %i\n  VALUES\
+    \ ?P279 {wd:Q14214 wd:Q83307 wd:Q524778}\n  ?item p:P39 ?stat. \n  ?stat ps:P39\
+    \ ?position .\n  ?position wdt:P279* ?P279.\n  optional {?stat pq:P582 ?end .\
+    \ }\n  filter(bound(?end)) \n  \n  filter not exists {\n  ?item p:P39 ?stat2.\
+    \ \n  ?stat2 ps:P39 ?position2 .\n  ?position2 wdt:P279* ?P279.\n  optional {?stat2\
+    \ pq:P582 ?end2 . }\n  filter(!bound(?end2)) \n  }\n  \n  SERVICE wikibase:label\
+    \ { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}"
+  url: https://w.wiki/2YSF
+- name: 2q$P
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2q-p--short_urls@wikidata.org
+  sparql: |-
+    SELECT ?gender (count(distinct ?human) as ?number)
+    WHERE
+    {
+      ?human wdt:P31 wd:Q5
+      ; wdt:P21 ?gender
+      ; wdt:P106/wdt:P279* wd:Q901 .
+    }
+    GROUP BY ?gender
+    LIMIT 10
+  url: https://w.wiki/2q$P
+- name: 8m6G
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 8m6g--short_urls@wikidata.org
+  sparql: |2
+
+        #defaultView:Map{"hide":["?location","?distance"]}
+        SELECT ?place ?placeDescription ?location ?distance ?placeLabel (sample(?image) as ?img) ?article WHERE {
+            SERVICE wikibase:around {
+              ?place wdt:P625 ?location .
+              bd:serviceParam wikibase:center "Point(10.4297966 63.4065913)"^^geo:wktLiteral .
+              bd:serviceParam wikibase:radius "1" .
+              bd:serviceParam wikibase:distance ?distance .
+            }
+            minus { ?place wdt:P31/wdt:P279* wd:Q34442. }
+            optional { ?place wdt:P18 ?image. }
+            optional {
+              ?article schema:about ?place .
+              ?article schema:isPartOf <https://nb-NO.wikipedia.org/>.
+            }
+            optional {
+              ?article schema:about ?place .
+              ?article schema:isPartOf <https://en.wikipedia.org/>.
+            }
+            SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],nb-NO,en". }
+        } group by ?place ?placeDescription ?location ?distance ?placeLabel ?img ?article
+          order BY ?distance
+          limit 100
+  url: https://w.wiki/8m6G
+- name: 28Aa
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 28aa--short_urls@wikidata.org
+  sparql: |-
+    SELECT ?item ?itemLabel ?startTime ?endTime ?image WHERE {
+      ?item wdt:P39 wd:Q1414246;
+        p:P39 ?statement.
+      OPTIONAL { ?item wdt:P18 ?image. }
+      OPTIONAL { ?statement pq:P580 ?startTime. }
+      OPTIONAL { ?statement pq:P582 ?endTime. }
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+    }
+  url: https://w.wiki/28Aa
+- name: 2W92
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2w92--short_urls@wikidata.org
+  sparql: |-
+    SELECT ?painting ?paintingLabel ?surface ?surfaceLabel
+    WHERE
+    {
+      ?painting p:P186 [pq:P518 wd:Q861259], [ps:P186 ?surface].
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE]". }
+    } LIMIT 10
+  url: https://w.wiki/2W92
+- name: 6w4B
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 6w4b--short_urls@wikidata.org
+  sparql: |-
+    #List of countries in 1754
+    #updated 2020-12-06
+    SELECT DISTINCT ?h ?hLabel ?inception ?dissolved ?coor
+    WHERE
+    {
+      VALUES ?countryclass { wd:Q3024240 wd:Q6256 wd:Q3624078 }
+      ?h p:P31/ps:P31 ?countryclass  .
+      ?h wdt:P571 ?inception .
+      OPTIONAL { ?h wdt:P576 ?dissolved } .
+      FILTER (?inception < "1755-01-01T00:00:00Z"^^xsd:dateTime)
+      FILTER (?dissolved >= "1755-01-01T00:00:00Z"^^xsd:dateTime || !Bound(?dissolved) )
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" }
+      OPTIONAL { ?h wdt:P625 ?coor } .
+    }
+    ORDER BY ?inception
+    LIMIT 50
+  url: https://w.wiki/6w4B
+- name: 5ByC
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 5byc--short_urls@wikidata.org
+  sparql: "#Настольные игры\nSELECT DISTINCT ?game ?gameLabel ?country ?coord \nWHERE\
+    \ \n{\n  ?game wdt:P31/wdt:P279* wd:Q3244175.\n  #?game wdt:P625 ?coord.\n  ?game\
+    \ wdt:P495 ?country.\n  ?country wdt:P625 ?coord.\n  SERVICE wikibase:label {\
+    \ bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\". }\n}"
+  url: https://w.wiki/5ByC
+- name: 23Pi
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 23pi--short_urls@wikidata.org
+  sparql: "# Starter query for titles from the British Library 19th Century digitised\
+    \ books collection (BL19C)\n#   Further statements can be added to make the query\
+    \ more specific\n\nSELECT DISTINCT ?sysnum ?item ?itemLabel WHERE {\n  \n    ?item\
+    \ wdt:P195 wd:Q53764729 .\n    OPTIONAL {\n        ?item p:P5199 ?sysnum_stmt\
+    \ .\n        ?sysnum_stmt ps:P5199 ?sysnum .\n        FILTER NOT EXISTS {?sysnum_stmt\
+    \ pq:P2868 wd:Q42396623 }\n    }\n    SERVICE wikibase:label { bd:serviceParam\
+    \ wikibase:language \"[AUTO_LANGUAGE],en\". }\n         \n} ORDER BY ?itemLabel"
+  url: https://w.wiki/23Pi
+- name: 2TYr
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2tyr--short_urls@wikidata.org
+  sparql: |-
+    SELECT DISTINCT ?property ?statement ?ref WHERE {
+      wd:Q42 ?property ?statement.
+      ?statement prov:wasDerivedFrom ?refnode.
+      ?refnode pr:P854 ?ref.
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+    }
+  url: https://w.wiki/2TYr
+- name: 7Wae
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 7wae--short_urls@wikidata.org
+  sparql: "SELECT \n  DISTINCT\n#   ?item ?title\n  (REPLACE(STR(?item), \".*Q\",\
+    \ \"Q\") AS ?qid) \n  (\"P921\" AS ?property)\n  (\"Q122760128\" AS ?ReplaceWithYourTargetID)\n\
+    \  (\"S887\" AS ?heuristic)\n  (\"Q69652283\" AS ?deduced)\n\nWHERE {\n  hint:Query\
+    \ hint:optimizer \"None\".\n  \n{  SERVICE wikibase:mwapi {\n    bd:serviceParam\
+    \ wikibase:api \"Search\";\n                    wikibase:endpoint \"www.wikidata.org\"\
+    ;\n                    mwapi:srsearch \"managed forest haswbstatement:P31=Q13442814\
+    \ -haswbstatement:P921=Q122760128\".\n      ?page_title wikibase:apiOutput mwapi:title.\n\
+    \  }\n }\n  BIND(IRI(CONCAT(STR(wd:), ?page_title)) AS ?item)\n  \n  ?item wdt:P1476\
+    \ ?title_.\n  ?item wdt:P1433 ?venue.\n  ?venue wdt:P1476 ?venue_title.\n  BIND(CONCAT(?title_\
+    \ , \" | \" , ?venue_title)  AS ?title)\n  FILTER REGEX(LCASE(?title), \"managed(.)forest\"\
+    ).\n\n}\n"
+  url: https://w.wiki/7Wae
+- name: 2V2a
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2v2a--short_urls@wikidata.org
+  sparql: "#Language Code\nSELECT ?item ?itemLabel ?code\nWHERE \n{\n  ?item wdt:P220\
+    \ ?code.\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\"\
+    . }\n}"
+  url: https://w.wiki/2V2a
+- name: 5qdC
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 5qdc--short_urls@wikidata.org
+  sparql: "#Canmores / Heritage designations\nSELECT DISTINCT ?item ?itemLabel ?canmoreLabel\
+    \ ?image ?inception ?coords ?heritagedesignationLabel\nWHERE \n{\n # ?item wdt:P718\
+    \ ?canmore. # Must be of a canmore (Scotland only)\n  ?item wdt:P1435 wd:Q624232\
+    \ . #world wide property so will crash query if not filtered by value/country.\n\
+    \  ?item wdt:P18 ?image .\n  ?item wdt:P625 ?coords .\n  ?item wdt:P571 ?inception\
+    \ .\n # ?item wdt:P1216 ?englishheritage .\n  SERVICE wikibase:label { bd:serviceParam\
+    \ wikibase:language \"[AUTO_LANGUAGE],en\". } # Helps get the label in your language,\
+    \ if not, then en language\n} "
+  url: https://w.wiki/5qdC
+- name: 7Zoe
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 7zoe--short_urls@wikidata.org
+  sparql: "SELECT DISTINCT ?item ?itemLabel ?cityLabel ?address (SAMPLE(?iPatrimonio_)\
+    \ AS ?iPatrimonio) \nWHERE { \n  ?item wdt:P131* wd:Q40885; wdt:P1435 []; wdt:P131\
+    \ ?city.\n  OPTIONAL { ?item wdt:P6375 ?address. }\n  OPTIONAL { ?item wdt:P4372\
+    \ ?iPatrimonio_. }\n  FILTER NOT EXISTS {?item wdt:P625 ?coord}\n  FILTER NOT\
+    \ EXISTS { ?item wdt:P31/wdt:P279* wd:Q22698. } # Filtrar parques\n  FILTER NOT\
+    \ EXISTS { ?item wdt:P31/wdt:P279* wd:Q271669. } # Filtrar acidentes geográficos\n\
+    \  SERVICE wikibase:label { bd:serviceParam wikibase:language \"pt, pt-br, [AUTO_LANGUAGE],\
+    \ en\".\n                         ?item rdfs:label ?itemLabel.\n             \
+    \            ?city rdfs:label ?cityLabel}\n} GROUP BY ?item ?itemLabel ?cityLabel\
+    \ ?address\nORDER BY ASC (?address)"
+  url: https://w.wiki/7Zoe
+- name: 2T8Z
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 2t8z--short_urls@wikidata.org
+  sparql: |-
+    SELECT ?item ?itemLabel ?cnt ?Bild WHERE {
+      {
+        SELECT ?item (COUNT(?sitelink) AS ?cnt) WHERE {
+          ?item wdt:P31 wd:Q188860.
+          ?sitelink schema:about ?item.
+          FILTER(NOT EXISTS {
+            ?article schema:about ?item;
+              schema:isPartOf <https://de.wikipedia.org/>.
+          })
+        }
+        GROUP BY ?item
+        ORDER BY DESC (?cnt)
+      }
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en,fr,es,de". }
+      OPTIONAL { ?item wdt:P18 ?Bild. }
+    }
+    ORDER BY DESC (?cnt)
+  url: https://w.wiki/2T8Z
+- name: 8np9
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 8np9--short_urls@wikidata.org
+  sparql: "\nSELECT DISTINCT ?item ?article ?dateOfBirth \nWHERE {\n ?item wdt:P31\
+    \ wd:Q5;\n        wdt:P569 ?dateOfBirth. hint:Prior hint:rangeSafe true.\n   \
+    \   ?item wikibase:sitelinks ?sl .\n    ?item ^schema:about ?article .\n    ?article\
+    \ schema:isPartOf <https://en.wikipedia.org/>;\n    schema:name ?articlename .\n\
+    \  FILTER(\"1998-00-00\"^^xsd:dateTime <= ?dateOfBirth &&\n         ?dateOfBirth\
+    \ < \"1999-00-00\"^^xsd:dateTime)\n  \n   \n}\n\n"
+  url: https://w.wiki/8np9
+- name: 4Kcu
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 4kcu--short_urls@wikidata.org
+  sparql: |-
+    SELECT ?person ?personLabel ?dateNaissance WHERE {
+      ?person wdt:P19/wdt:P131* wd:Q12694 ; wdt:P569 ?dateNaissance .
+      FILTER ( MONTH(?dateNaissance) = 11 )
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+    }
+    ORDER BY DESC(?dateNaissance)
+  url: https://w.wiki/4Kcu
+- name: 5Ccf
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 5ccf--short_urls@wikidata.org
+  sparql: |-
+    #title:Pessoas cadastradas no Museu da Pessoa que têm artigo na Wikipédia
+    #defaultView:ImageGrid
+    SELECT DISTINCT ?item ?itemLabel ?wpt (SAMPLE(?imagem) AS ?imagem) WHERE {
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "pt, pt-br, en,[AUTO_LANGUAGE]". }
+      ?item wdt:P10023 ?id.
+      OPTIONAL {?item wdt:P18 ?imagem.}
+      ?wpt schema:about ?item.
+      ?wpt schema:isPartOf <https://pt.wikipedia.org/>.
+    } GROUP BY ?item ?itemLabel ?wpt
+  url: https://w.wiki/5Ccf
+- name: 9RvC
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 9rvc--short_urls@wikidata.org
+  sparql: "SELECT DISTINCT ?statement ?source\n\nWHERE {\n  #?s wdt:P31 wd:Q3305213.\
+    \  \n  ?s p:P291 ?statement.\n  ?statement ps:P291  ?object;\n             #pq:P1480\
+    \ ?source.\n  wikibase:rank wikibase:PreferredRank.\n  \n  #?s p:P291 ?statement2.\n\
+    \  \n?type (wdt:P279)* wd:Q838948.\n?s wdt:P31 ?type.  \n  FILTER (?statement\
+    \ != ?statement2)\n}\n\nLIMIT 11"
+  url: https://w.wiki/9RvC
+- name: 9LHP
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 9lhp--short_urls@wikidata.org
+  sparql: "SELECT ?item ?itemLabel ?group ?groupLabel ?district ?districtLabel ?term\
+    \ ?termLabel ?start ?end\nWHERE \n{\n  ?item p:P39 ?statement .\n  ?statement\
+    \ ps:P39/wdt:P279* wd:Q18964326 ; pq:P580 ?start .\n  OPTIONAL { ?statement pq:P2937\
+    \ ?term }\n  OPTIONAL { ?statement pq:P582  ?end }\n  OPTIONAL { ?statement pq:P768\
+    \  ?district }\n  OPTIONAL { ?statement pq:P4100 ?group }\n  FILTER(!BOUND(?end)\
+    \ || ?end > NOW())\n  SERVICE wikibase:label { bd:serviceParam wikibase:language\
+    \ \"[AUTO_LANGUAGE],en\". }\n}\nORDER BY ?start ?end"
+  url: https://w.wiki/9LHP
+- name: 3Aur
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 3aur--short_urls@wikidata.org
+  sparql: |-
+    #List of popes
+    SELECT ?link ?linkLabel ?picture ?age
+    WHERE
+    {
+      ?link wdt:P31 wd:Q5 ;
+              p:P39 [ ps:P39 wd:Q19546 ; pq:P580 ?startTime ] .
+      OPTIONAL { ?link wdt:P569 ?dateOfBirth }
+      OPTIONAL { ?link wdt:P18 ?picture }
+      OPTIONAL { ?link wdt:P570 ?dateOfDeath }
+      BIND(YEAR(?dateOfDeath) - YEAR(?dateOfBirth) as ?age)
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en" }
+    }
+    ORDER BY DESC(?startTime)
+  url: https://w.wiki/3Aur
+- name: 68x2
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 68x2--short_urls@wikidata.org
+  sparql: "# date of general elections with newly elected MPs plus their average age\n\
+    select ?earliest ?average where\n{\n { select ?earliest (count(distinct ?mp) as\
+    \ ?members) (sum(?age) as ?total) ((?total / ?members) as ?average) where\n  {\
+    \ \n   { select ?mp ?born (min(?start) as ?earliest) ((?earliest - ?born)/365.25\
+    \ as ?age) where\n    { ?mp wdt:P31 wd:Q5 . ?mp p:P39 ?ps . ?ps ps:P39 ?term .\
+    \ ?term wdt:P279 wd:Q16707842 .\n      ?ps pq:P2715 ?election . ?election wdt:P31\
+    \ wd:Q15283424 . ?ps pq:P580 ?start . ?mp wdt:P569 ?born .\n    } group by ?mp\
+    \ ?born # all MPs, birthdate, earliest start date which coincides with a general\
+    \ election\n   }\n  } group by ?earliest \n }\n filter(year(?earliest) >= 1918)\n\
+    } #defaultView:LineChart"
+  url: https://w.wiki/68x2
+- name: 8rm3
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 8rm3--short_urls@wikidata.org
+  sparql: "SELECT ?item ?itemLabel WHERE {\n  ?item wdt:P31 wd:Q108149.  \n\n  SERVICE\
+    \ wikibase:label { bd:serviceParam wikibase:language \"[de,en\". }\n}\n"
+  url: https://w.wiki/8rm3
+- name: 29dt
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 29dt--short_urls@wikidata.org
+  sparql: "SELECT DISTINCT ?members ?membersLabel ?genderLabel ?location WHERE {\n\
+    \  ?members wdt:P31 wd:Q5.\n  ?members wdt:P463 wd:Q466113.\n  ?members wdt:P21\
+    \ ?gender.\n  ?members wdt:P108 ?employer.\n  ?employer wdt:P625 ?location.\n\
+    \  \n SERVICE wikibase:label { bd:serviceParam wikibase:language \"[AUTO_LANGUAGE],en\"\
+    . }\n}\n"
+  url: https://w.wiki/29dt
+- name: 5JN6
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 5jn6--short_urls@wikidata.org
+  sparql: "#title: Ume stads offentlig konsts konstnärer som representeras på olika\
+    \ språk\n#defaultView:Map\nSELECT ?itemLabel ?langLabel ?wikiArticle ?coord ?sculp\
+    \ ?sculpLabel ?wikiSArticle ?imgS\nWHERE {\n    ?item wdt:P31 wd:Q5.       # is\
+    \ a human     \n    ?sculp wdt:P1343 wd:Q102343039.\n    ?sculp wdt:P625 ?coord.\n\
+    \    ?sculp wdt:P18 ?imgS\n\n    {?sculp wdt:P170 ?item.\n    ?languagelink schema:about\
+    \ ?item.\n    ?languagelink schema:inLanguage ?lang.\n    ?languagelink schema:isPartOf\
+    \ ?wiki.\n    ?languagelink schema:name ?name}\n    BIND(URI(CONCAT(str(?wiki),?name))\
+    \ AS ?wikiArticle )           \n    OPTIONAL {?languageSc schema:about ?sculp.\n\
+    \    ?languageSc schema:inLanguage ?lang.\n    ?languageSc schema:isPartOf ?wikiS.\n\
+    \    ?languageSc schema:name ?nameS}\n    BIND(URI(CONCAT(str(?wikiS),?nameS))\
+    \ AS ?wikiSArticle )           \n          \n  SERVICE wikibase:label { bd:serviceParam\
+    \ wikibase:language \"sv,en,de,es,ar\" }\n}\nORDER BY (?itemLabel)"
+  url: https://w.wiki/5JN6
+- name: 5yLU
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 5ylu--short_urls@wikidata.org
+  sparql: |-
+    SELECT DISTINCT ?item ?itemLabel WHERE {
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE]". }
+      {
+        SELECT DISTINCT ?item WHERE {
+          ?item p:P106 ?statement0.
+          ?statement0 (ps:P106/(wdt:P279*)) wd:Q43845.
+          ?item p:P106 ?statement1.
+          ?statement1 (ps:P106/(wdt:P279*)) wd:Q131524.
+          ?item p:P27 ?statement2.
+          ?statement2 (ps:P27/(wdt:P279*)) wd:Q145.
+          MINUS {
+            ?item p:P570 ?statement_3.
+            ?statement_3 psv:P570 ?statementValue_3.
+            ?statementValue_3 wikibase:timeValue ?P570_3.
+          }
+        }
+        LIMIT 100
+      }
+    }
+  url: https://w.wiki/5yLU
+- name: 4sPQ
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 4spq--short_urls@wikidata.org
+  sparql: "SELECT \n  DISTINCT\n#   ?item ?title\n  (REPLACE(STR(?item), \".*Q\",\
+    \ \"Q\") AS ?qid) \n  (\"P921\" AS ?property)\n  (\"Q110987485\" AS ?ReplaceWithYourTargetID)\n\
+    \  (\"S887\" AS ?heuristic)\n  (\"Q69652283\" AS ?deduced)\n\nWHERE {\n  hint:Query\
+    \ hint:optimizer \"None\".\n  \n{  SERVICE wikibase:mwapi {\n    bd:serviceParam\
+    \ wikibase:api \"Search\";\n                    wikibase:endpoint \"www.wikidata.org\"\
+    ;\n                    mwapi:srsearch \"urban invasion haswbstatement:P31=Q13442814\
+    \ -haswbstatement:P921=Q110987485\". \n      ?page_title wikibase:apiOutput mwapi:title.\n\
+    \  }\n }\n  BIND(IRI(CONCAT(STR(wd:), ?page_title)) AS ?item)\n  \n  ?item wdt:P1476\
+    \ ?title.\n  FILTER REGEX(LCASE(?title), \"urban(.)invasion\").\n\n}\n"
+  url: https://w.wiki/4sPQ
+- name: 5Cd7
+  namespace: short_urls
+  domain: wikidata.org
+  query_id: 5cd7--short_urls@wikidata.org
+  sparql: "#title:Pessoas cadastrados no Museu da Pessoa de outros gêneros ou sem\
+    \ gênero indicado no Wikidata, por profissão \n#defaultView:BubbleChart\nSELECT\
+    \ ?ocupaçãoLabel (COUNT(?ocupação) AS ?Quantidade) WHERE {\n    SERVICE wikibase:label\
+    \ { bd:serviceParam wikibase:language \"pt, pt-br, en,[AUTO_LANGUAGE]\". }\n \
+    \ ?item wdt:P10023 ?id; wdt:P106 ?ocupação.\n  FILTER NOT EXISTS {?item wdt:P21\
+    \ wd:Q6581097}\n  FILTER NOT EXISTS {?item wdt:P21 wd:Q6581072}\n}\nGROUP BY ?ocupaçãoLabel"
+  url: https://w.wiki/5Cd7

@@ -190,7 +190,7 @@ WHERE
         self.assertTrue(SparqlAnalyzer.has_blazegraph_with_clause(query))
         self.assertFalse(SparqlAnalyzer.has_blazegraph_with_clause(expected_query))
         fixed_query = SparqlAnalyzer.transform_with_clause_to_subquery(query)
-        self.maxDiff=None
+        self.maxDiff = None
         self.assertEqual(expected_query, fixed_query)
         self.assertFalse(SparqlAnalyzer.is_valid(query))
         self.assertTrue(fixed_query)

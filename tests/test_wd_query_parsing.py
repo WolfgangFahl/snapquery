@@ -11,6 +11,7 @@ from basemkit.basetest import Basetest
 from snapquery.snapquery_core import NamedQueryManager
 from snapquery.wd_page_query_extractor import WikidataQueryExtractor
 
+
 class TestWikidataQueryParsing(Basetest):
     """
     Test suite for the WikdataQueryExtractor class.
@@ -52,8 +53,7 @@ class TestWikidataQueryParsing(Basetest):
         Test extraction and parsing of queries from Wikidata example page and WikiProject LSEThesisProject page.
         Iterates over the defined extractors and validates query counts.
         """
-        wikidata_examples = [(self.wikidata_example_extractor, 389)] # 302 as of 2024-07-11
-
+        wikidata_examples = [(self.wikidata_example_extractor, 389)]  # 302 as of 2024-07-11
 
         # Optional manual toggle for local testing of LSE extractor
         with_lse = False

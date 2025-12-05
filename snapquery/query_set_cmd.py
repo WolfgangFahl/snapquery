@@ -3,10 +3,13 @@ Created on 2025-12-04
 
 @author: wf
 """
-from argparse import ArgumentParser, Namespace
+
 import sys
+from argparse import ArgumentParser, Namespace
 
 from basemkit.base_cmd import BaseCmd
+from tqdm import tqdm
+
 from snapquery.qlever import QLever
 from snapquery.query_set_tool import QuerySetTool
 from snapquery.scholia import ScholiaQueries
@@ -14,13 +17,15 @@ from snapquery.sib_sparql_examples import SibSparqlExamples
 from snapquery.snapquery_core import NamedQueryManager
 from snapquery.version import Version
 from snapquery.wd_page_query_extractor import WikidataQueryExtractor
-from tqdm import tqdm
+from snapquery.wd_short_url import ShortUrl
 
 
 class QuerySetCmdVersion(Version):
     """Version information"""
+
     name = "query-set"
     description = "QuerySet tool"
+
 
 class QuerySetCmd(BaseCmd):
     """
@@ -115,6 +120,12 @@ class QuerySetCmd(BaseCmd):
             action="store_true",
             help="Extract QLever Issues from GitHub to generate a NamedQuerySet.",
         )
+        # Random short urls
+        parser.add_argument(
+            "--random-short-urls",
+            action="store_true",
+            help="Extract Random shorturls to generate  a NamedQuerySet.",
+        )
 
         parser.add_argument(
             "--limit",
@@ -126,8 +137,6 @@ class QuerySetCmd(BaseCmd):
             action="store_true",
             help="Show progress bar during execution.",
         )
-
-
 
     def handle_args(self, args: Namespace) -> bool:
         """
@@ -168,6 +177,11 @@ class QuerySetCmd(BaseCmd):
             self._handle_qlever_issues(args)
             return True
 
+        if args.random_short_urls:
+            self._handle_random_short_urls(args)
+            return True
+
+
         return False
 
     def _handle_convert(self, args: Namespace) -> None:
@@ -191,9 +205,7 @@ class QuerySetCmd(BaseCmd):
 
         tool = QuerySetTool()
         nq_set = tool.get_query_set_from_short_urls(
-            short_urls=args.shorturl,
-            domain=args.domain,
-            namespace=args.namespace
+            short_urls=args.shorturl, domain=args.domain, namespace=args.namespace
         )
 
         self._output_dataset(nq_set, args)
@@ -274,7 +286,7 @@ class QuerySetCmd(BaseCmd):
         Get QLever issues from GitHub and convert to NamedQuerySet.
         """
         # 1. Initialize logic class
-        qlever = QLever(with_progress=args.progress,debug=args.debug)
+        qlever = QLever(with_progress=args.progress, debug=args.debug)
 
         if args.debug or args.progress:
             print(f"Fetching QLever tickets from GitHub API (limit={args.limit})...")
@@ -286,6 +298,39 @@ class QuerySetCmd(BaseCmd):
             print(f"Extracted {len(nq_set.queries)} named queries.")
 
         # 3. Output result
+        self._output_dataset(nq_set, args)
+
+    def _handle_random_short_urls(self, args: Namespace) -> None:
+        """
+        Handle the random short URLs workflow.
+        """
+        # Set defaults for domain and namespace if not provided
+        domain = args.domain if args.domain else "wikidata.org"
+        namespace = args.namespace if args.namespace else "short_urls"
+
+        # Determine count from limit or use default
+        count = args.limit if args.limit else 100
+
+        # Initialize NamedQueryManager
+        nqm = NamedQueryManager.from_samples()
+
+        if args.debug or args.progress:
+            print(f"Extracting {count} random short URLs from Wikidata...")
+
+        # Get random query set
+        nq_set = ShortUrl.get_random_query_list(
+            nqm=nqm,
+            namespace=namespace,
+            count=count,
+            with_llm=args.llm,
+            with_progress=args.progress,
+            debug=args.debug,
+        )
+
+        if args.debug:
+            print(f"Extracted {len(nq_set.queries)} random queries.")
+
+        # Output the resulting NamedQuerySet
         self._output_dataset(nq_set, args)
 
     def _output_dataset(self, nq_set, args: Namespace) -> None:

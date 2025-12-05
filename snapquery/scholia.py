@@ -3,11 +3,13 @@ Created on 2024-05-04
 
 @author: wf
 """
-from tqdm import tqdm
-import requests
 
-from snapquery.snapquery_core import NamedQuery, NamedQueryManager, NamedQuerySet
+import requests
+from tqdm import tqdm
+
 from snapquery.github_access import GitHub
+from snapquery.snapquery_core import NamedQuery, NamedQueryManager, NamedQuerySet
+
 
 class ScholiaQueries:
     """
@@ -38,7 +40,7 @@ class ScholiaQueries:
         Returns:
             list: List of dictionaries representing file information.
         """
-        file_list_lod=self.github.get_contents("scholia/app/templates")
+        file_list_lod = self.github.get_contents("scholia/app/templates")
         return file_list_lod
 
     def extract_query(self, file_info) -> NamedQuery:
@@ -57,7 +59,7 @@ class ScholiaQueries:
             file_response.raise_for_status()
             query_str = file_response.text
             name = file_name[:-7]
-            named_query=NamedQuery(
+            named_query = NamedQuery(
                 domain=self.named_query_set.domain,
                 namespace=self.named_query_set.namespace,
                 name=name,

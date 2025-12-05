@@ -3,7 +3,7 @@ Created on 2024-05-03
 
 @author: wf
 """
-from tqdm import tqdm
+
 import logging
 import sys
 from argparse import ArgumentParser
@@ -12,6 +12,7 @@ from typing import Optional
 from lodstorage.params import Params, StoreDictKeyPair
 from lodstorage.query import Format
 from ngwidgets.cmd import WebserverCmd
+from tqdm import tqdm
 
 from snapquery.execution import Execution
 from snapquery.query_set_tool import QuerySetTool
@@ -171,7 +172,9 @@ class SnapQueryCmd(WebserverCmd):
         endpoint_iter = tqdm(endpoint_names, desc="Testing endpoints") if self.args.progress else endpoint_names
         for endpoint_name in endpoint_iter:
             # Inner loop: queries
-            query_iter = tqdm(queries, desc=f"Queries for {endpoint_name}", leave=False) if self.args.progress else queries
+            query_iter = (
+                tqdm(queries, desc=f"Queries for {endpoint_name}", leave=False) if self.args.progress else queries
+            )
             for i, nq in enumerate(query_iter, start=1):
                 execution.execute(
                     nq,
@@ -198,7 +201,6 @@ class SnapQueryCmd(WebserverCmd):
                     title=f"query {i:3}/{len(queries)}::{endpoint_name}",
                     prefix_merger=QueryPrefixMerger.get_by_name(self.args.prefix_merger),
                 )
-
 
     def handle_args(self, args) -> bool:
         """

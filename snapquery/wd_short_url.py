@@ -6,12 +6,14 @@ Created on 2024-05-12
 
 import json
 import random
-from typing import Optional, Set
 import urllib.parse
+from typing import Optional, Set
 
+import requests
+import tqdm
 from ngwidgets.llm import LLM
 from ratelimit import limits, sleep_and_retry
-import requests
+
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager, NamedQuerySet
 from snapquery.version import Version
 
@@ -56,12 +58,14 @@ class ShortIds:
         short_id = "".join(random.choices(self.base_chars, k=k))
         return short_id
 
+
 class Wikidata:
     """
     Handles rate-limited access to Wikidata and Wikimedia projects,
     managing User-Agents and HTTP requests.
 
     """
+
     # Rate limiting constants
     # see https://stackoverflow.com/questions/62396801/how-to-handle-too-many-requests-on-wikidata-using-sparqlwrapper
     CALLS_PER_MINUTE = 30
@@ -75,14 +79,13 @@ class Wikidata:
         self.url = None
         self.error = None
 
-
     @classmethod
     def get_user_agent(cls) -> str:
         """
         Constructs a User-Agent string compliant with Wikimedia policy.
         """
         version = Version()
-        user_agent= f"{version.name}/{version.version}"
+        user_agent = f"{version.name}/{version.version}"
         return user_agent
 
     @sleep_and_retry
@@ -108,7 +111,7 @@ class Wikidata:
 
     @sleep_and_retry
     @limits(calls=CALLS_PER_MINUTE, period=ONE_MINUTE)
-    def get_wikitext(self,url) -> str:
+    def get_wikitext(self, url) -> str:
         """
         Get raw wiki text from the configured base_url.
 
@@ -252,11 +255,8 @@ SPARQL: {sparql}
             count * 15
         )  # heuristic factor for probability that a short url points to a wikidata entry - 14 has worked so far
         max_short_int = short_ids.id_to_int(max_postfix)
+        pbar = tqdm.tqdm(total=count, disable=not with_progress or debug, desc="Fetching queries")
         while len(unique_urls) < count and give_up > 0:
-            if with_progress and not debug:
-                print(".", end="")
-                if give_up % 80 == 0:
-                    print()
             # Generate a 4-char base36 string
             postfix = short_ids.get_random()
             if short_ids.id_to_int(postfix) > max_short_int:
@@ -288,12 +288,15 @@ SPARQL: {sparql}
                 nq_set.queries.append(nq)
                 unique_urls.add(nq.url)
                 unique_names.add(nq.name)
+                if with_progress:
+                    pbar.update(1)
                 if debug:
                     print(nq)
             else:
                 give_up -= 1
+        if with_progress:
+            pbar.close()
         return nq_set
-
 
     def read_query(self) -> str:
         """

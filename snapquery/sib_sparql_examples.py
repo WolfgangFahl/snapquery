@@ -10,13 +10,14 @@ Modified: 2025-12-02 by wf
 """
 
 import os
-from typing import Optional, List, Dict, Any, Set
+from typing import Any, Dict, List, Optional, Set
 
 import rdflib
 from tqdm import tqdm
 
 from snapquery.github_access import GitHub
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager, NamedQuerySet
+
 
 class SibSparqlExamples:
     """
@@ -42,7 +43,7 @@ class SibSparqlExamples:
 
     def collect_ttl_items(self, path: str = "examples") -> List[Dict[str, Any]]:
         """Recursively collect all .ttl file items under given path using GitHub client."""
-        ttl_files= self.github.list_files_recursive(path, suffix=".ttl")
+        ttl_files = self.github.list_files_recursive(path, suffix=".ttl")
         return ttl_files
 
     def get_ttl_content(self, download_url: str) -> str:
@@ -63,7 +64,7 @@ class SibSparqlExamples:
         Returns:
             URL like "https://github.com/sib-swiss/sparql-examples/blob/main/examples/Bgee/001.ttl"
         """
-        url=f"https://github.com/{self.github.owner}/{self.github.repo}/blob/main/{file_path}"
+        url = f"https://github.com/{self.github.owner}/{self.github.repo}/blob/main/{file_path}"
         return url
 
     def parse_ttl_to_namedqueries(self, ttl_content: str, ttl_path: str) -> List[NamedQuery]:
@@ -139,7 +140,9 @@ class SibSparqlExamples:
                 print(f"Error parsing {ttl_path}: {e}")
         return parsed_queries
 
-    def extract_queries(self, limit: Optional[int] = None, debug_print: bool = False, show_progress: bool = False) -> List[NamedQuery]:
+    def extract_queries(
+        self, limit: Optional[int] = None, debug_print: bool = False, show_progress: bool = False
+    ) -> List[NamedQuery]:
         """
         Main: Fetch/parse/store all TTL → NamedQuery/DB/Set.
         """
@@ -163,10 +166,8 @@ class SibSparqlExamples:
                 self.stored_queries.append(nq)
         return self.stored_queries
 
-
     def save_to_yaml(self, filepath: str) -> Dict[str, Any]:
         """
         Export stored queries to a YAML file.
         """
         self.named_query_set.save_to_yaml_file(filepath)
-

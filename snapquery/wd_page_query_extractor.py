@@ -39,7 +39,9 @@ class WikidataQueryExtractor:
 
     # Regex to find blocks of text containing a w.wiki short URL
     # Captures: (pre-text, short-url, post-text)
-    RE_SHORT_URL_BLOCK = re.compile(r"(.*?)(https?://w\.wiki/\S+)(.*?)(?=https?://w\.wiki/|\Z)", re.DOTALL | re.MULTILINE)
+    RE_SHORT_URL_BLOCK = re.compile(
+        r"(.*?)(https?://w\.wiki/\S+)(.*?)(?=https?://w\.wiki/|\Z)", re.DOTALL | re.MULTILINE
+    )
 
     def __init__(
         self,
@@ -132,7 +134,7 @@ class WikidataQueryExtractor:
 
         if url is None:
             # Create a default anchor-based URL if a specific short URL isn't available
-            anchor = title.replace(' ', '_')
+            anchor = title.replace(" ", "_")
             url = f"{self.base_url}#{anchor}"
 
         return NamedQuery(
@@ -204,9 +206,7 @@ class WikidataQueryExtractor:
                     # Assuming the first argument contains the query text
                     sparql = template.arguments[0].value
                     if sparql:
-                        query = self.create_named_query(
-                            title=section.title, markup=section.plain_text(), sparql=sparql
-                        )
+                        query = self.create_named_query(title=section.title, markup=section.plain_text(), sparql=sparql)
                         self.named_query_list.add(query)
             return
 

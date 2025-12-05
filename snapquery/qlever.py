@@ -8,9 +8,9 @@ import re
 from typing import Dict, List
 
 from bs4 import BeautifulSoup
+from osprojects.osproject import OsProject, Ticket
 from tqdm import tqdm
 
-from osprojects.osproject import OsProject, Ticket
 from snapquery.snapquery_core import NamedQuery, NamedQuerySet
 from snapquery.wd_short_url import ShortUrl
 
@@ -57,13 +57,17 @@ class QLever:
     and interaction with QLever instances.
     """
 
-    def __init__(self,with_progress: bool = True,debug:bool=False,):
+    def __init__(
+        self,
+        with_progress: bool = True,
+        debug: bool = False,
+    ):
         """
         constructor
         """
         self.url = "https://github.com/ad-freiburg/qlever"
         self.with_progress = with_progress
-        self.debug=debug
+        self.debug = debug
         # Regex pattern to find URLs starting with the specified prefix
         self.wd_url_pattern = re.compile(r"https://(?:qlever\.cs\.uni-freiburg\.de|qlever\.dev)/wikidata/[A-Za-z0-9]+")
         self.osproject = OsProject.fromUrl(self.url)
@@ -88,7 +92,7 @@ class QLever:
                 extracted_urls.extend(found_urls)
 
         # distinct list
-        ticket_urls= list(set(extracted_urls))
+        ticket_urls = list(set(extracted_urls))
         return ticket_urls
 
     def get_issues_query_set(self, limit: int = None, progress: bool = False) -> NamedQuerySet:
@@ -108,16 +112,17 @@ class QLever:
         items_iterable = tickets_map.items()
 
         if progress:
-            iterator = tqdm(items_iterable, total=len(tickets_map), desc="Scanning tickets for QLever URLs", unit="ticket")
+            iterator = tqdm(
+                items_iterable, total=len(tickets_map), desc="Scanning tickets for QLever URLs", unit="ticket"
+            )
         else:
             iterator = items_iterable
-
 
         ticket_dict = {}
 
         # 1. Scan tickets for URLs
         for i, (t_id, ticket) in enumerate(iterator):
-            msg=f"fetching short urls for ticket {i}:#{t_id} {ticket.title}"
+            msg = f"fetching short urls for ticket {i}:#{t_id} {ticket.title}"
             if self.debug:
                 print(msg)
             urls = self.wd_urls_for_ticket(ticket)
@@ -126,7 +131,7 @@ class QLever:
 
         # 2. Convert to NamedQuerySet
         # (This resolves the short URLs to actual SPARQL)
-        nq_set= self.named_queries_for_tickets(ticket_dict)
+        nq_set = self.named_queries_for_tickets(ticket_dict)
         return nq_set
 
     def named_queries_for_tickets(self, ticket_dict: Dict[Ticket, List[str]]) -> NamedQuerySet:

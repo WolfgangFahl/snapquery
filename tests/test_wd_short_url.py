@@ -24,6 +24,8 @@ class TestShortUrl(Basetest):
         """
         test reading a random query list
         """
+        with_progress = self.debug
+        with_progress = True
         if self.inPublicCI():
             with_llm = False
             count = 3
@@ -32,9 +34,10 @@ class TestShortUrl(Basetest):
             with_llm = True
         nq_set = ShortUrl.get_random_query_list(
             nqm=None,
-            name="wikidata.org/short_urls",
+            namespace="wikidata.org/short_urls",
             count=count,
             with_llm=with_llm,
+            with_progress=with_progress,
             debug=self.debug,
         )
         nq_set.save_to_json_file("/tmp/wikidata-short-urls.json", indent=2)

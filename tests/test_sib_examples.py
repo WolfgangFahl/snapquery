@@ -5,11 +5,15 @@ Verifies integration between SIB fetcher and Snapquery Core.
 Created on 2025-12-02
 @author: wf
 """
+
 import os
 import unittest
+
 from basemkit.basetest import Basetest
-from snapquery.snapquery_core import NamedQueryManager
+
 from snapquery.sib_sparql_examples import SibSparqlExamples
+from snapquery.snapquery_core import NamedQueryManager
+
 
 class TestSibExamples(Basetest):
     """
@@ -36,7 +40,7 @@ class TestSibExamples(Basetest):
         sib_fetcher = SibSparqlExamples(nqm, debug=self.debug)
 
         # Limit for testing efficiency
-        limit = 7 # if self.inPublicCI() else None
+        limit = 7  # if self.inPublicCI() else None
         if self.debug:
             print(f"Fetching SIB examples (limit={limit})...")
 
@@ -52,9 +56,9 @@ class TestSibExamples(Basetest):
             FROM NamedQuery
             WHERE namespace=? AND domain=?
             """,
-            (sib_fetcher.named_query_set.namespace, sib_fetcher.named_query_set.domain)
+            (sib_fetcher.named_query_set.namespace, sib_fetcher.named_query_set.domain),
         )
-        db_count = records[0]['count']
+        db_count = records[0]["count"]
         self.assertEqual(db_count, len(loaded_queries), "DB count should match loaded count")
 
         # Verify YAML Export
@@ -65,7 +69,7 @@ class TestSibExamples(Basetest):
         self.assertTrue(os.path.exists(yaml_path))
 
         # Optional: Read back to verify YamlAble structure
-        with open(yaml_path, 'r') as f:
+        with open(yaml_path, "r") as f:
             content = f.read()
             self.assertIn("sib-examples", content)
             self.assertIn("queries:", content)

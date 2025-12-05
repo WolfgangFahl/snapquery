@@ -4,9 +4,10 @@ GitHub API client for accessing repository contents.
 Created on 2025-12-02
 @author: wf
 """
+
 import json
-from  pathlib import Path
-from typing import List, Dict, Any, Optional, Union
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Union
 
 import requests
 
@@ -36,8 +37,6 @@ class GitHub:
         # Use custom session or create new one
         self.session = session or requests.Session()
 
-
-
     def _headers(self) -> Dict[str, str]:
         headers = {"Accept": "application/vnd.github.v3+json"}
         if self.token:
@@ -55,13 +54,12 @@ class GitHub:
         token_path = Path.home() / ".github" / "access_token.json"
         if token_path.exists():
             try:
-                with open(token_path, 'r') as f:
+                with open(token_path, "r") as f:
                     data = json.load(f)
                     return data.get("access_token")
             except (json.JSONDecodeError, OSError):
                 pass
         return None
-
 
     def get_contents(self, path: str = "") -> Union[List[Dict[str, Any]], Dict[str, Any]]:
         """

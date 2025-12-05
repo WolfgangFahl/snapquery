@@ -5,6 +5,7 @@ Created on 2024-05-05
 """
 
 import json
+
 from basemkit.basetest import Basetest
 
 from snapquery.query_set_tool import QuerySetTool
@@ -114,9 +115,9 @@ class TestQuerySetTool(Basetest):
                     "name": "Q1",
                     "title": "First Query",
                     "description": "A test query",
-                    "sparql": "SELECT * WHERE { ?s ?p ?o } LIMIT 10"
+                    "sparql": "SELECT * WHERE { ?s ?p ?o } LIMIT 10",
                 }
-            ]
+            ],
         }
         src_json = "/tmp/test_convert_src.json"
         dst_yaml = "/tmp/test_convert_dst.yaml"

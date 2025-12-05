@@ -23,7 +23,7 @@ class TestEndpoints(Basetest):
         self.nqm = NamedQueryManager()
         self.user_agent = "snapquery-test/1.0 (https://github.com/WolfgangFahl/snapquery)"
         self.timeout = 10
-        self.minRatio= 0.8
+        self.minRatio = 0.8
 
     def testEndpoints(self):
         """
@@ -44,7 +44,7 @@ class TestEndpoints(Basetest):
             try:
                 self.assertTrue(hasattr(ep, "website"))
                 resp = requests.get(ep.website, headers={"User-Agent": self.user_agent}, timeout=self.timeout)
-                is_success = (resp.status_code == 200)
+                is_success = resp.status_code == 200
                 stats.add(is_success)
                 if self.debug:
                     if is_success:

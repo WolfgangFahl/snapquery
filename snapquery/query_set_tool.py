@@ -73,35 +73,31 @@ class QuerySetTool:
 
         if is_url:
             if fmt == "json":
-                result = NamedQuerySet.load_from_json_url(input_src) # @UndefinedVariable
+                result = NamedQuerySet.load_from_json_url(input_src)  # @UndefinedVariable
             elif fmt == "yaml":
-                result = NamedQuerySet.load_from_yaml_url(input_src) # @UndefinedVariable
+                result = NamedQuerySet.load_from_yaml_url(input_src)  # @UndefinedVariable
             else:
                 # auto: try JSON, then YAML
                 try:
-                    result = NamedQuerySet.load_from_json_url(input_src) # @UndefinedVariable
+                    result = NamedQuerySet.load_from_json_url(input_src)  # @UndefinedVariable
                 except Exception:
-                    result = NamedQuerySet.load_from_yaml_url(input_src) # @UndefinedVariable
+                    result = NamedQuerySet.load_from_yaml_url(input_src)  # @UndefinedVariable
         else:
             if fmt == "json":
-                result = NamedQuerySet.load_from_json_file(input_src) # @UndefinedVariable
+                result = NamedQuerySet.load_from_json_file(input_src)  # @UndefinedVariable
             elif fmt == "yaml":
-                result = NamedQuerySet.load_from_yaml_file(input_src) # @UndefinedVariable
+                result = NamedQuerySet.load_from_yaml_file(input_src)  # @UndefinedVariable
             else:
                 # auto: try JSON, then YAML
                 try:
-                    result = NamedQuerySet.load_from_json_file(input_src) # @UndefinedVariable
+                    result = NamedQuerySet.load_from_json_file(input_src)  # @UndefinedVariable
                 except Exception:
-                    result = NamedQuerySet.load_from_yaml_file(input_src) # @UndefinedVariable
+                    result = NamedQuerySet.load_from_yaml_file(input_src)  # @UndefinedVariable
 
         return result
 
     def get_query_set_from_short_urls(
-        self,
-        short_urls: List[str],
-        domain: str,
-        namespace: str,
-        target_graph_name: str = "wikidata"
+        self, short_urls: List[str], domain: str, namespace: str, target_graph_name: str = "wikidata"
     ) -> NamedQuerySet:
         """
         Fetch multiple short URLs and aggregate them into a NamedQuerySet.
@@ -160,7 +156,7 @@ class QuerySetTool:
         Returns:
             NamedQuerySet: A NamedQuerySet object containing the imported NamedQuery objects.
         """
-        nq_set = NamedQuerySet.load_from_json_file(json_file) # @UndefinedVariable
+        nq_set = NamedQuerySet.load_from_json_file(json_file)  # @UndefinedVariable
         iterable = (
             tqdm(
                 nq_set.queries,

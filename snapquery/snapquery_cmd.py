@@ -119,6 +119,12 @@ class SnapQueryCmd(WebserverCmd):
             help="Import named queries from a JSON file.",
         )
         parser.add_argument(
+            "--github",
+            type=str,
+            help="GitHub repository to import queries from (in format 'owner/repo')",
+        )
+
+        parser.add_argument(
             "--context",
             type=str,
             default="test",

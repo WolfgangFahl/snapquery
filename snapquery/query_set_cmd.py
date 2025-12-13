@@ -94,8 +94,18 @@ class QuerySetCmd(BaseCmd):
         parser.add_argument(
             "--llm",
             action="store_true",
-            help="Enable LLM enrichment (placeholder; not used in this snippet).",
+            help="Enable LLM enrichment",
         )
+            parser.add_argument(
+            "--github",
+            help="Extract queries from a specific GitHub repository (format: owner/repo).",
+        )
+        parser.add_argument(
+            "--github-extension",
+            default=".rq",
+            help="File extension to filter for when using --github (default: .rq).",
+        )
+
         # Scholia options
         parser.add_argument(
             "--scholia",
@@ -161,6 +171,10 @@ class QuerySetCmd(BaseCmd):
             self._handle_shorturl(args)
             return True
 
+        if args.github:
+            self._handle_github(args)
+            return True
+
         if args.scholia:
             self._handle_scholia(args)
             return True
@@ -209,6 +223,15 @@ class QuerySetCmd(BaseCmd):
         )
 
         self._output_dataset(nq_set, args)
+
+    def _handle_github(self, args: Namespace) -> None:
+        """
+        Handle scraping a custom GitHub repository.
+        """
+        repo_name = args.github
+        extension = args.github_extension
+        nqm = NamedQueryManager.from_samples()
+
 
     def _handle_scholia(self, args: Namespace) -> None:
         """

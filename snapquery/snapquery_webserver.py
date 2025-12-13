@@ -134,11 +134,17 @@ class SnapQueryWebServer(InputWebserver):
             return endpoints
 
         @app.get("/api/meta_query/{name}")
-        def meta_query(name: str, limit: int = None):
+        def meta_query(
+            name: str,
+            limit: int = None,
+            fmt: str = 'json'):
             """
             run the meta query with the given name
+            query parameters are limit for a potential query result limt,
+            fmt for an optional output format - default is JSON
+            params may optionally be set as key=value pairs
             """
-            name, r_format = self.get_r_format(name, "json")
+            name, r_format = self.get_r_format(name, fmt)
             if name not in self.nqm.meta_qm.queriesByName:
                 raise HTTPException(status_code=404, detail=f"meta query {name} not known")
             query = self.nqm.meta_qm.queriesByName[name]

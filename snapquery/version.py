@@ -18,7 +18,7 @@ class Version:
     name = "snapquery"
     version = snapquery.__version__
     date = "2024-05-03"
-    updated = "2025-12-04"
+    updated = "2025-12-11"
     description = "Introduce Named Queries and Named Query Middleware to wikidata"
 
     authors = "Wolfgang Fahl"

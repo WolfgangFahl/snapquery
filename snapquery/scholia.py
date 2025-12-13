@@ -1,104 +1,125 @@
 """
 Created on 2024-05-04
+2025-12-11 refactored using Gemini Pro 3 to abstract and make available via command line
+
 
 @author: wf
 """
-
 import requests
 from tqdm import tqdm
+from typing import Optional
 
 from snapquery.github_access import GitHub
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager, NamedQuerySet
 
-
-class ScholiaQueries:
+class GitHubQueries:
     """
-    A class to handle the extraction and management of Scholia queries.
+    A general class to handle the extraction and management of queries
+    hosted in a GitHub repository.
     """
 
-    def __init__(self, nqm: NamedQueryManager, debug: bool = False):
+    def __init__(
+        self,
+        nqm: NamedQueryManager,
+        owner: str,
+        repo: str,
+        path: str = "",
+        extension: str = ".sparql",
+        domain: Optional[str] = None,
+        namespace: Optional[str] = None,
+        target_graph: str = "wikidata",
+        debug: bool = False
+    ):
         """
         Constructor
-
-        Args:
-            nqm (NamedQueryManager): The NamedQueryManager to use for storing queries.
-            debug (bool): Enable debug output. Defaults to False.
         """
         self.nqm = nqm
-        self.named_query_set = NamedQuerySet(
-            domain="scholia.toolforge.org",
-            namespace="named_queries",
-            target_graph_name="wikidata",
-        )
-        self.github = GitHub(owner="WDscholia", repo="scholia")
+        self.owner = owner
+        self.repo = repo
+        self.path = path
+        self.extension = extension
         self.debug = debug
 
-    def get_scholia_file_list(self):
-        """
-        Retrieve the list of SPARQL files from the Scholia repository.
+        self.domain = domain if domain else f"{repo}.github.com"
+        self.namespace = namespace if namespace else "imported_queries"
 
-        Returns:
-            list: List of dictionaries representing file information.
-        """
-        file_list_lod = self.github.get_contents("scholia/app/templates")
-        return file_list_lod
+        self.named_query_set = NamedQuerySet(
+            domain=self.domain,
+            namespace=self.namespace,
+            target_graph_name=target_graph,
+        )
+        self.github = GitHub(owner=owner, repo=repo)
 
-    def extract_query(self, file_info) -> NamedQuery:
+    def extract_query(self, file_info: dict) -> Optional[NamedQuery]:
         """
         Extract a single query from file information.
-
-        Args:
-            file_info (dict): Dictionary containing information about the file.
-
-        Returns:
-            NamedQuery: The extracted NamedQuery object.
         """
-        file_name = file_info["name"]
-        if file_name.endswith(".sparql") and file_name[:-7]:
-            file_response = requests.get(file_info["download_url"])
-            file_response.raise_for_status()
-            query_str = file_response.text
-            name = file_name[:-7]
-            named_query = NamedQuery(
-                domain=self.named_query_set.domain,
-                namespace=self.named_query_set.namespace,
-                name=name,
-                url=file_info["download_url"],
-                title=name,
-                description=name,
-                comment="",
-                sparql=query_str,
-            )
-            return named_query
+        named_query = None
+        file_name = file_info.get("name")
+
+        if file_name and file_name.endswith(self.extension):
+            file_url = file_info.get("download_url")
+            if file_url:
+                try:
+                    response = requests.get(file_url)
+                    response.raise_for_status()
+                    query_str = response.text
+
+                    name = file_name[: -len(self.extension)]
+
+                    named_query = NamedQuery(
+                        domain=self.named_query_set.domain,
+                        namespace=self.named_query_set.namespace,
+                        name=name,
+                        url=file_url,
+                        title=name,
+                        description=f"Imported from {self.owner}/{self.repo}",
+                        comment=f"Path: {file_info.get('path')}",
+                        sparql=query_str,
+                    )
+                except Exception as e:
+                    if self.debug:
+                        print(f"Failed to extract query from {file_name}: {e}")
+
+        return named_query
 
     def extract_queries(self, limit: int = None, show_progress: bool = False):
         """
-        Extract all queries from the Scholia repository.
-
-        Args:
-            limit (int, optional): Limit the number of queries fetched. Defaults to None.
-            show_progress (bool, optional): Show a progress bar. Defaults to False.
+        Extract queries from the GitHub repository recursively matching the configuration.
         """
-        file_list_json = self.get_scholia_file_list()
-        # Determine iterator loop
-        if show_progress:
-            iterator = tqdm(file_list_json, desc="Extracting Scholia queries", unit="file")
-        else:
-            iterator = file_list_json
+        if self.debug:
+            print(f"Fetching file list from {self.owner}/{self.repo} path: '{self.path}'...")
 
+        file_list = self.github.list_files_recursive(self.path, suffix=self.extension)
+
+        if show_progress:
+            iterator = tqdm(file_list, desc=f"Extracting {self.extension} files", unit="file")
+        else:
+            iterator = file_list
+
+        count = 0
         for i, file_info in enumerate(iterator, start=1):
             named_query = self.extract_query(file_info)
             if named_query:
                 self.named_query_set.queries.append(named_query)
+                count += 1
+
                 if self.debug and not show_progress:
                     if i % 80 == 0:
                         print(f"{i}")
                     print(".", end="", flush=True)
-                if limit and len(self.named_query_set.queries) >= limit:
+
+                if limit and count >= limit:
                     break
 
         if self.debug:
-            print(f"found {len(self.named_query_set.queries)} scholia queries")
+            print(f"\nFound {len(self.named_query_set.queries)} queries in {self.owner}/{self.repo}")
+
+    def store_queries(self):
+        """
+        Store the named queries into the database.
+        """
+        self.nqm.store_named_query_list(self.named_query_set)
 
     def save_to_json(self, file_path: str = "/tmp/scholia-queries.json"):
         """
@@ -109,8 +130,20 @@ class ScholiaQueries:
         """
         self.named_query_set.save_to_json_file(file_path, indent=2)
 
-    def store_queries(self):
-        """
-        Store the named queries into the database.
-        """
-        self.nqm.store_named_query_list(self.named_query_set)
+
+
+class ScholiaQueries(GitHubQueries):
+    """
+    Specific implementation for Scholia Queries.
+    """
+    def __init__(self, nqm: NamedQueryManager, debug: bool = False):
+        super().__init__(
+            nqm=nqm,
+            owner="WDscholia",
+            repo="scholia",
+            path="scholia/app/templates",
+            extension=".sparql",
+            domain="scholia.toolforge.org",
+            namespace="named_queries",
+            debug=debug
+        )

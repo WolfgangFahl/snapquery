@@ -103,6 +103,11 @@ class QuerySetCmd(BaseCmd):
             "--branch",
             help="GitHub branch or ref (optional for --github).",
         )
+        parser.add_argument(
+            "--github-path",
+            default="",
+            help="Sub-path within the GitHub repo to start valid extraction (default: root).",
+        )
 
         parser.add_argument(
             "--github-extension",
@@ -187,6 +192,10 @@ class QuerySetCmd(BaseCmd):
 
         if args.scholia:
             self._handle_scholia(args)
+            return True
+
+        if args.scholia_qlever:
+            self._handle_scholia_qlever(args)
             return True
 
         if args.wikidata_examples:

@@ -1,0 +1,3033 @@
+domain: ExploratoryQueryingSessions.github.com
+namespace: imported_queries
+target_graph_name: wikidata
+queries:
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 \nWHERE {\n  ?var1  <http://www.wikidata.org/entity/P31> \
+    \ <http://www.wikidata.org/entity/Q5> .\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\n FILTER (  ( (  LANG (  ?var2  )  =  \"en\" ) ) \n) .\n }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session01/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session01/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q5> .\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\n FILTER (  ( (  LANG (  ?var2  )  =  \"en\" ) ) \n) .\n }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session01/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session01/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 \nWHERE {\n  ?var1  <http://www.wikidata.org/entity/P31> \
+    \ <http://www.wikidata.org/entity/Q5> .\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\n FILTER (  ( (  LANG (  ?var2  )  =  \"en\" ) ) \n) .\n }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session01/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session01/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q5> .\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\n FILTER (  ( (  LANG (  ?var2  )  =  \"en\" ) ) \n) .\n }\n}\nLIMIT\
+    \ 1000000\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session01/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session01/query04.rq'
+- name: query05
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query05--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q5> .\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\n FILTER (  ( (  LANG (  ?var2  )  =  \"en\" ) ) \n) .\n }\n}\nLIMIT\
+    \ 500000\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session01/query05.rq
+  title: query05
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session01/query05.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT(  SAMPLE ( COALESCE (  ?var1Label , ?var2Label  )  ) AS\
+    \  ?var3  ) ?var4 \nWHERE {\n  ?var4  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q341> .\n OPTIONAL {\n  ?var4  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var1Label .\n FILTER (  ( (  LANG (  ?var1Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n OPTIONAL {\n  ?var4  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2Label\
+    \ .\n }\n OPTIONAL {\n  ?var4  <http://www.wikidata.org/prop/direct/P306>  ?var5\
+    \ .\n }\n OPTIONAL {\n  ?var4  <http://www.wikidata.org/prop/direct/P275>  ?var6\
+    \ .\n }\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\nGROUP BY  ?var4 \n\
+    ORDER BY ASC( ?var7Label )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session02/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session02/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT(  SAMPLE ( COALESCE (  ?var1Label , ?var2Label  )  ) AS\
+    \  ?var3  ) ?var4 (  SAMPLE ( ?var5Label  ) AS  ?var6  )\nWHERE {\n  ?var4  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q341> .\n OPTIONAL {\n  ?var4  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var1Label .\n FILTER (  ( (  LANG (  ?var1Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n OPTIONAL {\n  ?var4  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2Label\
+    \ .\n }\n OPTIONAL {\n  ?var4  <http://www.wikidata.org/prop/direct/P306>  ?var6\
+    \ .\n  ?var6  <http://www.w3.org/2000/01/rdf-schema#label>  ?var5Label .\n FILTER\
+    \ (  ( (  LANG (  ?var5Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var4\
+    \  <http://www.wikidata.org/prop/direct/P275>  ?var7 .\n }\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\nGROUP BY  ?var4 \nORDER BY ASC( ?var8Label )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session02/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session02/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT(  SAMPLE ( COALESCE (  ?var1Label , ?var2Label  )  ) AS\
+    \  ?var3  ) ?var4 (  SAMPLE ( ?var5Label  ) AS  ?var6  )\nWHERE {\n  ?var4  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q341> .\n OPTIONAL {\n  ?var4  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var1Label .\n FILTER (  ( (  LANG (  ?var1Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n OPTIONAL {\n  ?var4  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2Label\
+    \ .\n }\n OPTIONAL {\n  ?var4  <http://www.wikidata.org/prop/direct/P306>  ?var6\
+    \ .\n  ?var6  <http://www.w3.org/2000/01/rdf-schema#label>  ?var5Label .\n FILTER\
+    \ (  ( (  LANG (  ?var5Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var4\
+    \  <http://www.wikidata.org/prop/direct/P275>  ?var7 .\n }\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\nGROUP BY  ?var4 \nORDER BY ASC( ?var3 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session02/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session02/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT(  SAMPLE ( COALESCE (  ?var1Label , ?var2Label  )  ) AS\
+    \  ?var3  ) ?var4 (  GROUP_CONCAT (  DISTINCT  ?var5Label ; SEPARATOR =  \", \"\
+    \ )  AS  ?var6  )\nWHERE {\n  ?var4  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q341> .\n OPTIONAL {\n  ?var4  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var1Label .\n FILTER (  ( (  LANG (  ?var1Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n OPTIONAL {\n  ?var4  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2Label\
+    \ .\n }\n OPTIONAL {\n  ?var4  <http://www.wikidata.org/prop/direct/P306>  ?var6\
+    \ .\n  ?var6  <http://www.w3.org/2000/01/rdf-schema#label>  ?var5Label .\n FILTER\
+    \ (  ( (  LANG (  ?var5Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var4\
+    \  <http://www.wikidata.org/prop/direct/P275>  ?var7 .\n }\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\nGROUP BY  ?var4 \nORDER BY ASC( ?var3 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session02/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session02/query04.rq'
+- name: query05
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query05--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT(  SAMPLE ( COALESCE (  ?var1Label , ?var2Label  )  ) AS\
+    \  ?var3  ) ?var4 (  GROUP_CONCAT (  DISTINCT  ?var5Label ; SEPARATOR =  \", \"\
+    \ )  AS  ?var6  )(  GROUP_CONCAT (  DISTINCT  ?var7Label ; SEPARATOR =  \", \"\
+    \ )  AS  ?var8  )\nWHERE {\n  ?var4  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q341> .\n OPTIONAL {\n  ?var4  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var1Label .\n FILTER (  ( (  LANG (  ?var1Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n OPTIONAL {\n  ?var4  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2Label\
+    \ .\n }\n OPTIONAL {\n  ?var4  <http://www.wikidata.org/prop/direct/P306>  ?var9\
+    \ .\n  ?var9  <http://www.w3.org/2000/01/rdf-schema#label>  ?var5Label .\n FILTER\
+    \ (  ( (  LANG (  ?var5Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var4\
+    \  <http://www.wikidata.org/prop/direct/P275>  ?var10 .\n  ?var10  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var7Label .\n FILTER (  ( (  LANG (  ?var7Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\nGROUP BY  ?var4 \n\
+    ORDER BY ASC( ?var3 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session02/query05.rq
+  title: query05
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session02/query05.rq'
+- name: query06
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query06--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1 (  SAMPLE ( COALESCE (  ?var2Label , ?var3Label \
+    \ )  ) AS  ?var4  )(  GROUP_CONCAT (  DISTINCT  ?var5Label ; SEPARATOR =  \",\
+    \ \" )  AS  ?var6  )(  GROUP_CONCAT (  DISTINCT  ?var7Label ; SEPARATOR =  \"\
+    , \" )  AS  ?var8  )\nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q341> .\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2Label .\n FILTER (  ( (  LANG (  ?var2Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var3Label\
+    \ .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P306>  ?var9\
+    \ .\n  ?var9  <http://www.w3.org/2000/01/rdf-schema#label>  ?var5Label .\n FILTER\
+    \ (  ( (  LANG (  ?var5Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P275>  ?var10 .\n  ?var10  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var7Label .\n FILTER (  ( (  LANG (  ?var7Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\nGROUP BY  ?var1 \n\
+    ORDER BY ASC( ?var4 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session02/query06.rq
+  title: query06
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session02/query06.rq'
+- name: query07
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query07--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1 (  SAMPLE ( COALESCE (  ?var2Label , ?var3Label \
+    \ )  ) AS  ?var4  )(  GROUP_CONCAT (  DISTINCT  ?var5Label ; SEPARATOR =  \",\
+    \ \" )  AS  ?var6  )(  GROUP_CONCAT (  DISTINCT  ?var7Label ; SEPARATOR =  \"\
+    , \" )  AS  ?var8  )\nWHERE {\n  ?var1 ( <http://www.wikidata.org/prop/P31> /\
+    \ <http://www.wikidata.org/prop/statement/P31> / <http://www.wikidata.org/prop/direct/P279>\
+    \ *) <http://www.wikidata.org/entity/Q341> .\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2Label .\n FILTER (  ( (  LANG (  ?var2Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var3Label\
+    \ .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P306>  ?var9\
+    \ .\n  ?var9  <http://www.w3.org/2000/01/rdf-schema#label>  ?var5Label .\n FILTER\
+    \ (  ( (  LANG (  ?var5Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P275>  ?var10 .\n  ?var10  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var7Label .\n FILTER (  ( (  LANG (  ?var7Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\nGROUP BY  ?var1 \n\
+    ORDER BY ASC( ?var4 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session02/query07.rq
+  title: query07
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session02/query07.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q5> .\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\n FILTER (  ( (  LANG (  ?var2  )  =  \"en\" ) ) \n) .\n }\n}\nLIMIT\
+    \ 50\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session03/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session03/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 \nWHERE {\n  ?var1  <http://www.wikidata.org/entity/P31> \
+    \ <http://www.wikidata.org/entity/Q5> .\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\n FILTER (  ( (  LANG (  ?var2  )  =  \"en\" ) ) \n) .\n }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session03/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session03/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 \nWHERE {\n  ?var1  <http://www.wikidata.org/entity/P31> \
+    \ <http://www.wikidata.org/entity/Q5> .\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\n FILTER (  ( (  LANG (  ?var2  )  =  \"en\" ) ) \n) .\n }\n}\nLIMIT\
+    \ 50\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session03/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session03/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q5> .\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\n FILTER (  ( (  LANG (  ?var2  )  =  \"en\" ) ) \n) .\n }\n}\nLIMIT\
+    \ 50\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session03/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session03/query04.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1 (  SAMPLE ( COALESCE (  ?var2Label , ?var3Label \
+    \ )  ) AS  ?var4  )(  SAMPLE ( COALESCE (  ?var5Label , ?var6Label  )  ) AS  ?var7\
+    \  )(  GROUP_CONCAT (  DISTINCT  ?var8Label ; SEPARATOR =  \", \" )  AS  ?var9\
+    \  )(  GROUP_CONCAT (  DISTINCT  ?var10Label ; SEPARATOR =  \", \" )  AS  ?var11\
+    \  )\nWHERE {\n  ?var1 ( <http://www.wikidata.org/prop/P31> / <http://www.wikidata.org/prop/statement/P31>\
+    \ / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q341>\
+    \ .\n  ?var1 ( <http://www.wikidata.org/prop/P31> / <http://www.wikidata.org/prop/statement/P31>\
+    \ ) ?var7 .\n OPTIONAL {\n  ?var7  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var5Label .\n FILTER (  ( (  LANG (  ?var5Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n OPTIONAL {\n  ?var7  <http://www.w3.org/2000/01/rdf-schema#label>  ?var6Label\
+    \ .\n }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2Label\
+    \ .\n FILTER (  ( (  LANG (  ?var2Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL\
+    \ {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var3Label .\n }\n\
+    \ OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P306>  ?var12 .\n\
+    \  ?var12  <http://www.w3.org/2000/01/rdf-schema#label>  ?var8Label .\n FILTER\
+    \ (  ( (  LANG (  ?var8Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P275>  ?var13 .\n  ?var13  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var10Label .\n FILTER (  ( (  LANG (  ?var10Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\nGROUP BY  ?var1 \n\
+    ORDER BY ASC( ?var4 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session04/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session04/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1 (  SAMPLE ( COALESCE (  ?var2Label , ?var3Label \
+    \ )  ) AS  ?var4  )(  GROUP_CONCAT (  DISTINCT  ?var5Label ; SEPARATOR =  \",\
+    \ \" )  AS  ?var6  )(  GROUP_CONCAT (  DISTINCT  ?var7Label ; SEPARATOR =  \"\
+    , \" )  AS  ?var8  )(  GROUP_CONCAT (  DISTINCT  ?var9Label ; SEPARATOR =  \"\
+    , \" )  AS  ?var10  )\nWHERE {\n  ?var1 ( <http://www.wikidata.org/prop/P31> /\
+    \ <http://www.wikidata.org/prop/statement/P31> / <http://www.wikidata.org/prop/direct/P279>\
+    \ *) <http://www.wikidata.org/entity/Q341> .\n  ?var1 ( <http://www.wikidata.org/prop/P31>\
+    \ / <http://www.wikidata.org/prop/statement/P31> ) ?var11 .\n OPTIONAL {\n  ?var11\
+    \  <http://www.w3.org/2000/01/rdf-schema#label>  ?var5Label .\n FILTER (  ( (\
+    \  LANG (  ?var5Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2Label .\n FILTER (  ( (  LANG (  ?var2Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var3Label\
+    \ .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P306>  ?var12\
+    \ .\n  ?var12  <http://www.w3.org/2000/01/rdf-schema#label>  ?var7Label .\n FILTER\
+    \ (  ( (  LANG (  ?var7Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P275>  ?var13 .\n  ?var13  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var9Label .\n FILTER (  ( (  LANG (  ?var9Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n}\nGROUP BY  ?var1 \n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session04/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session04/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1 (  SAMPLE ( COALESCE (  ?var2Label , ?var3Label \
+    \ )  ) AS  ?var4  )(  GROUP_CONCAT (  DISTINCT  ?var5Label ; SEPARATOR =  \",\
+    \ \" )  AS  ?var6  )(  GROUP_CONCAT (  DISTINCT  ?var7Label ; SEPARATOR =  \"\
+    , \" )  AS  ?var8  )(  GROUP_CONCAT (  DISTINCT  ?var9Label ; SEPARATOR =  \"\
+    , \" )  AS  ?var10  )\nWHERE {\n  ?var1 ( <http://www.wikidata.org/prop/P31> /\
+    \ <http://www.wikidata.org/prop/statement/P31> / <http://www.wikidata.org/prop/direct/P279>\
+    \ *) <http://www.wikidata.org/entity/Q341> .\n  ?var1 ( <http://www.wikidata.org/prop/P31>\
+    \ / <http://www.wikidata.org/prop/statement/P31> ) ?var11 .\n OPTIONAL {\n  ?var11\
+    \  <http://www.w3.org/2000/01/rdf-schema#label>  ?var5Label .\n FILTER (  ( (\
+    \  LANG (  ?var5Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2Label .\n FILTER (  ( (  LANG (  ?var2Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var3Label\
+    \ .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P306>  ?var12\
+    \ .\n  ?var12  <http://www.w3.org/2000/01/rdf-schema#label>  ?var7Label .\n FILTER\
+    \ (  ( (  LANG (  ?var7Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P275>  ?var13 .\n  ?var13  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var9Label .\n FILTER (  ( (  LANG (  ?var9Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n}\nGROUP BY  ?var1 \nORDER BY ASC( ?var4 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session04/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session04/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1 (  SAMPLE ( COALESCE (  ?var2Label , ?var3Label \
+    \ )  ) AS  ?var4  )(  GROUP_CONCAT (  DISTINCT  ?var5Label ; SEPARATOR =  \",\
+    \ \" )  AS  ?var6  )(  GROUP_CONCAT (  DISTINCT  ?var7Label ; SEPARATOR =  \"\
+    , \" )  AS  ?var8  )(  GROUP_CONCAT (  DISTINCT  ?var9Label ; SEPARATOR =  \"\
+    , \" )  AS  ?var10  )\nWHERE {\n  ?var1 ( <http://www.wikidata.org/prop/P31> /\
+    \ <http://www.wikidata.org/prop/statement/P31> / <http://www.wikidata.org/prop/direct/P279>\
+    \ *) <http://www.wikidata.org/entity/Q7397> .\n  ?var1 ( <http://www.wikidata.org/prop/P31>\
+    \ / <http://www.wikidata.org/prop/statement/P31> ) ?var11 .\n OPTIONAL {\n  ?var11\
+    \  <http://www.w3.org/2000/01/rdf-schema#label>  ?var5Label .\n FILTER (  ( (\
+    \  LANG (  ?var5Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2Label .\n FILTER (  ( (  LANG (  ?var2Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var3Label\
+    \ .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P306>  ?var12\
+    \ .\n  ?var12  <http://www.w3.org/2000/01/rdf-schema#label>  ?var7Label .\n FILTER\
+    \ (  ( (  LANG (  ?var7Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P275>  ?var13 .\n  ?var13  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var9Label .\n FILTER (  ( (  LANG (  ?var9Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n}\nGROUP BY  ?var1 \nORDER BY ASC( ?var4 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session04/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session04/query04.rq'
+- name: query05
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query05--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1 (  SAMPLE ( COALESCE (  ?var2Label , ?var3Label \
+    \ )  ) AS  ?var4  )(  GROUP_CONCAT (  DISTINCT  ?var5Label ; SEPARATOR =  \",\
+    \ \" )  AS  ?var6  )(  GROUP_CONCAT (  DISTINCT  ?var7Label ; SEPARATOR =  \"\
+    , \" )  AS  ?var8  )(  GROUP_CONCAT (  DISTINCT  ?var9Label ; SEPARATOR =  \"\
+    , \" )  AS  ?var10  )\nWHERE {\n  ?var1 ( <http://www.wikidata.org/prop/P31> /\
+    \ <http://www.wikidata.org/prop/statement/P31> / <http://www.wikidata.org/prop/direct/P279>\
+    \ *) <http://www.wikidata.org/entity/Q7397> .\n  ?var1 ( <http://www.wikidata.org/prop/P31>\
+    \ / <http://www.wikidata.org/prop/statement/P31> ) ?var11 .\n OPTIONAL {\n  ?var11\
+    \  <http://www.w3.org/2000/01/rdf-schema#label>  ?var5Label .\n FILTER (  ( (\
+    \  LANG (  ?var5Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2Label .\n FILTER (  ( (  LANG (  ?var2Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var3Label\
+    \ .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P306>  ?var12\
+    \ .\n  ?var12  <http://www.w3.org/2000/01/rdf-schema#label>  ?var7Label .\n FILTER\
+    \ (  ( (  LANG (  ?var7Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P275>  ?var13 .\n  ?var13  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var9Label .\n FILTER (  ( (  LANG (  ?var9Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n}\nGROUP BY  ?var1 \n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session04/query05.rq
+  title: query05
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session04/query05.rq'
+- name: query06
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query06--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1 (  SAMPLE ( COALESCE (  ?var2Label , ?var3Label \
+    \ )  ) AS  ?var4  )(  GROUP_CONCAT (  DISTINCT  ?var5Label ; SEPARATOR =  \",\
+    \ \" )  AS  ?var6  )(  GROUP_CONCAT (  DISTINCT  ?var7Label ; SEPARATOR =  \"\
+    , \" )  AS  ?var8  )(  GROUP_CONCAT (  DISTINCT  ?var9Label ; SEPARATOR =  \"\
+    , \" )  AS  ?var10  )\nWHERE {\n  ?var1 ( <http://www.wikidata.org/prop/P31> /\
+    \ <http://www.wikidata.org/prop/statement/P31> / <http://www.wikidata.org/prop/direct/P279>\
+    \ *) <http://www.wikidata.org/entity/Q341> .\n  ?var1 ( <http://www.wikidata.org/prop/P31>\
+    \ / <http://www.wikidata.org/prop/statement/P31> ) ?var11 .\n OPTIONAL {\n  ?var11\
+    \  <http://www.w3.org/2000/01/rdf-schema#label>  ?var5Label .\n FILTER (  ( (\
+    \  LANG (  ?var5Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2Label .\n FILTER (  ( (  LANG (  ?var2Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var3Label\
+    \ .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P306>  ?var12\
+    \ .\n  ?var12  <http://www.w3.org/2000/01/rdf-schema#label>  ?var7Label .\n FILTER\
+    \ (  ( (  LANG (  ?var7Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P275>  ?var13 .\n  ?var13  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var9Label .\n FILTER (  ( (  LANG (  ?var9Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n}\nGROUP BY  ?var1 \nORDER BY ASC( ?var4 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session04/query06.rq
+  title: query06
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session04/query06.rq'
+- name: query07
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query07--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1 (  SAMPLE ( COALESCE (  ?var2Label , ?var3Label \
+    \ )  ) AS  ?var4  )(  GROUP_CONCAT (  DISTINCT  ?var5Label ; SEPARATOR =  \",\
+    \ \" )  AS  ?var6  )(  GROUP_CONCAT (  DISTINCT  ?var7Label ; SEPARATOR =  \"\
+    , \" )  AS  ?var8  )(  GROUP_CONCAT (  DISTINCT  ?var9Label ; SEPARATOR =  \"\
+    , \" )  AS  ?var10  )\nWHERE {\n  ?var1 ( <http://www.wikidata.org/prop/P31> /\
+    \ <http://www.wikidata.org/prop/statement/P31> / <http://www.wikidata.org/prop/direct/P279>\
+    \ *) <http://www.wikidata.org/entity/Q341> .\n  ?var1 ( <http://www.wikidata.org/prop/P31>\
+    \ / <http://www.wikidata.org/prop/statement/P31> ) ?var11 .\n OPTIONAL {\n  ?var11\
+    \  <http://www.w3.org/2000/01/rdf-schema#label>  ?var5Label .\n FILTER (  ( (\
+    \  LANG (  ?var5Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2Label .\n FILTER (  ( (  LANG (  ?var2Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var3Label\
+    \ .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P275>  ?var12\
+    \ .\n  ?var12  <http://www.w3.org/2000/01/rdf-schema#label>  ?var7Label .\n FILTER\
+    \ (  ( (  LANG (  ?var7Label  )  =  \"en\" ) ) \n) .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P306>  ?var13 .\n  ?var13  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var9Label .\n FILTER (  ( (  LANG (  ?var9Label  )  =  \"en\" ) ) \n) .\n\
+    \ }\n}\nGROUP BY  ?var1 \nORDER BY ASC( ?var4 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session04/query07.rq
+  title: query07
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session04/query07.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q146> .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "en,en".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session05/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session05/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P218>\
+    \  ?var2 .\n FILTER (  (  REGEX (  ?var2 , \"string1\" )  ) \n) .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session05/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session05/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q23442> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session05/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session05/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q23442> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\nLIMIT 100\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session05/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session05/query04.rq'
+- name: query05
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query05--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q23442> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P131>\
+    \  ?var2 .\n }\n}\nLIMIT 100\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session05/query05.rq
+  title: query05
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session05/query05.rq'
+- name: query06
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query06--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q23442> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n  ?var1  <http://www.wikidata.org/prop/direct/P131>  <http://www.wikidata.org/entity/Q252>\
+    \ .\n}\nLIMIT 100\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session05/query06.rq
+  title: query06
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session05/query06.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 ( COUNT ( DISTINCT  ?var2  ) AS  ?var3  )\nWHERE {\n  ?var2\
+    \  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q247073>\
+    \ .\n  ?var2  <http://www.wikidata.org/prop/direct/P131>  ?var4 .\n  ?var4  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q150093> .\n  ?var2  ?var1  ?var5 .\n}\nGROUP\
+    \ BY  ?var1 \n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session06/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session06/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2Label  ?var3 ( COUNT ( DISTINCT  ?var4 \
+    \ ) AS  ?var5  )\nWHERE {\n  ?var4  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q247073> .\n  ?var4  <http://www.wikidata.org/prop/direct/P131>\
+    \  ?var6 .\n  ?var6  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q150093>\
+    \ .\n  ?var4  ?var1  ?var7 .\n}\nGROUP BY  ?var1  ?var1Label  ?var2Label  ?var3\
+    \ \n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session06/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session06/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2Label  ?var3 ( COUNT ( DISTINCT  ?var4 \
+    \ ) AS  ?var5  )\nWHERE {\n  ?var4  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q247073> .\n  ?var4  <http://www.wikidata.org/prop/direct/P131>\
+    \  ?var6 .\n  ?var6  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q150093>\
+    \ .\n  ?var4  ?var1  ?var7 .\n  ?var1Label  ?var2Label  ?var3 .\n}\nGROUP BY \
+    \ ?var1  ?var1Label  ?var2Label  ?var3 \n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session06/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session06/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2Label  ?var3 ( COUNT ( DISTINCT  ?var4 \
+    \ ) AS  ?var5  )\nWHERE {\n  ?var4  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q247073> .\n  ?var4  <http://www.wikidata.org/prop/direct/P131>\
+    \  ?var6 .\n  ?var6  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q150093>\
+    \ .\n  ?var4  ?var1  ?var7 .\n SERVICE  <http://wikiba.se/ontology#label>   {\n\
+    \    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en\".\n  }\n}\nGROUP BY  ?var1  ?var1Label  ?var2Label  ?var3 \n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session06/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session06/query04.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2  ?var3  ?var4 \r\nWHERE {\r\n  ?var1 (\
+    \ <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279>\
+    \ *) <http://www.wikidata.org/entity/Q34442> .\r\n OPTIONAL {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P1427>\
+    \  ?var5 .\r\n }\r\n OPTIONAL {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P1444>\
+    \  ?var6 .\r\n }\r\n SERVICE  <http://wikiba.se/ontology#label>   {\r\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"fr,en\".\r\n  }\r\n}\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session07/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session07/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2  ?var2Label  ?var3  ?var3Label \r\nWHERE\
+    \ {\r\n  ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279>\
+    \ *) <http://www.wikidata.org/entity/Q34442> .\r\n  ?var1  <http://www.wikidata.org/prop/direct/P1427>\
+    \  ?var2 .\r\n OPTIONAL {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P1444>\
+    \  ?var3 .\r\n }\r\n SERVICE  <http://wikiba.se/ontology#label>   {\r\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"fr,en\".\r\n  }\r\n}\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session07/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session07/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2  ?var2Label  ?var3  ?var3Label  ?var4 \
+    \ ?var4Label \r\nWHERE {\r\n  ?var1 ( <http://www.wikidata.org/prop/direct/P31>\
+    \ / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q34442>\
+    \ .\r\n  ?var1  <http://www.wikidata.org/prop/direct/P1427>  ?var2 .\r\n OPTIONAL\
+    \ {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P1444>  ?var3 .\r\n }\r\n\
+    \ OPTIONAL {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P609>  ?var4 .\r\
+    \n }\r\n SERVICE  <http://wikiba.se/ontology#label>   {\r\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"fr,en\".\r\n  }\r\n}\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session07/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session07/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2  ?var2Label  ?var3  ?var3Label  ?var4 \
+    \ ?var4Label \r\nWHERE {\r\n  ?var1 ( <http://www.wikidata.org/prop/direct/P31>\
+    \ / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q34442>\
+    \ .\r\n  ?var1  <http://www.wikidata.org/prop/direct/P1427>  ?var2 .\r\n OPTIONAL\
+    \ {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P1444>  ?var3 .\r\n }\r\n\
+    \ OPTIONAL {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P609>  ?var4 .\r\
+    \n }\r\n SERVICE  <http://wikiba.se/ontology#label>   {\r\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"fr,en,de,es,it,pt,nl,da,pl,cs,sk,hu,ro,nb,sv,fi,el,ru\"\
+    .\r\n  }\r\n}\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session07/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session07/query04.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 (  SAMPLE ( ?var2  ) AS  ?var3  )(  GROUP_CONCAT (  DISTINCT\
+    \  ?var4 ; SEPARATOR =  \", \" )  AS  ?var5  )\nWHERE {\n SELECT DISTINCT ?var1\
+    \  ?var1Label (  ?var6  AS  ?var7  ) ?var8Label (  YEAR (  ?var9  )  AS  ?var10\
+    \  ) ?var11Label  ?var12Label  ?var13  ?var14  ?var15Label  ?var16Label  ?var17Label\
+    \ \n WHERE  {\n   ?var1 ( <http://www.wikidata.org/prop/direct/P84> | <http://www.wikidata.org/prop/direct/P170>\
+    \ ) <http://www.wikidata.org/entity/Q762> .\n   ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var6 .\n  OPTIONAL {\n   ?var1 ( <http://www.wikidata.org/prop/direct/P170>\
+    \ | <http://www.wikidata.org/prop/direct/P84> ) ?var8 .\n  }\n  OPTIONAL {\n \
+    \  ?var1  <http://www.wikidata.org/prop/direct/P571>  ?var9 .\n  }\n  OPTIONAL\
+    \ {\n   ?var1  <http://www.wikidata.org/prop/direct/P1705>  ?var18Label .\n  }\n\
+    \  OPTIONAL {\n   ?var1  <http://www.wikidata.org/prop/direct/P276>  ?var11 .\n\
+    \  }\n  OPTIONAL {\n   ?var1  <http://www.wikidata.org/prop/direct/P195>  ?var12\
+    \ .\n  }\n  OPTIONAL {\n   ?var1  <http://www.wikidata.org/prop/direct/P2048>\
+    \  ?var13 .\n  }\n  OPTIONAL {\n   ?var1  <http://www.wikidata.org/prop/direct/P2049>\
+    \  ?var14 .\n  }\n  OPTIONAL {\n   ?var1  <http://www.wikidata.org/prop/direct/P1071>\
+    \  ?var15 .\n  }\n  OPTIONAL {\n   ?var1  <http://www.wikidata.org/prop/direct/P136>\
+    \  ?var16 .\n  }\n  OPTIONAL {\n   ?var1  <http://www.wikidata.org/prop/direct/P186>\
+    \  ?var17 .\n  }\n  SERVICE  <http://wikiba.se/ontology#label>    {\n     <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,it,fr,de,es\".\n   }\n }\n ORDER\
+    \ BY ASC( ?var9 )\n}\nGROUP BY  ?var1 \n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session08/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session08/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1  ?var1Label (  ?var2  AS  ?var3  ) ?var4Label ( \
+    \ YEAR (  ?var5  )  AS  ?var6  ) ?var7Label  ?var8Label  ?var9  ?var10  ?var11Label\
+    \  ?var12Label  ?var13Label \nWHERE {\n  ?var1 ( <http://www.wikidata.org/prop/direct/P84>\
+    \ | <http://www.wikidata.org/prop/direct/P170> ) <http://www.wikidata.org/entity/Q762>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var2 .\n OPTIONAL {\n\
+    \  ?var1 ( <http://www.wikidata.org/prop/direct/P170> | <http://www.wikidata.org/prop/direct/P84>\
+    \ ) ?var4 .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P571>\
+    \  ?var5 .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P1705>\
+    \  ?var14Label .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P276>\
+    \  ?var7 .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P195>\
+    \  ?var8 .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P2048>\
+    \  ?var9 .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P2049>\
+    \  ?var10 .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P1071>\
+    \  ?var11 .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P136>\
+    \  ?var12 .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P186>\
+    \  ?var13 .\n }\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,it,fr,de,es\".\n  }\n}\nORDER BY\
+    \ ASC( ?var5 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session08/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session08/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1  ?var1Label (  ?var2  AS  ?var3  ) ?var4Label ( \
+    \ YEAR (  ?var5  )  AS  ?var6  ) ?var7Label  ?var8Label  ?var9  ?var10  ?var11Label\
+    \ \nWHERE {\n  ?var1 ( <http://www.wikidata.org/prop/direct/P84> | <http://www.wikidata.org/prop/direct/P170>\
+    \ ) <http://www.wikidata.org/entity/Q762> .\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var2 .\n OPTIONAL {\n  ?var1 ( <http://www.wikidata.org/prop/direct/P170>\
+    \ | <http://www.wikidata.org/prop/direct/P84> ) ?var4 .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P571>  ?var5 .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P1705>  ?var12Label .\n }\n OPTIONAL {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P276>  ?var7 .\n }\n OPTIONAL {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P195>  ?var8 .\n }\n OPTIONAL {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P2048>  ?var9 .\n }\n OPTIONAL\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P2049>  ?var10 .\n }\n OPTIONAL\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P1071>  ?var11 .\n }\n SERVICE\
+    \  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,it,fr,de,es\".\n  }\n}\nORDER BY\
+    \ ASC( ?var5 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session08/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session08/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1  ?var1Label (  ?var2  AS  ?var3  ) ?var4Label ( \
+    \ YEAR (  ?var5  )  AS  ?var6  ) ?var7Label  ?var8  ?var9  ?var10Label \nWHERE\
+    \ {\n  ?var1 ( <http://www.wikidata.org/prop/direct/P84> | <http://www.wikidata.org/prop/direct/P170>\
+    \ ) <http://www.wikidata.org/entity/Q762> .\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var2 .\n OPTIONAL {\n  ?var1 ( <http://www.wikidata.org/prop/direct/P170>\
+    \ | <http://www.wikidata.org/prop/direct/P84> ) ?var4 .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P571>  ?var5 .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P1705>  ?var11Label .\n }\n OPTIONAL {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P276>  ?var7 .\n }\n OPTIONAL {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P2048>  ?var8 .\n }\n OPTIONAL\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P2049>  ?var9 .\n }\n OPTIONAL\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P1071>  ?var10 .\n }\n SERVICE\
+    \  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,it,fr,de,es\".\n  }\n}\nORDER BY\
+    \ ASC( ?var5 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session08/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session08/query04.rq'
+- name: query05
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query05--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1  ?var1Label (  ?var2  AS  ?var3  )(  YEAR (  ?var4\
+    \  )  AS  ?var5  ) ?var6Label  ?var7  ?var8  ?var9Label \nWHERE {\n  ?var1 ( <http://www.wikidata.org/prop/direct/P84>\
+    \ | <http://www.wikidata.org/prop/direct/P170> ) <http://www.wikidata.org/entity/Q762>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var2 .\n OPTIONAL {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P571>  ?var4 .\n }\n OPTIONAL {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P1705>  ?var10Label .\n }\n OPTIONAL\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P276>  ?var6 .\n }\n OPTIONAL\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P2048>  ?var7 .\n }\n OPTIONAL\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P2049>  ?var8 .\n }\n OPTIONAL\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P1071>  ?var9 .\n }\n SERVICE\
+    \  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,it,fr,de,es\".\n  }\n}\nORDER BY\
+    \ ASC( ?var4 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session08/query05.rq
+  title: query05
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session08/query05.rq'
+- name: query06
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query06--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1  ?var1Label (  ?var2  AS  ?var3  )(  YEAR (  ?var4\
+    \  )  AS  ?var5  ) ?var6Label  ?var7Label \nWHERE {\n  ?var1 ( <http://www.wikidata.org/prop/direct/P84>\
+    \ | <http://www.wikidata.org/prop/direct/P170> ) <http://www.wikidata.org/entity/Q762>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var2 .\n OPTIONAL {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P571>  ?var4 .\n }\n OPTIONAL {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P1705>  ?var8Label .\n }\n OPTIONAL\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P276>  ?var6 .\n }\n OPTIONAL\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P1071>  ?var7 .\n }\n SERVICE\
+    \  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,it,fr,de,es\".\n  }\n}\nORDER BY\
+    \ ASC( ?var4 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session08/query06.rq
+  title: query06
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session08/query06.rq'
+- name: query07
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query07--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1  ?var1Label (  ?var2  AS  ?var3  )(  YEAR (  ?var4\
+    \  )  AS  ?var5  ) ?var6Label \nWHERE {\n  ?var1 ( <http://www.wikidata.org/prop/direct/P84>\
+    \ | <http://www.wikidata.org/prop/direct/P170> ) <http://www.wikidata.org/entity/Q762>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var2 .\n OPTIONAL {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P571>  ?var4 .\n }\n OPTIONAL {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P1705>  ?var7Label .\n }\n OPTIONAL\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P1071>  ?var6 .\n }\n SERVICE\
+    \  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,it,fr,de,es\".\n  }\n}\nORDER BY\
+    \ ASC( ?var4 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session08/query07.rq
+  title: query07
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session08/query07.rq'
+- name: query08
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query08--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1  ?var1Label (  ?var2  AS  ?var3  )(  YEAR (  ?var4\
+    \  )  AS  ?var5  ) ?var6Label \nWHERE {\n  ?var1 ( <http://www.wikidata.org/prop/direct/P84>\
+    \ | <http://www.wikidata.org/prop/direct/P170> ) <http://www.wikidata.org/entity/Q762>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var2 .\n OPTIONAL {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P571>  ?var4 .\n }\n OPTIONAL {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P1705>  ?var7Label .\n }\n OPTIONAL\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P1071>  ?var6 .\n }\n SERVICE\
+    \  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,it,fr,de,es\".\n  }\n}\nORDER BY\
+    \ ASC( ?var1Label )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session08/query08.rq
+  title: query08
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session08/query08.rq'
+- name: query09
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query09--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1  ?var1Label (  ?var2  AS  ?var3  )(  YEAR (  ?var4\
+    \  )  AS  ?var5  ) ?var6Label \nWHERE {\n  ?var1 ( <http://www.wikidata.org/prop/direct/P84>\
+    \ | <http://www.wikidata.org/prop/direct/P170> ) <http://www.wikidata.org/entity/Q762>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var2 .\n OPTIONAL {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P571>  ?var4 .\n }\n OPTIONAL {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P1705>  ?var7Label .\n }\n OPTIONAL\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P1071>  ?var6 .\n }\n SERVICE\
+    \  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,it,fr,de,es\".\n  }\n}\nORDER BY\
+    \ ASC( ?var1 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session08/query09.rq
+  title: query09
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session08/query09.rq'
+- name: query10
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query10--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1  ?var1Label (  ?var2  AS  ?var3  ) ?var4Label \n\
+    WHERE {\n  ?var1 ( <http://www.wikidata.org/prop/direct/P84> | <http://www.wikidata.org/prop/direct/P170>\
+    \ ) <http://www.wikidata.org/entity/Q762> .\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var2 .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P571> \
+    \ ?var5 .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P1705>\
+    \  ?var6Label .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P1071>\
+    \  ?var4 .\n }\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,it,fr,de,es\".\n  }\n}\nORDER BY\
+    \ ASC( ?var1 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session08/query10.rq
+  title: query10
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session08/query10.rq'
+- name: query11
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query11--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT DISTINCT ?var1  ?var1Label (  ?var2  AS  ?var3  )
+    WHERE {
+      ?var1 ( <http://www.wikidata.org/prop/direct/P84> | <http://www.wikidata.org/prop/direct/P170> ) <http://www.wikidata.org/entity/Q762> .
+      ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var2 .
+     OPTIONAL {
+      ?var1  <http://www.wikidata.org/prop/direct/P571>  ?var4 .
+     }
+     OPTIONAL {
+      ?var1  <http://www.wikidata.org/prop/direct/P1705>  ?var5Label .
+     }
+     OPTIONAL {
+      ?var1  <http://www.wikidata.org/prop/direct/P1071>  ?var6 .
+     }
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "en,it,fr,de,es".
+      }
+    }
+    ORDER BY ASC( ?var1 )
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session08/query11.rq
+  title: query11
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session08/query11.rq'
+- name: query12
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query12--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT DISTINCT ?var1  ?var1Label (  ?var2  AS  ?var3  )
+    WHERE {
+      ?var1 ( <http://www.wikidata.org/prop/direct/P84> | <http://www.wikidata.org/prop/direct/P170> ) <http://www.wikidata.org/entity/Q762> .
+      ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var2 .
+     OPTIONAL {
+      ?var1  <http://www.wikidata.org/prop/direct/P1705>  ?var4Label .
+     }
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "en,it,fr,de,es".
+      }
+    }
+    ORDER BY ASC( ?var1 )
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session08/query12.rq
+  title: query12
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session08/query12.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q858036> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session09/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session09/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2Label  ?var3Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  ?var2 ;\n <http://www.wikidata.org/prop/direct/P279>  ?var3 .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\nLIMIT 1000\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session09/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session09/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2  ?var3  ?var3Label \nWHERE {\n  ?var1 \
+    \ <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q858036>\
+    \ .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P50>  ?var3 .\n\
+    \ }\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session09/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session09/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  ?var2 ;\n <http://www.wikidata.org/prop/direct/P279>  ?var2 .\n FILTER (  (\
+    \ (  ?var2  !=  <http://www.wikidata.org/entity/Q7187>  ) ) \n) .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\nLIMIT 1000\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session09/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session09/query04.rq'
+- name: query05
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query05--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  ?var2 ;\n <http://www.wikidata.org/prop/direct/P279>  ?var2 .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\nLIMIT 1000\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session09/query05.rq
+  title: query05
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session09/query05.rq'
+- name: query06
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query06--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2  ?var2Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q858036> .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P50>\
+    \  ?var2 .\n }\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session09/query06.rq
+  title: query06
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session09/query06.rq'
+- name: query07
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query07--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2  ?var2Label  ?var3 \nWHERE {\n  ?var1 \
+    \ <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q858036>\
+    \ .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P50>  ?var2 .\n\
+    \ }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P577>  ?var3 .\n\
+    \ }\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session09/query07.rq
+  title: query07
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session09/query07.rq'
+- name: query08
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query08--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2  ?var2Label  ?var3 \nWHERE {\n  ?var1 \
+    \ <http://www.wikidata.org/prop/direct/P179>  <http://www.wikidata.org/entity/Q858036>\
+    \ .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P50>  ?var2 .\n\
+    \ }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P577>  ?var3 .\n\
+    \ }\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session09/query08.rq
+  title: query08
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session09/query08.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\nWHERE {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q622512>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P21>  <http://www.wikidata.org/entity/Q6581072>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var5 .\n  ?var3  <http://schema.org/about>\
+    \  ?var1 .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var6\
+    \ .\n }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2\
+    \ .\n FILTER (  ( (  LANG (  ?var2  )  =  \"es\" ) ) \n) .\n }\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q2095> .\n FILTER (  ( (  ?var5  >=  \"1970-01-01T00:00:00Z\"\
+    ^^<http://www.w3.org/2001/XMLSchema#dateTime>  ) ) \n) .\n FILTER (  ( !( BOUND\
+    \ (  ?var6  ) ) ) \n) .\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q622512>\
+    \ .\n}\nGROUP BY  ?var1  ?var2 \nORDER BY  DESC( ?var4 )\nLIMIT 50\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session10/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session10/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\nWHERE {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q622512>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var5 .\n  ?var3  <http://schema.org/about>\
+    \  ?var1 .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var6\
+    \ .\n }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2\
+    \ .\n FILTER (  ( (  LANG (  ?var2  )  =  \"es\" ) ) \n) .\n }\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q2095> .\n FILTER (  ( (  ?var5  >=  \"1970-01-01T00:00:00Z\"\
+    ^^<http://www.w3.org/2001/XMLSchema#dateTime>  ) ) \n) .\n FILTER (  ( !( BOUND\
+    \ (  ?var6  ) ) ) \n) .\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q622512>\
+    \ .\n}\nGROUP BY  ?var1  ?var2 \nORDER BY  DESC( ?var4 )\nLIMIT 50\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session10/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session10/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\nWHERE {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q622512>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var5 .\n  ?var3  <http://schema.org/about>\
+    \  ?var1 .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var6\
+    \ .\n }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2\
+    \ .\n FILTER (  ( (  LANG (  ?var2  )  =  \"es\" ) ) \n) .\n }\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q2095> .\n FILTER (  ( !( BOUND (  ?var6  )\
+    \ ) ) \n) .\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q622512>\
+    \ .\n}\nGROUP BY  ?var1  ?var2 \nORDER BY  DESC( ?var4 )\nLIMIT 50\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session10/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session10/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\nWHERE {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q622512>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var5 .\n  ?var3  <http://schema.org/about>\
+    \  ?var1 .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var6\
+    \ .\n }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2\
+    \ .\n FILTER (  ( (  LANG (  ?var2  )  =  \"es\" ) ) \n) .\n }\n FILTER (  ( !(\
+    \ BOUND (  ?var6  ) ) ) \n) .\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q622512> .\n}\nGROUP BY  ?var1  ?var2 \nORDER\
+    \ BY  DESC( ?var4 )\nLIMIT 50\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session10/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session10/query04.rq'
+- name: query05
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query05--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\nWHERE {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q622512>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var5 .\n  ?var3  <http://schema.org/about>\
+    \  ?var1 .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var6\
+    \ .\n }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2\
+    \ .\n FILTER (  ( (  LANG (  ?var2  )  =  \"es\" ) ) \n) .\n }\n FILTER (  ( !(\
+    \ BOUND (  ?var6  ) ) ) \n) .\n}\nGROUP BY  ?var1  ?var2 \nORDER BY  DESC( ?var4\
+    \ )\nLIMIT 50\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session10/query05.rq
+  title: query05
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session10/query05.rq'
+- name: query06
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query06--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\nWHERE {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q622512>\
+    \ .\n  ?var3  <http://schema.org/about>  ?var1 .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var5 .\n }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\n FILTER (  ( (  LANG (  ?var2  )  =  \"es\" ) ) \n) .\n }\n FILTER\
+    \ (  ( !( BOUND (  ?var5  ) ) ) \n) .\n}\nGROUP BY  ?var1  ?var2 \nORDER BY  DESC(\
+    \ ?var4 )\nLIMIT 50\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session10/query06.rq
+  title: query06
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session10/query06.rq'
+- name: query07
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query07--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\nWHERE {\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P279>  <http://www.wikidata.org/entity/Q2095>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P495>  <http://www.wikidata.org/entity/Q96>\
+    \ .\n  ?var3  <http://schema.org/about>  ?var1 .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var5 .\n }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\n FILTER (  ( (  LANG (  ?var2  )  =  \"es\" ) ) \n) .\n }\n FILTER\
+    \ (  ( !( BOUND (  ?var5  ) ) ) \n) .\n}\nGROUP BY  ?var1  ?var2 \nORDER BY  DESC(\
+    \ ?var4 )\nLIMIT 50\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session10/query07.rq
+  title: query07
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session10/query07.rq'
+- name: query08
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query08--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P279>\
+    \  <http://www.wikidata.org/entity/Q2095> .\n  ?var1  <http://www.wikidata.org/prop/direct/P495>\
+    \  <http://www.wikidata.org/entity/Q96> .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var3 .\n }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\n FILTER (  ( (  LANG (  ?var2  )  =  \"es\" ) ) \n) .\n }\n FILTER\
+    \ (  ( !( BOUND (  ?var3  ) ) ) \n) .\n}\nGROUP BY  ?var1  ?var2 \nORDER BY  DESC(\
+    \ ?var2 )\nLIMIT 50\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session10/query08.rq
+  title: query08
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session10/query08.rq'
+- name: query09
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query09--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P279>\
+    \  <http://www.wikidata.org/entity/Q2095> .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var3 .\n }\n OPTIONAL {\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\n FILTER (  ( (  LANG (  ?var2  )  =  \"es\" ) ) \n) .\n }\n FILTER\
+    \ (  ( !( BOUND (  ?var3  ) ) ) \n) .\n}\nGROUP BY  ?var1  ?var2 \nORDER BY  DESC(\
+    \ ?var2 )\nLIMIT 50\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session10/query09.rq
+  title: query09
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session10/query09.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  ?var3 .\n  ?var3  <http://www.wikidata.org/prop/direct/P279> * <http://www.wikidata.org/entity/Q43229>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q224>\
+    \ .\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2 .\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session11/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session11/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT DISTINCT ?var1  ?var2 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  ?var3 .\n  ?var3  <http://www.wikidata.org/prop/direct/P279> * <http://www.wikidata.org/entity/Q43229>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q224>\
+    \ .\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2 .\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session11/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session11/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  ?var3 .\n  ?var3  <http://www.wikidata.org/prop/direct/P279> * <http://www.wikidata.org/entity/Q43229>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q224>\
+    \ .\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2 .\n FILTER (\
+    \  ( (  LANG (  ?var2  )  =  \"hr\" ) ) \n) .\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session11/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session11/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  ?var3 .\n  ?var3  <http://www.wikidata.org/prop/direct/P279> * <http://www.wikidata.org/entity/Q43229>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q224>\
+    \ .\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2 .\n FILTER (\
+    \  ( (  LANG (  ?var2  )  =  \"hr\" ) ) \n) .\n}\nORDER BY ASC( ?var2 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session11/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session11/query04.rq'
+- name: query05
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query05--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  ?var3 .\n  ?var3  <http://www.wikidata.org/prop/direct/P279> * <http://www.wikidata.org/entity/Q43229>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q224>\
+    \ .\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2 .\n FILTER (\
+    \  ( (  LANG (  ?var2  )  =  \"en\" ) ) \n) .\n}\nORDER BY ASC( ?var2 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session11/query05.rq
+  title: query05
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session11/query05.rq'
+- name: query06
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query06--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  ?var3 .\n  ?var3  <http://www.wikidata.org/prop/direct/P279> * <http://www.wikidata.org/entity/Q783794>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q224>\
+    \ .\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2 .\n}\nORDER\
+    \ BY ASC( ?var2 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session11/query06.rq
+  title: query06
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session11/query06.rq'
+- name: query07
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query07--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  ?var3 .\n  ?var3  <http://www.wikidata.org/prop/direct/P279> * <http://www.wikidata.org/entity/Q783794>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q224>\
+    \ .\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2 .\n FILTER (\
+    \  ( (  LANG (  ?var2  )  =  \"hr\" ) ) \n) .\n}\nORDER BY ASC( ?var2 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session11/query07.rq
+  title: query07
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session11/query07.rq'
+- name: query08
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query08--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  ?var3 .\n  ?var3  <http://www.wikidata.org/prop/direct/P279> * <http://www.wikidata.org/entity/Q783794>\
+    \ .\n  ?var1  <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q224>\
+    \ .\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2 .\n FILTER (\
+    \  ( (  LANG (  ?var2  )  =  \"en\" ) ) \n) .\n}\nORDER BY ASC( ?var2 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session11/query08.rq
+  title: query08
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session11/query08.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1Label ( COUNT (* ) AS  ?var2  )\nWHERE {\n  ?var3 ( <http://www.wikidata.org/prop/direct/P31>\
+    \ / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q36774>\
+    \ .\n  ?var4  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5>\
+    \ .\n  ?var3  <http://www.wikidata.org/prop/direct/P169>  ?var4 .\n  ?var4  <http://www.wikidata.org/prop/direct/P69>\
+    \  ?var1 .\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en\".\n  }\n}\nGROUP BY  ?var1Label\
+    \ \nORDER BY  DESC( ?var2 )\nLIMIT 100\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session12/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session12/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1Label ( COUNT (* ) AS  ?var2  )\nWHERE {\n  ?var3 ( <http://www.wikidata.org/prop/direct/P31>\
+    \ / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q36774>\
+    \ .\n  ?var4  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5>\
+    \ .\n  ?var3  <http://www.wikidata.org/prop/direct/P112>  ?var4 .\n  ?var4  <http://www.wikidata.org/prop/direct/P69>\
+    \  ?var1 .\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en\".\n  }\n}\nGROUP BY  ?var1Label\
+    \ \nORDER BY  DESC( ?var2 )\nLIMIT 10\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session12/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session12/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1Label ( COUNT (* ) AS  ?var2  )\nWHERE {\n  ?var3 ( <http://www.wikidata.org/prop/direct/P31>\
+    \ / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q4830453>\
+    \ .\n  ?var4  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5>\
+    \ .\n  ?var3  <http://www.wikidata.org/prop/direct/P169>  ?var4 .\n  ?var4  <http://www.wikidata.org/prop/direct/P1066>\
+    \  ?var1 .\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en\".\n  }\n}\nGROUP BY  ?var1Label\
+    \ \nORDER BY  DESC( ?var2 )\nLIMIT 10\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session12/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session12/query03.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2  ?var3  ?var4  ?var5  ?var6  ?var7 \nWHERE\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5>\
+    \ ;\n <http://www.wikidata.org/prop/direct/P570>  ?var4 .\n  ?var1  <http://www.wikidata.org/prop/direct/P2949>\
+    \  ?var8 .\n FILTER (  ( (  ?var4  >=  (  NOW (  ) - \"P12M\"^^<http://www.w3.org/2001/XMLSchema#duration>\
+    \  )  ) ) \n) .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P569>\
+    \  ?var3 .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var9 .\n }\n OPTIONAL {\n  ?var1 ( <http://www.wikidata.org/prop/direct/P20>\
+    \ / <http://www.wikidata.org/prop/direct/P625> ) ?var5 .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P535>  ?var10 .\n }\n  BIND (  IRI ( \
+    \ CONCAT (  \"string1\", ?var8  )  )  AS  ?var6 ).\n  BIND (  IRI (  CONCAT (\
+    \  \"string2\", ?var10  )  )  AS  ?var7 ).\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en\".\n  }\n}\nORDER BY  DESC( ?var4 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session13/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session13/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2  ?var3  ?var4  ?var5  ?var6  ?var7 \nWHERE\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5>\
+    \ ;\n <http://www.wikidata.org/prop/direct/P570>  ?var4 .\n  ?var1  <http://www.wikidata.org/prop/direct/P2949>\
+    \  ?var8 .\n  ?var1  <http://www.wikidata.org/prop/direct/P1902>  ?var9 .\n FILTER\
+    \ (  ( (  ?var4  >=  (  NOW (  ) - \"P12M\"^^<http://www.w3.org/2001/XMLSchema#duration>\
+    \  )  ) ) \n) .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P569>\
+    \  ?var3 .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var10 .\n }\n OPTIONAL {\n  ?var1 ( <http://www.wikidata.org/prop/direct/P20>\
+    \ / <http://www.wikidata.org/prop/direct/P625> ) ?var5 .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P535>  ?var11 .\n }\n  BIND (  IRI ( \
+    \ CONCAT (  \"string1\", ?var8  )  )  AS  ?var6 ).\n  BIND (  IRI (  CONCAT (\
+    \  \"string2\", ?var11  )  )  AS  ?var7 ).\n  BIND (  IRI (  CONCAT (  \"string3\"\
+    , ?var9  )  )  AS  ?var12 ).\n SERVICE  <http://wikiba.se/ontology#label>   {\n\
+    \    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en\".\n  }\n}\nORDER BY  DESC( ?var4 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session13/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session13/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2  ?var3  ?var4  ?var5  ?var6  ?var7 \nWHERE\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5>\
+    \ ;\n <http://www.wikidata.org/prop/direct/P570>  ?var4 .\n  ?var1  <http://www.wikidata.org/prop/direct/P2949>\
+    \  ?var8 .\n  ?var1  <http://www.wikidata.org/prop/direct/P1902>  ?var9 .\n FILTER\
+    \ (  ( (  ?var4  >=  (  NOW (  ) - \"P120M\"^^<http://www.w3.org/2001/XMLSchema#duration>\
+    \  )  ) ) \n) .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P569>\
+    \  ?var3 .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var10 .\n }\n OPTIONAL {\n  ?var1 ( <http://www.wikidata.org/prop/direct/P20>\
+    \ / <http://www.wikidata.org/prop/direct/P625> ) ?var5 .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P535>  ?var11 .\n }\n  BIND (  IRI ( \
+    \ CONCAT (  \"string1\", ?var8  )  )  AS  ?var6 ).\n  BIND (  IRI (  CONCAT (\
+    \  \"string2\", ?var11  )  )  AS  ?var7 ).\n  BIND (  IRI (  CONCAT (  \"string3\"\
+    , ?var9  )  )  AS  ?var12 ).\n SERVICE  <http://wikiba.se/ontology#label>   {\n\
+    \    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en\".\n  }\n}\nORDER BY  DESC( ?var4 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session13/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session13/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2  ?var3  ?var4  ?var5  ?var6  ?var7 \nWHERE\
+    \ {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5>\
+    \ ;\n <http://www.wikidata.org/prop/direct/P570>  ?var4 .\n  ?var1  <http://www.wikidata.org/prop/direct/P2949>\
+    \  ?var8 .\n  ?var1  <http://www.wikidata.org/prop/direct/P1902>  ?var9 .\n FILTER\
+    \ (  ( (  ?var4  >=  (  NOW (  ) - \"P1200M\"^^<http://www.w3.org/2001/XMLSchema#duration>\
+    \  )  ) ) \n) .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P569>\
+    \  ?var3 .\n }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var10 .\n }\n OPTIONAL {\n  ?var1 ( <http://www.wikidata.org/prop/direct/P20>\
+    \ / <http://www.wikidata.org/prop/direct/P625> ) ?var5 .\n }\n OPTIONAL {\n  ?var1\
+    \  <http://www.wikidata.org/prop/direct/P535>  ?var11 .\n }\n  BIND (  IRI ( \
+    \ CONCAT (  \"string1\", ?var8  )  )  AS  ?var6 ).\n  BIND (  IRI (  CONCAT (\
+    \  \"string2\", ?var11  )  )  AS  ?var7 ).\n  BIND (  IRI (  CONCAT (  \"string3\"\
+    , ?var9  )  )  AS  ?var12 ).\n SERVICE  <http://wikiba.se/ontology#label>   {\n\
+    \    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en\".\n  }\n}\nORDER BY  DESC( ?var4 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session13/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session13/query04.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1Label  ?var2Label
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P106>  <http://www.wikidata.org/entity/Q18844224> .
+      ?var1  <http://www.wikidata.org/prop/direct/P19>  ?var2 .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "en,nl,en".
+      }
+    }
+    LIMIT 100
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session14/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session14/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1Label  ?var2Label
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P106>  <http://www.wikidata.org/entity/Q18844224> .
+      ?var1  <http://www.wikidata.org/prop/direct/P19>  ?var2 .
+      ?var2  <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q145> .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "en,nl,en".
+      }
+    }
+    LIMIT 100
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session14/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session14/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1Label  ?var2Label  ?var3
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P106>  <http://www.wikidata.org/entity/Q18844224> .
+      ?var1  <http://www.wikidata.org/prop/direct/P19>  ?var2 .
+      ?var2  <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q145> .
+      ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var3 .
+     FILTER (  ( (  ?var3  >=  "01-01-1900" ) )
+    ) .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "en,nl,en".
+      }
+    }
+    LIMIT 100
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session14/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session14/query03.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label  ?var2  ?var2Label
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q3231690> ;
+     <http://www.wikidata.org/prop/direct/P279>  ?var2 .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "de,en".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session15/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session15/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label  ?var2  ?var2Label  ?var3  ?var3Label
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q3231690> ;
+     <http://www.wikidata.org/prop/direct/P279>  ?var2 .
+      ?var2  <http://www.wikidata.org/prop/direct/P279>  ?var3 .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "de,en".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session15/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session15/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label  ?var2  ?var2Label  ?var3  ?var3Label
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q3231690> ;
+     <http://www.wikidata.org/prop/direct/P279>  ?var2 .
+     OPTIONAL {
+      ?var2  <http://www.wikidata.org/prop/direct/P279>  ?var3 .
+     }
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "de,en".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session15/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session15/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label  ?var2  ?var2Label  ?var3  ?var3Label
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q3231690> .
+     OPTIONAL {
+      ?var1  <http://www.wikidata.org/prop/direct/P279>  ?var2 .
+     }
+     OPTIONAL {
+      ?var2  <http://www.wikidata.org/prop/direct/P279>  ?var3 .
+     }
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "de,en".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session15/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session15/query04.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label  ?var2  ?var3
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P69>  <http://www.wikidata.org/entity/Q319239> .
+      ?var1  <http://www.wikidata.org/prop/direct/P19>  ?var4 .
+      ?var5  <http://www.wikidata.org/prop/direct/P625>  ?var3 .
+     OPTIONAL {
+      ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var2 .
+     }
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "he,en".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session16/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session16/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label  ?var2  ?var3
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P69>  <http://www.wikidata.org/entity/Q319239> .
+      ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var4 .
+      ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var5 .
+      ?var1  <http://www.wikidata.org/prop/direct/P19>  ?var6 .
+      ?var7  <http://www.wikidata.org/prop/direct/P625>  ?var3 .
+     OPTIONAL {
+      ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var5 .
+     }
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "he,en".
+      }
+    }
+    ORDER BY  DESC( ?var4 )
+    LIMIT 10
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session16/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session16/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label  ?var2  ?var3  ?var4Label
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P69>  <http://www.wikidata.org/entity/Q319239> .
+      ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var2 .
+      ?var1  <http://www.wikidata.org/prop/direct/P19>  ?var4 .
+      ?var5  <http://www.wikidata.org/prop/direct/P625>  ?var6 .
+     OPTIONAL {
+      ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var3 .
+     }
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "he,en".
+      }
+    }
+    ORDER BY  DESC( ?var7 )
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session16/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session16/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label  ?var2  ?var3  ?var4Label  ?var5
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P69>  <http://www.wikidata.org/entity/Q319239> .
+      ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var2 .
+      ?var1  <http://www.wikidata.org/prop/direct/P19>  ?var4 .
+      ?var6  <http://www.wikidata.org/prop/direct/P625>  ?var5 .
+     OPTIONAL {
+      ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var3 .
+     }
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "he,en".
+      }
+    }
+    ORDER BY  DESC( ?var7 )
+    LIMIT 10
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session16/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session16/query04.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var2Label  ?var3
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q515> .
+      ?var1  <http://www.wikidata.org/prop/direct/P1249>  ?var3 .
+    }
+    ORDER BY ASC( ?var3 )
+    LIMIT 100
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session17/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session17/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var2  ?var3
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q515> .
+      ?var1  <http://www.wikidata.org/prop/direct/P1249>  ?var2 .
+      ?var1  <http://www.wikidata.org/prop/direct/P1448>  ?var3 .
+    }
+    ORDER BY ASC( ?var2 )
+    LIMIT 1
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session17/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session17/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var2  ?var3
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q515> .
+      ?var1  <http://www.wikidata.org/prop/direct/P1249>  ?var2 .
+      ?var1  <http://www.wikidata.org/prop/direct/P1448>  ?var3 .
+    }
+    ORDER BY ASC( ?var2 )
+    LIMIT 10
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session17/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session17/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var2
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q515> .
+      ?var1  <http://www.wikidata.org/prop/direct/P1249>  ?var2 .
+      ?var1  <http://www.wikidata.org/prop/direct/P1448>  ?var3 .
+    }
+    ORDER BY ASC( ?var2 )
+    LIMIT 10
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session17/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session17/query04.rq'
+- name: query05
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query05--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var2
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q515> .
+      ?var1  <http://www.wikidata.org/prop/direct/P1249>  ?var2 .
+    }
+    ORDER BY ASC( ?var2 )
+    LIMIT 10
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session17/query05.rq
+  title: query05
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session17/query05.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\r\nWHERE\
+    \ {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q622512>\
+    \ .\r\n  ?var1  <http://www.wikidata.org/prop/direct/P21>  <http://www.wikidata.org/entity/Q6581072>\
+    \ .\r\n  ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var5 .\r\n  ?var3\
+    \  <http://schema.org/about>  ?var1 .\r\n OPTIONAL {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var6 .\r\n }\r\n OPTIONAL {\r\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\r\n FILTER (  ( (  LANG (  ?var2  )  =  \"es\" ) ) \r\n) .\r\n }\r\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q2095>\
+    \ .\r\n FILTER (  ( (  ?var5  >=  \"1970-01-01T00:00:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>\
+    \  ) ) \r\n) .\r\n FILTER (  ( !( BOUND (  ?var6  ) ) ) \r\n) .\r\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q622512> .\r\n}\r\nGROUP BY  ?var1  ?var2 \r\
+    \nORDER BY  DESC( ?var4 )\r\nLIMIT 50\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session18/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session18/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\r\nWHERE\
+    \ {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q622512>\
+    \ .\r\n  ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var5 .\r\n  ?var3\
+    \  <http://schema.org/about>  ?var1 .\r\n OPTIONAL {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var6 .\r\n }\r\n OPTIONAL {\r\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\r\n FILTER (  ( (  LANG (  ?var2  )  =  \"es\" ) ) \r\n) .\r\n }\r\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q2095>\
+    \ .\r\n FILTER (  ( (  ?var5  >=  \"1970-01-01T00:00:00Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime>\
+    \  ) ) \r\n) .\r\n FILTER (  ( !( BOUND (  ?var6  ) ) ) \r\n) .\r\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q622512> .\r\n}\r\nGROUP BY  ?var1  ?var2 \r\
+    \nORDER BY  DESC( ?var4 )\r\nLIMIT 50\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session18/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session18/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\r\nWHERE\
+    \ {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q622512>\
+    \ .\r\n  ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var5 .\r\n  ?var3\
+    \  <http://schema.org/about>  ?var1 .\r\n OPTIONAL {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var6 .\r\n }\r\n OPTIONAL {\r\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\r\n FILTER (  ( (  LANG (  ?var2  )  =  \"es\" ) ) \r\n) .\r\n }\r\n\
+    \  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q2095>\
+    \ .\r\n FILTER (  ( !( BOUND (  ?var6  ) ) ) \r\n) .\r\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q622512> .\r\n}\r\nGROUP BY  ?var1  ?var2 \r\
+    \nORDER BY  DESC( ?var4 )\r\nLIMIT 50\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session18/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session18/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\r\nWHERE\
+    \ {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q622512>\
+    \ .\r\n  ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var5 .\r\n  ?var3\
+    \  <http://schema.org/about>  ?var1 .\r\n OPTIONAL {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var6 .\r\n }\r\n OPTIONAL {\r\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\r\n FILTER (  ( (  LANG (  ?var2  )  =  \"es\" ) ) \r\n) .\r\n }\r\n\
+    \ FILTER (  ( !( BOUND (  ?var6  ) ) ) \r\n) .\r\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q622512> .\r\n}\r\nGROUP BY  ?var1  ?var2 \r\
+    \nORDER BY  DESC( ?var4 )\r\nLIMIT 50\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session18/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session18/query04.rq'
+- name: query05
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query05--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\r\nWHERE\
+    \ {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q622512>\
+    \ .\r\n  ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var5 .\r\n  ?var3\
+    \  <http://schema.org/about>  ?var1 .\r\n OPTIONAL {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var6 .\r\n }\r\n OPTIONAL {\r\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\r\n FILTER (  ( (  LANG (  ?var2  )  =  \"es\" ) ) \r\n) .\r\n }\r\n\
+    \ FILTER (  ( !( BOUND (  ?var6  ) ) ) \r\n) .\r\n}\r\nGROUP BY  ?var1  ?var2\
+    \ \r\nORDER BY  DESC( ?var4 )\r\nLIMIT 50\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session18/query05.rq
+  title: query05
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session18/query05.rq'
+- name: query06
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query06--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\r\nWHERE\
+    \ {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q622512>\
+    \ .\r\n  ?var3  <http://schema.org/about>  ?var1 .\r\n OPTIONAL {\r\n  ?var1 \
+    \ <http://www.wikidata.org/prop/direct/P18>  ?var5 .\r\n }\r\n OPTIONAL {\r\n\
+    \  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2 .\r\n FILTER ( \
+    \ ( (  LANG (  ?var2  )  =  \"es\" ) ) \r\n) .\r\n }\r\n FILTER (  ( !( BOUND\
+    \ (  ?var5  ) ) ) \r\n) .\r\n}\r\nGROUP BY  ?var1  ?var2 \r\nORDER BY  DESC( ?var4\
+    \ )\r\nLIMIT 50\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session18/query06.rq
+  title: query06
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session18/query06.rq'
+- name: query07
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query07--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\r\nWHERE\
+    \ {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q207965>\
+    \ .\r\n  ?var3  <http://schema.org/about>  ?var1 .\r\n OPTIONAL {\r\n  ?var1 \
+    \ <http://www.wikidata.org/prop/direct/P18>  ?var5 .\r\n }\r\n OPTIONAL {\r\n\
+    \  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2 .\r\n FILTER ( \
+    \ ( (  LANG (  ?var2  )  =  \"es\" ) ) \r\n) .\r\n }\r\n FILTER (  ( !( BOUND\
+    \ (  ?var5  ) ) ) \r\n) .\r\n}\r\nGROUP BY  ?var1  ?var2 \r\nORDER BY  DESC( ?var4\
+    \ )\r\nLIMIT 50\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session18/query07.rq
+  title: query07
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session18/query07.rq'
+- name: query08
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query08--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\r\nWHERE\
+    \ {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q622512>\
+    \ .\r\n  ?var3  <http://schema.org/about>  ?var1 .\r\n OPTIONAL {\r\n  ?var1 \
+    \ <http://www.wikidata.org/prop/direct/P18>  ?var5 .\r\n }\r\n OPTIONAL {\r\n\
+    \  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2 .\r\n FILTER ( \
+    \ ( (  LANG (  ?var2  )  =  \"es\" ) ) \r\n) .\r\n }\r\n FILTER (  ( !( BOUND\
+    \ (  ?var5  ) ) ) \r\n) .\r\n}\r\nGROUP BY  ?var1  ?var2 \r\nORDER BY  DESC( ?var4\
+    \ )\r\nLIMIT 50\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session18/query08.rq
+  title: query08
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session18/query08.rq'
+- name: query09
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query09--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\r\nWHERE\
+    \ {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q521179>\
+    \ .\r\n  ?var3  <http://schema.org/about>  ?var1 .\r\n OPTIONAL {\r\n  ?var1 \
+    \ <http://www.wikidata.org/prop/direct/P18>  ?var5 .\r\n }\r\n OPTIONAL {\r\n\
+    \  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2 .\r\n FILTER ( \
+    \ ( (  LANG (  ?var2  )  =  \"es\" ) ) \r\n) .\r\n }\r\n FILTER (  ( !( BOUND\
+    \ (  ?var5  ) ) ) \r\n) .\r\n}\r\nGROUP BY  ?var1  ?var2 \r\nORDER BY  DESC( ?var4\
+    \ )\r\nLIMIT 50\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session18/query09.rq
+  title: query09
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session18/query09.rq'
+- name: query10
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query10--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\r\nWHERE\
+    \ {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5643837>\
+    \ .\r\n  ?var3  <http://schema.org/about>  ?var1 .\r\n OPTIONAL {\r\n  ?var1 \
+    \ <http://www.wikidata.org/prop/direct/P18>  ?var5 .\r\n }\r\n OPTIONAL {\r\n\
+    \  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2 .\r\n FILTER ( \
+    \ ( (  LANG (  ?var2  )  =  \"es\" ) ) \r\n) .\r\n }\r\n FILTER (  ( !( BOUND\
+    \ (  ?var5  ) ) ) \r\n) .\r\n}\r\nGROUP BY  ?var1  ?var2 \r\nORDER BY  DESC( ?var4\
+    \ )\r\nLIMIT 50\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session18/query10.rq
+  title: query10
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session18/query10.rq'
+- name: query11
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query11--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\r\nWHERE\
+    \ {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P279>  <http://www.wikidata.org/entity/Q5643837>\
+    \ .\r\n  ?var3  <http://schema.org/about>  ?var1 .\r\n OPTIONAL {\r\n  ?var1 \
+    \ <http://www.wikidata.org/prop/direct/P18>  ?var5 .\r\n }\r\n OPTIONAL {\r\n\
+    \  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2 .\r\n FILTER ( \
+    \ ( (  LANG (  ?var2  )  =  \"es\" ) ) \r\n) .\r\n }\r\n FILTER (  ( !( BOUND\
+    \ (  ?var5  ) ) ) \r\n) .\r\n}\r\nGROUP BY  ?var1  ?var2 \r\nORDER BY  DESC( ?var4\
+    \ )\r\nLIMIT 50\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session18/query11.rq
+  title: query11
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session18/query11.rq'
+- name: query12
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query12--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\r\nWHERE\
+    \ {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P279>  <http://www.wikidata.org/entity/Q2095>\
+    \ .\r\n  ?var3  <http://schema.org/about>  ?var1 .\r\n OPTIONAL {\r\n  ?var1 \
+    \ <http://www.wikidata.org/prop/direct/P18>  ?var5 .\r\n }\r\n OPTIONAL {\r\n\
+    \  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2 .\r\n FILTER ( \
+    \ ( (  LANG (  ?var2  )  =  \"es\" ) ) \r\n) .\r\n }\r\n FILTER (  ( !( BOUND\
+    \ (  ?var5  ) ) ) \r\n) .\r\n}\r\nGROUP BY  ?var1  ?var2 \r\nORDER BY  DESC( ?var4\
+    \ )\r\nLIMIT 50\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session18/query12.rq
+  title: query12
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session18/query12.rq'
+- name: query13
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query13--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 ( COUNT ( DISTINCT  ?var3  ) AS  ?var4  )\r\nWHERE\
+    \ {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P279>  <http://www.wikidata.org/entity/Q2095>\
+    \ .\r\n  ?var1  <http://www.wikidata.org/prop/direct/P495>  <http://www.wikidata.org/entity/Q96>\
+    \ .\r\n  ?var3  <http://schema.org/about>  ?var1 .\r\n OPTIONAL {\r\n  ?var1 \
+    \ <http://www.wikidata.org/prop/direct/P18>  ?var5 .\r\n }\r\n OPTIONAL {\r\n\
+    \  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2 .\r\n FILTER ( \
+    \ ( (  LANG (  ?var2  )  =  \"es\" ) ) \r\n) .\r\n }\r\n FILTER (  ( !( BOUND\
+    \ (  ?var5  ) ) ) \r\n) .\r\n}\r\nGROUP BY  ?var1  ?var2 \r\nORDER BY  DESC( ?var4\
+    \ )\r\nLIMIT 50\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session18/query13.rq
+  title: query13
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session18/query13.rq'
+- name: query14
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query14--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 \r\nWHERE {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P279>\
+    \  <http://www.wikidata.org/entity/Q2095> .\r\n  ?var1  <http://www.wikidata.org/prop/direct/P495>\
+    \  <http://www.wikidata.org/entity/Q96> .\r\n OPTIONAL {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var3 .\r\n }\r\n OPTIONAL {\r\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\r\n FILTER (  ( (  LANG (  ?var2  )  =  \"es\" ) ) \r\n) .\r\n }\r\n\
+    \ FILTER (  ( !( BOUND (  ?var3  ) ) ) \r\n) .\r\n}\r\nGROUP BY  ?var1  ?var2\
+    \ \r\nORDER BY  DESC( ?var2 )\r\nLIMIT 50\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session18/query14.rq
+  title: query14
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session18/query14.rq'
+- name: query15
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query15--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2 \r\nWHERE {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P279>\
+    \  <http://www.wikidata.org/entity/Q2095> .\r\n OPTIONAL {\r\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var3 .\r\n }\r\n OPTIONAL {\r\n  ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2 .\r\n FILTER (  ( (  LANG (  ?var2  )  =  \"es\" ) ) \r\n) .\r\n }\r\n\
+    \ FILTER (  ( !( BOUND (  ?var3  ) ) ) \r\n) .\r\n}\r\nGROUP BY  ?var1  ?var2\
+    \ \r\nORDER BY  DESC( ?var2 )\r\nLIMIT 50\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session18/query15.rq
+  title: query15
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session18/query15.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 ( COUNT ( DISTINCT  ?var2  ) AS  ?var3  )\r\nWHERE {\r\n \
+    \ ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5>\
+    \ .\r\n {\r\n   ?var1  <http://www.wikidata.org/prop/direct/P19>  <http://www.wikidata.org/entity/Q36>\
+    \ .\r\n }\r\n  UNION\r\n {\r\n   ?var1  <http://www.wikidata.org/prop/direct/P19>\
+    \  ?var4 .\r\n   ?var4  <http://www.wikidata.org/prop/direct/P131> * <http://www.wikidata.org/entity/Q36>\
+    \ .\r\n }\r\n  ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var5 .\r\n\
+    \ FILTER (  ( (  YEAR (  ?var5  )  > \"1900\"^^<http://www.w3.org/2001/XMLSchema#integer>\
+    \  ) ) \r\n) .\r\n FILTER (  ( (  YEAR (  ?var5  )  > \"1910\"^^<http://www.w3.org/2001/XMLSchema#integer>\
+    \  ) ) \r\n) .\r\n OPTIONAL {\r\n  ?var2  <http://schema.org/about>  ?var1 .\r\
+    \n  ?var2  <http://schema.org/inLanguage>  ?var6 .\r\n }\r\n FILTER (  (  NOT\
+    \ EXISTS  {\r\n   ?var7  <http://schema.org/about>  ?var1 .\r\n   ?var7  <http://schema.org/inLanguage>\
+    \  \"pl\".\r\n }\r\n ) \r\n) .\r\n}\r\nGROUP BY  ?var1 \r\nORDER BY  DESC( ?var3\
+    \ )\r\nLIMIT 10\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session19/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session19/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 ( COUNT ( DISTINCT  ?var2  ) AS  ?var3  )\r\nWHERE {\r\n \
+    \ ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5>\
+    \ .\r\n {\r\n   ?var1  <http://www.wikidata.org/prop/direct/P19>  <http://www.wikidata.org/entity/Q36>\
+    \ .\r\n }\r\n  UNION\r\n {\r\n   ?var1  <http://www.wikidata.org/prop/direct/P19>\
+    \  ?var4 .\r\n   ?var4  <http://www.wikidata.org/prop/direct/P131> * <http://www.wikidata.org/entity/Q36>\
+    \ .\r\n }\r\n  ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var5 .\r\n\
+    \ FILTER (  ( (  YEAR (  ?var5  )  > \"1900\"^^<http://www.w3.org/2001/XMLSchema#integer>\
+    \  ) ) \r\n) .\r\n OPTIONAL {\r\n  ?var2  <http://schema.org/about>  ?var1 .\r\
+    \n  ?var2  <http://schema.org/inLanguage>  ?var6 .\r\n }\r\n FILTER (  (  NOT\
+    \ EXISTS  {\r\n   ?var7  <http://schema.org/about>  ?var1 .\r\n   ?var7  <http://schema.org/inLanguage>\
+    \  \"pl\".\r\n }\r\n ) \r\n) .\r\n}\r\nGROUP BY  ?var1 \r\nORDER BY  DESC( ?var3\
+    \ )\r\nLIMIT 10\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session19/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session19/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 ( COUNT ( DISTINCT  ?var2  ) AS  ?var3  )\r\nWHERE {\r\n \
+    \ ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5>\
+    \ .\r\n {\r\n   ?var1  <http://www.wikidata.org/prop/direct/P19>  <http://www.wikidata.org/entity/Q46>\
+    \ .\r\n }\r\n  UNION\r\n {\r\n   ?var1  <http://www.wikidata.org/prop/direct/P19>\
+    \  ?var4 .\r\n   ?var4  <http://www.wikidata.org/prop/direct/P131> * <http://www.wikidata.org/entity/Q46>\
+    \ .\r\n }\r\n  ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var5 .\r\n\
+    \ FILTER (  ( (  YEAR (  ?var5  )  > \"1900\"^^<http://www.w3.org/2001/XMLSchema#integer>\
+    \  ) ) \r\n) .\r\n OPTIONAL {\r\n  ?var2  <http://schema.org/about>  ?var1 .\r\
+    \n  ?var2  <http://schema.org/inLanguage>  ?var6 .\r\n }\r\n FILTER (  (  NOT\
+    \ EXISTS  {\r\n   ?var7  <http://schema.org/about>  ?var1 .\r\n   ?var7  <http://schema.org/inLanguage>\
+    \  \"pl\".\r\n }\r\n ) \r\n) .\r\n}\r\nGROUP BY  ?var1 \r\nORDER BY  DESC( ?var3\
+    \ )\r\nLIMIT 10\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session19/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session19/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 ( COUNT ( DISTINCT  ?var2  ) AS  ?var3  )\r\nWHERE {\r\n \
+    \ ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5>\
+    \ .\r\n {\r\n   ?var1  <http://www.wikidata.org/prop/direct/P19>  <http://www.wikidata.org/entity/Q46>\
+    \ .\r\n }\r\n  UNION\r\n {\r\n   ?var1  <http://www.wikidata.org/prop/direct/P19>\
+    \  ?var4 .\r\n   ?var4  <http://www.wikidata.org/prop/direct/P30> * <http://www.wikidata.org/entity/Q46>\
+    \ .\r\n }\r\n  ?var1  <http://www.wikidata.org/prop/direct/P569>  ?var5 .\r\n\
+    \ FILTER (  ( (  YEAR (  ?var5  )  > \"1900\"^^<http://www.w3.org/2001/XMLSchema#integer>\
+    \  ) ) \r\n) .\r\n OPTIONAL {\r\n  ?var2  <http://schema.org/about>  ?var1 .\r\
+    \n  ?var2  <http://schema.org/inLanguage>  ?var6 .\r\n }\r\n FILTER (  (  NOT\
+    \ EXISTS  {\r\n   ?var7  <http://schema.org/about>  ?var1 .\r\n   ?var7  <http://schema.org/inLanguage>\
+    \  \"pl\".\r\n }\r\n ) \r\n) .\r\n}\r\nGROUP BY  ?var1 \r\nORDER BY  DESC( ?var3\
+    \ )\r\nLIMIT 10\r\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session19/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session19/query04.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P131> + <http://www.wikidata.org/entity/Q1198> .
+      ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q387917> .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "de".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session20/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session20/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label
+    WHERE {
+     {
+       ?var2  <http://www.wikidata.org/prop/direct/P150> * ?var1 .
+       ?var2  <http://www.wikidata.org/prop/direct/P131> + <http://www.wikidata.org/entity/Q1198> .
+     }
+      ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q387917> .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "de".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session20/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session20/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P131> + <http://www.wikidata.org/entity/Q1198> .
+      ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q387917> .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "de".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session20/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session20/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P131>  <http://www.wikidata.org/entity/Q1198> ;
+    ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q387917> .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "de".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session20/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session20/query04.rq'
+- name: query05
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query05--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P131> * <http://www.wikidata.org/entity/Q1198> ;
+    ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q387917> .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "de".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session20/query05.rq
+  title: query05
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session20/query05.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT DISTINCT ?var1  ?var1Label  ?var2Label
+    WHERE {
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q4830453> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+      UNION
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q783794> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+      ?var1 ( <http://www.wikidata.org/prop/direct/P131> | <http://www.wikidata.org/prop/direct/P969> | <http://www.wikidata.org/prop/direct/P740> ) ?var2 .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "zh-cn".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session21/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session21/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT DISTINCT ?var1  ?var1Label  ?var2Label
+    WHERE {
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q4830453> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+      UNION
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q783794> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+      ?var1 ( <http://www.wikidata.org/prop/direct/P131> | <http://www.wikidata.org/prop/direct/P969> | <http://www.wikidata.org/prop/direct/P740> ) ?var2 .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "zh".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session21/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session21/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT DISTINCT ?var1  ?var1Label  ?var2Label
+    WHERE {
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q4830453> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+      UNION
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q783794> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+      ?var1 ( <http://www.wikidata.org/prop/direct/P131> | <http://www.wikidata.org/prop/direct/P969> | <http://www.wikidata.org/prop/direct/P740> ) ?var2 .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "en".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session21/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session21/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT DISTINCT ?var1  ?var1Label  ?var2Label
+    WHERE {
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q4830453> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+      UNION
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q783794> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+     OPTIONAL {
+      ?var1 ( <http://www.wikidata.org/prop/direct/P131> | <http://www.wikidata.org/prop/direct/P969> | <http://www.wikidata.org/prop/direct/P740> ) ?var2 .
+     }
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "en".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session21/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session21/query04.rq'
+- name: query05
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query05--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT DISTINCT ?var1  ?var1Label  ?var2Label
+    WHERE {
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q4830453> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+      UNION
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q783794> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+     OPTIONAL {
+      ?var1 ( <http://www.wikidata.org/prop/direct/P159> | <http://www.wikidata.org/prop/direct/P131> | <http://www.wikidata.org/prop/direct/P969> | <http://www.wikidata.org/prop/direct/P740> ) ?var2 .
+     }
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "en".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session21/query05.rq
+  title: query05
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session21/query05.rq'
+- name: query06
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query06--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT DISTINCT ?var1  ?var1Label  ?var2Label
+    WHERE {
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q4830453> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+      UNION
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q783794> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+      ?var1 ( <http://www.wikidata.org/prop/direct/P159> | <http://www.wikidata.org/prop/direct/P131> | <http://www.wikidata.org/prop/direct/P969> | <http://www.wikidata.org/prop/direct/P740> ) ?var2 .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "zh".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session21/query06.rq
+  title: query06
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session21/query06.rq'
+- name: query07
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query07--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT DISTINCT ?var1  ?var1Label  ?var2Label
+    WHERE {
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q4830453> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+      UNION
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q783794> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+      ?var1  <http://www.wikidata.org/prop/direct/P159>  ?var2 .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "zh".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session21/query07.rq
+  title: query07
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session21/query07.rq'
+- name: query08
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query08--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT DISTINCT ?var1  ?var1Label  ?var2Label
+    WHERE {
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q4830453> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+      UNION
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q783794> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+      ?var1 ( <http://www.wikidata.org/prop/direct/P159> | <http://www.wikidata.org/prop/direct/P131> | <http://www.wikidata.org/prop/direct/P969> | <http://www.wikidata.org/prop/direct/P740> ) ?var2 .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "zh-cn".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session21/query08.rq
+  title: query08
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session21/query08.rq'
+- name: query09
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query09--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT DISTINCT ?var1  ?var1Label  ?var2Label
+    WHERE {
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q4830453> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+      UNION
+     {
+       ?var1 ( <http://www.wikidata.org/prop/direct/P31> / <http://www.wikidata.org/prop/direct/P279> *) <http://www.wikidata.org/entity/Q783794> ;
+     <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q148> .
+     }
+      ?var1 ( <http://www.wikidata.org/prop/direct/P159> | <http://www.wikidata.org/prop/direct/P969> | <http://www.wikidata.org/prop/direct/P740> ) ?var2 .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "zh-cn".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session21/query09.rq
+  title: query09
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session21/query09.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var2Label  ?var3
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q39614> .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "sv".
+        ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2Label .
+      }
+     OPTIONAL {
+      ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var3 .
+     }
+    }
+    LIMIT 100
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session22/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session22/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var2Label  ?var3
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q39614> .
+      ?var1  <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q34> .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "sv".
+        ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2Label .
+      }
+     OPTIONAL {
+      ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var3 .
+     }
+    }
+    LIMIT 1000
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session22/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session22/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var2Label  ?var3
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q39614> .
+      ?var1  <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q34> .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "sv".
+        ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2Label .
+      }
+     OPTIONAL {
+      ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var3 .
+     }
+    }
+    ORDER BY ASC( ?var1 )
+    LIMIT 1000
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session22/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session22/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var2Label  ?var3
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q39614> .
+      ?var1  <http://www.wikidata.org/prop/direct/P17>  <http://www.wikidata.org/entity/Q34> .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "sv".
+        ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2Label .
+      }
+     OPTIONAL {
+      ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var3 .
+     }
+    }
+    ORDER BY ASC( ?var2Label )
+    LIMIT 1000
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session22/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session22/query04.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P2611>  ?var2 .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "en,en".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session23/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session23/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label  ?var2
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P2611>  ?var3 .
+      ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var2 .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "en,en".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session23/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session23/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label  ?var2
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P2611>  ?var3 .
+      ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var2 .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "en,en".
+      }
+    }
+    LIMIT 10
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session23/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session23/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1 ( COUNT ( ?var1  ) AS  ?var2  )
+    WHERE {
+      ?var3  <http://www.wikidata.org/prop/direct/P2611>  ?var4 .
+      ?var3  <http://www.wikidata.org/prop/direct/P18>  ?var5 .
+      ?var3  <http://www.wikidata.org/prop/direct/P21>  ?var1 .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "en,en".
+      }
+    }
+    GROUP BY  ?var1
+    LIMIT 10
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session23/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session23/query04.rq'
+- name: query05
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query05--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1Label ( COUNT ( ?var1Label  ) AS  ?var2  )
+    WHERE {
+      ?var3  <http://www.wikidata.org/prop/direct/P2611>  ?var4 .
+      ?var3  <http://www.wikidata.org/prop/direct/P18>  ?var5 .
+      ?var3  <http://www.wikidata.org/prop/direct/P21>  ?var1 .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "en,en".
+      }
+    }
+    GROUP BY  ?var1Label
+    LIMIT 10
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session23/query05.rq
+  title: query05
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session23/query05.rq'
+- name: query06
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query06--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: |
+    SELECT ?var1  ?var1Label  ?var2  ?var3
+    WHERE {
+      ?var1  <http://www.wikidata.org/prop/direct/P2611>  ?var4 .
+      ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var2 .
+      ?var1 ( <http://www.wikidata.org/prop/direct/P19> / <http://www.wikidata.org/prop/direct/P625> ) ?var3 .
+     SERVICE  <http://wikiba.se/ontology#label>   {
+        <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>  "en,en".
+      }
+    }
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session23/query06.rq
+  title: query06
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session23/query06.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/5> .\n  ?var1  <http://www.wikidata.org/prop/direct/P106>\
+    \  <http://www.wikidata.org/entity/Q639669> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session24/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session24/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q5> .\n  ?var1  <http://www.wikidata.org/prop/direct/P106>\
+    \  <http://www.wikidata.org/entity/Q639669> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session24/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session24/query02.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2  ?var3  ?var3Label \nWHERE {\n {\n  SELECT\
+    \ ?var1 ( COUNT ( ?var4  ) AS  ?var2  )(  SAMPLE ( ?var4  ) AS  ?var3  )\n  WHERE\
+    \   {\n    ?var4  <http://www.wikidata.org/prop/direct/P138>  ?var1 .\n    ?var1\
+    \  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5>\
+    \ .\n  }\n  GROUP BY  ?var1 \n }\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en\".\n  }\n}\nORDER BY  DESC( ?var2 )\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session25/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session25/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2  ?var3  ?var3Label \nWHERE {\n {\n  SELECT\
+    \ ?var1 ( COUNT ( ?var4  ) AS  ?var2  )(  SAMPLE ( ?var4  ) AS  ?var3  )\n  WHERE\
+    \   {\n    ?var4  <http://www.wikidata.org/prop/direct/P138>  ?var1 .\n    ?var1\
+    \  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5>\
+    \ .\n  }\n  GROUP BY  ?var1 \n }\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en\".\n  }\n}\nORDER BY  DESC( ?var2 )\nLIMIT 200\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session25/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session25/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2  ?var3  ?var3Label \nWHERE {\n {\n  SELECT\
+    \ ?var1 ( COUNT ( ?var4  ) AS  ?var2  )(  SAMPLE ( ?var4  ) AS  ?var3  )\n  WHERE\
+    \   {\n    ?var4  <http://www.wikidata.org/prop/direct/P138>  ?var1 .\n    ?var1\
+    \  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5>\
+    \ .\n  }\n  GROUP BY  ?var1 \n }\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,de,nl,fr,es\".\n  }\n}\nORDER BY  DESC( ?var2 )\nLIMIT 200\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session25/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session25/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2  ?var3  ?var3Label \nWHERE {\n {\n  SELECT\
+    \ ?var1 ( COUNT ( ?var4  ) AS  ?var2  )(  SAMPLE ( ?var4  ) AS  ?var3  )\n  WHERE\
+    \   {\n    ?var4  <http://www.wikidata.org/prop/direct/P138>  ?var1 .\n    ?var1\
+    \  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5>\
+    \ .\n  }\n  GROUP BY  ?var1 \n }\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,de,nl,fr,es,pl,ru,bg\".\n  }\n}\nORDER BY  DESC( ?var2 )\nLIMIT 200\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session25/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session25/query04.rq'
+- name: query05
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query05--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2 \nWHERE {\n {\n  SELECT ?var1 ( COUNT (\
+    \ ?var3  ) AS  ?var2  )\n  WHERE   {\n    ?var3  <http://www.wikidata.org/prop/direct/P138>\
+    \  ?var1 .\n    ?var1  <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q5>\
+    \ .\n  }\n  GROUP BY  ?var1 \n }\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,de,nl,fr,es,pl,ru,bg\".\n  }\n}\nORDER BY  DESC( ?var2 )\nLIMIT 200\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session25/query05.rq
+  title: query05
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session25/query05.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2Label  ?var3 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q13100073> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"nl\".\n    ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2Label\
+    \ .\n  }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var3\
+    \ .\n }\n}\nLIMIT 100\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session26/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session26/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2Label  ?var3 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P106>\
+    \  <http://www.wikidata.org/entity/Q1281618> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"sv\".\n    ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2Label\
+    \ .\n  }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var3\
+    \ .\n }\n}\nLIMIT 100\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session26/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session26/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2Label  ?var3 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P106>\
+    \  <http://www.wikidata.org/entity/Q1281618> .\n  ?var1  <http://www.wikidata.org/prop/direct/P27>\
+    \  <http://www.wikidata.org/entity/Q34> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"sv\".\n    ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2Label\
+    \ .\n  }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var3\
+    \ .\n }\n}\nLIMIT 100\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session26/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session26/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2Label  ?var3 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P106>\
+    \  <http://www.wikidata.org/entity/Q1281618> .\n  ?var1  <http://www.wikidata.org/prop/direct/P27>\
+    \  <http://www.wikidata.org/entity/Q34> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"sv\".\n    ?var1  <http://www.w3.org/2000/01/rdf-schema#label>  ?var2Label\
+    \ .\n  }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>  ?var3\
+    \ .\n }\n}\nLIMIT 100000\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session26/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session26/query04.rq'
+- name: query05
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query05--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2Label  ?var3  ?var4 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P106>\
+    \  <http://www.wikidata.org/entity/Q1281618> .\n  ?var1  <http://www.wikidata.org/prop/direct/P27>\
+    \  <http://www.wikidata.org/entity/Q34> .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P2949>\
+    \  ?var4 .\n }\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"sv\".\n    ?var1  <http://www.w3.org/2000/01/rdf-schema#label>\
+    \  ?var2Label .\n  }\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P18>\
+    \  ?var3 .\n }\n}\nLIMIT 100000\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session26/query05.rq
+  title: query05
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session26/query05.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 (  SAMPLE ( ?var1Label  ) AS  ?var2  )(  GROUP_CONCAT (  DISTINCT\
+    \  ?var3Label ; SEPARATOR =  \", \" )  AS  ?var4  )\nWHERE {\n SELECT ?var1  ?var1Label\
+    \  ?var3 \n WHERE  {\n   ?var1  <http://www.wikidata.org/prop/direct/P170>  <http://www.wikidata.org/entity/Q762>\
+    \ .\n  OPTIONAL {\n   ?var1  <http://www.wikidata.org/prop/direct/P186>  ?var3\
+    \ .\n  }\n  SERVICE  <http://wikiba.se/ontology#label>    {\n     <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,it,fr,de,es\".\n   }\n }\n}\nGROUP\
+    \ BY  ?var1 \n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session27/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session27/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1 (  GROUP_CONCAT (  DISTINCT  ?var2Label ; SEPARATOR =  \"\
+    , \" )  AS  ?var3  )\nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P170>\
+    \  <http://www.wikidata.org/entity/Q762> .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P186>\
+    \  ?var2 .\n }\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,it,fr,de,es\".\n  }\n}\nGROUP BY\
+    \  ?var1 \n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session27/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session27/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P170>\
+    \  <http://www.wikidata.org/entity/Q762> .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P186>\
+    \  ?var2 .\n }\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,it,fr,de,es\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session27/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session27/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P170>\
+    \  <http://www.wikidata.org/entity/Q762> .\n OPTIONAL {\n  ?var1  <http://www.wikidata.org/prop/direct/P186>\
+    \  ?var2 .\n }\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,it,fr,de,es\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session27/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session27/query04.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q146> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session28/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session28/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q16521> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session28/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session28/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q16521> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\nLIMIT 20\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session28/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session28/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var1Label  ?var2 \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q16521> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\nLIMIT 20\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session28/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session28/query04.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2  ?var3  ?var1Label  ?var2Label  ?var3Label \nWHERE\
+    \ {\n  <http://www.wikidata.org/entity/Q7604>  <http://www.wikidata.org/prop/direct/P802>\
+    \ + ?var1 .\n  ?var1  ?var2  ?var3 .\n FILTER (  ( (  ?var2  =  <http://www.wikidata.org/prop/direct/P1066>\
+    \  ) ) \n) .\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session29/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session29/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2  ?var3  ?var1Label  ?var2Label  ?var3Label \nWHERE\
+    \ {\n  <http://www.wikidata.org/entity/Q7604>  <http://www.wikidata.org/prop/direct/P802>\
+    \ + ?var1 .\n  ?var1  ?var2  ?var3 .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session29/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session29/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2  ?var3  ?var1Label  ?var2Label  ?var3Label \nWHERE\
+    \ {\n  <http://www.wikidata.org/entity/Q7604>  <http://www.wikidata.org/prop/direct/P802>\
+    \ + ?var1 .\n  ?var1  ?var2  ?var3 .\n FILTER (  ( (  ?var2  =  <http://www.wikidata.org/prop/direct/P802>\
+    \  ) ) \n) .\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session29/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session29/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2  ?var3  ?var1Label  ?var2Label  ?var3Label \nWHERE\
+    \ {\n  <http://www.wikidata.org/entity/Q7604>  <http://www.wikidata.org/prop/direct/P802>\
+    \ + ?var1 .\n  ?var1  ?var2  ?var3 .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session29/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session29/query04.rq'
+- name: query05
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query05--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2  ?var3  ?var1Label  ?var2Label  ?var3Label \nWHERE\
+    \ {\n  <http://www.wikidata.org/entity/Q7604>  <http://www.wikidata.org/prop/direct/P802>\
+    \ + ?var3 .\n  ?var1  ?var2  ?var3 .\n FILTER (  ( (  ?var2  =  <http://www.wikidata.org/prop/direct/P1066>\
+    \  ) ) \n) .\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session29/query05.rq
+  title: query05
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session29/query05.rq'
+- name: query06
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query06--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2  ?var3  ?var1Label  ?var2Label  ?var3Label \nWHERE\
+    \ {\n  <http://www.wikidata.org/entity/Q7604>  <http://www.wikidata.org/prop/direct/P802>\
+    \ + ?var3 .\n  ?var1  ?var2  ?var3 .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session29/query06.rq
+  title: query06
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session29/query06.rq'
+- name: query07
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query07--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2  ?var3 \nWHERE {\n  <http://www.wikidata.org/entity/Q7604>\
+    \  <http://www.wikidata.org/prop/direct/P802> + ?var3 .\n  ?var1  ?var2  ?var3\
+    \ .\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session29/query07.rq
+  title: query07
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session29/query07.rq'
+- name: query08
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query08--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2  ?var3 \nWHERE {\n  <http://www.wikidata.org/entity/Q7604>\
+    \  <http://www.wikidata.org/prop/direct/P802> + ?var3 .\n  ?var1  ?var2  ?var3\
+    \ .\n FILTER (  ( (  ?var2  =  <http://www.wikidata.org/prop/direct/P1066>  )\
+    \ ) \n) .\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session29/query08.rq
+  title: query08
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session29/query08.rq'
+- name: query09
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query09--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2  ?var3 \nWHERE {\n  <http://www.wikidata.org/entity/Q7604>\
+    \  <http://www.wikidata.org/prop/direct/P802> + ?var3 .\n  ?var1  ?var2  ?var3\
+    \ .\n FILTER (  ( (  ?var2  =  <http://www.wikidata.org/prop/direct/P802>  ) )\
+    \ \n) .\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session29/query09.rq
+  title: query09
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session29/query09.rq'
+- name: query10
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query10--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2  ?var3  ?var1Label \nWHERE {\n  <http://www.wikidata.org/entity/Q7604>\
+    \  <http://www.wikidata.org/prop/direct/P802> + ?var3 .\n  ?var1  ?var2  ?var3\
+    \ .\n FILTER (  ( (  ?var2  =  <http://www.wikidata.org/prop/direct/P802>  ) )\
+    \ \n) .\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session29/query10.rq
+  title: query10
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session29/query10.rq'
+- name: query11
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query11--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2  ?var3  ?var1Label  ?var3Label \nWHERE {\n  <http://www.wikidata.org/entity/Q7604>\
+    \  <http://www.wikidata.org/prop/direct/P802> + ?var3 .\n  ?var1  ?var2  ?var3\
+    \ .\n FILTER (  ( (  ?var2  =  <http://www.wikidata.org/prop/direct/P802>  ) )\
+    \ \n) .\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session29/query11.rq
+  title: query11
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session29/query11.rq'
+- name: query12
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query12--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2  ?var3  ?var1Label  ?var3Label \nWHERE {\n  <http://www.wikidata.org/entity/Q7604>\
+    \  <http://www.wikidata.org/prop/direct/P802> + ?var3 .\n  ?var1  <http://www.wikidata.org/prop/direct/P802>\
+    \ + ?var3 .\n  ?var1  ?var2  ?var3 .\n FILTER (  ( (  ?var2  =  <http://www.wikidata.org/prop/direct/P802>\
+    \  ) ) \n) .\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session29/query12.rq
+  title: query12
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session29/query12.rq'
+- name: query13
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query13--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1  ?var2  ?var3  ?var1Label  ?var3Label \nWHERE {\n  <http://www.wikidata.org/entity/Q7604>\
+    \  <http://www.wikidata.org/prop/direct/P802> + ?var3 .\n  ?var1  <http://www.wikidata.org/prop/direct/P802>\
+    \ + ?var3 .\n  ?var1  ?var2  ?var3 .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session29/query13.rq
+  title: query13
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session29/query13.rq'
+- name: query01
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query01--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1Label  ?var2  ?var2Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q6256> .\n  ?var1  <http://www.wikidata.org/prop/direct/P37>\
+    \  ?var2 .\n  ?var2 ( <http://www.wikidata.org/prop/direct/p31> / <http://www.wikidata.org/prop/direct/P279>\
+    \ *) <http://www.wikidata.org/entity/Q33742> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session30/query01.rq
+  title: query01
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session30/query01.rq'
+- name: query02
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query02--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1Label  ?var2  ?var2Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q6256> .\n  ?var1  <http://www.wikidata.org/prop/direct/P37>\
+    \  ?var2 .\n  ?var2 ( <http://www.wikidata.org/prop/direct/p31> / <http://www.wikidata.org/prop/direct/P279>\
+    \ *) <http://www.wikidata.org/entity/Q25295> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session30/query02.rq
+  title: query02
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session30/query02.rq'
+- name: query03
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query03--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1Label  ?var2  ?var2Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q6256> .\n  ?var1  <http://www.wikidata.org/prop/direct/P37>\
+    \  ?var2 .\n  ?var2 ( <http://www.wikidata.org/prop/direct/p31> / <http://www.wikidata.org/prop/direct/P279>\
+    \ ) <http://www.wikidata.org/entity/Q34770> .\n SERVICE  <http://wikiba.se/ontology#label>\
+    \   {\n    <http://www.bigdata.com/rdf#serviceParam>  <http://wikiba.se/ontology#language>\
+    \  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session30/query03.rq
+  title: query03
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session30/query03.rq'
+- name: query04
+  namespace: imported_queries
+  domain: ExploratoryQueryingSessions.github.com
+  query_id: query04--imported_queries@ExploratoryQueryingSessions.github.com
+  sparql: "SELECT ?var1Label  ?var2  ?var2Label \nWHERE {\n  ?var1  <http://www.wikidata.org/prop/direct/P31>\
+    \  <http://www.wikidata.org/entity/Q6256> .\n  ?var1  <http://www.wikidata.org/prop/direct/P37>\
+    \  ?var2 .\n  ?var2  <http://www.wikidata.org/prop/direct/P279>  <http://www.wikidata.org/entity/Q34770>\
+    \ .\n SERVICE  <http://wikiba.se/ontology#label>   {\n    <http://www.bigdata.com/rdf#serviceParam>\
+    \  <http://wikiba.se/ontology#language>  \"en,en\".\n  }\n}\n"
+  url: https://raw.githubusercontent.com/hartig/ExploratoryQueryingSessions/main/sessions/session30/query04.rq
+  title: query04
+  description: Imported from hartig/ExploratoryQueryingSessions
+  comment: 'Path: sessions/session30/query04.rq'

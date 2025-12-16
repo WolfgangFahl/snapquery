@@ -24,6 +24,7 @@ class GitHubQueries:
         owner: str,
         repo: str,
         path: str = "",
+        branch: Optional[str] = None,
         extension: str = ".sparql",
         domain: Optional[str] = None,
         namespace: Optional[str] = None,
@@ -37,6 +38,7 @@ class GitHubQueries:
         self.owner = owner
         self.repo = repo
         self.path = path
+        self.branch = branch
         self.extension = extension
         self.debug = debug
 
@@ -48,7 +50,7 @@ class GitHubQueries:
             namespace=self.namespace,
             target_graph_name=target_graph,
         )
-        self.github = GitHub(owner=owner, repo=repo)
+        self.github = GitHub(owner=owner, repo=repo, branch=branch)
 
     def extract_query(self, file_info: dict) -> Optional[NamedQuery]:
         """
@@ -88,7 +90,8 @@ class GitHubQueries:
         Extract queries from the GitHub repository recursively matching the configuration.
         """
         if self.debug:
-            print(f"Fetching file list from {self.owner}/{self.repo} path: '{self.path}'...")
+            branch_info = f" branch '{self.branch}'" if self.branch else ""
+            print(f"Fetching file list from {self.owner}/{self.repo}{branch_info} path: '{self.path}'...")
 
         file_list = self.github.list_files_recursive(self.path, suffix=self.extension)
 
@@ -131,19 +134,28 @@ class GitHubQueries:
         self.named_query_set.save_to_json_file(file_path, indent=2)
 
 
-
 class ScholiaQueries(GitHubQueries):
     """
-    Specific implementation for Scholia Queries.
+    Specific implementation for Scholia Queries with configurable repo/owner/branch.
     """
-    def __init__(self, nqm: NamedQueryManager, debug: bool = False):
+    def __init__(
+        self,
+        nqm: NamedQueryManager,
+        owner: str = "WDscholia",
+        repo: str = "scholia",
+        branch: Optional[str] = None,
+        domain: str = "scholia.toolforge.org",
+        namespace: str = "named_queries",
+        debug: bool = False
+    ):
         super().__init__(
             nqm=nqm,
-            owner="WDscholia",
-            repo="scholia",
+            owner=owner,
+            repo=repo,
+            branch=branch,
             path="scholia/app/templates",
             extension=".sparql",
-            domain="scholia.toolforge.org",
-            namespace="named_queries",
+            domain=domain,
+            namespace=namespace,
             debug=debug
         )

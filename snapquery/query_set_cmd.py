@@ -4,20 +4,19 @@ Created on 2025-12-04
 @author: wf
 """
 
-import sys
 from argparse import ArgumentParser, Namespace
+import sys
 
 from basemkit.base_cmd import BaseCmd
-from tqdm import tqdm
-
 from snapquery.qlever import QLever
 from snapquery.query_set_tool import QuerySetTool
-from snapquery.scholia import ScholiaQueries
+from snapquery.scholia import ScholiaQueries, GitHubQueries
 from snapquery.sib_sparql_examples import SibSparqlExamples
 from snapquery.snapquery_core import NamedQueryManager
 from snapquery.version import Version
 from snapquery.wd_page_query_extractor import WikidataQueryExtractor
 from snapquery.wd_short_url import ShortUrl
+from tqdm import tqdm
 
 
 class QuerySetCmdVersion(Version):
@@ -96,10 +95,15 @@ class QuerySetCmd(BaseCmd):
             action="store_true",
             help="Enable LLM enrichment",
         )
-            parser.add_argument(
+        parser.add_argument(
             "--github",
             help="Extract queries from a specific GitHub repository (format: owner/repo).",
         )
+        parser.add_argument(
+            "--branch",
+            help="GitHub branch or ref (optional for --github).",
+        )
+
         parser.add_argument(
             "--github-extension",
             default=".rq",
@@ -110,8 +114,14 @@ class QuerySetCmd(BaseCmd):
         parser.add_argument(
             "--scholia",
             action="store_true",
-            help="Run Scholia import to generate a NamedQuerySet.",
+            help="Run Scholia import (WDscholia/scholia) to generate a NamedQuerySet.",
         )
+        parser.add_argument(
+            "--scholia-qlever",
+            action="store_true",
+            help="Run Scholia QLever import (ad-freiburg/scholia/branch:qlever) to generate a NamedQuerySet.",
+        )
+
         # Wikidata Examples options
         parser.add_argument(
             "--wikidata-examples",
@@ -228,25 +238,56 @@ class QuerySetCmd(BaseCmd):
         """
         Handle scraping a custom GitHub repository.
         """
-        repo_name = args.github
-        extension = args.github_extension
+        if "/" not in args.github:
+            raise ValueError("GitHub argument must be in format 'owner/repo'")
+
+        owner, repo = args.github.split("/", 1)
+
         nqm = NamedQueryManager.from_samples()
+
+        gh_queries = GitHubQueries(
+            nqm=nqm,
+            owner=owner,
+            repo=repo,
+            branch=args.branch,
+            path=args.github_path,
+            extension=args.github_extension,
+            domain=args.domain,
+            namespace=args.namespace,
+            debug=args.debug
+        )
+
+        gh_queries.extract_queries(limit=args.limit, show_progress=args.progress)
+        self._output_dataset(gh_queries.named_query_set, args)
 
 
     def _handle_scholia(self, args: Namespace) -> None:
         """
-        Handle the Scholia import workflow.
+        Handle the standard Scholia import workflow using defaults.
         """
-        # Initialize NamedQueryManager (uses default/temporary DB as in samples)
         nqm = NamedQueryManager.from_samples()
-
+        # Uses defaults defined in ScholiaQueries __init__
         scholia_queries = ScholiaQueries(nqm, debug=args.debug)
-
-        # Extract queries with limit and progress
         scholia_queries.extract_queries(limit=args.limit, show_progress=args.progress)
-
-        # Output the resulting NamedQuerySet
         self._output_dataset(scholia_queries.named_query_set, args)
+
+    def _handle_scholia_qlever(self, args: Namespace) -> None:
+        """
+        Handle the Scholia QLever import workflow using overridden parameters.
+        """
+        nqm = NamedQueryManager.from_samples()
+        # Overrides for the QLever fork/branch
+        scholia_qlever = ScholiaQueries(
+            nqm=nqm,
+            owner="ad-freiburg",
+            repo="scholia",
+            branch="qlever",
+            namespace="named_queries_qlever",
+            debug=args.debug
+        )
+        scholia_qlever.extract_queries(limit=args.limit, show_progress=args.progress)
+        self._output_dataset(scholia_qlever.named_query_set, args)
+
 
     def _handle_wikidata_examples(self, args: Namespace) -> None:
         """

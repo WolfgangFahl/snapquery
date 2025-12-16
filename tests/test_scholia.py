@@ -64,6 +64,28 @@ AND domain='{queries.named_query_set.domain}'
         self.check_queries(scholia_queries)
 
     @unittest.skipIf(Basetest.inPublicCI(), "avoid github rate limit")
+    def test_scholia_qlever(self):
+        """
+        Test retrieving Scholia QLever queries from the specific branch.
+        """
+        prefix = "scholia_qlever"
+        nqm = self.prepare_nqm(prefix)
+
+        # Configure for ad-freiburg/scholia branch:qlever
+        scholia_qlever = ScholiaQueries(
+            nqm,
+            owner="ad-freiburg",
+            repo="scholia",
+            branch="qlever",
+            namespace="named_queries_qlever",
+            debug=self.debug
+        )
+
+        scholia_qlever.extract_queries(limit=self.limit)
+        self.check_queries(scholia_qlever)
+
+
+    @unittest.skipIf(Basetest.inPublicCI(), "avoid github rate limit")
     def test_exploratory_querying_sessions(self):
         owner = "hartig"
         repo= "ExploratoryQueryingSessions"

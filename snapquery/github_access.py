@@ -17,25 +17,37 @@ class GitHub:
     A simple GitHub API client for accessing repository contents.
     """
 
-    def __init__(self, owner: str, repo: str, token: Optional[str] = None, session: Optional[requests.Session] = None):
+    def __init__(
+        self,
+        owner: str,
+        repo: str,
+        branch: Optional[str] = None,
+        token: Optional[str] = None,
+        session: Optional[requests.Session] = None
+    ):
         """
         Initialize GitHub client.
 
         Args:
             owner: Repository owner (username or organization)
             repo: Repository name
+            branch: Optional specific branch or commit SHA (default: default repo branch)
             token: Optional GitHub API token for authentication
             session: Optional custom requests.Session
         """
         self.owner = owner
         self.repo = repo
-        self.token = token
+        self.branch = branch
+
+
         self.base_url = f"https://api.github.com/repos/{owner}/{repo}"
-        # Use provided token or read from file (compatible with GitHubApi)
+
+        # Use provided token or read from file
         self.token = token if token is not None else self._read_token()
 
         # Use custom session or create new one
         self.session = session or requests.Session()
+
 
     def _headers(self) -> Dict[str, str]:
         headers = {"Accept": "application/vnd.github.v3+json"}
@@ -72,9 +84,14 @@ class GitHub:
             List of dictionaries for directories, or content for files
         """
         url = f"{self.base_url}/contents/{path}"
-        response = self.session.get(url, headers=self._headers(), timeout=30)
+        params = {}
+        if self.branch:
+            params["ref"] = self.branch
+
+        response = self.session.get(url, headers=self._headers(), params=params, timeout=30)
         response.raise_for_status()
         return response.json()
+
 
     def list_files_recursive(self, path: str = "", suffix: Optional[str] = None) -> List[Dict[str, Any]]:
         """

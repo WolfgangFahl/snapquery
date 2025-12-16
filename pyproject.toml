@@ -22,11 +22,11 @@ dependencies = [
 	# https://pypi.org/project/pybasemkit/
 	# https://github.com/WolfgangFahl/pybasemkit
 	# Python base module kit: YAML/JSON I/O, structured logging, CLI tooling, shell execution, and remote pydevd debug support.
-	"pybasemkit>=0.1.4",
+	"pybasemkit>=0.1.6",
 	# https://github.com/WolfgangFahl/nicegui_widgets
-	"ngwidgets>=0.30.2",
+	"ngwidgets>=0.30.3",
     # https://pypi.org/project/pyLodStorage/
-    "pyLodStorage>=0.18.5",
+    "pyLodStorage>=0.18.6",
     # https://pypi.org/project/py-3rdparty-mediawiki/
     "py-3rdparty-mediawiki>=0.18.1",
     "wikitextparser",

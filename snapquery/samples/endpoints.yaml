@@ -7,8 +7,8 @@ endpoints:
       Wikimedia Wikidata Query Service (legacy full).
       Stable but high-load; prefer -main/-scholarly.
     lang: sparql
-    endpoint: https://query.wikidata.org/sparql
-    website: https://query.wikidata.org
+    endpoint: https://query-legacy-full.wikidata.org/sparql
+    website: https://query-legacy-full.wikidata.org
     database: blazegraph
     method: POST
     calls_per_minute: 30
@@ -112,6 +112,23 @@ endpoints:
     prefix_sets:
       - rdf
       - wikidata
+
+  wikidata-openlink:
+    description: |
+      OpenLink Wikidata Truthy instance (LOD Cloud demo).
+      Optimized for property path queries and transitive closure.
+      https://www.openlinksw.com/data/html/about-wikidata-truthy-2025-11.html
+    lang: sparql
+    endpoint: https://truthy.demo.openlinksw.com/sparql
+    website: https://truthy.demo.openlinksw.com
+    database: virtuoso
+    method: POST
+    calls_per_minute: 30
+    data_seeded: 2025-11-01
+    prefix_sets:
+      - rdf
+      - wikidata
+      - commons
 
   dblp:
     description: DBLP official (qlever - reliable).

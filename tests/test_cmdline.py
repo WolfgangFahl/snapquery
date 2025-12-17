@@ -42,9 +42,11 @@ class TestCommandLine(Basetest):
 
         # Capture the output of running the command
         output = self.capture_stdout(run_cmd)
-        if self.debug:
+        debug=self.debug
+        #debug=True
+        if debug:
             print(output)
-        self.assertTrue("wikidata:https://query.wikidata.org" in output)
+        self.assertTrue("wikidata:https://query-legacy-full" in output)
 
     @unittest.skipIf(Basetest.inPublicCI(), "reading stdout in CI returns None")
     def test_namedquery(self):

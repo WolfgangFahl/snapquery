@@ -196,8 +196,23 @@ class SnapQueryWebServer(InputWebserver):
         ) -> Union[JSONResponse, HTMLResponse, PlainTextResponse]:
             name, r_format = self.get_r_format(name, "json", request, format)
             qb = self.get_query_builder(domain, namespace, name, endpoint_name)
+            query=qb.query
+            return query
 
-            return qb.query
+        @app.get("/api/query_text/{domain}/{namespace}/{name}", response_model=None)
+        def get_query_text(
+            request: fastapi.Request,
+            domain: str,
+            namespace: str,
+            name: str,
+            endpoint_name: str = fastapi.Query(default="wikidata"),
+            format: str = fastapi.Query(default=None),
+        ) -> Union[JSONResponse, HTMLResponse, PlainTextResponse]:
+            name, r_format = self.get_r_format(name, "json", request, format)
+            qb = self.get_query_builder(domain, namespace, name, endpoint_name)
+            query=qb.query
+            query_text=query.query
+            return query_text
 
         @app.get("/api/query/{domain}/{namespace}/{name}")
         def query(

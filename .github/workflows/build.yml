@@ -22,7 +22,7 @@ jobs:
         #python-version: [ '3.10', '3.11', '3.12', '3.13' ]
         # simplified build matrix to avoid rate limits
         os: [ubuntu-latest]
-        python-version: ['3.11']
+        python-version: ['3.10']
 
     steps:
     - uses: actions/checkout@v4

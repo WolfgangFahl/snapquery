@@ -194,25 +194,33 @@ class SnapQueryWebServer(InputWebserver):
             endpoint_name: str = fastapi.Query(default="wikidata"),
             format: str = fastapi.Query(default=None),
         ) -> Union[JSONResponse, HTMLResponse, PlainTextResponse]:
-            name, r_format = self.get_r_format(name, "json", request, format)
-            qb = self.get_query_builder(domain, namespace, name, endpoint_name)
-            query=qb.query
-            return query
+            """
+            Returns the query details and raw SPARQL in the requested format.
 
-        @app.get("/api/query_text/{domain}/{namespace}/{name}", response_model=None)
-        def get_query_text(
-            request: fastapi.Request,
-            domain: str,
-            namespace: str,
-            name: str,
-            endpoint_name: str = fastapi.Query(default="wikidata"),
-            format: str = fastapi.Query(default=None),
-        ) -> Union[JSONResponse, HTMLResponse, PlainTextResponse]:
-            name, r_format = self.get_r_format(name, "json", request, format)
-            qb = self.get_query_builder(domain, namespace, name, endpoint_name)
-            query=qb.query
-            query_text=query.query
-            return query_text
+            Prioritizes:
+            1. Format Parameter (?format=json)
+            2. Dot Convention (name.json)
+            3. Accept Header (Accept: application/json)
+
+            Args:
+                request: The HTTP request
+                domain (str): Query domain
+                namespace (str): Query namespace
+                name (str): Query name (can include extension)
+                endpoint_name (str): SPARQL endpoint to use
+                format (str): details format (json, html, text, yaml, etc.)
+            """
+            # 1. Resolve Format and Name
+            real_name, r_format = self.get_r_format(name, default_format_str="text", request=request, format_param=format)
+
+            # 2. Fetch Query
+            try:
+                qb = self.get_query_builder(domain, namespace, real_name, endpoint_name)
+            except Exception as e:
+                raise HTTPException(status_code=404, detail=f"Query {real_name} not found: {str(e)}")
+
+            query_obj = qb.query
+            return query_obj
 
         @app.get("/api/query/{domain}/{namespace}/{name}")
         def query(

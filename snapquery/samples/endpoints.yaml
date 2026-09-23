@@ -89,6 +89,30 @@ endpoints:
       - wikidata
       - commons
 
+  wikidata-next:
+    description: Wikimedia QLever Wikidata full graph (query-next).
+    lang: sparql
+    method: POST
+    database: qlever
+    endpoint: https://query-next.wikidata.org/sparql
+    website: https://query-next.wikidata.org/
+    calls_per_minute: 60
+    prefix_sets:
+      - rdf
+      - wikidata
+
+  wikidata-scholarly-next:
+    description: Wikimedia QLever Wikidata scholarly graph (query-scholarly-next).
+    lang: sparql
+    method: POST
+    database: qlever
+    endpoint: https://query-scholarly-next.wikidata.org/sparql
+    website: https://query-scholarly-next.wikidata.org/
+    calls_per_minute: 60
+    prefix_sets:
+      - rdf
+      - wikidata
+
   wikidata-triply:
     description: TriplyDB mirror.
     lang: sparql

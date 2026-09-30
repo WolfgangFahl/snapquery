@@ -46,7 +46,9 @@ class TestCommandLine(Basetest):
         # debug=True
         if debug:
             print(output)
-        self.assertTrue("wikidata:https://query-legacy-full" in output)
+        # the wikidata entry may be redefined or aliased by the local ~/.pylodstorage layer
+        wikidata_lines = [line for line in output.splitlines() if line.startswith(("wikidata:", "wikidata →"))]
+        self.assertEqual(1, len(wikidata_lines))
 
     @unittest.skipIf(Basetest.inPublicCI(), "reading stdout in CI returns None")
     def test_namedquery(self):

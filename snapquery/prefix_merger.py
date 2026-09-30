@@ -78,11 +78,10 @@ class QueryPrefixMerger(Enum):
         Returns:
             merged query
         """
+        merged_query = query_str
         prefixes_str = endpoint.get_prefixes(PrefixConfigs.get_instance())
-        if not prefixes_str.strip():
-            return
-
-        merged_query = Prefixes.merge_prefixes(query_str, prefixes_str)
+        if prefixes_str.strip():
+            merged_query = Prefixes.merge_prefixes(query_str, prefixes_str)
         return merged_query
 
     @classmethod

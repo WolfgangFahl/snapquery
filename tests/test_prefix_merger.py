@@ -5,7 +5,7 @@ Created on 2024-05-04
 """
 
 from basemkit.basetest import Basetest
-from lodstorage.query import Query
+from lodstorage.query import Endpoint, Query
 
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager, QueryPrefixMerger
 
@@ -70,6 +70,15 @@ class TestQueryPrefixMerger(Basetest):
         if debug:
             print(actual_query)
         self.assertIn("PREFIX rdf:", actual_query)
+
+    def test_simple_prefix_merger_without_prefixes(self):
+        """
+        test that the simple prefix merger keeps the query for an endpoint without prefixes
+        """
+        endpoint = Endpoint(name="no-prefixes", endpoint="https://example.org/sparql")
+        sparql_query = "SELECT * WHERE {?work rdf:label ?label . }"
+        actual_query = QueryPrefixMerger.simple_prefix_merger(sparql_query, endpoint)
+        self.assertEqual(sparql_query, actual_query)
 
     def test_analysis_prefix_merger(self):
         """

@@ -23,7 +23,7 @@ class GitHub:
         repo: str,
         branch: Optional[str] = None,
         token: Optional[str] = None,
-        session: Optional[requests.Session] = None
+        session: Optional[requests.Session] = None,
     ):
         """
         Initialize GitHub client.
@@ -39,7 +39,6 @@ class GitHub:
         self.repo = repo
         self.branch = branch
 
-
         self.base_url = f"https://api.github.com/repos/{owner}/{repo}"
 
         # Use provided token or read from file
@@ -47,7 +46,6 @@ class GitHub:
 
         # Use custom session or create new one
         self.session = session or requests.Session()
-
 
     def _headers(self) -> Dict[str, str]:
         headers = {"Accept": "application/vnd.github.v3+json"}
@@ -91,7 +89,6 @@ class GitHub:
         response = self.session.get(url, headers=self._headers(), params=params, timeout=30)
         response.raise_for_status()
         return response.json()
-
 
     def list_files_recursive(self, path: str = "", suffix: Optional[str] = None) -> List[Dict[str, Any]]:
         """

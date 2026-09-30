@@ -5,12 +5,15 @@ Created on 2024-05-04
 
 @author: wf
 """
+
+from typing import Optional
+
 import requests
 from tqdm import tqdm
-from typing import Optional
 
 from snapquery.github_access import GitHub
 from snapquery.snapquery_core import NamedQuery, NamedQueryManager, NamedQuerySet
+
 
 class GitHubQueries:
     """
@@ -29,7 +32,7 @@ class GitHubQueries:
         domain: Optional[str] = None,
         namespace: Optional[str] = None,
         target_graph: str = "wikidata",
-        debug: bool = False
+        debug: bool = False,
     ):
         """
         Constructor
@@ -138,6 +141,7 @@ class ScholiaQueries(GitHubQueries):
     """
     Specific implementation for Scholia Queries with configurable repo/owner/branch.
     """
+
     def __init__(
         self,
         nqm: NamedQueryManager,
@@ -146,7 +150,7 @@ class ScholiaQueries(GitHubQueries):
         branch: Optional[str] = None,
         domain: str = "scholia.toolforge.org",
         namespace: str = "named_queries",
-        debug: bool = False
+        debug: bool = False,
     ):
         super().__init__(
             nqm=nqm,
@@ -157,5 +161,5 @@ class ScholiaQueries(GitHubQueries):
             extension=".sparql",
             domain=domain,
             namespace=namespace,
-            debug=debug
+            debug=debug,
         )

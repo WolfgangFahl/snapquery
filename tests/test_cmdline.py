@@ -42,8 +42,8 @@ class TestCommandLine(Basetest):
 
         # Capture the output of running the command
         output = self.capture_stdout(run_cmd)
-        debug=self.debug
-        #debug=True
+        debug = self.debug
+        # debug=True
         if debug:
             print(output)
         self.assertTrue("wikidata:https://query-legacy-full" in output)

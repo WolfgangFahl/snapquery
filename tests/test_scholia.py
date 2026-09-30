@@ -5,12 +5,15 @@ Created on 2024-05-04
 """
 
 import os
-from pathlib import Path
 import unittest
+from pathlib import Path
+
 from basemkit.basetest import Basetest
-from snapquery.scholia import ScholiaQueries, GitHubQueries
-from snapquery.snapquery_core import NamedQueryManager, NamedQuerySet
+
 from snapquery.query_parameterizer import QueryParameterizer
+from snapquery.scholia import GitHubQueries, ScholiaQueries
+from snapquery.snapquery_core import NamedQueryManager, NamedQuerySet
+
 
 class TestScholia(Basetest):
     """
@@ -21,8 +24,8 @@ class TestScholia(Basetest):
         Basetest.setUp(self, debug=debug, profile=profile)
         self.samples_dir = Path(__file__).parent.parent / "snapquery" / "samples" / "query-sets" / "yaml"
 
-    def prepare_nqm(self,prefix:str):
-        self.prefix=prefix
+    def prepare_nqm(self, prefix: str):
+        self.prefix = prefix
         db_path = f"/tmp/{self.prefix}_queries.db"
         if os.path.exists(db_path):
             os.remove(db_path)
@@ -35,7 +38,10 @@ class TestScholia(Basetest):
         # Create a NamedQueryManager and ScholiaQueries instance
         self.nqm = NamedQueryManager.from_samples(db_path=db_path)
 
-    def check_queries(self,queries,):
+    def check_queries(
+        self,
+        queries,
+    ):
         queries.store_queries()
         queries.save_to_json(f"/tmp/{self.prefix}.json")
 
@@ -49,14 +55,13 @@ AND domain='{queries.named_query_set.domain}'
         )
         self.assertEqual(len(records), len(queries.named_query_set.queries))
 
-
     @unittest.skipIf(Basetest.inPublicCI(), "avoid github rate limit")
     def test_scholia_queries(self):
         """
         Test retrieving Scholia queries.
         """
-        prefix="scholia"
-        nqm=self.prepare_nqm(prefix)
+        prefix = "scholia"
+        nqm = self.prepare_nqm(prefix)
         scholia_queries = ScholiaQueries(nqm, debug=self.debug)
 
         # Extract, store, and save queries to JSON
@@ -78,7 +83,7 @@ AND domain='{queries.named_query_set.domain}'
             repo="scholia",
             branch="qlever",
             namespace="named_queries_qlever",
-            debug=self.debug
+            debug=self.debug,
         )
 
         scholia_qlever.extract_queries(limit=self.limit)
@@ -88,36 +93,37 @@ AND domain='{queries.named_query_set.domain}'
         """
         test parameterizing scholia queries
         """
-        debug=self.debug
-        debug=True
+        debug = self.debug
+        debug = True
         iso_date = "2025-12-16"
         parameterizer = QueryParameterizer(debug=debug)
-        for tag in ["scholia","scholia-qlever"]:
-            yaml_file=f"{tag}-{iso_date}.yaml"
+        for tag in ["scholia", "scholia-qlever"]:
+            yaml_file = f"{tag}-{iso_date}.yaml"
             yaml_path = self.samples_dir / yaml_file
-            query_set=NamedQuerySet.load_from_yaml_file(yaml_path) # @UndefinedVariable
-            query_count=len(query_set.queries)
+            query_set = NamedQuerySet.load_from_yaml_file(yaml_path)  # @UndefinedVariable
+            query_count = len(query_set.queries)
             if debug:
                 print(f"Parameterizing {query_count} {tag} queries")
-            pquery_list=parameterizer.parameterize_query_set(query_set)
+            pquery_list = parameterizer.parameterize_query_set(query_set)
             parameterizer.store_query_list(pquery_list, tag)
             self.assertEqual(len(pquery_list), query_count)
             if debug:
-                for i,query in enumerate(pquery_list):
+                for i, query in enumerate(pquery_list):
                     print(f"{i}:{query.to_yaml()}")
 
     @unittest.skipIf(Basetest.inPublicCI(), "avoid github rate limit")
     def test_exploratory_querying_sessions(self):
         owner = "hartig"
-        repo= "ExploratoryQueryingSessions"
-        path= "/sessions"
+        repo = "ExploratoryQueryingSessions"
+        path = "/sessions"
         extension = ".rq"
         limit = 5
-        prefix="hartig_eqs"
+        prefix = "hartig_eqs"
         self.prepare_nqm(prefix)
-        show_progress=self.debug
-        show_progress=True
-        hartig_queries = GitHubQueries(self.nqm, owner=owner,repo=repo, path=path,extension=extension, debug=self.debug)
+        show_progress = self.debug
+        show_progress = True
+        hartig_queries = GitHubQueries(
+            self.nqm, owner=owner, repo=repo, path=path, extension=extension, debug=self.debug
+        )
         hartig_queries.extract_queries(limit=limit, show_progress=show_progress)
         self.check_queries(hartig_queries)
-

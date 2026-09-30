@@ -4,19 +4,20 @@ Created on 2025-12-04
 @author: wf
 """
 
-from argparse import ArgumentParser, Namespace
 import sys
+from argparse import ArgumentParser, Namespace
 
 from basemkit.base_cmd import BaseCmd
+from tqdm import tqdm
+
 from snapquery.qlever import QLever
 from snapquery.query_set_tool import QuerySetTool
-from snapquery.scholia import ScholiaQueries, GitHubQueries
+from snapquery.scholia import GitHubQueries, ScholiaQueries
 from snapquery.sib_sparql_examples import SibSparqlExamples
 from snapquery.snapquery_core import NamedQueryManager
 from snapquery.version import Version
 from snapquery.wd_page_query_extractor import WikidataQueryExtractor
 from snapquery.wd_short_url import ShortUrl
-from tqdm import tqdm
 
 
 class QuerySetCmdVersion(Version):
@@ -214,7 +215,6 @@ class QuerySetCmd(BaseCmd):
             self._handle_random_short_urls(args)
             return True
 
-
         return False
 
     def _handle_convert(self, args: Namespace) -> None:
@@ -263,12 +263,11 @@ class QuerySetCmd(BaseCmd):
             extension=args.github_extension,
             domain=args.domain,
             namespace=args.namespace,
-            debug=args.debug
+            debug=args.debug,
         )
 
         gh_queries.extract_queries(limit=args.limit, show_progress=args.progress)
         self._output_dataset(gh_queries.named_query_set, args)
-
 
     def _handle_scholia(self, args: Namespace) -> None:
         """
@@ -292,11 +291,10 @@ class QuerySetCmd(BaseCmd):
             repo="scholia",
             branch="qlever",
             namespace="named_queries_qlever",
-            debug=args.debug
+            debug=args.debug,
         )
         scholia_qlever.extract_queries(limit=args.limit, show_progress=args.progress)
         self._output_dataset(scholia_qlever.named_query_set, args)
-
 
     def _handle_wikidata_examples(self, args: Namespace) -> None:
         """

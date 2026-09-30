@@ -33,8 +33,11 @@ class TestPIDandPersons(Basetest):
         """
         test person lookup
         """
+        endpoint = self.nqm.get_working_wikidata_endpoint()
+        if endpoint is None:
+            self.skipTest("no working Wikidata endpoint")
         pl = PersonLookup(self.nqm)
-        person_list = pl.suggest_from_wikidata("Tim Berners")
+        person_list = pl.suggest_from_wikidata("Tim Berners", endpoint_name=endpoint.name)
         self.show_pl(person_list)
         self.assertTrue(len(person_list) >= 1)
         person = person_list[0]

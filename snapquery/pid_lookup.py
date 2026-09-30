@@ -32,13 +32,14 @@ class PersonLookup:
         self.wikidata_search = WikidataSearch()
         self.dblp_person_lookup = DblpPersonLookup(self.nqm)
 
-    def suggest_from_wikidata(self, search_name: str, limit: int = 10) -> List[Person]:
+    def suggest_from_wikidata(self, search_name: str, limit: int = 10, endpoint_name: str = "wikidata") -> List[Person]:
         """
         Suggest persons using WikidataSearch.
 
         Args:
             search_name (str): The name to search for suggestions.
             limit (int): The maximum number of results to return.
+            endpoint_name (str): the endpoint to query, default wikidata.
 
         Returns:
             List[Person]: A list of suggested persons from Wikidata.
@@ -88,6 +89,7 @@ WHERE
         person_lod, stats = self.nqm.execute_query(
             named_query=named_query,
             params_dict=params_dict,
+            endpoint_name=endpoint_name,
             limit=limit,
             with_stats=False,
         )

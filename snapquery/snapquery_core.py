@@ -792,6 +792,24 @@ class NamedQueryManager:
 
         self.store(lod=lod, source_class=Graph, with_create=True)
 
+    # Wikidata endpoints to try in order when a working one is needed
+    wikidata_candidates = ["wikidata-qlever", "wikidata-qlever-dbis", "wikidata-main", "wikidata-dbis"]
+
+    def get_working_wikidata_endpoint(self, min_ratio: float = 0.5) -> Optional[Endpoint]:
+        """
+        get the first of the wikidata_candidates that answers a probe query
+
+        Args:
+            min_ratio: the minimum ratio of answering candidates
+
+        Returns:
+            Optional[Endpoint]: the working endpoint or None if not enough candidates answer
+        """
+        endpoint = EndpointManager.get_working_endpoint(
+            self.wikidata_candidates, endpoints=self.endpoints, min_ratio=min_ratio, debug=self.debug
+        )
+        return endpoint
+
     def get_public_endpoints(self) -> Dict[str, Dict[str, Any]]:
         """
         get the endpoints as records for public use

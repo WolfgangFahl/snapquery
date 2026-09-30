@@ -59,8 +59,11 @@ class TestNamedQueryManager(Basetest):
         """
         with tempfile.NamedTemporaryFile() as tmpfile:
             nqm = NamedQueryManager.from_samples(db_path=tmpfile.name)
+            endpoint = nqm.get_working_wikidata_endpoint()
+            if endpoint is None:
+                self.skipTest("no working Wikidata endpoint")
             query_name = QueryName(namespace="snapquery-examples", name="cats")
-            query_bundle = nqm.get_query(query_name=query_name)
+            query_bundle = nqm.get_query(query_name=query_name, endpoint_name=endpoint.name)
             lod, query_stats = query_bundle.get_lod_with_stats()
             self.assertEqual(query_bundle.named_query.query_id, query_stats.query_id)
             self.assertEqual(query_stats.endpoint_name, query_bundle.endpoint.name)

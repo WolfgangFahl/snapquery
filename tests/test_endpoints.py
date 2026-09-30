@@ -7,10 +7,10 @@ ActionStats integrated with Grok4 Free suppport on 2025-12-03
 
 import requests
 from basemkit.basetest import Basetest
+from lodstorage.action_stats import ActionStats
 from lodstorage.sparql import SPARQL
 
 from snapquery.snapquery_core import NamedQueryManager
-from tests.action_stats import ActionStats
 
 
 class TestEndpoints(Basetest):

@@ -4,23 +4,9 @@
 endpoints:
   wikidata:
     description: |
-      Wikimedia Wikidata Query Service (legacy full).
-      Stable but high-load; prefer -main/-scholarly.
-    lang: sparql
-    endpoint: https://query-legacy-full.wikidata.org/sparql
-    website: https://query-legacy-full.wikidata.org
-    database: blazegraph
-    method: POST
-    calls_per_minute: 30
-    auto_update: true
-    data_seeded: 2012-10-29
-    uptime_days: 4500
-    mtriples: 22000
-    prefix_sets:
-      - rdf
-      - wikidata
-      - blazegraph
-      - commons
+      abstract name of the Wikidata endpoint, an alias resolved to a concrete entry;
+      a host redirects it in ~/.pylodstorage/endpoints.yaml, e.g. to a local copy
+    alias: wikidata-main
 
   wikidata-main:
     description: WDQS Graph Split — main (non-scholarly).

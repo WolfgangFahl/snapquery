@@ -25,6 +25,18 @@ class TestEndpoints(Basetest):
         self.timeout = 10
         self.minRatio = 0.8
 
+    def get_packaged_endpoints(self) -> list:
+        """
+        get the endpoints of the packaged endpoints.yaml
+
+        entries of the local ~/.pylodstorage layer differ per host and are left out
+
+        Returns:
+            list: the endpoints that are not local
+        """
+        packaged_endpoints = [ep for ep in self.nqm.endpoints.values() if not ep.local]
+        return packaged_endpoints
+
     def testEndpoints(self):
         """
         test the endpoint handling
@@ -57,7 +69,7 @@ class TestEndpoints(Basetest):
         Test website availability for endpoints (HTTP 200).
         """
         stats = ActionStats()
-        for ep in self.nqm.endpoints.values():
+        for ep in self.get_packaged_endpoints():
             try:
                 self.assertTrue(hasattr(ep, "website"))
                 resp = requests.get(ep.website, headers={"User-Agent": self.user_agent}, timeout=self.timeout)
@@ -83,7 +95,7 @@ class TestEndpoints(Basetest):
         """
         dummy_query = "SELECT * WHERE { ?s ?p ?o. } LIMIT 1"
         stats = ActionStats()
-        for ep in self.nqm.endpoints.values():
+        for ep in self.get_packaged_endpoints():
             try:
                 sparql = SPARQL.fromEndpointConf(ep)
                 lod = sparql.queryAsListOfDicts(dummy_query)

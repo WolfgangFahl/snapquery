@@ -62,7 +62,8 @@ class TestQueryPrefixMerger(Basetest):
         test the simple prefix Merger
         """
         nqm = NamedQueryManager()
-        endpoint = nqm.endpoints.get("wikidata")
+        # a wikidata endpoint of the packaged endpoints.yaml - the local ~/.pylodstorage layer may redefine entries
+        endpoint = next(ep for ep in nqm.endpoints.values() if ep.name.startswith("wikidata") and not ep.local)
         sparql_query = "SELECT * WHERE {?work rdf:label ?label . }"
         actual_query = QueryPrefixMerger.simple_prefix_merger(sparql_query, endpoint)
         debug = self.debug

@@ -667,7 +667,7 @@ class NamedQueryManager:
         # Get the path of the yaml_file relative to the current Python module
         self.samples_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "samples")
         endpoints_path = os.path.join(self.samples_path, "endpoints.yaml")
-        self.endpoints = EndpointManager.getEndpoints(endpointPath=endpoints_path, lang="sparql", with_default=False)
+        self.endpoints = EndpointManager.getEndpoints(endpointPath=endpoints_path, lang="sparql", with_default=True)
         yaml_path = os.path.join(self.samples_path, "meta_query.yaml")
         self.meta_qm = QueryManager(queriesPath=yaml_path, with_default=False, lang="sql")
         # Graph Manager

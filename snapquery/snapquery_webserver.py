@@ -130,14 +130,11 @@ class SnapQueryWebServer(InputWebserver):
             """
             list all endpoints
             """
-            endpoints = self.nqm.endpoints
+            endpoints = self.nqm.get_public_endpoints()
             return endpoints
 
         @app.get("/api/meta_query/{name}")
-        def meta_query(
-            name: str,
-            limit: int = None,
-            fmt: str = 'json'):
+        def meta_query(name: str, limit: int = None, fmt: str = "json"):
             """
             run the meta query with the given name
             query parameters are limit for a potential query result limt,
@@ -211,7 +208,9 @@ class SnapQueryWebServer(InputWebserver):
                 format (str): details format (json, html, text, yaml, etc.)
             """
             # 1. Resolve Format and Name
-            real_name, r_format = self.get_r_format(name, default_format_str="text", request=request, format_param=format)
+            real_name, r_format = self.get_r_format(
+                name, default_format_str="text", request=request, format_param=format
+            )
 
             # 2. Fetch Query
             try:

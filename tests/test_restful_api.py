@@ -50,6 +50,9 @@ class TestRestFulApi(WebserverTest):
         if debug:
             print(endpoints_data)
         self.assertTrue("wikidata" in endpoints_data)
+        for record in endpoints_data.values():
+            for credential_field in ["auth", "user", "password"]:
+                self.assertNotIn(credential_field, record)
 
     def testSparqlApi(self):
         """

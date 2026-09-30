@@ -792,6 +792,24 @@ class NamedQueryManager:
 
         self.store(lod=lod, source_class=Graph, with_create=True)
 
+    def get_public_endpoints(self) -> Dict[str, Dict[str, Any]]:
+        """
+        get the endpoints as records for public use
+
+        the credential fields auth, user and password are never part of a record
+
+        Returns:
+            Dict[str, Dict[str, Any]]: the endpoint records by endpoint name
+        """
+        credential_fields = ["auth", "user", "password"]
+        public_endpoints = {}
+        for name, endpoint in self.endpoints.items():
+            record = asdict(endpoint)
+            for credential_field in credential_fields:
+                record.pop(credential_field, None)
+            public_endpoints[name] = record
+        return public_endpoints
+
     def store_endpoints(self, endpoints: Optional[Dict[str, Endpoint]] = None):
         """
         Stores the given endpoints or self.endpoints into the SQL database.

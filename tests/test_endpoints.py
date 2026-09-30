@@ -35,6 +35,23 @@ class TestEndpoints(Basetest):
         self.assertGreater(len(ep_names), 0)
         self.assertIn("wikidata", ep_names)
 
+    def test_public_endpoints(self):
+        """
+        test that the public endpoint records carry no credentials
+        """
+        endpoint = self.nqm.endpoints["wikidata"]
+        endpoint.auth = "BASIC"
+        endpoint.user = "test-user"
+        endpoint.password = "test-password"
+        public_endpoints = self.nqm.get_public_endpoints()
+        self.assertEqual(len(self.nqm.endpoints), len(public_endpoints))
+        record = public_endpoints["wikidata"]
+        if self.debug:
+            print(record)
+        self.assertEqual(endpoint.endpoint, record["endpoint"])
+        for credential_field in ["auth", "user", "password"]:
+            self.assertNotIn(credential_field, record)
+
     def test_website_availability(self):
         """
         Test website availability for endpoints (HTTP 200).

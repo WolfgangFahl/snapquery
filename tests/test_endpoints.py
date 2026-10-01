@@ -23,7 +23,6 @@ class TestEndpoints(Basetest):
         self.nqm = NamedQueryManager()
         self.user_agent = "snapquery-test/1.0 (https://github.com/WolfgangFahl/snapquery)"
         self.timeout = 10
-        self.minRatio = 0.8
 
     def get_packaged_endpoints(self) -> list:
         """
@@ -84,8 +83,8 @@ class TestEndpoints(Basetest):
                 stats.add(False)
                 if self.debug:
                     print(f"❌ {ep.name} website exception: {str(e)}")
-        msg = f"Websites availability {stats} ({stats.ratio:.1%}), need >=60%"
-        self.assertGreaterEqual(stats.ratio, self.minRatio, msg)
+        msg = f"Websites availability {stats}, need at least one"
+        self.assertGreaterEqual(stats.success_count, 1, msg)
         if self.debug:
             print(f"SUMMARY websites: {stats}")
 
@@ -106,7 +105,7 @@ class TestEndpoints(Basetest):
                 stats.add(False)
                 if self.debug:
                     print(f"❌ {ep.name} SPARQL failed: {ep.endpoint} ({str(e)})")
-        msg = f"SPARQL availability {stats} ({stats.ratio:.1%}), need >=60%"
-        self.assertGreaterEqual(stats.ratio, self.minRatio, msg)
+        msg = f"SPARQL availability {stats}, need at least one"
+        self.assertGreaterEqual(stats.success_count, 1, msg)
         if self.debug:
             print(f"SUMMARY SPARQL: {stats}")

@@ -85,6 +85,18 @@ class TestWikidataQueryParsing(Basetest):
         query_ids = [query.query_id for query in extractor.named_query_list.queries]
         self.assertEqual(["entities-with-labels--examples@akf.kgi.uni-mannheim.de"], query_ids)
 
+    def test_short_url_trailing_punctuation(self):
+        """
+        A short url at the end of a sentence is extracted without the punctuation
+        see https://github.com/WolfgangFahl/snapquery/issues/82
+        """
+        markup = "Map of places that have been the subject of an LSE thesis https://w.wiki/7Kj6. Table of place data"
+        matches = WikidataQueryExtractor.RE_SHORT_URL_BLOCK.findall(markup)
+        short_urls = [
+            short_url.rstrip(WikidataQueryExtractor.SHORT_URL_TRAILING_PUNCTUATION) for _, short_url, _ in matches
+        ]
+        self.assertEqual(["https://w.wiki/7Kj6"], short_urls)
+
     @unittest.skipIf(Basetest.inPublicCI(), "unreliable execution in CI")
     def test_wikidata_thesis_toolkit(self):
         """

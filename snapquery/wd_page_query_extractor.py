@@ -42,6 +42,8 @@ class WikidataQueryExtractor:
     RE_SHORT_URL_BLOCK = re.compile(
         r"(.*?)(https?://w\.wiki/\S+)(.*?)(?=https?://w\.wiki/|\Z)", re.DOTALL | re.MULTILINE
     )
+    # sentence punctuation that may follow a short url but is not part of it
+    SHORT_URL_TRAILING_PUNCTUATION = ".,;:!?)"
 
     def __init__(
         self,
@@ -158,6 +160,9 @@ class WikidataQueryExtractor:
         matches = self.RE_SHORT_URL_BLOCK.findall(markup)
 
         for pre_text, short_url, post_text in matches:
+            # a short url at the end of a sentence must not take the punctuation along
+            # see https://github.com/WolfgangFahl/snapquery/issues/82
+            short_url = short_url.rstrip(self.SHORT_URL_TRAILING_PUNCTUATION)
             self.log(f"Processing short URL: {short_url}")
 
             pre_text = pre_text.strip()

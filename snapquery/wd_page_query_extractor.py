@@ -239,16 +239,19 @@ class WikidataQueryExtractor:
 
     def get_sections(self, wikitext: str) -> List[Section]:
         """
-        Parse wikitext into sections.
+        Parse wikitext into sections without their subsections,
+        so that a query below a subheading is not also found in the parent section
+        see https://github.com/WolfgangFahl/snapquery/issues/81
 
         Args:
             wikitext (str): Raw wikitext.
 
         Returns:
-            List[Section]: List of wikitextparser sections.
+            List[Section]: List of wikitextparser sections, each holding only its own content.
         """
         parsed = wtp.parse(wikitext)
-        return parsed.sections
+        sections = parsed.get_sections(include_subsections=False)
+        return sections
 
     def extract_queries(self, wikitext: Optional[str] = None):
         """

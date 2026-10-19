@@ -53,7 +53,7 @@ class TestWikidataQueryParsing(Basetest):
         Test extraction and parsing of queries from Wikidata example page and WikiProject LSEThesisProject page.
         Iterates over the defined extractors and validates query counts.
         """
-        wikidata_examples = [(self.wikidata_example_extractor, 389)]  # 302 as of 2024-07-11
+        wikidata_examples = [(self.wikidata_example_extractor, 388)]  # 302 as of 2024-07-11, 388 as of 2026-10-19
 
         # Optional manual toggle for local testing of LSE extractor
         with_lse = False
@@ -63,6 +63,27 @@ class TestWikidataQueryParsing(Basetest):
         for extractor, expected in wikidata_examples:
             with self.subTest(extractor=extractor):
                 self._test_extractor(extractor, expected)
+
+    def test_subsection_query_extracted_once(self):
+        """
+        A query below a subheading whose parent section holds no other query
+        is extracted once under its own heading and not again under the parent
+        see https://github.com/WolfgangFahl/snapquery/issues/81
+        """
+        wikitext = """== Entities ==
+=== Entities with labels ===
+{{SPARQL|query=SELECT ?item ?itemLabel WHERE { ?item rdfs:label ?itemLabel } LIMIT 10}}
+"""
+        extractor = WikidataQueryExtractor(
+            nqm=None,
+            base_url="https://akf.kgi.uni-mannheim.de/wiki/SPARQL_examples",
+            domain="akf.kgi.uni-mannheim.de",
+            namespace="examples",
+            target_graph_name="akf",
+        )
+        extractor.extract_queries(wikitext)
+        query_ids = [query.query_id for query in extractor.named_query_list.queries]
+        self.assertEqual(["entities-with-labels--examples@akf.kgi.uni-mannheim.de"], query_ids)
 
     @unittest.skipIf(Basetest.inPublicCI(), "unreliable execution in CI")
     def test_wikidata_thesis_toolkit(self):
